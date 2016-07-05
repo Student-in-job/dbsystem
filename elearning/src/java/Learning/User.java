@@ -2,6 +2,7 @@ package Learning;
 
 import java.util.Date;
 import DataBase.*;
+import java.util.HashMap;
 
 
 /**
@@ -10,19 +11,19 @@ import DataBase.*;
  */
 public class User {
     
-    int ID;
+    String ID;
     String mail;
     String Name;
     String Surname;
     boolean Logined;
     int Rating;
     
-    public User()
+    private User()
     {
     
     }
     
-    public User(String m, int i, String n, String s, int r)
+    private User(String m, String i, String n, String s, int r)
     {
         this.mail = m;
         this.ID = i;
@@ -57,46 +58,49 @@ public class User {
             return 0;
     }
     
-    public boolean Regestration(String mail, String password, String name, String surname, Date birthday, String gender)
+    public static boolean Register(String mail, String password, String name, String surname, Date birthday, String gender)
     {
-        User ch_user = null;
-        ch_user = user.get_information(mail);
-        if(ch_user==null)
+        if(t_user.isExist(mail))
             return false;
         else
         {
-            if(user.set_information(mail, password, name, surname, birthday, gender))
+            if(t_user.set_information(mail, password, name, surname, birthday, gender))
                 return true;
             else
                 return false;
         }
     }
     
-    public boolean Autorization(String mail, String password)
+    public static User Authorize(String mail, String password)
     {
-        if(user.get_isExist(mail, password))
+        User user = null;
+        if(t_user.isExist(mail))
         {
-            User ch_user = null;
-            ch_user = user.get_information(mail);
-            this.mail = ch_user.mail;
-            this.ID = ch_user.ID;
-            this.Name = ch_user.Name;
-            this.Surname = ch_user.Surname;
-            this.Rating = ch_user.Rating;
-            this.Logined = true;
-            
-            return true;
+            HashMap<String, String> inf = t_user.get_information(mail);
+            if(password == null ? inf.get("password") == null : password.equals(inf.get("password")))
+            {
+                user = new User(inf.get("mail"), inf.get("ID"), inf.get("name"), inf.get("surname"), t_user.get_rating(inf.get("ID")));
+            }
         }
-        else 
-            return false;
+        return user;
+    }
+    
+    public void ResetPassword(String mail)
+    {
+        if(t_user.isExist(mail))
+        {
+            HashMap<String, String> inf = t_user.get_information(mail);
+            String password =inf.get("password");
+            //Send_message
+        }
     }
     
     public boolean Delete()
     {
-        if(user.set_Deleted(this.mail))
+        if(t_user.deleted_information(this.mail))
         {
             this.mail = "";
-            this.ID = 0;
+            this.ID = "0";
             this.Name = "";
             this.Surname = "";
             this.Rating = 0;

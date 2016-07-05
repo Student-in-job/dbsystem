@@ -18,6 +18,7 @@ public class Program {
     String Inventory;
     String Area;
     int Level;
+    int MinLevel;
     int Duration;
     
     public boolean isPublished()
@@ -30,4 +31,13 @@ public class Program {
         return this.Name;
     }
     
+    public String getTyp()
+    {
+        return this.Typ;
+    }
+    
+    public String getInventory()
+    {
+        return this.Inventory;
+    }   
 }
