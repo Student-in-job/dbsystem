@@ -2,7 +2,11 @@ package Learning;
 
 import java.util.Date;
 import DataBase.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -18,9 +22,9 @@ public class User {
     boolean Logined;
     int Rating;
     
-    private User()
+    public User()
     {
-    
+        this.Logined = false;
     }
     
     private User(String m, String i, String n, String s, int r)
@@ -34,12 +38,17 @@ public class User {
         
     }
     
+    public boolean isLogined()
+    {
+        return this.Logined;
+    }
+    
     public String getName()
     {
         if(this.Logined)
             return this.Name;
         else
-            return "Host";
+            return "Visitor";
     }
     
     public String getSurname()
@@ -47,7 +56,7 @@ public class User {
         if(this.Logined)
             return this.Surname;
         else
-            return "Host";
+            return "Visitor";
     }
     
     public int getRating()
@@ -85,15 +94,42 @@ public class User {
         return user;
     }
     
-    
-    public void ResetPassword(String mail)
+    public boolean ResetPassword(String oldp, String newp)
     {
-        if(t_user.isExist(mail))
+        if(t_user.isExist(this.mail))
         {
-            HashMap<String, String> inf = t_user.get_information(mail);
+            HashMap<String, String> inf = t_user.get_information(this.mail);
             String password =inf.get("password");
-            //Send_message
+            if(oldp.equals(password)){
+                
+                SimpleDateFormat format = new SimpleDateFormat();
+                format.applyPattern("yyyy-MM-dd");
+                Date birthday;
+                try {
+                    birthday = format.parse(inf.get("birthday"));
+                    return t_user.update_information(inf.get("mail"), newp, inf.get("name"), inf.get("surname"), birthday, inf.get("gender"));
+                } 
+                catch (ParseException ex) {
+                    return false;
+                }
+            }
+            
         }
+        return true;
+    }
+    
+    public boolean ResetMail(String newmail, String password){
+        
+        if(t_user.isExist(this.mail)&&(!t_user.isExist(newmail))){
+            
+            HashMap<String, String> inf = t_user.get_information(this.mail);
+            if(inf.get("password").equals(password)){
+                
+                return t_user.update_mail(Integer.parseInt(this.ID), newmail);
+        }
+            
+        }
+        return false;
     }
     
     public boolean Delete()
