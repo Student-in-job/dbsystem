@@ -21,11 +21,11 @@ if(request.getMethod()=="GET"){
             <form action="login.jsp" method="post">
                 <div>
                 <p>e-mail:</p>
-                <input required type="mail" name="mail" placeholder="ksinn@mai.ru">
+                <input required type="mail" name="mail" value="ksinn@mail.ru">
             </div>
             <div>
                 <p>Password:</p>
-                <input required type="password" name="password" placeholder="*****">
+                <input required type="password" name="password" value="qwerty">
             </div>
             <input type="submit">
             </form>

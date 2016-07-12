@@ -9,8 +9,7 @@ import java.util.Date;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -52,7 +51,7 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
         catch(SQLException ex)
         {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
             return null;
         }
     }
@@ -106,7 +105,7 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
         catch(SQLException ex)
         {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
             return false;
         }
     }
@@ -129,7 +128,7 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
         catch(SQLException ex)
         {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
             return false;
         }
     }
@@ -147,7 +146,7 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
         catch(SQLException ex)
         {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
             return false;
         }
     }
@@ -164,7 +163,7 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
         catch(SQLException ex)
         {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
             return false;
         }
     }

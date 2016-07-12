@@ -29,9 +29,9 @@ public class db {
             this.db_conn = DriverManager.getConnection("jdbc:mysql://localhost/elearning", properties); 
             } 
         catch (ClassNotFoundException ex) {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
         } catch (SQLException ex) {
-            Logger.getLogger(db.class.getName()).log(Level.SEVERE, null, ex);
+            Log.getOut(ex.getMessage());
         }
     }
     

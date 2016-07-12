@@ -4,9 +4,9 @@ import java.util.Date;
 import DataBase.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -36,6 +36,31 @@ public class User {
         this.Rating = r;
         this.Logined = true;
         
+    }
+    
+    
+    public boolean CreateMaterial(NewMaterial nMaterial)
+    {
+        return nMaterial.Write();            
+    }
+    
+    public Program getProgram(String program_id)
+    {
+        Program program = new Program(program_id);
+        if(program.Teacher.equals(this.ID))
+            return program;
+        else return null;
+    }
+    
+    public ArrayList<Program> getPrograms()
+    {
+        return Program.getProgramList(this.ID);
+    }
+    
+    public boolean CreateProgram(NewProgram nProgram)
+    {
+        return nProgram.Write(Integer.parseInt(this.ID));
+            
     }
     
     public boolean isLogined()
