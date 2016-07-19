@@ -4,80 +4,98 @@
     Author     : ksinn
 --%>
 
-<%@page import="Learning.NewMaterial"%>
-<%@page import="Learning.Program"%>
-<%@page import="Learning.User"%>
+<%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
     User user = (User) session.getAttribute("user");
     if(user==null||!user.isLogined())
         response.sendRedirect("../login.jsp");
-%>
-
-<%
-    NewMaterial nm = (NewMaterial) session.getAttribute("nMaterial");
-    if(nm==null){
-        nm = new NewMaterial();
-        Program program = user.getProgram(request.getParameter("program"));
-        nm.setProgram(program);
-        session.setAttribute("nMaterial", nm);        
+    String url, material, program, typ="Lecture", text=null, name=null, inventory=null;
+    int day=0;
+    Material nm;
+    
+    material = request.getParameter("material");
+    program = request.getParameter("program");
+    url="0".equals(material)?"CreateMaterial.jsp":"EditMaterial.jsp";
+    
+if(request.getMethod()=="GET"){
+    if(!"0".equals(material)){
+        
+        nm = new Material(material);
+        typ = nm.getTyp();
+        text = nm.getText();
+        name = nm.getName();
+        inventory = nm.getInventory();
+        day = nm.getDay();
     }
-   
-%>
-
-<%
+    
+}   
 if(request.getMethod()=="POST"){
-%>
-<jsp:setProperty name="nMaterial" property="*"/>
-<%
     
-    if(nm.isGood())
-    {
-        response.sendRedirect("Upload.jsp");
-        
+    typ = "Lecture";
+    text = request.getParameter("text");
+    name = request.getParameter("name");
+    inventory = request.getParameter("inventory");
+    try{
+    day = Integer.parseInt(request.getParameter("day"));}
+    catch(Exception ex){day=0;}
+    
+    if("0".equals(material)){
+    
+        nm = new Material(program, typ, text, name, inventory, day);    
+        if(user.Create(nm))
+            response.sendRedirect("Program.jsp");
     }
+    else{
         
+        nm = new Material(material);
+        nm.setName(name);
+        nm.setInventory(inventory);
+        nm.setDay(day);
+        nm.setTyp(typ);
+        nm.setText(text);
+        if(user.Update(nm))
+                response.sendRedirect("Program.jsp");
+    }
 }
-
-    
-if(nm.getProgram().MayAddMaterial()){
 %>    
-
-<jsp:useBean id="nMaterial" class="Learning.NewMaterial" scope="session"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new material</title>
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({ selector:'#text' });</script>
     </head>
     <body>
         
         <h1>Create new material</h1>
         
-        <form method="POST" action="CreateMaterial.jsp">
+        <form method="POST" action="<%=url%>">
+            <input type="hidden" name="program" value="<%=program%>">
+            <input type="hidden" name="material" value="<%=material%>">
+            
             <div>
                 <p>Name: </p>
-                <input type="text" name="name" value="<jsp:getProperty name="nMaterial" property="name"/>">
-            </div>
-            <div>
-                <p>Typ: </p>
-                <input type="text" name="typ" value="<jsp:getProperty name="nMaterial" property="typ"/>">
+                <input requered type="text" name="name" <%=name==null?" placeholder=\"Name":"value=\""+name%>">
             </div>
             <div>
                 <p>Day: </p>
-                <input type="number" name="day" value="<jsp:getProperty name="nMaterial" property="day"/>" >
+                <input requered type="number" min="1" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>" >
             </div>
             <div>
                 <p>Inventory: </p>
-                <textarea name="inventory"><jsp:getProperty name="nMaterial" property="inventory"/></textarea>
+                <textarea requered name="inventory" <%=inventory==null?" placeholder=\"Inventory\">":">"+inventory%></textarea>
             </div>
+            <div>
+                <p>Text: </p>
+                <textarea requered name="text" id="text"><%=text==null?"":text%></textarea>
+            </div>            
             <input type="submit"> 
         </form>
         
     </body>
 </html>
-<%}
-else
-response.sendRedirect("Program.gsp");%>
+
 

@@ -3,6 +3,46 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>test</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateProgram</servlet-name>
+        <jsp-file>/program/CreateProgram.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateMaterial</servlet-name>
+        <jsp-file>/program/CreateMaterial.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateTest</servlet-name>
+        <jsp-file>/program/CreateTest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/program/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateProgram</servlet-name>
+        <url-pattern>/program/EditProgram.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateMaterial</servlet-name>
+        <url-pattern>/program/EditMaterial.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateTest</servlet-name>
+        <url-pattern>/program/EditTest.jsp</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

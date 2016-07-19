@@ -21,6 +21,8 @@ import java.util.HashMap;
 public class t_program {
     
     static String sqlset_information = "INSERT INTO program  (program_name,  program_description,  program_min_level,  program_level,  program_duration,  teacher,  area,  program_date,  program_controled,  program_typ) VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);";
+    static String sqlupdate_information = "UPDATE program  set program_name=?,  program_description=?,  program_min_level=?,  program_level=?,  program_duration=?, area=?, program_typ=? where program_id=?;";
+    static String sqldelete_information = "UPDATE program  set program_deleted=1 where program_id=?;";
     static String sqlget_information_with_teacher = "Select * from program where teacher=? and program_deleted=0";
     static String sqlget_information = "Select * from program where program_id=? and program_deleted=0";
     
@@ -28,15 +30,17 @@ public class t_program {
     static public HashMap<String, String> get_information(String id)
     {
        
+        HashMap<String,String> inf = null;
         try{
             
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement(sqlget_information);
             stmt.setString(1, id);  
             ResultSet rs = stmt.executeQuery();
-            HashMap<String,String> inf = new HashMap<String,String>();
+            
             if(rs.next()){
                 
+                inf = new HashMap<String,String>();
                 inf.put("area", rs.getString("area"));
                 inf.put("duration", rs.getString("program_duration"));
                 inf.put("id", rs.getString("program_id"));
@@ -48,9 +52,9 @@ public class t_program {
                 inf.put("typ", rs.getString("program_typ"));
                 inf.put("date", rs.getString("program_date"));
                 inf.put("teacher", rs.getString("teacher"));
-                return inf;
+                
             }
-            else return null;
+            return inf;
             
         
         } catch (SQLException ex) {
@@ -123,6 +127,47 @@ public class t_program {
             Log.getOut(ex.getMessage());
             return false;
         }    
+    }
+
+    public static boolean update_information(String id, String name, String inventory, int area, String typ, int level, int minlevel, int duration) {
+        
+        try
+        {
+            Connection conn  = db.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sqlupdate_information);
+            stmt.setString(1, name);
+            stmt.setString(2, inventory);
+            stmt.setInt(3, minlevel);
+            stmt.setInt(4, level);
+            stmt.setInt(5, duration);
+            stmt.setInt(6, area);
+            stmt.setString(7, typ);
+            stmt.setString(8, id);
+            return (stmt.executeUpdate() == 1);
+            
+        }
+        catch(SQLException ex)
+        {
+            Log.getOut(ex.getMessage());
+            return false;
+        }  
+    }
+
+    public static boolean delete_with_id(String id) {
+        
+        try
+        {
+            Connection conn  = db.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sqldelete_information);
+            stmt.setString(1, id);
+            return (stmt.executeUpdate() == 1);
+            
+        }
+        catch(SQLException ex)
+        {
+            Log.getOut(ex.getMessage());
+            return false;
+        }  
     }
     
     

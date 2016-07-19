@@ -5,16 +5,17 @@
 --%>
 
 
-<%@page import="com.ibm.useful.http.FileData"%>
-<%@page import="com.ibm.useful.http.PostData"%>
-<%@page import="DataBase.Log"%>
-<%@page import="Learning.*"%>
+<%@page import="java.util.UUID"%>
+<%@page import="javax.servlet.annotation.MultipartConfig"%>
+<%@page import="java.io.File"%>
 <%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
+<%@page import="org.apache.tomcat.util.http.fileupload.RequestContext"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
-<%@page import="java.io.File"%>
 <%@page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory"%>
+<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
+<%@page import="DataBase.Log"%>
+<%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
@@ -42,21 +43,28 @@ if(request.getMethod()=="GET"){
 
 if(request.getMethod()=="POST"){
 
-NewMaterial nm = (NewMaterial) session.getAttribute("nMaterial");
-try
-{
-    if(request.getContentType().equals("multipart/form-data"))
-    {
+Material nm = (Material) session.getAttribute("nMaterial");
+Part part = request.getPart("data");
+String fileName = "/home/ksinn/NetBeansProjects/dbsystem/uploadFiles/"+UUID.randomUUID()+extractFileName(part);
+part.write(fileName);
+    
+}
 
-        PostData multidata=new PostData(request);
-        String fileDescription=multidata.getParameter("description");
-        FileData tempFile=multidata.getFileData("file_send");
-        if(tempFile!=null) nm.UploadFile(tempFile);
+	
+}
+%>
+
+
+<%!
+   
+private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("."), s.length()-1);
+            }
+        }
+        return "";
     }
-}
-catch(Exception e){
-    Log.getOut(e.getMessage());
-}
-		
-}
 %>

@@ -2,10 +2,16 @@ package Learning;
 
 import java.util.Date;
 import DataBase.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -15,12 +21,12 @@ import java.util.HashMap;
  */
 public class User {
     
-    String ID;
-    String mail;
-    String Name;
-    String Surname;
-    boolean Logined;
-    int Rating;
+    protected String ID;
+    protected String mail;
+    protected String Name;
+    protected String Surname;
+    protected boolean Logined;
+    protected int Rating;
     
     public User()
     {
@@ -38,16 +44,30 @@ public class User {
         
     }
     
+    public boolean Update(Component comp){
     
-    public boolean CreateMaterial(NewMaterial nMaterial)
+        return comp.ReWrite(this.ID);
+    }
+    
+    public boolean Create(Component comp)
     {
-        return nMaterial.Write();            
+        return comp.Write(this.ID);            
+    }
+    
+    public boolean Update(Program program){
+    
+        return program.ReWrite(this.ID);
+    }
+    
+    public boolean Create(Program program)
+    {
+        return program.Write(this.ID);            
     }
     
     public Program getProgram(String program_id)
     {
         Program program = new Program(program_id);
-        if(program.Teacher.equals(this.ID))
+        if(program.getTeacherID().equals(this.ID))
             return program;
         else return null;
     }
@@ -56,13 +76,7 @@ public class User {
     {
         return Program.getProgramList(this.ID);
     }
-    
-    public boolean CreateProgram(NewProgram nProgram)
-    {
-        return nProgram.Write(Integer.parseInt(this.ID));
-            
-    }
-    
+        
     public boolean isLogined()
     {
         return this.Logined;
@@ -159,7 +173,7 @@ public class User {
     
     public boolean Delete()
     {
-        if(t_user.deleted_information(this.mail))
+        if(this.Delete("user", this.ID))
         {
             this.mail = "";
             this.ID = "0";
@@ -171,6 +185,24 @@ public class User {
             return true;
         }
         else return false;
+    }
+
+    public boolean Delete(String param, String value) {
+        
+        if(!("program".equals(param)||"material".equals(param)||"test".equals(param)||"test_task".equals(param)||"task".equals(param)||"user".equals(param)))
+            return false;
+        try {
+            
+            Connection conn  = db.getConn();
+            String sql = "update "+param+" set "+param+"_deleted = 1 where "+param+"_id = ?;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, value);
+            return stmt.executeUpdate()==1;
+            
+        } catch (SQLException ex) {
+            Log.getOut(ex.getMessage());
+            return false;}
+        
     }
     
 }

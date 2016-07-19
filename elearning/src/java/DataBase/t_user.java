@@ -20,7 +20,8 @@ import java.util.HashMap;
 
 public class t_user {
 
-static String sqlisExist = "select * from user where user_mail = ?;";
+static String sqlisExist = "select * from user where user_mail = ? and user_deleted=0;";
+static String sqlget_information = "select * from user where user_id = ? and user_deleted=0;";
 static String sqlset_information = "insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());";
 static String sqlupdate_information = "update user set passwords=?, user_name=?, user_surname=?, birthday=?, gender=? where user_mail=?;";
 static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
@@ -28,12 +29,43 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
     
     static public HashMap<String, String> get_information(String mail)
     {
-        HashMap<String, String> inf = new HashMap<String, String>();
+        HashMap<String, String> inf = null;
         try
         {
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement(sqlisExist);
             stmt.setString(1, mail);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                inf = new HashMap<String, String>();
+                inf.put("ID", rs.getString("user_id"));
+                inf.put("mail", rs.getString("user_mail"));
+                inf.put("password", rs.getString("passwords"));
+                inf.put("name", rs.getString("user_name"));
+                inf.put("surname", rs.getString("user_surname"));
+                inf.put("birthday", rs.getString("birthday"));
+                inf.put("gender", rs.getString("gender"));
+                inf.put("date_of_regestration", rs.getString("date_reg"));
+            }
+            return inf;
+            
+        }
+        catch(SQLException ex)
+        {
+            Log.getOut(ex.getMessage());
+            return null;
+        }
+    }
+    
+    static public HashMap<String, String> get_information(int ID)
+    {
+        HashMap<String, String> inf = new HashMap<String, String>();
+        try
+        {
+            Connection conn  = db.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sqlget_information);
+            stmt.setInt(1, ID);
             ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
@@ -168,8 +200,5 @@ static String sqlupdate_mail = "update user set user_mail=? where user_id=?;";
         }
     }
     
-    static public boolean deleted_information(String mail)
-    {
-        return true;
-    }
+    
 }

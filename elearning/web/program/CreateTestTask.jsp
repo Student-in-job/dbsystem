@@ -25,7 +25,9 @@ if(request.getMethod()=="POST"){
     nt.setVariant2(request.getParameter("v2"));
     nt.setVariant3(request.getParameter("v3"));
     nt.setVariant4(request.getParameter("v4"));
-    nt.setPoint(Integer.parseInt(request.getParameter("point")));
+    try{
+    nt.setPoint(Integer.parseInt(request.getParameter("point")));}
+    catch(Exception ex){nt.setPoint(0);}
     if(user.Create(nt))
                 {
                     response.sendRedirect("Test.jsp?test="+nt.getTestID());
@@ -46,31 +48,31 @@ if(request.getMethod()=="POST"){
             <input type="hidden" name="test" value="<%=request.getParameter("test")%>">    
             <div>
                 <p>Question:</p>
-                <input type="text" name="question" value="<%=request.getParameter("question")%>">
+                <input requered type="text" name="question" <%=request.getParameter("question")==null?"placeholder=\"Qwestion":"value=\""+request.getParameter("question")%>">
             </div>
             <div>
                 <p>Point:</p>
-                <input type="number" name="point" value="<%=request.getParameter("point")%>">
+                <input requered type="number" name="point" <%=request.getParameter("point")==null?"placeholder=\"1":"value=\""+request.getParameter("question")%>">
             </div>
             <div>
                 <p>*Answer:</p>
-                <input type="text" name="answer" value="<%=request.getParameter("answer")%>">
+                <input requered type="text" name="answer" <%=request.getParameter("answer")==null?"placeholder=\"Right answer":"value=\""+request.getParameter("answer")%>">
             </div>
             <div>
                 <p>V1:</p>
-                <input type="text" name="v1" value="<%=request.getParameter("v1")%>">
+                <input requered type="text" name="v1" <%=request.getParameter("v1")==null?"placeholder=\"Variant":"value=\""+request.getParameter("v1")%>">
             </div>
             <div>
                 <p>V2:</p>
-                <input type="text" name="v2" value="<%=request.getParameter("v2")%>">
+                <input requered type="text" name="v2" <%=request.getParameter("v2")==null?"placeholder=\"Variant":"value=\""+request.getParameter("v2")%>">
             </div>
             <div>
                 <p>V3:</p>
-                <input type="text" name="v3" value="<%=request.getParameter("v3")%>">
+                <input requered type="text" name="v3" <%=request.getParameter("v3")==null?"placeholder=\"Variant":"value=\""+request.getParameter("v3")%>">
             </div>
             <div>
                 <p>V4:</p>
-                <input type="text" name="v4" value="<%=request.getParameter("v4")%>">
+                <input requered type="text" name="v4" <%=request.getParameter("v4")==null?"placeholder=\"Variant":"value=\""+request.getParameter("v4")%>">
             </div>
             
             <input type="submit">
