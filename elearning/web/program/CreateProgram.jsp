@@ -30,8 +30,8 @@
             inventory = np.getInventory();
             area = np.getArea();
             typ = np.getTyp();
-            level = np.getLeavel();
-            minlevel = np.getMinLeavel();
+            level = np.getLevel();
+            minlevel = np.getMinLevel();
             duration = np.getDuration();
             
         }
@@ -57,7 +57,7 @@
             
             np = new Program(name, inventory, area, typ, level, minlevel, duration);
             if(user.Create(np))
-                response.sendRedirect("Program.jsp");
+                response.sendRedirect("../UserBar.jsp");
             
         }
         
@@ -72,7 +72,7 @@
             np.setMinLevel(minlevel);
             np.setDuration(duration);
             if(user.Update(np))
-                response.sendRedirect("Program.jsp");
+                response.sendRedirect("../UserBar.jsp");
             /*else{
                 
                 name = np.getName();

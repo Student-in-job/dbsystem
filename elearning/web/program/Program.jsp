@@ -11,12 +11,10 @@
 <%
     
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
     
-    ArrayList<Program> list = user.getPrograms();
-    ArrayList<Material> mtr;
-    ArrayList<Test> tst;
+    Program program = new Program(request.getParameter("program"));
+    ArrayList<Material> mtr = program.getMaterial();
+    ArrayList<Test> tst = program.getTest();
 %>
 <!DOCTYPE html>
 <html>
@@ -25,47 +23,47 @@
         <title><%=user.getName()%>'s programs</title>
     </head>
     <body>
-        <h1><%=user.getName()%>'s programs></h1>
-<%
-    for(int i=0; i<list.size(); i++){
-            
-            
-%>
         <article style="border: 1px solid black;">
-            <h2>
-                Name: <%=list.get(i).getName()%>
-                <a href="EditProgram.jsp?program=<%=list.get(i).getID()%>">edit</a>
-                <a href="Delete?program=<%=list.get(i).getID()%>">-</a>
-            </h2>
-             <h3>Typ: <%=list.get(i).getTyp()%></h3>
-             <p>Typ: <%=list.get(i).getInventory()%></p>
-             <p>
-                 <a href="CreateMaterial.jsp?program=<%=list.get(i).getID()%>&material=0" alt="Create new material in this program">add Material</a>
-                 <a href="CreateTest.jsp?program=<%=list.get(i).getID()%>&test=0" alt="Create new test in this program">add Test</a>
-             </p>
-             <h3>Material:</h3>
+            <h1><%=program.getName()%></h1>
+            <h6>
+                <a href="EditProgram.jsp?program=<%=program.getID()%>">Edit</a>
+                <a href="Delete?program=<%=program.getID()%>">Delete</a>
+            </h6>
+             <p>Typ: <%=program.getTyp()%></p>
+             <p>Area: <%=program.getAreaName()%></p>
+             <p>Duration: <%=program.getDuration()%></p>
+             <p>Level: <%=program.getLevel()%> <p>MinLevel: <%=program.getMinLevel()%></p></p>
+             <p>Inventory: <%=program.getInventory()%></p>
+             <h3>
+                 Material: 
+                 <a href="CreateMaterial.jsp?program=<%=program.getID()%>&material=0" alt="Create new material in this program">+</a>
+             </h3>
              <ul>
               
-<%
-mtr = list.get(i).getMaterial();
-for(int j=0; j<mtr.size(); j++){
-    %>
-                <li><a href="Material.jsp?material=<%=mtr.get(j).getID()%>"><%=mtr.get(j).getName()%></a> (<%=mtr.get(j).getDay()%>)</li>
+<%for(int j=0; j<mtr.size(); j++){%>
+                <li>
+                    (<%=mtr.get(j).getDay()%>) 
+                    <a href="Material.jsp?material=<%=mtr.get(j).getID()%>"><%=mtr.get(j).getName()%></a>
+                    <a href="EditMaterial.jsp?material=<%=mtr.get(j).getID()%>">*</a>
+                    <a href="Delete?material=<%=mtr.get(j).getID()%>">-</a>
+                </li>            
+<%}%>           </ul> 
              
-<%}
-%>           </ul> 
-             <h3>Test:</h3>
+            <h3>
+                Test:
+                <a href="CreateTest.jsp?program=<%=program.getID()%>&test=0" alt="Create new test in this program">+</a>
+            </h3>
              <ul>
               
-<%
-tst = list.get(i).getTest();
-for(int j=0; j<tst.size(); j++){
-    %>
-                <li><a href="Test.jsp?test=<%=tst.get(j).getID()%>"><%=tst.get(j).getName()%></a> (<%=tst.get(j).getDay()%>)</li>
+<%for(int j=0; j<tst.size(); j++){%>
+                <li>
+                    (<%=tst.get(j).getDay()%>)
+                    <a href="Test.jsp?test=<%=tst.get(j).getID()%>"><%=tst.get(j).getName()%></a>
+                    <a href="EditTest.jsp?test=<%=tst.get(j).getID()%>">*</a>
+                    <a href="Delete?test=<%=tst.get(j).getID()%>">-</a>
+                </li>
              
-<%}
-%>           </ul> 
+<%}%>           </ul> 
         </article>
-<%}%>
     </body>
 </html>

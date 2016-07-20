@@ -12,23 +12,44 @@
     User user = (User) session.getAttribute("user");
     if(user==null||!user.isLogined())
         response.sendRedirect("../login.jsp");
-%>
-
-<%
+    
+    String url=null, test=null, program=null, name=null;
+    int day=0;
+    Test nt;
+    program = request.getParameter("program");
+    test = request.getParameter("test");
+    url = "0".equals(test)?"CreateTest.jsp":"EditTest.jsp";
+    
+if(request.getMethod()=="GET"){
+    if(!"0".equals(test)){
+        
+        nt = new Test(test);
+        name = nt.getName();
+        day = nt.getDay();
+    }
+    
+}    
 if(request.getMethod()=="POST"){
     
-    String program, name;
-    int day;
-    program = request.getParameter("program");
     name = request.getParameter("name");
     try{
     day = Integer.parseInt(request.getParameter("day"));}
     catch(Exception ex){day=0;}
-    Test nt = new Test(program, name, day);
-    if(user.Create(nt))
-                {
-                    response.sendRedirect("Program.jsp");
-                }
+    
+    if("0".equals(test)){
+        
+        nt = new Test(program, name, day);
+        if(user.Create(nt))
+                    response.sendRedirect("Program.jsp?program="+program);
+    }
+    else{
+        
+        nt = new Test(test);
+        nt.setName(name);
+        nt.setDay(day);
+        if(user.Update(nt))
+                response.sendRedirect("Program.jsp?program="+program);
+    }   
       
 }
 %>
@@ -40,15 +61,16 @@ if(request.getMethod()=="POST"){
     </head>
     <body>
         <h1>Create Test</h1>
-        <form action="CreateTest.jsp>" method="POST">
-            <input type="hidden" name="program" value="<%=request.getParameter("program")%>">    
+        <form action="<%=url%>" method="POST">
+        <input type="hidden" name="program" value="<%=program%>"> 
+        <input type="hidden" name="test" value="<%=test%>"> 
             <div>
                 <p>Name:</p>
-                <input requered type="text" name="name" <%=request.getParameter("name")==null?" placeholder=\"Name of test":"value=\""+request.getParameter("name")%>">
+                <input requered type="text" name="name" <%=name==null?" placeholder=\"Name of test":"value=\""+name%>">
             </div>
             <div>
                 <p>Day:</p>
-                <input requered type="number" name="day" <%=request.getParameter("day")==null?" placeholder=\"1":"value=\""+request.getParameter("day")%>">
+                <input requered min="1" max="183" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
             </div>
             <input type="submit">
         </form>

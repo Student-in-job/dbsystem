@@ -26,16 +26,16 @@ public class Program {
     private int Level;
     private int MinLevel;
         
-    protected boolean DeletAllComp(){
+    protected int DeletAllComp(){
     
         return DataBase.t_material.delete_with_program(this.ID)
-                &&DataBase.t_test.delete_test_with_program(this.ID);
+                + DataBase.t_test.delete_test_with_program(this.ID);
         
         
     }
     
-    public boolean Delete(){
-        return this.DeletAllComp()&&DataBase.t_program.delete_with_id(this.ID);
+    public int Delete(){
+        return this.DeletAllComp()+DataBase.t_program.delete_with_id(this.ID);
     }
     
     public ArrayList<Test> getTest(){
@@ -102,6 +102,7 @@ public class Program {
         this.Published = inf.get("status").equals("active");
         this.Typ = inf.get("typ");
         this.Teacher_ID = inf.get("teacher");
+        this.Area_name = t_area.get_information(Integer.parseInt(Area));
         
     }
     
@@ -121,6 +122,7 @@ public class Program {
             prg.Name = inf.get(i).get("name");
             prg.Published = inf.get(i).get("status").equals("active");
             prg.Typ = inf.get(i).get("typ");
+            prg.Area_name = t_area.get_information(Integer.parseInt(prg.Area));
             list.add(prg);
         }
         
@@ -197,7 +199,7 @@ public class Program {
     
     
     
-    public String getAreaname(){
+    public String getAreaName(){
         
         return this.Area_name;
     }
@@ -207,12 +209,12 @@ public class Program {
         return this.Area;
     }
     
-    public int getLeavel(){
+    public int getLevel(){
         
         return this.Level;
     }
     
-    public int getMinLeavel(){
+    public int getMinLevel(){
         
         return this.MinLevel;
     }

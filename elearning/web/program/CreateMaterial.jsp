@@ -45,7 +45,7 @@ if(request.getMethod()=="POST"){
     
         nm = new Material(program, typ, text, name, inventory, day);    
         if(user.Create(nm))
-            response.sendRedirect("Program.jsp");
+            response.sendRedirect("Program.jsp?program="+program);
     }
     else{
         
@@ -56,7 +56,7 @@ if(request.getMethod()=="POST"){
         nm.setTyp(typ);
         nm.setText(text);
         if(user.Update(nm))
-                response.sendRedirect("Program.jsp");
+                response.sendRedirect("Program.jsp?program="+program);
     }
 }
 %>    

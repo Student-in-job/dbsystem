@@ -14,7 +14,7 @@ import org.apache.tomcat.util.http.fileupload.FileItem;
  *
  * @author ksinn
  */
-public class Component {
+abstract class Component {
     
     protected String ID;
     protected String Name;

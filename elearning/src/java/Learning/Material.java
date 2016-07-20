@@ -22,7 +22,7 @@ public class Material extends Component {
     protected String Text;
     
     
-    public boolean Delete(){
+    public int Delete(){
         return DataBase.t_material.delete_with_id(this.ID);
     }
     

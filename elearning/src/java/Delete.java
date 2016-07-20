@@ -109,8 +109,42 @@ public class Delete extends HttpServlet {
         
         String param=request.getParameter("param"), value=request.getParameter("value");
         String mes="";
-        mes=user.Delete(param, value)?"ok":"no";
-        out.println(mes);
+        int m=0;
+        
+            if("program".equals(param)){
+                
+                Program p = new Program(value);
+                m = p.Delete();
+            }
+            if("material".equals(param)){
+                
+                Material p = new Material(value);
+                m = p.Delete();
+            }
+            if("test".equals(param)){
+                
+                Test p = new Test(value);
+                m = p.Delete();
+            }
+            if("testtask".equals(param)){
+                
+                TestTask p = new TestTask(value);
+                m = p.Delete();
+            }
+            if("task".equals(param)){
+                
+                /*Task p = new Task(value);
+                m = p.Delete();*/
+            }
+            if("user".equals(param)){
+                
+                /*User p = new User(value);
+                m = p.Delete();*/
+            }
+            
+        
+        
+        out.println(m);
         
         }
         

@@ -153,20 +153,20 @@ public class t_program {
         }  
     }
 
-    public static boolean delete_with_id(String id) {
+    public static int delete_with_id(String id) {
         
         try
         {
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement(sqldelete_information);
             stmt.setString(1, id);
-            return (stmt.executeUpdate() == 1);
+            return (stmt.executeUpdate());
             
         }
         catch(SQLException ex)
         {
             Log.getOut(ex.getMessage());
-            return false;
+            return -1;
         }  
     }
     

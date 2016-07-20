@@ -23,7 +23,7 @@ public class t_material {
     static String sqlupdate_information = "UPDATE material set material_name=?, material_day=?, material_type=?, material_text=?, material_file=? where material_id=?;";
     static String sqldelete_prog_information = "UPDATE material set material_deleted=1 where program=?;";
     static String sqlget_quantity_with_program = "select count(material_id) as 'quantity' from material where program = ? and material_deleted = 0;";
-    static String sqlget_information_with_program = "select * from material where program = ? and material_deleted = 0;";
+    static String sqlget_information_with_program = "select * from material where program = ? and material_deleted = 0 order by material_day;";
     static String sqlget_information = "select * from material where material_id = ? and material_deleted = 0;";
     static String sqldelete_information = "UPDATE material set material_deleted=1 where material_id=?;";
     
@@ -155,37 +155,37 @@ public class t_material {
         }
     }
 
-    public static boolean delete_with_program(String program) {
+    public static int delete_with_program(String program) {
         
       try
         {
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement(sqldelete_prog_information);
             stmt.setString(1, program);
-            return (stmt.executeUpdate() == 1);
+            return (stmt.executeUpdate());
             
         }
         catch(SQLException ex)
         {
             Log.getOut(ex.getMessage());
-            return false;
+            return -1;
         }          
     }
 
-    public static boolean delete_with_id(String id) {
+    public static int delete_with_id(String id) {
         
         try
         {
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement(sqldelete_information);
             stmt.setString(1, id);
-            return (stmt.executeUpdate() == 1);
+            return (stmt.executeUpdate());
             
         }
         catch(SQLException ex)
         {
             Log.getOut(ex.getMessage());
-            return false;
+            return -1;
         }
     }
     

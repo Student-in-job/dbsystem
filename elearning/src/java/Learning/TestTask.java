@@ -13,7 +13,7 @@ import java.util.HashMap;
  *
  * @author ksinn
  */
-public class TestTask {
+public class TestTask{
 
     protected String TestID;
     protected String Question;
@@ -26,23 +26,67 @@ public class TestTask {
     protected int Point;
     protected int Number;
     
+    protected void ReRead(){
+        
+        HashMap<String, String> inf = t_test.get_task_information(this.ID);
+        this.TestID = inf.get("test");
+        this.Question = inf.get("question");
+        this.Answer = inf.get("answer");
+        this.Variant1 = inf.get("var1");
+        this.Variant2 = inf.get("var2");
+        this.Variant3 = inf.get("var3");
+        this.Variant4 = inf.get("var4");
+        this.Point = Integer.parseInt(inf.get("point"));
+        this.Number = Integer.parseInt(inf.get("number"));
+        
+        
+    }
     
-    public boolean Delete(){
+    public boolean Write(String user_id){
+        
+        if(!this.getTest().getProgram().getTeacherID().equals(user_id)) return false;
+        if(this.isGood()){
+            return t_test.set_task_information(TestID, Question, Answer, Variant1, Variant2, Variant3, Variant4, Point);
+        }
+        else return false;
+    }
+    
+    public boolean ReWrite(String user_id){
+        
+        if(!this.getTest().getProgram().getTeacherID().equals(user_id)) return false;
+        if(this.isGood()){
+            if(t_test.update_task_information(ID, Question, Answer, Variant1, Variant2, Variant3, Variant4, Point))
+            {this.ReRead(); return true;}
+        }
+        this.ReRead();
+        return false;
+    }
+    
+    public int Delete(){
         return DataBase.t_test.delete_task_with_id(this.ID);
     }
     
     public TestTask()
     {
-        TestID = "";
-        Question = "";
-        Answer = "";
-        Variant1 = "";
-        Variant2 = "";
-        Variant3 = "";
-        Variant4 = "";
-        ID = "";
-        Point = 0;
-        Number = 0;
+    }
+    
+    public TestTask(String test, String question, String answer, String v1, String v2, String v3, String v4, int point)
+    {
+        
+        this.TestID = test;
+        this.Question = question;
+        this.Answer = answer;
+        this.Variant1 = v1;
+        this.Variant2 = v2;
+        this.Variant3 = v3;
+        this.Variant4 = v4;
+        this.Point = point;
+    }
+    
+    public TestTask(String id)
+    {
+        this.ID = id;
+        this.ReRead();
     }
     
     static ArrayList<TestTask> getTaskList(String test) {
@@ -67,19 +111,23 @@ public class TestTask {
         return list;
     }
     
+    public Test getTest(){
+        
+        return new Test(this.TestID);
+    }
+    
     public String getTestID(){
         return this.TestID;
     }
     
-    public void setTestID(String testID){
-        this.TestID = testID;
-    }
     
     public String getQuestion(){
         return this.Question;
     }
     
     public void setQuestion(String question){
+        
+        if(!"".equals(question))
         this.Question = question;
     }
     
@@ -137,15 +185,6 @@ public class TestTask {
         
     public String getID(){
         return this.ID;
-    }
-
-    public boolean Write() {
-        
-        if(this.isGood()){
-            return t_test.set_task_information(TestID, Question, Answer, Variant1, Variant2, Variant3, Variant4, Point);
-        }
-        else return false;
-            
     }
 
     private boolean isGood() {

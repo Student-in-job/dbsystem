@@ -17,7 +17,7 @@ public class Test extends Component {
     
     
     
-    public boolean Delete(){
+    public int Delete(){
         return DataBase.t_test.delete_test_with_id(this.ID);
     }
     
@@ -66,9 +66,15 @@ public class Test extends Component {
         this.ProgramID=program;        
     }
     
-    public Test(String id) throws Exception{
+    
+    public Test(String id){
+        this.ID=id;
+        this.ReRead();
+    }
+    
+    protected void ReRead(){
         
-        HashMap<String, String> inf = t_test.get_test_information_with_id(id);
+        HashMap<String, String> inf = t_test.get_test_information_with_id(this.ID);
         this.Name=inf.get("name");
         this.Day=Integer.parseInt(inf.get("day"));
        // this.Inventory=inf.get("inventory");
@@ -76,13 +82,30 @@ public class Test extends Component {
         this.ID=inf.get("id"); 
     }
 
-    public boolean Write() {
+    @Override
+    public boolean Write(String user_id) {
     
+        if(!this.getProgram().getTeacherID().equals(user_id)) return false;
         if(this.isGood())
         {
             return t_test.set_test_information(ProgramID, Name, Day);
         }
         else return false;
+    }
+    
+    @Override
+    public boolean ReWrite(String user_id) {
+    
+        if(!this.getProgram().getTeacherID().equals(user_id)) return false;
+        if(this.isGood())
+            if(t_test.update_test_information(this.ID, Name, Day)){
+                this.ReRead();
+                return true;
+            }
+         
+        this.ReRead();
+        return false;
+        
     }
     
 }

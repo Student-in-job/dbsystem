@@ -23,6 +23,10 @@
         <servlet-name>CreateTest</servlet-name>
         <jsp-file>/program/CreateTest.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>CreateTestTask</servlet-name>
+        <jsp-file>/program/CreateTestTask.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>CreateTest</servlet-name>
         <url-pattern>/program/EditTest.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateTestTask</servlet-name>
+        <url-pattern>/program/EditTestTask.jsp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

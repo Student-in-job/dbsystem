@@ -49,7 +49,17 @@ public class User {
         return comp.ReWrite(this.ID);
     }
     
+    public boolean Update(TestTask comp){
+    
+        return comp.ReWrite(this.ID);
+    }
+    
     public boolean Create(Component comp)
+    {
+        return comp.Write(this.ID);            
+    }
+    
+    public boolean Create(TestTask comp)
     {
         return comp.Write(this.ID);            
     }
@@ -171,7 +181,7 @@ public class User {
         return false;
     }
     
-    public boolean Delete()
+    /*public boolean Delete()
     {
         if(this.Delete("user", this.ID))
         {
@@ -203,6 +213,6 @@ public class User {
             Log.getOut(ex.getMessage());
             return false;}
         
-    }
+    }*/
     
 }

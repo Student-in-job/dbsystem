@@ -43,7 +43,7 @@ else
         if(user!=null)
         {
             request.getSession().setAttribute("user", user);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("UserBar.jsp");
             
         }
         else{

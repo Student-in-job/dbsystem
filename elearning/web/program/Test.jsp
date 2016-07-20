@@ -25,16 +25,17 @@ ArrayList<TestTask> task = test.getTask();
     <body>
         <h1>
             Name: <%=test.getName()%>
-            <a href="EditTest?test=<%=test.getID()%>">Edit</a>
+            <a href="EditTest.jsp?test=<%=test.getID()%>">Edit</a>
             <a href="Delete?test=<%=test.getID()%>">-</a>
         </h1>
         <h2>Day: <%=test.getDay()%></h2>
-        <p><a href="CreateTestTask.jsp?test=<%=test.getID()%>">+Task</a></p>
+        <p><a href="CreateTestTask.jsp?testtask=0&test=<%=test.getID()%>">+Task</a></p>
 <%for(int i=0; i<task.size(); i++){%>        
         <div>
             <p>
                 <%=task.get(i).getNumber()%>)<%=task.get(i).getQuestion()%> (<%=task.get(i).getPoint()%>)
-                <a href="Delete?test_task=<%=task.get(i).getID()%>">-</a>
+                <a href="EditTestTask.jsp?testtask=<%=task.get(i).getID()%>">Edit</a>
+                <a href="Delete?testtask=<%=task.get(i).getID()%>">-</a>
             </p>
             <ul>
                 <li style="color: red;"><%=task.get(i).getAnswer()%></li>
