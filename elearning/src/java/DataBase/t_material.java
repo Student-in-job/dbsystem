@@ -118,7 +118,7 @@ public class t_material {
                 inf.put("id", rs.getString("material_id"));
                 inf.put("day", rs.getString("material_day"));
                 inf.put("typ", rs.getString("material_type"));
-                inf.put("text", rs.getString("material_file"));
+                inf.put("text", t_texts.get_information(rs.getInt("texts")));
                 inf.put("inventory", rs.getString("material_text"));
                 
             }
