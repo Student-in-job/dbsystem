@@ -11,10 +11,12 @@
 <%
     
     User user = (User) session.getAttribute("user");
-    
+    if(user!=null&&user.isLogined()){
+            
     Program program = new Program(request.getParameter("program"));
     ArrayList<Material> mtr = program.getMaterial();
     ArrayList<Test> tst = program.getTest();
+    ArrayList<Files> file = program.getFile();
 %>
 <!DOCTYPE html>
 <html>
@@ -40,7 +42,7 @@
              </h3>
              <ul>
               
-<%for(int j=0; j<mtr.size(); j++){%>
+<%if(!mtr.isEmpty())for(int j=0; j<mtr.size(); j++){%>
                 <li>
                     (<%=mtr.get(j).getDay()%>) 
                     <a href="Material.jsp?material=<%=mtr.get(j).getID()%>"><%=mtr.get(j).getName()%></a>
@@ -55,7 +57,7 @@
             </h3>
              <ul>
               
-<%for(int j=0; j<tst.size(); j++){%>
+<%if(!tst.isEmpty())for(int j=0; j<tst.size(); j++){%>
                 <li>
                     (<%=tst.get(j).getDay()%>)
                     <a href="Test.jsp?test=<%=tst.get(j).getID()%>"><%=tst.get(j).getName()%></a>
@@ -64,6 +66,22 @@
                 </li>
              
 <%}%>           </ul> 
+
+            <h3>
+                File:
+                <a href="Upload.jsp?program=<%=program.getID()%>" alt="Upload new file in this program">+</a>
+            </h3>
+             <ul>
+              
+<%if(!file.isEmpty())for(int j=0; j<file.size(); j++){%>
+                <li>
+                    <p><a href="<%=file.get(j).getURL()%>"><%=file.get(j).getName()%></a></p>
+                </li>
+             
+<%}%>           </ul> 
         </article>
     </body>
 </html>
+<%}
+else response.sendRedirect("../login.jsp");
+%>

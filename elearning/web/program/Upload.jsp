@@ -4,8 +4,6 @@
     Author     : ksinn
 --%>
 
-
-<%@page import="java.util.UUID"%>
 <%@page import="javax.servlet.annotation.MultipartConfig"%>
 <%@page import="java.io.File"%>
 <%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
@@ -19,7 +17,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-if(request.getMethod()=="GET"){
+String program = request.getParameter("program");
+if(request.getMethod()=="POST"){
+    Part part = request.getPart("data");
+    if(Files.Write(part, program)){
+        response.sendRedirect("Program.jsp?program="+program);
+    }
+}
 %>
 
 <!DOCTYPE html>
@@ -33,38 +37,9 @@ if(request.getMethod()=="GET"){
 <head>
 <body>
 	<form action="Upload.jsp" method="post" enctype="multipart/form-data">
+            <input name="program" type="hidden" value="<%=program%>"><br>
 		<input name="data" type="file"><br>
 		<input type="submit"><br>
 	</form>
 </body>
 </html>
-<%
-}
-
-if(request.getMethod()=="POST"){
-
-Material nm = (Material) session.getAttribute("nMaterial");
-Part part = request.getPart("data");
-String fileName = "/home/ksinn/NetBeansProjects/dbsystem/uploadFiles/"+UUID.randomUUID()+extractFileName(part);
-part.write(fileName);
-    
-}
-
-	
-}
-%>
-
-
-<%!
-   
-private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("."), s.length()-1);
-            }
-        }
-        return "";
-    }
-%>

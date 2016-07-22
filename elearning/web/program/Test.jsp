@@ -8,9 +8,8 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
+    User user = (User) session.getAttribute("user");
+    if(user!=null&&user.isLogined()){
     
 Test test = new Test(request.getParameter("test"));
 ArrayList<TestTask> task = test.getTask();
@@ -48,4 +47,7 @@ ArrayList<TestTask> task = test.getTask();
 <%}%>
     </body>
 </html>
+<%}
+else response.sendRedirect("login.jsp");
+%>
 

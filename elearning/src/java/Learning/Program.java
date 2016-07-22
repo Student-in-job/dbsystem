@@ -52,6 +52,13 @@ public class Program {
         
     }
     
+    public ArrayList<Files> getFile(){
+        
+        return Files.getFileList(this.ID);
+        
+        
+    }
+    
     public ArrayList<Material> getMaterial(){
         
         ArrayList<Material> list = new ArrayList<Material>();

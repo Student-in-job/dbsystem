@@ -129,7 +129,7 @@ public class Material extends Component {
     
     public void setText(String text){
     
-        if("".equals(text))
+       if(!"".equals(text))
             this.Text = text;
     }
     

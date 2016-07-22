@@ -41,15 +41,12 @@ create table if not exists program (
 
 create table if not exists files (
   file_id int(11) not null auto_increment,
-  file_url varchar(255) not null,
-  file_ext varchar(10),
-  primary key (file_id)
-);
+  file_name varchar(100) not null,
+  program int(11) not null,
+  file_type varchar(10),
+  primary key (file_id),
+  constraint fk_files_program1 foreign key (program) references program (program_id) on delete no action on update no action
 
-create table if not exists texts (
-  text_id int(11) not null auto_increment,
-  text_lecture text not null,
-  primary key (text_id)
 );
 
 create table if not exists material (
@@ -57,17 +54,14 @@ create table if not exists material (
   material_name varchar(200) not null,
   material_day int(3) not null,
   material_type varchar(10) not null,
+  material_file text,
   program int(11) not null,
   material_text text(200) not null,
   material_deleted int(1) not null default 0,
-  texts int(11) default null,
-  files int(11) default null,
   primary key (material_id),
-  constraint fk_material_program1 foreign key (program) references program (program_id) on delete no action on update no action,
-  constraint fk_material_file1 foreign key (files) references files (file_id) on delete no action on update no action,
-  constraint fk_material_text1 foreign key (texts) references texts (text_id) on delete no action on update no action
-
+  constraint fk_material_program1 foreign key (program) references program (program_id) on delete no action on update no action
 );
+
 
 create table if not exists task (
   task_id int(11) not null auto_increment,
@@ -171,11 +165,11 @@ create table if not exists test_task (
   test_task_id int(11) not null auto_increment,
   test_task_no int(3) not null,
   test_task_text varchar(200) not null,
-  test_task_answer varchar(200) not null,
-  test_task_v1 varchar(200) not null,
-  test_task_v2 varchar(200) not null,
-  test_task_v3 varchar(200) not null,
-  test_task_v4 varchar(200) not null,
+  test_task_answer varchar(100) not null,
+  test_task_v1 varchar(100) not null,
+  test_task_v2 varchar(100) not null,
+  test_task_v3 varchar(100) not null,
+  test_task_v4 varchar(100) not null,
   test_task_ball int(3) not null default 0,
 test_task_deleted int(1) not null default 0,
   test int(11) not null,

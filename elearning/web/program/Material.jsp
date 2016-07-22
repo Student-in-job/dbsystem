@@ -11,9 +11,11 @@
 <%
     
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
-    if(request.getParameter("material")!=null){    
+    if(user!=null&&user.isLogined()){
+    
+    if(request.getParameter("material")==null) 
+        response.sendRedirect("../UserBar.jsp");
+    
         Material material = new Material(request.getParameter("material"));
            
 
@@ -35,4 +37,6 @@
         <p><%=material.getText()%></p>
     </body>
 </html>
-<%}%>
+<%}
+else response.sendRedirect("login.jsp");
+%>
