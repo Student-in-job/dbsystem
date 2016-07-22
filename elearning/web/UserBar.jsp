@@ -41,16 +41,11 @@ if(user!=null&&user.isLogined()){
             </div> 
         
         </div> 
-        
-        
-<%}
-else{
-%>
-
-<h3><a href="login.jsp" alt="log in">Log in</a></h3>  
-        <h3><a href="registration.jsp" alt="registration">Registration</a></h3>
-<%}%> 
-            </div>
     </body>
 </html>
+        
+<%}
+else response.sendRedirect("login.jsp");
+%>
+
 

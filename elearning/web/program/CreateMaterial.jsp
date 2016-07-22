@@ -4,13 +4,14 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
+    if(user!=null&&user.isLogined()){
+        
     String url, material, program, typ="Lecture", text=null, name=null, inventory=null;
     int day=0;
     Material nm;
@@ -28,6 +29,7 @@ if(request.getMethod()=="GET"){
         name = nm.getName();
         inventory = nm.getInventory();
         day = nm.getDay();
+        program=nm.getProgramID();
     }
     
 }   
@@ -66,7 +68,21 @@ if(request.getMethod()=="POST"){
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new material</title>
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'#text' });</script>
+        <script>tinymce.init({
+            selector: '#input',
+            theme: 'modern',
+            width: 600,
+            height: 300,
+            plugins: [
+              'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+              'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+              'save table contextmenu directionality emoticons template paste textcolor'
+            ],
+            content_css: 'css/content.css',
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+          });
+        </script>
+        
     </head>
     <body>
         
@@ -90,12 +106,32 @@ if(request.getMethod()=="POST"){
             </div>
             <div>
                 <p>Text: </p>
-                <textarea requered name="text" id="text"><%=text==null?"":text%></textarea>
+                <textarea requered name="text" id="input"><%=text==null?"":text%></textarea>
             </div>            
             <input type="submit"> 
         </form>
         
+        <div>
+            <ul>
+            <%
+                ArrayList<Files> file = new Program(program).getFile();
+                if(!file.isEmpty())for(int j=0; j<file.size(); j++){%>
+                <li>
+                    <p>
+                        <%=file.get(j).getName()%>
+                        <button><a target="_blank" href="File.jsp?code=embed&file=<%=file.get(j).getID()%>">get embed code</a></button>
+                        <button><a target="_blank" href="File.jsp?code=url&file=<%=file.get(j).getID()%>">get addres file</a></button>
+                    </p>
+                </li>
+<%}%>              
+            </ul>
+        </div>
+            
     </body>
 </html>
+   
+<%}
+else response.sendRedirect("login.jsp");
+%>
 
 

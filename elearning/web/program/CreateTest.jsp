@@ -10,8 +10,7 @@
 <%
     
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
+    if(user!=null&&user.isLogined()){
     
     String url=null, test=null, program=null, name=null;
     int day=0;
@@ -76,3 +75,6 @@ if(request.getMethod()=="POST"){
         </form>
     </body>
 </html>
+<%}
+else response.sendRedirect("login.jsp");
+%>

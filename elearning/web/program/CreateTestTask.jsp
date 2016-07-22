@@ -8,10 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
+    if(user!=null&&user.isLogined()){
     
     String url=null, tst=null, testtask=null, question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
     int point=0;
@@ -114,3 +112,6 @@ if(request.getMethod()=="POST"){
         </form>
     </body>
 </html>
+<%}
+else response.sendRedirect("login.jsp");
+%>
