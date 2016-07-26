@@ -5,18 +5,19 @@
 --%>
 
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    
+try{    
     User user = (User) session.getAttribute("user");
     if(user!=null&&user.isLogined()){
-            
-    Program program = new Program(request.getParameter("program"));
-    ArrayList<Material> mtr = program.getMaterial();
-    ArrayList<Test> tst = program.getTest();
-    ArrayList<Files> file = program.getFile();
+    int prog = Integer.parseInt(request.getParameter("program"));
+
+        Program program = new Program(prog);
+        ArrayList<Material> mtr = program.getMaterials();
+        ArrayList<Test> tst = program.getTests();
 %>
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@
                 <a href="Delete?program=<%=program.getID()%>">Delete</a>
             </h6>
              <p>Typ: <%=program.getTyp()%></p>
-             <p>Area: <%=program.getAreaName()%></p>
+             <p>Area: <%=program.getArea().getName()%></p>
              <p>Duration: <%=program.getDuration()%></p>
              <p>Level: <%=program.getLevel()%> <p>MinLevel: <%=program.getMinLevel()%></p></p>
              <p>Inventory: <%=program.getInventory()%></p>
@@ -42,7 +43,7 @@
              </h3>
              <ul>
               
-<%if(!mtr.isEmpty())for(int j=0; j<mtr.size(); j++){%>
+<%if(mtr!=null)for(int j=0; j<mtr.size(); j++){%>
                 <li>
                     (<%=mtr.get(j).getDay()%>) 
                     <a href="Material.jsp?material=<%=mtr.get(j).getID()%>"><%=mtr.get(j).getName()%></a>
@@ -57,7 +58,7 @@
             </h3>
              <ul>
               
-<%if(!tst.isEmpty())for(int j=0; j<tst.size(); j++){%>
+<%if(tst!=null)for(int j=0; j<tst.size(); j++){%>
                 <li>
                     (<%=tst.get(j).getDay()%>)
                     <a href="Test.jsp?test=<%=tst.get(j).getID()%>"><%=tst.get(j).getName()%></a>
@@ -66,22 +67,14 @@
                 </li>
              
 <%}%>           </ul> 
-
-            <h3>
-                File:
-                <a href="Upload.jsp?program=<%=program.getID()%>" alt="Upload new file in this program">+</a>
-            </h3>
-             <ul>
-              
-<%if(!file.isEmpty())for(int j=0; j<file.size(); j++){%>
-                <li>
-                    <p><a href="<%=file.get(j).getURL()%>"><%=file.get(j).getName()%></a></p>
-                </li>
-             
-<%}%>           </ul> 
         </article>
     </body>
 </html>
-<%}
-else response.sendRedirect("../login.jsp");
+<%
+}else response.sendRedirect("../login.jsp");
+}
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
 %>

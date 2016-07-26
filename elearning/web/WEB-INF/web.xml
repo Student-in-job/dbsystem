@@ -3,6 +3,10 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>sys_conf</listener-class>
+    </listener>
     <servlet>
         <servlet-name>test</servlet-name>
         <servlet-class>test</servlet-class>
@@ -27,6 +31,10 @@
         <servlet-name>CreateTestTask</servlet-name>
         <jsp-file>/program/CreateTestTask.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>Upload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -50,6 +58,10 @@
     <servlet-mapping>
         <servlet-name>CreateTestTask</servlet-name>
         <url-pattern>/program/EditTestTask.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/program/Upload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

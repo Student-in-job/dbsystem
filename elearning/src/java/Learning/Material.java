@@ -6,9 +6,9 @@
 package Learning;
 
 import DataBase.*;
-import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -20,117 +20,169 @@ public class Material extends Component {
     
     protected String Typ;
     protected String Text;
+     
     
-    
-    public int Delete(){
-        return DataBase.t_material.delete_with_id(this.ID);
+    @Override
+    public String Correct(){
+        
+        String s = "";
+        try{
+            Program pg = this.getProgram();
+            if(!pg.MayAddMaterial())
+                s += "Невозможно добавить материал; ";
+            if(Day<=0||Day>this.getProgram().getDuration())
+            s += "Неправельный день; ";
+        }catch(Exception ex){s+="Program; ";}
+        
+        if("".equals(Name))
+             s += "Name; ";
+        if("".equals(Inventory))
+            s+="Inventory; ";
+        if("".equals(Typ))
+            s+="Type; ";
+        if("".equals(Text))
+            s += "Text; ";
+       
+        return "".equals(s)?null:s;
     }
     
-    static public ArrayList<Material> getMaterialList(String Program) {
-        
-        ArrayList<Material> list = new ArrayList<Material>();
-        ArrayList<HashMap<String, String>> inf = t_material.get_information_with_program(Program);
-        for(int i=0; i<inf.size(); i++){
-            
-            Material mtr = new Material();
-            mtr.Name = inf.get(i).get("name");
-            mtr.ID = inf.get(i).get("id");
-            mtr.Day = Integer.parseInt(inf.get(i).get("day"));
-            mtr.Typ = inf.get(i).get("typ");
-            mtr.Text = inf.get(i).get("text");
-            mtr.Inventory = inf.get(i).get("inventory");
-            mtr.ProgramID = inf.get(i).get("program");
-            list.add(mtr);
-        }
-        return list;
-        
+    @Override
+    public int getID(){
+        return this.ID;
     }
     
-    public Material(){}
+    @Override
+    public int getTypeIndex(){
+        return 3;
+    }
     
-    public Material(String program, String typ, String text, String name, String inventory, int day){
+    @Override
+    public String getType(){
+        return "material";
+    }
+    
+    
+    public Material(String typ, String text, String name, String inventory, int day){
     
             Typ="Lecture";
             Text=text;
             Name=name;
             Inventory=inventory;
             Day=day;
-            ProgramID=program;
     }
     
-    protected void ReRead(){
-    
-            HashMap<String, String> inf = t_material.get_information(this.ID);
-        
-            Typ=inf.get("typ");
-            Text=inf.get("text");
-            ID = inf.get("id");
-            Name=inf.get("name");
-            Inventory=inf.get("inventory");
-            Day=Integer.parseInt(inf.get("day"));
-            ProgramID=inf.get("program");
-    }
-    
-    public Material(String id){
+    public Material(int id) throws Exception{
         
         this.ID = id;
-        this.ReRead();
-    }
-    
-    @Override
-    public boolean Write(String user_id){
-        
-        if(!this.getProgram().getTeacherID().equals(user_id)) return false;
-        if(this.isGood())
-        return t_material.set_information(ProgramID, Name, Inventory, Day, Typ, Text);
-        else
-            return false;
-    }
-    
-    @Override
-    public boolean ReWrite(String user_id){
-        
-        if(!this.getProgram().getTeacherID().equals(user_id)) return false;
-        if(this.isGood())
-         if(t_material.update_information(this.ID, Name, Inventory, Day, Typ, Text)){
-            this.ReRead();
-            return true;
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find();
+        if(db.Done()&&rs!=null){
+                try {
+                    rs.next();
+                    this.ProgramID = rs.getInt("program");
+                    this.Name =  rs.getString("material_name");
+                    this.ID = rs.getInt("material_id");
+                    this.Day = rs.getInt("material_day");
+                    this.Typ = rs.getString("material_type");
+                    this.Text = rs.getString("material_file");
+                    this.Inventory = rs.getString("material_text");
+
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw new Error();
+                }
         }
-        this.ReRead();
-        return false;
+        else throw new Exception();
     }
     
-    public boolean isGood(){
-    
-        if(!this.getProgram().MayAddMaterial())
-            return false;
-        if(Name==""||Inventory==""||Typ==""||ProgramID==""||Text=="")
-            return false;
-        if(Day<=0||Day>this.getProgram().getDuration())
-            return false;
-        return true;
+    @Override
+    public String Write(Program prog, User user) throws Exception{
+        
+        if(user.getID()!=prog.getTeacherID()) return "Вы не можете этого сделать";
+        ProgramID = prog.getID();
+        return this.write();
     }
+    
+    public String Change(String typ, String text, String name, String inventory, int day, User user) throws Exception{
+        
+        if(this.getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
+        Material mat = new Material(typ, text, name, inventory, day);
+        mat.ProgramID = this.ProgramID;
+        mat.ID = this.ID;
+        DataBase db = new DataBase(mat);
+        db.ReWrite();
+        if(db.Done())
+            return null;
+        else return db.Message();
+    }
+    
+    public ArrayList<Files> getFile() throws Exception{
+        
+        ArrayList<Files> list = new ArrayList<Files>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("files");
+        if(db.Done()&&rs!=null){
+                try {
+                    while(rs.next()){
+                        list.add(new Files(rs.getInt("files_id")));
+                    }
+                    return list;
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw new Error();
+                }
+        }
+        else return null;
+   }
+    
+    public ArrayList<Files> getVideoFile() throws Exception{
+        
+        ArrayList<Files> list = new ArrayList<Files>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("files");
+        if(db.Done()&&rs!=null){
+                try {
+                    while(rs.next()){
+                        if("mp4".equals(rs.getString("files_type")))
+                        list.add(new Files(rs.getInt("files_id")));
+                    }
+                    return list.size()==0?null:list;
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw new Error();
+                }
+        }
+        else return null;
+   }
+    
+    public ArrayList<Files> getDocFile() throws Exception{
+        
+        ArrayList<Files> list = new ArrayList<Files>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("files");
+        if(db.Done()&&rs!=null){
+                try {
+                    while(rs.next()){
+                        if(!"mp4".equals(rs.getString("files_type")))
+                        list.add(new Files(rs.getInt("files_id")));
+                    }
+                    return list.size()==0?null:list;
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw new Error();
+                }
+        }
+        else return null;
+   }
     
     public String getTyp(){
     
         return this.Typ;
     }
     
-    public void setTyp(String typ){
-    
-        if("Lecture".equals(typ))
-            this.Typ = typ;
-    }
-    
     public String getText(){
     
         return this.Text;
-    }
-    
-    public void setText(String text){
-    
-       if(!"".equals(text))
-            this.Text = text;
     }
     
 }

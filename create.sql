@@ -1,6 +1,13 @@
 drop database elearning;
 create schema if not exists elearning default character set utf8 collate utf8_general_ci ;
 use elearning;
+
+create table if not exists sys_conf (
+name varchar(25) not null,
+value varchar(225) not null,
+primary key(name)
+);
+
 create table if not exists user (
   user_id int(11) not null auto_increment,
   user_name varchar(20) not null,
@@ -29,25 +36,15 @@ create table if not exists program (
   program_level int(1) not null,
   program_state varchar(10) not null default 'created',
   program_duration int(3) not null,
-  teacher int(11) not null,
+  user int(11) not null,
   area int(11) not null,
   program_date date not null,
   program_controled int(1) not null default 0,
   program_typ varchar(10) not null,
   program_deleted int(1) not null default 0,
   primary key (program_id),
-  constraint fk_program_user  foreign key (teacher) references user (user_id) on delete no action on update no action,
+  constraint fk_program_user  foreign key (user) references user (user_id) on delete no action on update no action,
   constraint fk_program_area1 foreign key (area) references area (area_id) on delete no action on update no action);
-
-create table if not exists files (
-  file_id int(11) not null auto_increment,
-  file_name varchar(100) not null,
-  program int(11) not null,
-  file_type varchar(10),
-  primary key (file_id),
-  constraint fk_files_program1 foreign key (program) references program (program_id) on delete no action on update no action
-
-);
 
 create table if not exists material (
   material_id int(11) not null auto_increment,
@@ -62,6 +59,16 @@ create table if not exists material (
   constraint fk_material_program1 foreign key (program) references program (program_id) on delete no action on update no action
 );
 
+create table if not exists files (
+  files_id int(11) not null auto_increment,
+  files_name varchar(100) not null,
+  material int(11) not null,
+  files_type varchar(10),
+  files_deleted int(1) not null default 0,
+  primary key (files_id),
+  constraint fk_files_program1 foreign key (material) references material (material_id) on delete no action on update no action
+
+);
 
 create table if not exists task (
   task_id int(11) not null auto_increment,
@@ -156,6 +163,7 @@ create table if not exists test (
   test_id int(11) not null auto_increment,
   test_name varchar(45) not null,
   test_day int(3) not null,
+  test_text text not null,
   program int(11) not null,
   test_deleted int(1) not null default 0,
   primary key (test_id),

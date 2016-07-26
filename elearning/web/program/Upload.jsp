@@ -5,25 +5,18 @@
 --%>
 
 <%@page import="javax.servlet.annotation.MultipartConfig"%>
-<%@page import="java.io.File"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.RequestContext"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.List"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
 <%@page import="DataBase.Log"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-String program = request.getParameter("program");
-if(request.getMethod()=="POST"){
-    Part part = request.getPart("data");
-    if(Files.Write(part, program)){
-        response.sendRedirect("Program.jsp?program="+program);
-    }
-}
+try{
+
+User user = (User) session.getAttribute("user");
+    if(user!=null&&user.isLogined()){
+String mark = null;
+int material = Integer.parseInt(request.getParameter("material"));
+
 %>
 
 <!DOCTYPE html>
@@ -36,10 +29,19 @@ if(request.getMethod()=="POST"){
         <html>
 <head>
 <body>
-	<form action="Upload.jsp" method="post" enctype="multipart/form-data">
-            <input name="program" type="hidden" value="<%=program%>"><br>
-		<input name="data" type="file"><br>
-		<input type="submit"><br>
-	</form>
+    <h2><%=mark==null?"":mark%></h2>
+    <form action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
+        <input name="material" type="hidden" value="<%=material%>"><br>
+	<input name="data" type="file" accept="	application/msword, video/mp4, 	application/pdf, application/powerpoint"><br>
+        <input type="submit"><br>
+    </form>
 </body>
 </html>
+<%}
+else response.sendRedirect("login.jsp");
+}
+catch(Exception ex){
+    Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
+%>

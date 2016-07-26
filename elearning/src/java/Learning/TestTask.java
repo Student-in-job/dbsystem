@@ -6,74 +6,68 @@
 package Learning;
 
 import DataBase.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author ksinn
  */
-public class TestTask{
+public class TestTask extends Parent{
 
-    protected String TestID;
+    protected int TestID;
     protected String Question;
     protected String Answer;
     protected String Variant1;
     protected String Variant2;
     protected String Variant3;
     protected String Variant4;
-    protected String ID;
     protected int Point;
     protected int Number;
     
-    protected void ReRead(){
+    @Override
+    public String Correct() {
         
-        HashMap<String, String> inf = t_test.get_task_information(this.ID);
-        this.TestID = inf.get("test");
-        this.Question = inf.get("question");
-        this.Answer = inf.get("answer");
-        this.Variant1 = inf.get("var1");
-        this.Variant2 = inf.get("var2");
-        this.Variant3 = inf.get("var3");
-        this.Variant4 = inf.get("var4");
-        this.Point = Integer.parseInt(inf.get("point"));
-        this.Number = Integer.parseInt(inf.get("number"));
+        String s = "";
+        try{
+            Test pg = this.getTest();
+        }catch(Exception ex){s+="Program; ";}
         
-        
+        if("".equals(Question))
+            s+="Question; ";
+        if("".equals(Answer))
+            s+="Answer; ";
+        if("".equals(Variant1))
+            s+="Variant1; ";
+        if("".equals(Variant2))
+            s+="Variant2; ";
+        if("".equals(Variant3))
+            s+="Variant3; ";
+        if("".equals(Variant4))
+            s+="Variant4; ";
+        if(Point==0)
+            s+=" ; ";
+        return "".equals(s)?null:s;
     }
     
-    public boolean Write(String user_id){
-        
-        if(!this.getTest().getProgram().getTeacherID().equals(user_id)) return false;
-        if(this.isGood()){
-            return t_test.set_task_information(TestID, Question, Answer, Variant1, Variant2, Variant3, Variant4, Point);
-        }
-        else return false;
+    @Override
+    public int getID(){
+        return this.ID;
     }
     
-    public boolean ReWrite(String user_id){
-        
-        if(!this.getTest().getProgram().getTeacherID().equals(user_id)) return false;
-        if(this.isGood()){
-            if(t_test.update_task_information(ID, Question, Answer, Variant1, Variant2, Variant3, Variant4, Point))
-            {this.ReRead(); return true;}
-        }
-        this.ReRead();
-        return false;
+    @Override
+    public int getTypeIndex(){
+        return 5;
     }
     
-    public int Delete(){
-        return DataBase.t_test.delete_task_with_id(this.ID);
+    @Override
+    public String getType(){
+        return "test_task";
     }
     
-    public TestTask()
-    {
-    }
-    
-    public TestTask(String test, String question, String answer, String v1, String v2, String v3, String v4, int point)
+    public TestTask(String question, String answer, String v1, String v2, String v3, String v4, int point)
     {
         
-        this.TestID = test;
         this.Question = question;
         this.Answer = answer;
         this.Variant1 = v1;
@@ -83,117 +77,99 @@ public class TestTask{
         this.Point = point;
     }
     
-    public TestTask(String id)
+    public TestTask(int id) throws Exception
     {
         this.ID = id;
-        this.ReRead();
-    }
-    
-    static ArrayList<TestTask> getTaskList(String test) {
-        
-        ArrayList<TestTask> list = new ArrayList<TestTask>();
-        ArrayList<HashMap<String, String>> inf = t_test.get_task_information_with_test(test);
-        TestTask tt;
-        for(int i=0; i<inf.size(); i++){
-            tt = new TestTask();
-            tt.TestID = inf.get(i).get("test");
-            tt.Question = inf.get(i).get("question");
-            tt.Answer = inf.get(i).get("answer");
-            tt.Variant1 = inf.get(i).get("var1");
-            tt.Variant2 = inf.get(i).get("var2");
-            tt.Variant3 = inf.get(i).get("var3");
-            tt.Variant4 = inf.get(i).get("var4");
-            tt.ID = inf.get(i).get("id");
-            tt.Point = Integer.parseInt(inf.get(i).get("point"));
-            tt.Number = Integer.parseInt(inf.get(i).get("number"));
-            list.add(tt);
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find();
+        if(db.Done()&&rs!=null){
+                try {
+                    rs.next();
+                    this.Number = rs.getInt("test_task_no");
+                    this.Question = rs.getString("test_task_text");
+                    this.Answer = rs.getString("test_task_answer");
+                    this.Variant1 = rs.getString("test_task_v1");
+                    this.Variant2 = rs.getString("test_task_v2");
+                    this.Variant3 = rs.getString("test_task_v3");
+                    this.Variant4 = rs.getString("test_task_v4");
+                    this.Point = rs.getInt("test_task_ball");
+                    this.TestID = rs.getInt("test");
+
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw new Error();
+                }
         }
-        return list;
+        else throw new Error();
     }
     
-    public Test getTest(){
+    
+    
+    public String Write(Test test, User user) throws Exception{
+        
+        if(user.getID()!=test.getProgram().getTeacherID()) return "Вы не можете этого сделать";
+        TestID = test.getID();
+        return this.write();
+    }
+    
+    public String Change(String question, String answer, String v1, String v2, String v3, String v4, int point, User user) throws Exception{
+        
+        if(this.getTest().getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
+        TestTask task = new TestTask(question, answer, v1, v2, v3, v4, point);
+        task.TestID = this.TestID;
+        task.ID = this.ID;
+        DataBase db = new DataBase(task);
+        db.ReWrite();
+        if(db.Done())
+            return null;
+        else return db.Message();
+    }
+    
+    
+   
+    
+    
+    
+    public Test getTest() throws Exception{
         
         return new Test(this.TestID);
     }
     
-    public String getTestID(){
+    public int getTestID(){
         return this.TestID;
     }
     
-    
     public String getQuestion(){
         return this.Question;
-    }
-    
-    public void setQuestion(String question){
-        
-        if(!"".equals(question))
-        this.Question = question;
     }
     
     public String getAnswer(){
         return this.Answer;
     }
     
-    public void setAnswer(String answer){
-        this.Answer = answer;
-    }
-    
     public String getVariant1(){
         return this.Variant1;
-    }
-    
-    public void setVariant1(String variant){
-        this.Variant1 = variant;
     }
     
     public String getVariant2(){
         return this.Variant2;
     }
     
-    public void setVariant2(String variant){
-        this.Variant2 = variant;
-    }
-    
     public String getVariant3(){
         return this.Variant3;
-    }
-    
-    public void setVariant3(String variant){
-        this.Variant3 = variant;
     }
     
     public String getVariant4(){
         return this.Variant4;
     }
     
-    public void setVariant4(String variant){
-        this.Variant4 = variant;
-    }
-
     public int getPoint(){
         return this.Point;
-    }
-    
-    public void setPoint(int point){
-        this.Point = point;
     }
     
     public int getNumber(){
         return this.Number;
     }
-        
-    public String getID(){
-        return this.ID;
-    }
-
-    private boolean isGood() {
-        
-        if("".equals(TestID)||"".equals(Question)||"".equals(Answer)||"".equals(Variant1)||"".equals(Variant2)||"".equals(Variant3)||"".equals(Variant4))
-            return false;
-        if(Point==0)
-            return false;
-        return true;
-    }
+    
     
 }

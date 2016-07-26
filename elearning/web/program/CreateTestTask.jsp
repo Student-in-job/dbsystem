@@ -4,22 +4,25 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+try{    
+    
     User user = (User) session.getAttribute("user");
     if(user!=null&&user.isLogined()){
     
-    String url=null, tst=null, testtask=null, question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
-    int point=0;
+    String mark="", url=null, question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
+    int point=0, tst, testtask;
     TestTask nt;
-    testtask = request.getParameter("testtask");
-    tst = request.getParameter("test");
-    url = "0".equals(testtask)?"CreateTestTask.jsp":"EditTestTask.jsp";
+    testtask = Integer.parseInt(request.getParameter("testtask")==null?"0":request.getParameter("testtask"));
+    tst = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
+    url = testtask==0?"CreateTestTask.jsp":"EditTestTask.jsp";
     
 if(request.getMethod()=="GET"){
-    if(!"0".equals(testtask)){
+    if(0!=testtask){
         
         nt = new TestTask(testtask);
         question=nt.getQuestion();
@@ -29,6 +32,7 @@ if(request.getMethod()=="GET"){
         v3=nt.getVariant3();
         v4=nt.getVariant4();
         point=nt.getPoint();
+        tst = nt.getTestID();
     }
 }    
     
@@ -45,23 +49,18 @@ if(request.getMethod()=="POST"){
     point = Integer.parseInt(request.getParameter("point"));}
     catch(Exception ex){point = 0;}
     
-    if("0".equals(testtask)){
+    if(0==testtask){
         
-        nt = new TestTask(tst, question, answer, v1, v2, v3, v4, point);
-        if(user.Create(nt))
+        nt = new TestTask(question, answer, v1, v2, v3, v4, point);
+        mark = nt.Write(new Test(tst), user);
+        if(mark==null);
             response.sendRedirect("Test.jsp?test="+tst);
     }
     else{
     
         nt = new TestTask(testtask);
-        nt.setQuestion(question);
-        nt.setAnswer(answer);
-        nt.setVariant1(v1);
-        nt.setVariant2(v2);
-        nt.setVariant3(v3);
-        nt.setVariant4(v4);
-        nt.setPoint(point);
-        if(user.Update(nt))
+        mark = nt.Change(question, answer, v1, v2, v3, v4, point, user);
+        if(mark==null);
         {
             response.sendRedirect("Test.jsp?test="+nt.getTestID());
         }
@@ -105,7 +104,7 @@ if(request.getMethod()=="POST"){
             </div>
             <div>
                 <p>V4:</p>
-                <input requered type="text" name="v4" <%=request.getParameter("v4")==null?"placeholder=\"Variant":"value=\""+request.getParameter("v4")%>">
+                <input requered type="text" name="v4" <%=v4==null?"placeholder=\"Variant":"value=\""+v4%>">
             </div>
             
             <input type="submit">
@@ -114,4 +113,10 @@ if(request.getMethod()=="POST"){
 </html>
 <%}
 else response.sendRedirect("login.jsp");
+
+}
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
 %>

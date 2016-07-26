@@ -8,6 +8,8 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+try{    
+    
 if(request.getMethod()=="GET")
 {
 %>
@@ -66,12 +68,13 @@ else
         String gender = request.getParameter("gender");
         Date birthday = format.parse(request.getParameter("birthday"));
         
-        if(User.Register(mail, password, name, surname, birthday, gender))
+        User user = new User(mail, password, name, surname, birthday, gender);
+        String mark = user.Register();        
+        if(mark==null)
         {
             response.sendRedirect("login.jsp");
         }
-        else
-        {
+        else{
 %>
             <!DOCTYPE html>
             <html>
@@ -80,7 +83,7 @@ else
                     <title>Registration</title>
                 </head>
                 <body>
-                    <p style="color: red;">Error error error</p>
+                    <p style="color: red;">Error: <%=mark%></p>
                     <form action="registration.jsp" method="post">
                         <div>
                             <p>e-mail:</p>
@@ -122,4 +125,7 @@ else
 <%
         }
     }
+}catch(Exception ex){
+    response.sendRedirect("/elearning/Error.jsp");}
+
 %>

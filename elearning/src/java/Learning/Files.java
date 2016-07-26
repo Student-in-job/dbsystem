@@ -7,114 +7,128 @@ package Learning;
 
 import DataBase.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.http.Part;
 
 /**
  *
  * @author ksinn
  */
-public class Files {
+public class Files extends Parent{
     
     protected String Name;
-    protected String Type;
-    protected String ProgramID;
-    protected String ID;
-    static protected String Path = "/var/www/html/dbsystem/uploadFiles/materials";
+    protected String Extension;
+    protected int MaterialID;
+    protected Part Part;
+    protected final String Path = db.getRealPath() + "uploadFiles/materials/";
     
     
-    public String getEmbed(){
-        
-        String s = "";
-        if(Type.equals("mp4")){
-            s = "<embed src=\""
-                    + this.getURL()
-                    + "\" type=\"video/mp4\" width=\"400\" height=\"300\"></embed>";
-        }
-        return s;
+    
+    @Override
+    public String Correct(){
+        if("".equals(Name))
+            return "Name";
+        try{this.getMaterial();} 
+            catch(Exception ex){return "Program";}
+        if("".equals(Extension))    
+            return "Extension";
+        if(!("mp4".equals(Extension)||"pdf".equals(Extension)||"doc".equals(Extension)||"docx".equals(Extension)||"ppt".equals(Extension)||"pptx".equals(Extension)))
+            return "Extension invalid; ";
+        return null;
     }
     
-    public Files(int id){
-        
-        HashMap<String, String> inf = t_files.get_information(id);
-        
-                    this.ProgramID = inf.get("program");
-                    this.ID = inf.get("id");
-                    this.Name = inf.get("name");
-                    this.Type = inf.get("type");
-            
+    @Override
+    public int getID(){
+        return this.ID;
     }
     
-    protected Files(String program, String id, String name, String type){
-        
-        this.ProgramID = program;
-        this.ID = id;
-        this.Name = name;
-        this.Type = type;
+    @Override
+    public int getTypeIndex(){
+        return 6;
     }
     
-    public String getName(){
-        return Name;
+    @Override
+    public String getType(){
+        return "files";
     }
     
-    public String getID(){
-        return ID;
-    }
+    public Files(int id) throws Exception{
     
-    public String getURL(){
-        
-        return "http://localhost/dbsystem/uploadFiles/materials" + "/" + ProgramID + "/" + ID + "." + Type;
-    }
-    
-    static public ArrayList<Files> getFileList(String program){
-        
-        ArrayList<HashMap<String, String>> inf = t_files.get_information_whis_program(program);
-        ArrayList<Files> list = new ArrayList<Files>();
-        for(int i=0; i<inf.size(); i++)
-            list.add(new Files(
-                    inf.get(i).get("program"),
-                    inf.get(i).get("id"),
-                    inf.get(i).get("name"),
-                    inf.get(i).get("type")
-            )
-            );
-        return list;   
-            
-        
-    }
-    
-    static public boolean Write(Part part, String program_id){
-        
-        try {
-            
-            String path = Path + "/" + program_id;
-            new File(path).mkdirs();
-            String db_name = extractFileName(part);
-            String type = extractFileExtension(db_name);
-            int id = t_files.set_information(program_id, db_name, type);
-            if(id>0){
-                String file_name = Integer.toString(id) + "." + type;
-                part.write(path + "/" + file_name);
-                if(new File(path + "/" + file_name).exists())
-                    return true;
-                else{
-                    t_files.delete(id);
-                    return false;
-                } 
-            }return false;
-            
-        } catch (IOException ex) {
+        this.ID=id;
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find();
+        if(db.Done()&&rs!=null){
+                try {
+                    rs.next();
+                    this.Name = rs.getString("files_name");
+                    this.Extension = rs.getString("files_type");
+                    this.MaterialID = rs.getInt("material");
+
+                } catch (SQLException ex) {
                     Log.getOut(ex.getMessage());
-                    return false;
-        } 
+                    throw new Error();
+                }
+        }
+        else throw new Error();
     }
+    
+    public Files(Part part){
         
+        Name = extractFileName(part);
+        Extension = extractFileExtension(Name);
+        Part = part;
+    }
+    
+    
+    public String Write(Material material, User user) throws Exception{
+        
+        if(user.getID()!=material.getProgram().getTeacherID()) return "Вы не можете этого сделать";
+        MaterialID = material.getID();    
+        DataBase db = new DataBase(this);
+        db.Write();
+        if(db.Done()){
+            DataBase db2 = new DataBase(material);
+            ResultSet rs2 = db2.FindLast("files");
+            if(db2.Done()&&rs2!=null){
+                try{
+                    rs2.next();
+                    this.ID = rs2.getInt("files_id");
+                    String mark = this.SaveFile();
+                if(mark==null)
+                    return null;
+                else{
+                    db.Delete();
+                    return mark;
+                }
+                }
+                catch(Exception ex){
+                    db.Delete();
+                    return "Error; ";
+                }
+                
+            }
+            else return db2.Message();
+        }
+        else return db.Message();
+        
+            
+    }
+    
+    protected String SaveFile() throws IOException, Exception{
+        
+        
+        String path = Path + this.getMaterial().getProgramID() + "/";
+        new File(path).mkdirs();
+        path += ID + "." + Extension;
+        Part.write(path);
+        if(new File(path).exists())
+            return null;
+        else{
+            return "File not writen; ";
+        }        
+    }
     
     static private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
@@ -133,7 +147,27 @@ public class Files {
         if(s.indexOf(".")!=-1)
             s = extractFileExtension(s.substring(s.indexOf(".")+1, s.length()));
         return s;
-            
+    }
+    
+    public String getName(){
+        return Name;
+    }
+    
+    public String getExtension(){
+        return Extension;
+    }
+    
+    public int getMaterialID(){
+        return MaterialID;
+    }
+    
+    public Material getMaterial() throws Exception{
+        return new Material(MaterialID);
     }
         
+    public String getURL() throws Exception{
+        
+        return "/elearning/uploadFiles/materials/" + this.getMaterial().getProgramID() + "/" + ID + "." + Extension;
     }
+       
+}

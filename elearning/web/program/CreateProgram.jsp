@@ -4,26 +4,29 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Learning.*"%>
 
 <%
-    
+try{
+        
     User user = (User) session.getAttribute("user");
     if(user==null||!user.isLogined())
         response.sendRedirect("../login.jsp");
     
-    String url, name = null, inventory=null, area=null, typ=null, program=null;
-    int level=0, minlevel=-1, duration=0;
+    String url, name = null, inventory=null, typ=null, mark ="";
+    int level=0, minlevel=-1, duration=0, program=0, area=0;
     Program np;
-    program = request.getParameter("program");
-    url="0".equals(program)?"CreateProgram.jsp":"EditProgram.jsp";
+    program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
+    url=0==program?"CreateProgram.jsp":"EditProgram.jsp";
     
     if(request.getMethod()=="GET"){
     
-        if(!"0".equals(program)){
+        if(program!=0){
 
             np = new Program(program);
             name = np.getName();
@@ -41,7 +44,9 @@
         
         name = request.getParameter("name");
         inventory = request.getParameter("inventory");
-        area = request.getParameter("area");
+        try{
+            area = Integer.parseInt(request.getParameter("area"));}
+        catch(Exception ex){level=0;}
         typ = request.getParameter("typ");
         try{
             level = Integer.parseInt(request.getParameter("level"));}
@@ -53,10 +58,11 @@
             duration = Integer.parseInt(request.getParameter("duration"));}
         catch(Exception ex){duration=0;}
             
-        if("0".equals(program)){
+        if(program==0){
             
-            np = new Program(name, inventory, area, typ, level, minlevel, duration);
-            if(user.Create(np))
+            np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
+            mark = np.Write(user);
+            if(mark==null)
                 response.sendRedirect("../UserBar.jsp");
             
         }
@@ -64,27 +70,19 @@
         else{
                 
             np = new Program(program);
-            np.setName(name);
-            np.setInventory(inventory);
-            np.setArea(area);
-            np.setTyp(typ);
-            np.setLevel(level);
-            np.setMinLevel(minlevel);
-            np.setDuration(duration);
-            if(user.Update(np))
+            mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
+            if(mark==null)
                 response.sendRedirect("../UserBar.jsp");
-            /*else{
+            else{
                 
                 name = np.getName();
                 inventory = np.getInventory();
-                area = np.getArea();
                 typ = np.getTyp();
-                level = np.getLeavel();
-             */
+                level = np.getLevel();
                 
         }
     }
-    
+}    
 %>
 <!DOCTYPE html>
 <html>
@@ -93,7 +91,7 @@
         <title>Create new program</title>
     </head>
     <body>
-        
+        <h1>Error: <%=mark%></h1>
         <h1>Create new program: first step</h1>
         <form action="<%=url%>" method="POST">
             <input type="hidden" name="program" value="<%=program%>">
@@ -105,13 +103,11 @@
                 <p>Area:</p>
                 <select name="area" requered>
 <%
-    HashMap<Integer, String> arealist = Program.getAreaList();
-    int ar;
-    ar=Integer.parseInt(area==null?"0":area);
-    for(Entry entry : arealist.entrySet()){
+    ArrayList<Area> arealist = (new Area(1).getAll());
+    for(int i=0; i<arealist.size(); i++){
     
 %>
-                    <option value="<%=entry.getKey()%>" <%=ar==(int)entry.getKey()?"selected":""%>><%=entry.getValue()%></option>
+                    <option value="<%=arealist.get(i).getID()%>" <%=area==arealist.get(i).getID()?"selected":""%>><%=arealist.get(i).getName()%></option>
 <%}%>
                 </select>
             </div>
@@ -149,3 +145,10 @@
         
     </body>
 </html>
+<%
+}
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
+%>

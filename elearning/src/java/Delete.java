@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import DataBase.Log;
 import Learning.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -107,10 +108,9 @@ public class Delete extends HttpServlet {
             response.sendRedirect("../login.jsp");
         try(PrintWriter out = response.getWriter()){
         
-        String param=request.getParameter("param"), value=request.getParameter("value");
-        String mes="";
-        int m=0;
-        
+        String param=request.getParameter("param"); int value=Integer.parseInt(request.getParameter("value"));
+        String m=null;
+            try{
             if("program".equals(param)){
                 
                 Program p = new Program(value);
@@ -131,19 +131,22 @@ public class Delete extends HttpServlet {
                 TestTask p = new TestTask(value);
                 m = p.Delete();
             }
-            if("task".equals(param)){
+            if("files".equals(param)){
                 
-                /*Task p = new Task(value);
-                m = p.Delete();*/
+                Files p = new Files(value);
+                m = p.Delete();
             }
             if("user".equals(param)){
                 
-                /*User p = new User(value);
-                m = p.Delete();*/
+                User p = (User) request.getSession().getAttribute("user");
+                m = p.Delete();
             }
-            
+            }catch(Exception ex){
+                Log.getOut(ex.getMessage());
+                response.sendRedirect("/elearning/Error.jsp");
+            }
         
-        
+        if(m==null) response.sendRedirect("/elearning/UserBar.jsp");
         out.println(m);
         
         }

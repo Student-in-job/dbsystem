@@ -4,14 +4,15 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
-    
-Test test = new Test(request.getParameter("test"));
+
+try{    
+Test test = new Test(Integer.parseInt(request.getParameter("test")));
+
 ArrayList<TestTask> task = test.getTask();
 %>
 
@@ -29,7 +30,7 @@ ArrayList<TestTask> task = test.getTask();
         </h1>
         <h2>Day: <%=test.getDay()%></h2>
         <p><a href="CreateTestTask.jsp?testtask=0&test=<%=test.getID()%>">+Task</a></p>
-<%for(int i=0; i<task.size(); i++){%>        
+<%if(task!=null) for(int i=0; i<task.size(); i++){%>        
         <div>
             <p>
                 <%=task.get(i).getNumber()%>)<%=task.get(i).getQuestion()%> (<%=task.get(i).getPoint()%>)
@@ -48,6 +49,9 @@ ArrayList<TestTask> task = test.getTask();
     </body>
 </html>
 <%}
-else response.sendRedirect("login.jsp");
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
 %>
 

@@ -2,16 +2,11 @@ package Learning;
 
 import java.util.Date;
 import DataBase.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -19,75 +14,164 @@ import java.util.logging.Logger;
  *
  * @author ksinn
  */
-public class User {
+public class User extends Parent{
     
-    protected String ID;
+    protected int ID;
     protected String mail;
+    protected String password;
     protected String Name;
     protected String Surname;
+    protected Date Birthday;
+    protected String Gender;
     protected boolean Logined;
     protected int Rating;
     
-    public User()
+    @Override
+    public int getID(){
+        return this.ID;
+    }
+    
+    @Override
+    public int getTypeIndex(){
+        return 1;
+    }
+    
+    @Override
+    public String getType(){
+        return "user";
+    }
+    
+    @Override
+    public String Correct(){
+        if("".equals(mail))
+            return "e-Mail";
+        if("".equals(Name))
+            return "Name";
+        if("".equals(Surname))
+            return "Surname";
+        if("".equals(password))
+            return "Password";
+        return null;
+        
+    }
+            
+  public User(String mail, String password, String name, String surname, Date birthday, String gender)
     {
         this.Logined = false;
-    }
-    
-    private User(String m, String i, String n, String s, int r)
-    {
-        this.mail = m;
-        this.ID = i;
-        this.Name = n;
-        this.Surname = s;
-        this.Rating = r;
-        this.Logined = true;
+        this.mail = mail;
+        this.password = password;
+        this.Name = name;
+        this.Surname = surname;
+        this.Birthday = birthday;
+        this.Gender = gender;
+        FromDataBase = false;
         
     }
-    
-    public boolean Update(Component comp){
-    
-        return comp.ReWrite(this.ID);
+  
+  public User(String mail, String password){
+        Logined = false;
+        this.mail = mail;
+        this.password = password;
+        FromDataBase = false;
     }
-    
-    public boolean Update(TestTask comp){
-    
-        return comp.ReWrite(this.ID);
-    }
-    
-    public boolean Create(Component comp)
+
+  public ArrayList<Program> getPrograms() throws Exception
     {
-        return comp.Write(this.ID);            
-    }
-    
-    public boolean Create(TestTask comp)
-    {
-        return comp.Write(this.ID);            
-    }
-    
-    public boolean Update(Program program){
-    
-        return program.ReWrite(this.ID);
-    }
-    
-    public boolean Create(Program program)
-    {
-        return program.Write(this.ID);            
-    }
-    
-    public Program getProgram(String program_id)
-    {
-        Program program = new Program(program_id);
-        if(program.getTeacherID().equals(this.ID))
-            return program;
+        if(!Logined) return null;
+        ArrayList<Program> list = new ArrayList<Program>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("program");
+        if(db.Done()&&rs!=null){
+                try {
+                    while(rs.next()){
+                        /*{
+                       Program pg = new Program(rs.getInt("program_id"));
+                       list.add(pg);
+                    }*/
+                       list.add(new Program(rs.getInt("program_id")));
+                    }
+                    return list;
+                } catch (SQLException ex) {
+                    Log.getOut(ex.getMessage());
+                    throw ex;
+                }
+        }
         else return null;
     }
-    
-    public ArrayList<Program> getPrograms()
+ 
+    public String Change(String mail, String password, String name, String surname, Date birthday, String gender) throws Exception
     {
-        return Program.getProgramList(this.ID);
+        if(!Logined) return "Onli  for logined; ";
+        User us = new User(mail, password, name, surname, birthday, gender);
+        us.ID = this.ID;
+        DataBase db = new DataBase(us);
+        db.ReWrite();
+        if(db.Done())
+            return "";
+        else return db.Message();
     }
+    
+    public String Register() throws Exception
+    {
+        if(!Logined){
+            return this.write();
+        }
+        else return "Logined user can not registre!"; 
+    }
+
+    public String Authorize() throws ParseException, Exception
+    {
+        try {
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.FindUser(); 
+            if(db.Done()){
+                if(rs!=null){
+                    rs.next();
+                    if(password.equals(rs.getString("passwords"))){
+                        Logined = true;
+                        this.ID =  rs.getInt("user_id");
+                        this.Name = rs.getString("user_name");
+                        this.Surname = rs.getString("user_surname");
+                        this.Gender = rs.getString("gender");
+                        SimpleDateFormat format = new SimpleDateFormat();
+                        format.applyPattern("yyyy-MM-dd");
+                        try {
+                            Birthday = format.parse(rs.getString("birthday"));
+                        } catch (ParseException ex) {
+                            Log.getOut(ex.getMessage());
+                            throw ex;
+                        }
+                        return null;
+                    }
+                    else return "Uncorrect password";
+                }
+                else return "Такого пользователя не сущетвует";
+            }
+            else return db.Message();
+        } catch (SQLException ex) {
+            Log.getOut(ex.getMessage());
+            throw ex;
+        }
+    }
+    
+    public String getMail() {
         
-    public boolean isLogined()
+        return mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Date getDirthday() {
+        return Birthday;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+    
+        public boolean isLogined()
     {
         return this.Logined;
     }
@@ -115,104 +199,5 @@ public class User {
         else
             return 0;
     }
-    
-    public static boolean Register(String mail, String password, String name, String surname, Date birthday, String gender)
-    {
-        if(t_user.isExist(mail))
-            return false;
-        else
-        {
-            if(t_user.set_information(mail, password, name, surname, birthday, gender))
-                return true;
-            else
-                return false;
-        }
-    }
-    
-    public static User Authorize(String mail, String password)
-    {
-        User user = null;
-        if(t_user.isExist(mail))
-        {
-            HashMap<String, String> inf = t_user.get_information(mail);
-            if(password == null ? inf.get("password") == null : password.equals(inf.get("password")))
-            {
-                user = new User(inf.get("mail"), inf.get("ID"), inf.get("name"), inf.get("surname"), t_user.get_rating(inf.get("ID")));
-            }
-        }
-        return user;
-    }
-    
-    public boolean ResetPassword(String oldp, String newp)
-    {
-        if(t_user.isExist(this.mail))
-        {
-            HashMap<String, String> inf = t_user.get_information(this.mail);
-            String password =inf.get("password");
-            if(oldp.equals(password)){
-                
-                SimpleDateFormat format = new SimpleDateFormat();
-                format.applyPattern("yyyy-MM-dd");
-                Date birthday;
-                try {
-                    birthday = format.parse(inf.get("birthday"));
-                    return t_user.update_information(inf.get("mail"), newp, inf.get("name"), inf.get("surname"), birthday, inf.get("gender"));
-                } 
-                catch (ParseException ex) {
-                    return false;
-                }
-            }
-            
-        }
-        return true;
-    }
-    
-    public boolean ResetMail(String newmail, String password){
-        
-        if(t_user.isExist(this.mail)&&(!t_user.isExist(newmail))){
-            
-            HashMap<String, String> inf = t_user.get_information(this.mail);
-            if(inf.get("password").equals(password)){
-                
-                return t_user.update_mail(Integer.parseInt(this.ID), newmail);
-        }
-            
-        }
-        return false;
-    }
-    
-    /*public boolean Delete()
-    {
-        if(this.Delete("user", this.ID))
-        {
-            this.mail = "";
-            this.ID = "0";
-            this.Name = "";
-            this.Surname = "";
-            this.Rating = 0;
-            this.Logined = false;
-            
-            return true;
-        }
-        else return false;
-    }
-
-    public boolean Delete(String param, String value) {
-        
-        if(!("program".equals(param)||"material".equals(param)||"test".equals(param)||"test_task".equals(param)||"task".equals(param)||"user".equals(param)))
-            return false;
-        try {
-            
-            Connection conn  = db.getConn();
-            String sql = "update "+param+" set "+param+"_deleted = 1 where "+param+"_id = ?;";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, value);
-            return stmt.executeUpdate()==1;
-            
-        } catch (SQLException ex) {
-            Log.getOut(ex.getMessage());
-            return false;}
-        
-    }*/
     
 }

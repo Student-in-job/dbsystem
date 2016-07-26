@@ -4,10 +4,12 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="Learning.Files"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+try{
 Files file = new Files(Integer.parseInt(request.getParameter("file")));
 String s = "";
 if("embed".equals(request.getParameter("code")))
@@ -26,3 +28,10 @@ if("url".equals(request.getParameter("code")))
         <textarea readonly=""><%=s%></textarea>      
     </body>
 </html>
+<%
+}
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
+%>

@@ -9,6 +9,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+try{    
+    
 User user = (User) session.getAttribute("user");
 if(user!=null&&user.isLogined()){
     
@@ -25,7 +27,7 @@ if(user!=null&&user.isLogined()){
     <body>
        <div>
             <img src="http://cs623726.vk.me/v623726602/4a73a/xh1E6l3zWvw.jpg" height="100">
-            <h3>Andreeva Kseniya</h3>
+            <h3><%=user.getName() + user.getSurname()%></h3>
             <p>Rating: 100</p>
             <h6><a href="resetpasswd.jsp" alt="log in">Reset password</a></h6>  
             <h6><a href="resetmail.jsp" alt="log in">Reset mail</a></h6>
@@ -45,7 +47,11 @@ if(user!=null&&user.isLogined()){
 </html>
         
 <%}
-else response.sendRedirect("login.jsp");
+else response.sendRedirect("/elearning/login.jsp");
+
+}catch(Exception ex){
+    response.sendRedirect("/elearning/Error.jsp");
+}
 %>
 
 

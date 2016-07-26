@@ -4,24 +4,23 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    
+try{    
     User user = (User) session.getAttribute("user");
     if(user!=null&&user.isLogined()){
         
-    String url, material, program, typ="Lecture", text=null, name=null, inventory=null;
-    int day=0;
+    String mark=null, url, typ="Lecture", text=null, name=null, inventory=null;
+    int day=0, material = Integer.parseInt(request.getParameter("material")), program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     Material nm;
-    
-    material = request.getParameter("material");
-    program = request.getParameter("program");
-    url="0".equals(material)?"CreateMaterial.jsp":"EditMaterial.jsp";
+
+    url=material==0?"CreateMaterial.jsp":"EditMaterial.jsp";
     
 if(request.getMethod()=="GET"){
-    if(!"0".equals(material)){
+    if(material!=0){
         
         nm = new Material(material);
         typ = nm.getTyp();
@@ -43,22 +42,21 @@ if(request.getMethod()=="POST"){
     day = Integer.parseInt(request.getParameter("day"));}
     catch(Exception ex){day=0;}
     
-    if("0".equals(material)){
-    
-        nm = new Material(program, typ, text, name, inventory, day);    
-        if(user.Create(nm))
-            response.sendRedirect("Program.jsp?program="+program);
+    if(material==0){
+        
+        Program prog = new Program(program);
+        nm = new Material(typ, text, name, inventory, day);    
+        mark = nm.Write(prog , user);
+        if(mark==null)
+            
+            response.sendRedirect("Upload.jsp?material="+prog.getLastMaterial().getID());
     }
     else{
         
         nm = new Material(material);
-        nm.setName(name);
-        nm.setInventory(inventory);
-        nm.setDay(day);
-        nm.setTyp(typ);
-        nm.setText(text);
-        if(user.Update(nm))
-                response.sendRedirect("Program.jsp?program="+program);
+        mark = nm.Change(typ, text, name, inventory, day, user);
+        if(mark==null)
+                response.sendRedirect("Material.jsp?material="+nm.getID());
     }
 }
 %>    
@@ -67,27 +65,20 @@ if(request.getMethod()=="POST"){
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new material</title>
-        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({
             selector: '#input',
             theme: 'modern',
             width: 600,
             height: 300,
-            plugins: [
-              'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-              'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-              'save table contextmenu directionality emoticons template paste textcolor'
-            ],
-            content_css: 'css/content.css',
-            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
-          });
+            plagin: "image link"
+            });
         </script>
         
     </head>
     <body>
         
         <h1>Create new material</h1>
-        
+        <h1>Error: <%=mark%></h1>
         <form method="POST" action="<%=url%>">
             <input type="hidden" name="program" value="<%=program%>">
             <input type="hidden" name="material" value="<%=material%>">
@@ -107,31 +98,21 @@ if(request.getMethod()=="POST"){
             <div>
                 <p>Text: </p>
                 <textarea requered name="text" id="input"><%=text==null?"":text%></textarea>
-            </div>            
+            </div> 
             <input type="submit"> 
         </form>
-        
-        <div>
-            <ul>
-            <%
-                ArrayList<Files> file = new Program(program).getFile();
-                if(!file.isEmpty())for(int j=0; j<file.size(); j++){%>
-                <li>
-                    <p>
-                        <%=file.get(j).getName()%>
-                        <button><a target="_blank" href="File.jsp?code=embed&file=<%=file.get(j).getID()%>">get embed code</a></button>
-                        <button><a target="_blank" href="File.jsp?code=url&file=<%=file.get(j).getID()%>">get addres file</a></button>
-                    </p>
-                </li>
-<%}%>              
-            </ul>
-        </div>
             
     </body>
 </html>
    
 <%}
 else response.sendRedirect("login.jsp");
+
+}
+catch(Exception ex){
+Log.getOut(ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}
 %>
 
 
