@@ -35,6 +35,10 @@
         <servlet-name>Upload</servlet-name>
         <servlet-class>Upload</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Publishe</servlet-name>
+        <servlet-class>Publishe</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -62,6 +66,10 @@
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/program/Upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Publishe</servlet-name>
+        <url-pattern>/program/Publishe</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

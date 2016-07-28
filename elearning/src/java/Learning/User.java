@@ -42,17 +42,8 @@ public class User extends Parent{
     }
     
     @Override
-    public String Correct(){
-        if("".equals(mail))
-            return "e-Mail";
-        if("".equals(Name))
-            return "Name";
-        if("".equals(Surname))
-            return "Surname";
-        if("".equals(password))
-            return "Password";
-        return null;
-        
+    public boolean MayChange(){
+        return true;
     }
             
   public User(String mail, String password, String name, String surname, Date birthday, String gender)

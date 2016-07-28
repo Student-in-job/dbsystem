@@ -34,29 +34,34 @@ if(request.getMethod()=="GET"){
 }   
 if(request.getMethod()=="POST"){
     
+    
     typ = "Lecture";
     text = request.getParameter("text");
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    try{
-    day = Integer.parseInt(request.getParameter("day"));}
-    catch(Exception ex){day=0;}
+    day = Integer.parseInt(request.getParameter("day")==null?"0":request.getParameter("day"));
     
-    if(material==0){
-        
-        Program prog = new Program(program);
-        nm = new Material(typ, text, name, inventory, day);    
-        mark = nm.Write(prog , user);
-        if(mark==null)
-            
-            response.sendRedirect("Upload.jsp?material="+prog.getLastMaterial().getID());
-    }
-    else{
-        
-        nm = new Material(material);
-        mark = nm.Change(typ, text, name, inventory, day, user);
-        if(mark==null)
-                response.sendRedirect("Material.jsp?material="+nm.getID());
+    boolean n = name==null||"".equals(name);
+    boolean i = inventory==null||"".equals(inventory);
+    boolean d = day<=0;
+    if(!(n||d||i)){
+    
+        if(material==0){
+
+            Program prog = new Program(program);
+            nm = new Material(typ, text, name, inventory, day);    
+            mark = nm.Write(prog , user);
+            if(mark==null)
+
+                response.sendRedirect("Upload.jsp?material="+prog.getLastMaterial().getID());
+        }
+        else{
+
+            nm = new Material(material);
+            mark = nm.Change(typ, text, name, inventory, day, user);
+            if(mark==null)
+                    response.sendRedirect("Material.jsp?material="+nm.getID());
+        }
     }
 }
 %>    
@@ -65,6 +70,7 @@ if(request.getMethod()=="POST"){
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new material</title>
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({
             selector: '#input',
             theme: 'modern',
@@ -78,7 +84,7 @@ if(request.getMethod()=="POST"){
     <body>
         
         <h1>Create new material</h1>
-        <h1>Error: <%=mark%></h1>
+        <h1><%=mark==null?"":mark%></h1>
         <form method="POST" action="<%=url%>">
             <input type="hidden" name="program" value="<%=program%>">
             <input type="hidden" name="material" value="<%=material%>">

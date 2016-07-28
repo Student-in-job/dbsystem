@@ -31,7 +31,7 @@ try{
             np = new Program(program);
             name = np.getName();
             inventory = np.getInventory();
-            area = np.getArea();
+            area = np.getAreaID();
             typ = np.getTyp();
             level = np.getLevel();
             minlevel = np.getMinLevel();
@@ -44,42 +44,43 @@ try{
         
         name = request.getParameter("name");
         inventory = request.getParameter("inventory");
-        try{
-            area = Integer.parseInt(request.getParameter("area"));}
-        catch(Exception ex){level=0;}
+        area = Integer.parseInt(request.getParameter("area")==null?"0":request.getParameter("area"));
         typ = request.getParameter("typ");
-        try{
-            level = Integer.parseInt(request.getParameter("level"));}
-        catch(Exception ex){level=0;}
-        try{
-            minlevel = Integer.parseInt(request.getParameter("minlevel"));}
-        catch(Exception ex){minlevel=-1;}
-        try{
-            duration = Integer.parseInt(request.getParameter("duration"));}
-        catch(Exception ex){duration=0;}
-            
-        if(program==0){
-            
-            np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-            mark = np.Write(user);
-            if(mark==null)
-                response.sendRedirect("../UserBar.jsp");
-            
-        }
+        level = Integer.parseInt(request.getParameter("level")==null?"0":request.getParameter("level"));
+        minlevel = Integer.parseInt(request.getParameter("minlevel")==null?"0":request.getParameter("minlevel"));
+        duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
         
-        else{
-                
-            np = new Program(program);
-            mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
-            if(mark==null)
-                response.sendRedirect("../UserBar.jsp");
+        boolean n = name==null||"".equals(name);
+        boolean i = inventory==null||"".equals(inventory);
+        boolean t = typ==null||"".equals(typ);
+        boolean d = duration<=0;
+        boolean l = level<=0;
+        boolean m = minlevel<0;
+        if(!(n||i||t||d||l||m)){
+        
+            if(program==0){
+
+                np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
+                mark = np.Write(user);
+                if(mark==null)
+                    response.sendRedirect("../UserBar.jsp");
+
+            }
+
             else{
-                
-                name = np.getName();
-                inventory = np.getInventory();
-                typ = np.getTyp();
-                level = np.getLevel();
-                
+
+                np = new Program(program);
+                mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
+                if(mark==null)
+                    response.sendRedirect("../UserBar.jsp");
+                else{
+
+                    name = np.getName();
+                    inventory = np.getInventory();
+                    typ = np.getTyp();
+                    level = np.getLevel();
+
+            }
         }
     }
 }    
@@ -91,7 +92,7 @@ try{
         <title>Create new program</title>
     </head>
     <body>
-        <h1>Error: <%=mark%></h1>
+        <h1><%=mark==null?"":mark%></h1>
         <h1>Create new program: first step</h1>
         <form action="<%=url%>" method="POST">
             <input type="hidden" name="program" value="<%=program%>">

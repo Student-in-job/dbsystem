@@ -5,8 +5,6 @@
  */
 package Learning;
 
-import java.sql.SQLException;
-
 /**
  *
  * @author ksinn
@@ -27,9 +25,10 @@ abstract class Component extends Parent{
         return this.ProgramID;
     } 
     
-    public Program getProgram() throws Exception{
+    public Program getProgram(){
     
-        return new Program(this.ProgramID);
+        try{return new Program(this.ProgramID);}
+        catch(Exception ex) {return null;}
     } 
     
     public String getName(){

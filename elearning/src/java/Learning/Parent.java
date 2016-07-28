@@ -39,17 +39,17 @@ public class Parent {
         return 0;
     }
     
-    public String Correct(){
-        
-        return null;
-    }
-    
     public String Delete() throws SQLException{
         
+        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
         DataBase db = new DataBase(this);
         db.Delete();
         if(db.Done()) return null;
         else return db.Message();
+    }
+    
+    public boolean MayChange(){
+        return false;
     }
     
     protected String write() throws Exception{

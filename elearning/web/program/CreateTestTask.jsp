@@ -45,25 +45,29 @@ if(request.getMethod()=="POST"){
     v2=request.getParameter("v2");
     v3=request.getParameter("v3");
     v4=request.getParameter("v4");
-    try{
-    point = Integer.parseInt(request.getParameter("point"));}
-    catch(Exception ex){point = 0;}
-    
-    if(0==testtask){
-        
-        nt = new TestTask(question, answer, v1, v2, v3, v4, point);
-        mark = nt.Write(new Test(tst), user);
-        if(mark==null);
-            response.sendRedirect("Test.jsp?test="+tst);
-    }
-    else{
-    
-        nt = new TestTask(testtask);
-        mark = nt.Change(question, answer, v1, v2, v3, v4, point, user);
-        if(mark==null);
-        {
-            response.sendRedirect("Test.jsp?test="+nt.getTestID());
-        }
+    point = Integer.parseInt(request.getParameter("point")==null?"0":request.getParameter("point"));
+    boolean nul = question==null||answer==null||v1==null||v2==null||v3==null||v4==null;
+    if(!nul){
+        boolean p = question.length()*answer.length()*v1.length()*v2.length()*v3.length()*v4.length()*point==0;
+        if(!p){
+            if(0==testtask){
+
+                nt = new TestTask(question, answer, v1, v2, v3, v4, point);
+                mark = nt.Write(new Test(tst), user);
+                
+                if(mark==null);
+                    response.sendRedirect("Test.jsp?test="+tst);
+            }
+            else{
+
+                nt = new TestTask(testtask);
+                mark = nt.Change(question, answer, v1, v2, v3, v4, point, user);
+                if(mark==null);
+                {
+                    response.sendRedirect("Test.jsp?test="+nt.getTestID());
+                }
+            }
+        }    
     }
 }
 %>
@@ -75,6 +79,7 @@ if(request.getMethod()=="POST"){
     </head>
     <body>
         <h1>Create TestTask</h1>
+        <h2><%=mark==null?"":mark%></h2>
         <form action="<%=url%>" method="POST">
         <input type="hidden" name="testtask" value="<%=testtask%>"> 
         <input type="hidden" name="test" value="<%=tst%>"> 

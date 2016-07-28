@@ -33,9 +33,9 @@ try{
     <body>
         <h1>
             <%=material.getProgram().getName()%> -> <%=material.getProgram().getName()%><%=material.getName()%>
-            <a href="EditMaterial.jsp?material=<%=material.getID()%>">Edit</a>
+            <a href="EditMaterial.jsp?material=<%=material.getID()%>">*</a>
             <a href="Delete?material=<%=material.getID()%>">-</a>
-            <a href="Upload.jsp?material=<%=material.getID()%>">AddFile</a>
+            <a href="Upload.jsp?material=<%=material.getID()%>">+f</a>
         </h1>
         <h3>Inventory: <%=material.getInventory()%></h3>
         <p><%=material.getText()%></p>
@@ -43,7 +43,10 @@ try{
 ArrayList <Files> file = material.getDocFile();
 if(file!=null){
 for(int i=0; i<file.size(); i++){%>
-<a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
+<p>
+    <a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
+    <a href="Delete?files=<%=file.get(i).getID()%>">-</a>
+</p>
 <%}}
 
 file = material.getVideoFile();

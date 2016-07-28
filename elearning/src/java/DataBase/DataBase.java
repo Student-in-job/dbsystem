@@ -68,16 +68,9 @@ public class DataBase {
         }
     }
     
-    public void Write() throws Exception {
+    public void Write(){
         
-        String error_felds = Ons.Correct();
-        if(error_felds!=null){
-            
-            Done=false;
-            ErrorMessage += "Uncorrect input data in feld " + error_felds + "; ";
-            return;
-        }
-        
+        try{       
         switch(TypeIndex){
             
             case 1 : {
@@ -128,27 +121,29 @@ public class DataBase {
                 ErrorMessage += "Unknow type object; ";
             }
         }
+        }catch(SQLException ex)
+        {
+            Log.getOut(ex.getMessage());
+            ErrorMessage += "SQL: "+ex.getMessage()+"; ";
+            Done = false;
+            return;
+        }
         
         
         if(!Done)
             ErrorMessage += "Can not save data; ";
     }
     
-    public void ReWrite() throws Exception{
+    public void ReWrite(){
         
-        String error_felds = Ons.Correct();
-        if(error_felds!=null){
-            
-            Done=false;
-            ErrorMessage += "Uncorrect input data in feld " + error_felds + "; ";
-            return;
-        }
+        
         if(this.Find()==null){
             Done=false;
             ErrorMessage += "Такой записи не существует; ";
             return;
         }
         
+        try{
         switch(TypeIndex){
             
             case 1 : {
@@ -193,6 +188,11 @@ public class DataBase {
                 ErrorMessage += "Unknow type object; ";
             }
         }
+        }catch(SQLException ex){
+            ErrorMessage += "Sql: "+ex.getMessage()+"; "+ex.getSQLState()+"; ";
+            Done = false;
+            return;
+        }
         
         
         if(!Done)
@@ -234,7 +234,7 @@ public class DataBase {
         }
     }
 
-    public ResultSet Find() throws SQLException {
+    public ResultSet Find(){
         
         try
         {
@@ -257,7 +257,7 @@ public class DataBase {
             Log.getOut(ex.getMessage());
             Done = false;
             ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
+            return null;
             
         }
     }
@@ -344,7 +344,7 @@ public class DataBase {
         }
     }
     
-    public ResultSet FindLast(String where) throws SQLException {
+    public ResultSet FindLast(String where){
         
         try
         {
@@ -367,7 +367,7 @@ public class DataBase {
             Log.getOut(ex.getMessage());
             Done = false;
             ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
+            return null;
             
         }
     }
@@ -398,11 +398,14 @@ public class DataBase {
         {
             Log.getOut(ex.getMessage());
             if(ex.getErrorCode()==1062)
+            {
                 ErrorMessage += "This mail already registre; ";
-            else 
-                ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
+                Done = false;
+            }
+            else
+            {
+                throw ex;
+            }
         }
         
     }
@@ -410,8 +413,7 @@ public class DataBase {
     protected void write_program() throws SQLException {
         
         Program program = (Program) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("INSERT INTO program  (program_name,  program_description,  program_min_level,  program_level,  program_duration,  user,  area,  program_date,  program_controled,  program_typ) VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);");
             stmt.setString(1, program.getName());
@@ -431,21 +433,13 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
-    private void write_files() throws Exception {
+    private void write_files() throws SQLException {
         
         Files file = (Files) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type) values (?, ?, ?);");
             stmt.setString(1, file.getName());
             stmt.setInt(2, file.getMaterialID());
@@ -458,21 +452,13 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void write_test_task() throws SQLException {
         
         TestTask task = (TestTask) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement("select (case when max(test_task_no) is null then 0 else max(test_task_no) end)+1 as 'nom' from test_task where test=? and test_task_deleted=0;");
             stmt.setInt(1, task.getTestID());
             ResultSet rs = stmt.executeQuery();
@@ -500,21 +486,13 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void write_test() throws SQLException {
         
         Test test = (Test) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("INSERT INTO test(test_name, test_day, program, test_text) VALUES (?, ?, ?, ?);");
             stmt.setString(1, test.getName());
@@ -529,21 +507,12 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
     }
 
     private void write_material() throws SQLException {
         
         Material mat = (Material) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("INSERT INTO material (material_name, material_day, material_type, program, material_text, material_file) VALUES (?,?,?,?,?,?);");
             stmt.setString(1, mat.getName());
@@ -560,14 +529,7 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void rewrite_user() throws SQLException {
@@ -599,21 +561,21 @@ public class DataBase {
         {
             Log.getOut(ex.getMessage());
             if(ex.getErrorCode()==1062)
+            {
                 ErrorMessage += "This mail already registre; ";
+                Done = false;
+            }
             else 
-                ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
+                throw ex;
         }
     }
 
     private void rewrite_program() throws SQLException {
         
         Program program = (Program) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE program  set program_name=?,  program_description=?,  program_min_level=?,  program_level=?,  program_duration=?, area=?, program_typ=? where program_id=?;");
+        ("UPDATE program  set program_name=?,  program_description=?,  program_min_level=?,  program_level=?,  program_duration=?, area=?, program_typ=?, program_state=? where program_id=?;");
             stmt.setString(1, program.getName());
             stmt.setString(2, program.getInventory());
             stmt.setInt(3, program.getMinLevel());
@@ -621,7 +583,8 @@ public class DataBase {
             stmt.setInt(5, program.getDuration());
             stmt.setInt(6, program.getAreaID());
             stmt.setString(7, program.getTyp());
-            stmt.setInt(8, program.getID());
+            stmt.setString(8,  program.getState());
+            stmt.setInt(9, program.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
             if(Done) return;
@@ -629,22 +592,13 @@ public class DataBase {
                 ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
                 return;
             }
-            
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void rewrite_material() throws SQLException {
         
         Material mat = (Material) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("UPDATE material set material_name=?, material_day=?, material_type=?, material_text=?, material_file=? where material_id=?;");
             stmt.setString(1, mat.getName());
@@ -661,21 +615,13 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void rewrite_test() throws SQLException {
         
         Test test = (Test) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("UPDATE test set test_name=?, test_day=?, test_text=? where test_id=?;");
             stmt.setString(1, test.getName());
@@ -690,21 +636,13 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+       
     }
 
     private void rewrite_test_task() throws SQLException {
         
         TestTask task = (TestTask) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("UPDATE test_task set test_task_text=?, test_task_answer=?, test_task_v1=?, test_task_v2=?, test_task_v3=?, test_task_v4=?, test_task_ball=? where test_task_id=?;");
             stmt.setString(1, task.getQuestion());
@@ -723,25 +661,17 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+        
     }
 
     private void rewrite_files() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void write_area() throws Exception {
+    private void write_area() throws SQLException {
         
       Area area = (Area) Ons;
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("insert into area (area_name)  values (?);");
             stmt.setString(1, area.getName());
@@ -752,14 +682,7 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        } 
+        
     }
 
     

@@ -26,17 +26,17 @@ public class Files extends Parent{
     
     
     
-    @Override
-    public String Correct(){
-        if("".equals(Name))
-            return "Name";
-        try{this.getMaterial();} 
-            catch(Exception ex){return "Program";}
-        if("".equals(Extension))    
-            return "Extension";
-        if(!("mp4".equals(Extension)||"pdf".equals(Extension)||"doc".equals(Extension)||"docx".equals(Extension)||"ppt".equals(Extension)||"pptx".equals(Extension)))
-            return "Extension invalid; ";
-        return null;
+
+    public boolean CorrectExtension(){
+        return (
+                ("mp4".equals(Extension)
+                ||"pdf".equals(Extension)
+                ||"doc".equals(Extension)
+                ||"docx".equals(Extension)
+                ||"ppt".equals(Extension)
+                ||"pptx".equals(Extension))
+              );
+              
     }
     
     @Override
@@ -52,6 +52,11 @@ public class Files extends Parent{
     @Override
     public String getType(){
         return "files";
+    }
+    
+    @Override
+    public boolean MayChange(){
+        return !this.getMaterial().getProgram().isPublished();
     }
     
     public Files(int id) throws Exception{
@@ -85,6 +90,10 @@ public class Files extends Parent{
     public String Write(Material material, User user) throws Exception{
         
         if(user.getID()!=material.getProgram().getTeacherID()) return "Вы не можете этого сделать";
+        if(!material.MayChange()) return "Вы не можете менять опублекованную программу";
+        
+        if(!this.CorrectExtension()) return "Invalid extension file. Valid only .mp4, .pdf, .doc/.dox, .ppt/.pptx; ";
+        
         MaterialID = material.getID();    
         DataBase db = new DataBase(this);
         db.Write();
@@ -161,8 +170,9 @@ public class Files extends Parent{
         return MaterialID;
     }
     
-    public Material getMaterial() throws Exception{
-        return new Material(MaterialID);
+    public Material getMaterial(){
+        try{return new Material(MaterialID);}
+        catch(Exception ex){return null;}
     }
         
     public String getURL() throws Exception{

@@ -8,7 +8,6 @@ import DataBase.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.util.HashMap;
 public class Program extends Parent{
     
     private int ID;
-    private boolean Published;
+    private String State;
     private String Name;
     private String Typ;
     private String Inventory;
@@ -27,7 +26,6 @@ public class Program extends Parent{
     private String Area_name;
     private int Level;
     private int MinLevel;
-    protected final String Type = "program";
     
     @Override
     public int getID(){
@@ -45,21 +43,14 @@ public class Program extends Parent{
     }
     
     @Override
+    public boolean MayChange(){
+        return !this.isPublished();
+    }
+    
+    /*@Override
     public String Correct()
     {
         String s = "";
-        if("".equals(Name))
-            s += "Name; ";
-        if("".equals(Inventory))
-            s += "Inventory; ";
-        if("".equals(Typ))
-            s += "Typ; ";
-                if(Level<1)
-            s += "Level; ";
-        if(MinLevel<0)
-            s += "MinLevel; ";
-        if(Duration<1)
-            s += "Duration; ";
         if(MinLevel>=Level)
             s += "MinLevel>=Level; "; 
         if("Seminar".equals(Typ)&&Duration>7)
@@ -69,7 +60,7 @@ public class Program extends Parent{
         if("Standard".equals(Typ)&&(Duration<7||Duration>183))
             s += "Стандартный курс не должен быть больше 183 дня и меньше 7 дней; ";
         return "".equals(s)?null:s;
-    }
+    }*/
     
     
         
@@ -87,7 +78,7 @@ public class Program extends Parent{
                     this.Level = rs.getInt("program_level");
                     this.MinLevel = rs.getInt("program_min_level");
                     this.Name = rs.getString("program_name");
-                    this.Published = rs.getString("program_state").equals("active");
+                    this.State = rs.getString("program_state");
                     this.Typ = rs.getString("program_typ");
                     this.TeacherID = rs.getInt("user");
                     
@@ -109,6 +100,7 @@ public class Program extends Parent{
         this.Level = level;
         this.MinLevel  = minlevel;
         this.Duration = duration;
+        this.State = "created";
     }
     
     public ArrayList<Program> getAll() throws Exception{
@@ -134,17 +126,12 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("test");
         if(db.Done()&&rs!=null){
-                try {
                     while(rs.next()){
-                        list.add(new Test(rs.getInt("test_id")));
+                        try {list.add(new Test(rs.getInt("test_id")));} 
+                        catch (SQLException ex) {Log.getOut(ex.getMessage());}
                     }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
         }
-        else return null;
+        return list;
     }
        
     public ArrayList<Material> getMaterials() throws Exception{
@@ -152,21 +139,41 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("material");
         if(db.Done()&&rs!=null){
-                try {
+                
                     while(rs.next()){
-                        Material m = new Material(rs.getInt("material_id"));
+                        try {Material m = new Material(rs.getInt("material_id"));
                         list.add(m);
+                        } catch (SQLException ex) {
+                            Log.getOut(ex.getMessage());
+                        }
                     }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
         }
-        else return null;
+        return list;
     }  
     
+    public Material getLastMaterial() throws Exception{
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.FindLast("material");
+        if(db.Done()&&rs!=null){
+                if(rs.next())
+                    return new Material(rs.getInt("material_id"));
+                else return null;
+                
+        }
+        else return null;
+    }
     
+    public Test getLastTest() throws Exception{
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.FindLast("test");
+        if(db.Done()&&rs!=null){
+                if(rs.next())
+                    return new Test(rs.getInt("test_id"));
+                else return null;
+                
+        }
+        else return null;
+    }
     
     public String Write(User user) throws Exception
     {
@@ -177,6 +184,7 @@ public class Program extends Parent{
     public String Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user) throws Exception{
         
         if(TeacherID != user.getID()) return "Вы не можете менять эту программу";
+        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
         Program prg = new Program(name, inventory, this.getArea(), typ, level, minlevel, duration);
         prg.TeacherID = this.TeacherID;
         prg.ID = this.ID;
@@ -187,9 +195,18 @@ public class Program extends Parent{
         else return db.Message();
     }
     
-    
-    
-    
+    public String Publish(User user) throws Exception{
+        
+        if(TeacherID != user.getID()) return "Вы не можете менять эту программу";
+        String mark = this.Correct();
+        if(mark!=null) return mark;
+        this.State = "active";
+        DataBase db = new DataBase(this);
+        db.ReWrite();
+        if(db.Done())
+            return null;
+        else return db.Message();
+    }
     
     public boolean MayAddTest(){
         return !this.Typ.equals("Seminar");
@@ -237,7 +254,7 @@ public class Program extends Parent{
 
                  
     public boolean isPublished(){
-        return this.Published;
+        return this.State.equals("active");
     }
     
     public String getName(){
@@ -250,6 +267,27 @@ public class Program extends Parent{
     
     public String getInventory(){
         return this.Inventory;
+    }
+    
+    public String getState(){
+        return this.State;
+    }
+
+    private String Correct() throws Exception {
+        
+        ArrayList<Material> materials = this.getMaterials();
+        for(int i=0; i<materials.size(); i++){
+            if(materials.get(i).getDocFile().size()<1) return "У лекции "+materials.get(i).getName() + " нет файлов";
+        }
+        if(materials==null) return "Нет ни одного материала; ";
+        if(this.Typ.equals("Seminar")) return null;
+        if((this.Typ.equals("Mini")&&materials.size()<2)||(this.Typ.equals("Standard")&&materials.size()<5)) return "Недостаточно материалов; ";
+        ArrayList<Test> tests = this.getTests();if(materials==null) return "Нет ни одного материала; ";
+        if(materials==null) return "Нет ни одного теста; ";
+        if(this.Typ.equals("Mini")) return null;
+        if(tests.size()<materials.size()/2) return "Недостаточно тестов; ";
+        return null;
+        
     }
     
     

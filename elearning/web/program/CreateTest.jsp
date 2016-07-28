@@ -38,25 +38,28 @@ if(request.getMethod()=="POST"){
     
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    try{
-    day = Integer.parseInt(request.getParameter("day"));}
-    catch(Exception ex){day=0;}
+    day = Integer.parseInt(request.getParameter("day")==null?"0":request.getParameter("day"));
+    boolean n = name==null||"".equals(name);
+    boolean i = inventory==null||"".equals(inventory);
+    boolean d = day<=0;
+    if(!(n||d||i)){
     
-    if(test==0){
-        
-        nt = new Test(name, day, inventory);
-        mark = nt.Write(new Program(program), user);
-        if(mark==null)
-                    response.sendRedirect("Program.jsp?program="+program);
-    }
-    else{
-        
-        nt = new Test(test);
-        mark = nt.Change(name, inventory, day, user);
-        if(mark==null)
-                response.sendRedirect("Program.jsp?program="+program);
-    }   
-      
+        if(test==0){
+
+            Program prog = new Program(program);
+            nt = new Test(name, day, inventory);
+            mark = nt.Write(prog , user);
+            if(mark==null)
+                        response.sendRedirect("Test.jsp?test="+prog.getLastTest().getID());
+        }
+        else{
+
+            nt = new Test(test);
+            mark = nt.Change(name, inventory, day, user);
+            if(mark==null)
+                    response.sendRedirect("Test.jsp?test="+nt.getID());
+        }   
+    }  
 }
 %>
 <!DOCTYPE html>
@@ -67,7 +70,7 @@ if(request.getMethod()=="POST"){
     </head>
     <body>
         <h1>Create Test</h1>
-        <h2><%=mark%></h2>
+        <h2><%=mark==null?"":mark%></h2>
         <form action="<%=url%>" method="POST">
         <input type="hidden" name="program" value="<%=program%>"> 
         <input type="hidden" name="test" value="<%=test%>"> 

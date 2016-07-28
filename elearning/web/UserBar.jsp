@@ -37,7 +37,7 @@ if(user!=null&&user.isLogined()){
 <%for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
-                    <a href="<%=program.get(i).isPublished()?"\">(Statistic)":"\">(Publish)"%></a>
+                    <a href="<%=program.get(i).isPublished()?"\">(Statistic)":"program/Publishe?program="+program.get(i).getID()+"\">(Publish)"%></a>
                 </p>
 <%}%>                
             </div> 

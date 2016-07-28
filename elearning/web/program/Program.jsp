@@ -29,8 +29,8 @@ try{
         <article style="border: 1px solid black;">
             <h1><%=program.getName()%></h1>
             <h6>
-                <a href="EditProgram.jsp?program=<%=program.getID()%>">Edit</a>
-                <a href="Delete?program=<%=program.getID()%>">Delete</a>
+                <a href="EditProgram.jsp?program=<%=program.getID()%>">*</a>
+                <a href="Delete?program=<%=program.getID()%>">-</a>
             </h6>
              <p>Typ: <%=program.getTyp()%></p>
              <p>Area: <%=program.getArea().getName()%></p>

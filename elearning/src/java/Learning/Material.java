@@ -20,31 +20,7 @@ public class Material extends Component {
     
     protected String Typ;
     protected String Text;
-     
-    
-    @Override
-    public String Correct(){
-        
-        String s = "";
-        try{
-            Program pg = this.getProgram();
-            if(!pg.MayAddMaterial())
-                s += "Невозможно добавить материал; ";
-            if(Day<=0||Day>this.getProgram().getDuration())
-            s += "Неправельный день; ";
-        }catch(Exception ex){s+="Program; ";}
-        
-        if("".equals(Name))
-             s += "Name; ";
-        if("".equals(Inventory))
-            s+="Inventory; ";
-        if("".equals(Typ))
-            s+="Type; ";
-        if("".equals(Text))
-            s += "Text; ";
-       
-        return "".equals(s)?null:s;
-    }
+
     
     @Override
     public int getID(){
@@ -60,7 +36,11 @@ public class Material extends Component {
     public String getType(){
         return "material";
     }
-    
+   
+    @Override
+    public boolean MayChange(){
+        return !this.getProgram().isPublished();
+    }
     
     public Material(String typ, String text, String name, String inventory, int day){
     
@@ -96,16 +76,22 @@ public class Material extends Component {
     }
     
     @Override
-    public String Write(Program prog, User user) throws Exception{
+    public String Write(Program program, User user) throws Exception{
         
-        if(user.getID()!=prog.getTeacherID()) return "Вы не можете этого сделать";
-        ProgramID = prog.getID();
+        if(user.getID()!=program.getTeacherID()) return "Вы не можете этого сделать";
+        if(!program.MayChange()) return "Вы не можете менять опублекованную программу";
+        
+        if(!program.MayAddMaterial()) return "Невозможно добавить новый материал; ";
+            if(Day>program.getDuration()) return "Неправельный день; ";
+            
+        ProgramID = program.getID();
         return this.write();
     }
     
     public String Change(String typ, String text, String name, String inventory, int day, User user) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
+        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
         Material mat = new Material(typ, text, name, inventory, day);
         mat.ProgramID = this.ProgramID;
         mat.ID = this.ID;

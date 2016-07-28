@@ -7,6 +7,7 @@ package Learning;
 
 import DataBase.DataBase;
 import DataBase.Log;
+import DataBase.NotFaundObject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,12 +19,6 @@ import java.util.ArrayList;
 public class Area extends Parent{
     
     String Name; 
-    
-    @Override
-    public String Correct(){
-        
-        return "".equals(Name)?"Name; ":null;
-    }
     
     @Override
     public int getID(){
@@ -45,16 +40,10 @@ public class Area extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
         if(db.Done()&&rs!=null){
-                try {
-                    rs.next();
-                    this.Name =  rs.getString("area_name");
-
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else throw new Exception();
+                rs.next();
+                this.Name =  rs.getString("area_name");
+}
+        else throw new NotFaundObject();
     }
     
     public Area(String name){
@@ -79,7 +68,7 @@ public class Area extends Parent{
                     return list;
                 } catch (SQLException ex) {
                     Log.getOut(ex.getMessage());
-                    throw new Error();
+                    throw ex;
                 }
         }
         else return null;
@@ -97,7 +86,7 @@ public class Area extends Parent{
                     return list;
                 } catch (SQLException ex) {
                     Log.getOut(ex.getMessage());
-                    throw new Error();
+                    throw ex;
                 }
         }
         else return null;

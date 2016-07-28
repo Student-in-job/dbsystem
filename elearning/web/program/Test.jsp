@@ -25,7 +25,7 @@ ArrayList<TestTask> task = test.getTask();
     <body>
         <h1>
             Name: <%=test.getName()%>
-            <a href="EditTest.jsp?test=<%=test.getID()%>">Edit</a>
+            <a href="EditTest.jsp?test=<%=test.getID()%>">*</a>
             <a href="Delete?test=<%=test.getID()%>">-</a>
         </h1>
         <h2>Day: <%=test.getDay()%></h2>
@@ -34,7 +34,7 @@ ArrayList<TestTask> task = test.getTask();
         <div>
             <p>
                 <%=task.get(i).getNumber()%>)<%=task.get(i).getQuestion()%> (<%=task.get(i).getPoint()%>)
-                <a href="EditTestTask.jsp?testtask=<%=task.get(i).getID()%>">Edit</a>
+                <a href="EditTestTask.jsp?testtask=<%=task.get(i).getID()%>">*</a>
                 <a href="Delete?testtask=<%=task.get(i).getID()%>">-</a>
             </p>
             <ul>

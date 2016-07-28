@@ -30,32 +30,13 @@ public class Test extends Component {
     public String getType(){
         return "test";
     }
-      
-    @Override
-    public String Correct(){
     
-        String s="";
-        try{
-            Program pg = this.getProgram();
-            if(!pg.MayAddMaterial())
-                s += "Невозможно добавить материал; ";
-            if(Day>this.getProgram().getDuration())
-                s+="Day; ";
-        if(!this.getProgram().MayAddTest())
-            s+="нельзя добавить тест; ";
-        }catch(Exception ex){s+="Program; ";}
-        
-        if("".equals(Name))
-            s+="Name; ";
-        if(Day<=0)
-            s+="Day; ";
-        
-        return "".equals(s)?null:s;
+    @Override
+    public boolean MayChange(){
+        return !this.getProgram().isPublished();
     }
     
-    
-    
-public Test(String name, int day, String inventory){
+    public Test(String name, int day, String inventory){
         
         this.Name=name;
         this.Day=day;
@@ -88,6 +69,11 @@ public Test(String name, int day, String inventory){
     public String Write(Program program, User user) throws Exception{
         
         if(user.getID()!=program.getTeacherID()) return "Вы не можете этого сделать";
+        if(!program.MayChange()) return "Вы не можете менять опублекованную программу";
+        
+        if(!program.MayAddTest()) return "Невозможно добавить тест; ";
+        if(Day>program.getDuration()) return "Прграмма длиться всего "+program.getDuration()+"; ";
+        
         ProgramID = program.getID();
         return this.write();
     }
@@ -95,6 +81,7 @@ public Test(String name, int day, String inventory){
     public String Change(String name, String inventory, int day, User user) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
+        if(this.getProgram().isPublished()) return "Вы не можете менять опублекованную программу";
         Test test = new Test(name, day, inventory);
         test.ProgramID = this.ProgramID;
         test.ID = this.ID;

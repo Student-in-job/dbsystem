@@ -26,31 +26,6 @@ public class TestTask extends Parent{
     protected int Number;
     
     @Override
-    public String Correct() {
-        
-        String s = "";
-        try{
-            Test pg = this.getTest();
-        }catch(Exception ex){s+="Program; ";}
-        
-        if("".equals(Question))
-            s+="Question; ";
-        if("".equals(Answer))
-            s+="Answer; ";
-        if("".equals(Variant1))
-            s+="Variant1; ";
-        if("".equals(Variant2))
-            s+="Variant2; ";
-        if("".equals(Variant3))
-            s+="Variant3; ";
-        if("".equals(Variant4))
-            s+="Variant4; ";
-        if(Point==0)
-            s+=" ; ";
-        return "".equals(s)?null:s;
-    }
-    
-    @Override
     public int getID(){
         return this.ID;
     }
@@ -63,6 +38,11 @@ public class TestTask extends Parent{
     @Override
     public String getType(){
         return "test_task";
+    }
+    
+    @Override
+    public boolean MayChange(){
+        return !this.getTest().getProgram().isPublished();
     }
     
     public TestTask(String question, String answer, String v1, String v2, String v3, String v4, int point)
@@ -108,6 +88,8 @@ public class TestTask extends Parent{
     public String Write(Test test, User user) throws Exception{
         
         if(user.getID()!=test.getProgram().getTeacherID()) return "Вы не можете этого сделать";
+        if(!test.MayChange()) return "Вы не можете менять опублекованную программу";
+        
         TestID = test.getID();
         return this.write();
     }
@@ -115,6 +97,7 @@ public class TestTask extends Parent{
     public String Change(String question, String answer, String v1, String v2, String v3, String v4, int point, User user) throws Exception{
         
         if(this.getTest().getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
+        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
         TestTask task = new TestTask(question, answer, v1, v2, v3, v4, point);
         task.TestID = this.TestID;
         task.ID = this.ID;
@@ -130,9 +113,10 @@ public class TestTask extends Parent{
     
     
     
-    public Test getTest() throws Exception{
+    public Test getTest(){
         
-        return new Test(this.TestID);
+        try{return new Test(this.TestID);}
+        catch(Exception ex){return null;}
     }
     
     public int getTestID(){
