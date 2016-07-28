@@ -63,7 +63,9 @@ public class Area extends Parent{
         if(db.Done()&&rs!=null){
                 try {
                     while(rs.next()){
-                        list.add(new Program(rs.getInt("program_id")));
+                        Program pg = new Program(rs.getInt("program_id"));
+                        if(pg.isPublished())
+                            list.add(pg);
                     }
                     return list;
                 } catch (SQLException ex) {
