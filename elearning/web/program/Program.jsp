@@ -43,7 +43,7 @@ try{
              </h3>
              <ul>
               
-<%if(mtr!=null)for(int j=0; j<mtr.size(); j++){%>
+<%for(int j=0; j<mtr.size(); j++){%>
                 <li>
                     (<%=mtr.get(j).getDay()%>) 
                     <a href="Material.jsp?material=<%=mtr.get(j).getID()%>"><%=mtr.get(j).getName()%></a>
@@ -58,7 +58,7 @@ try{
             </h3>
              <ul>
               
-<%if(tst!=null)for(int j=0; j<tst.size(); j++){%>
+<%for(int j=0; j<tst.size(); j++){%>
                 <li>
                     (<%=tst.get(j).getDay()%>)
                     <a href="Test.jsp?test=<%=tst.get(j).getID()%>"><%=tst.get(j).getName()%></a>

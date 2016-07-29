@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -80,6 +81,7 @@ else
     }
 }
 catch(Exception ex){
+Log.getOut(ex.getMessage());
     response.sendRedirect("/elearning/Error.jsp");
 }
 %>

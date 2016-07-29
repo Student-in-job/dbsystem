@@ -30,7 +30,7 @@ ArrayList<TestTask> task = test.getTask();
         </h1>
         <h2>Day: <%=test.getDay()%></h2>
         <p><a href="CreateTestTask.jsp?testtask=0&test=<%=test.getID()%>">+Task</a></p>
-<%if(task!=null) for(int i=0; i<task.size(); i++){%>        
+<%for(int i=0; i<task.size(); i++){%>        
         <div>
             <p>
                 <%=task.get(i).getNumber()%>)<%=task.get(i).getQuestion()%> (<%=task.get(i).getPoint()%>)

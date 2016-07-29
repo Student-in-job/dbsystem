@@ -127,18 +127,14 @@ public class Material extends Component {
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("files");
         if(db.Done()&&rs!=null){
+            while(rs.next()){ 
                 try {
-                    while(rs.next()){
                         if("mp4".equals(rs.getString("files_type")))
                         list.add(new Files(rs.getInt("files_id")));
-                    }
-                    return list.size()==0?null:list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
+                } catch (SQLException ex) { Log.getOut(ex.getMessage());}
+            }
         }
-        else return null;
+        return list;
    }
     
     public ArrayList<Files> getDocFile() throws Exception{
@@ -147,18 +143,14 @@ public class Material extends Component {
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("files");
         if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        if(!"mp4".equals(rs.getString("files_type")))
-                        list.add(new Files(rs.getInt("files_id")));
-                    }
-                    return list.size()==0?null:list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
+                while(rs.next()){
+                        try {
+                            if(!"mp4".equals(rs.getString("files_type")))
+                            list.add(new Files(rs.getInt("files_id")));
+                        } catch (SQLException ex) {Log.getOut(ex.getMessage());}
                 }
-        }
-        else return null;
+                }
+        return list;
    }
     
     public String getTyp(){

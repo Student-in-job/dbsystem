@@ -97,19 +97,15 @@ public class Test extends Component {
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("test_task");
         if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
+            while(rs.next()){
+                    try {
                         int i = rs.getInt("test_task_id");
                         TestTask task = new TestTask(i);
                         list.add(task);
-                    }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
+                    } catch (SQLException ex) {Log.getOut(ex.getMessage());}
+            }
         }
-        else return null;
+        return list;
     }
     
     

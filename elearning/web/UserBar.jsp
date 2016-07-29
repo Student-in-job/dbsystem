@@ -15,6 +15,7 @@ User user = (User) session.getAttribute("user");
 if(user!=null&&user.isLogined()){
     
     ArrayList<Program> program = user.getPrograms();
+    ArrayList<Course> l_cours = user.getCourses();
 %>
 
 
@@ -40,7 +41,15 @@ if(user!=null&&user.isLogined()){
                     <a href="<%=program.get(i).isPublished()?"\">(Statistic)":"program/Publishe?program="+program.get(i).getID()+"\">(Publish)"%></a>
                 </p>
 <%}%>                
-            </div> 
+            </div>
+            <div style="border: 1px solid black;">
+                <h3>Learning Cours:  </h3>
+<%for(int i=0; i<l_cours.size(); i++) {%>  
+                <p>
+                    <a href="program/Cours.jsp?cours=<%=l_cours.get(i).getID()%>"><%=l_cours.get(i).getProgram().getName()%></a>
+                </p>
+<%}%>                
+            </div>
         
         </div> 
     </body>

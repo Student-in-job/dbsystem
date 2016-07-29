@@ -72,12 +72,17 @@ if(request.getMethod()=="POST"){
         <title>Create new material</title>
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({
-            selector: '#input',
-            theme: 'modern',
-            width: 600,
-            height: 300,
-            plagin: "image link"
-            });
+    selector: '#input',
+    theme: 'modern',
+    width: 600,
+    height: 300,
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ],
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+  });
         </script>
         
     </head>

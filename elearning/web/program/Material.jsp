@@ -41,16 +41,15 @@ try{
         <p><%=material.getText()%></p>
 <%
 ArrayList <Files> file = material.getDocFile();
-if(file!=null){
 for(int i=0; i<file.size(); i++){%>
 <p>
     <a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
     <a href="Delete?files=<%=file.get(i).getID()%>">-</a>
 </p>
-<%}}
+<%}
 
 file = material.getVideoFile();
-if(file!=null){
+if(!file.isEmpty()){
 %>        
         <p>
             <div id="myElement">Загрузка плеера...</div>

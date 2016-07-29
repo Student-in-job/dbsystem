@@ -5,6 +5,9 @@
  */
 package Learning;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author ksinn
@@ -15,6 +18,8 @@ abstract class Component extends Parent{
     protected String Inventory;
     protected int Day;
     protected int ProgramID;
+    
+    protected Date Date;
     
     public String Write(Program prog, User user) throws Exception{
         return null;
@@ -44,6 +49,20 @@ abstract class Component extends Parent{
     public int getDay(){
     
     return this.Day;
+    }
+    
+    public Date getDate(){
+    
+    return this.Date;
+    }
+    
+    public String getDateString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.Date);
+    }
+    
+    public void setDate(Date date){
+        Date = date;
     }
  
 }

@@ -73,21 +73,27 @@ public class User extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("program");
         if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        /*{
-                       Program pg = new Program(rs.getInt("program_id"));
-                       list.add(pg);
-                    }*/
-                       list.add(new Program(rs.getInt("program_id")));
-                    }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw ex;
-                }
+                while(rs.next())
+                    try{
+                        list.add(new Program(rs.getInt("program_id")));
+                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
         }
-        else return null;
+        return list;
+    }
+  
+    public ArrayList<Course> getCourses() throws Exception
+    {
+        if(!Logined) return null;
+        ArrayList<Course> list = new ArrayList<Course>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("user_has_course");
+        if(db.Done()&&rs!=null){
+                while(rs.next())
+                    try{
+                        list.add(new Course(rs.getInt("course")));
+                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }
+        return list;
     }
  
     public String Change(String mail, String password, String name, String surname, Date birthday, String gender) throws Exception
