@@ -10,7 +10,6 @@ import DataBase.Log;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -72,5 +71,16 @@ public class Course extends Parent {
     
         return new Program(this.ProgramID);
     } 
+    
+    public Schedule getSchadule() throws Exception{
+        
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("schedules");
+        if(db.Done()&&rs!=null){
+                if(rs.next())
+                    return new Schedule(rs.getInt("course"));
+        }
+        return null;
+    }
     
 }

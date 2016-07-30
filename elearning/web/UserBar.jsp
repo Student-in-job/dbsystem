@@ -4,6 +4,9 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,6 +19,7 @@ if(user!=null&&user.isLogined()){
     
     ArrayList<Program> program = user.getPrograms();
     ArrayList<Course> l_cours = user.getCourses();
+    UserSchedule ush = new UserSchedule();
 %>
 
 
@@ -32,7 +36,7 @@ if(user!=null&&user.isLogined()){
             <p>Rating: 100</p>
             <h6><a href="resetpasswd.jsp" alt="log in">Reset password</a></h6>  
             <h6><a href="resetmail.jsp" alt="log in">Reset mail</a></h6>
-            
+`            
             <div style="border: 1px solid black;">
                 <h3>Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
 <%for(int i=0; i<program.size(); i++) {%>  
@@ -44,13 +48,35 @@ if(user!=null&&user.isLogined()){
             </div>
             <div style="border: 1px solid black;">
                 <h3>Learning Cours:  </h3>
-<%for(int i=0; i<l_cours.size(); i++) {%>  
+<%for(int i=0; i<l_cours.size(); i++) {
+    ArrayList<Component> sch = l_cours.get(i).getSchadule().getList();
+    ush.addSchedule(l_cours.get(i).getSchadule());
+%>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=l_cours.get(i).getID()%>"><%=l_cours.get(i).getProgram().getName()%></a>
                 </p>
-<%}%>                
+                <ul>
+<%for(int j=0; j<sch.size(); j++){%>                    
+<li>
+    <%=sch.get(j).getDateString()+" - "+ sch.get(j).getName()%>
+</li>
+                </ul>
+<%}}%>                
             </div>
-        
+            <p>
+<%
+Day d;
+Calendar c = new GregorianCalendar();
+for(int j=0; j<7; j++){
+    c.add(Calendar.DAY_OF_YEAR, j);
+    d = ush.getDay(c);
+    
+    %><%=c.toString()%><%
+    for(int i=0; i<d.Size(); i++){
+        %><%=d.get(i).getName()%><%
+}}  
+%>  
+            </p>
         </div> 
     </body>
 </html>

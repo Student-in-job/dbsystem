@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author ksinn
  */
-abstract class Component extends Parent{
+public class Component extends Parent{
     
     protected String Name;
     protected String Inventory;
