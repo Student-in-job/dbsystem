@@ -70,6 +70,20 @@ public class Schedule extends Parent{
                     }
                 }
                 
+                rs = db.Find("schedule_has_test");
+                if(db.Done()&&rs!=null){
+                    while(rs.next()){
+                        try{
+                            Test test = new Test(rs.getInt("test"));
+                            SimpleDateFormat format = new SimpleDateFormat();
+                            format.applyPattern("yyyy-MM-dd hh:mm:ss");
+                            test.setDate(format.parse(rs.getString("date_time")));
+                            List.add(test);
+                        }
+                        catch(Exception ex){ Log.getOut(ex.getMessage());}
+                    }
+                }
+                
         }
         else throw new Exception();
         

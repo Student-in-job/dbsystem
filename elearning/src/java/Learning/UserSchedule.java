@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class UserSchedule {
     
     private HashMap<String,Day> List;
-    SimpleDateFormat Form;
+    protected SimpleDateFormat Form;
                         
     
     
@@ -33,6 +33,8 @@ public class UserSchedule {
     public Day getDay(Calendar date){
         return List.get(Form.format(date.getTime()));
     }
+    
+    
     
    public void addSchedule(Schedule schedule){
        

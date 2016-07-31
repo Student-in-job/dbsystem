@@ -19,7 +19,7 @@ if(user!=null&&user.isLogined()){
     
     ArrayList<Program> program = user.getPrograms();
     ArrayList<Course> l_cours = user.getCourses();
-    UserSchedule ush = new UserSchedule();
+    UserSchedule ush = user.getSchedule();
 %>
 
 
@@ -50,7 +50,6 @@ if(user!=null&&user.isLogined()){
                 <h3>Learning Cours:  </h3>
 <%for(int i=0; i<l_cours.size(); i++) {
     ArrayList<Component> sch = l_cours.get(i).getSchadule().getList();
-    ush.addSchedule(l_cours.get(i).getSchadule());
 %>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=l_cours.get(i).getID()%>"><%=l_cours.get(i).getProgram().getName()%></a>
@@ -63,20 +62,26 @@ if(user!=null&&user.isLogined()){
                 </ul>
 <%}}%>                
             </div>
-            <p>
+            
+            <div>
+                <h3>Расписание</h3>
 <%
 Day d;
 Calendar c = new GregorianCalendar();
 for(int j=0; j<7; j++){
-    c.add(Calendar.DAY_OF_YEAR, j);
+    c.add(Calendar.DAY_OF_YEAR, 1);
     d = ush.getDay(c);
-    
-    %><%=c.toString()%><%
-    for(int i=0; i<d.Size(); i++){
-        %><%=d.get(i).getName()%><%
-}}  
+    if(d!=null){
+%>
+                <h4><%=d.getDateString()%></h4>
+<%
+    for(int i=0; i<d.Size(); i++){%>
+                <p><%=d.get(i).getProgram().getName()%>-><%=d.get(i).getName()%></p>
+<%}
+}} 
 %>  
-            </p>
+            </div>
+            
         </div> 
     </body>
 </html>

@@ -5,6 +5,7 @@
  */
 package Learning;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,6 +24,12 @@ public class Day {
     
     }
     
+    public String getDateString(){
+        SimpleDateFormat Form = new SimpleDateFormat();
+        Form.applyPattern("dd.MM");
+        return Form.format(Day);
+    }
+    
     public Component get(int i){
         return List.get(i);
     }
@@ -32,9 +39,9 @@ public class Day {
     }
     
     public void put(Component comp){
-            if(0==comp.getDate().compareTo(Day)){
+            //if(0==comp.getDate().compareTo(Day))
                 List.add(comp);
-            }
+            
     }
             
     

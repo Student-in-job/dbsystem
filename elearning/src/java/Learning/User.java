@@ -81,6 +81,14 @@ public class User extends Parent{
         return list;
     }
   
+    public UserSchedule getSchedule() throws Exception{
+        UserSchedule schedule= new UserSchedule();
+        ArrayList<Course> courses = this.getCourses();
+        for(int i=0; i<courses.size(); i++)
+            schedule.addSchedule(courses.get(i).getSchadule());
+        return schedule;
+    }
+  
     public ArrayList<Course> getCourses() throws Exception
     {
         if(!Logined) return null;
