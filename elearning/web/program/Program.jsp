@@ -38,6 +38,7 @@ try{
              <p>Level: <%=program.getLevel()%> <p>MinLevel: <%=program.getMinLevel()%></p></p>
              <p>Inventory: <%=program.getInventory()%></p>
              <h3>
+                 
                  Material: 
                  <a href="CreateMaterial.jsp?program=<%=program.getID()%>&material=0" alt="Create new material in this program">+</a>
              </h3>
