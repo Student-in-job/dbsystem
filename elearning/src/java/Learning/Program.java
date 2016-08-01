@@ -286,6 +286,10 @@ public class Program extends Parent{
         if(materials==null) return "Нет ни одного теста; ";
         if(this.Typ.equals("Mini")) return null;
         if(tests.size()<materials.size()/2) return "Недостаточно тестов; ";
+        for(int i=0; i<tests.size(); i++){
+            if(tests.get(i).getTask().size()<=3)
+                return "Недоастаточно вопросов в тесте "+tests.get(i).getName();
+            }
         return null;
         
     }
