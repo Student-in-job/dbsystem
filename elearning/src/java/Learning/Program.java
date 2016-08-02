@@ -106,7 +106,7 @@ public class Program extends Parent{
     public ArrayList<Program> getAll() throws Exception{
         ArrayList<Program> list = new ArrayList<Program>();
         DataBase db = new DataBase(this);
-        ResultSet rs = db.All();
+        ResultSet rs = db.All("program_state", "active");
         if(db.Done()&&rs!=null){
                 try {
                     while(rs.next()){
@@ -120,6 +120,7 @@ public class Program extends Parent{
         }
         else return null;
     }
+    
    
     public ArrayList<Test> getTests() throws Exception{
         ArrayList<Test> list = new ArrayList<Test>();

@@ -66,7 +66,7 @@ public class User extends Parent{
         FromDataBase = false;
     }
 
-  public ArrayList<Program> getPrograms() throws Exception
+  public ArrayList<Program> getActivePrograms() throws Exception
     {
         if(!Logined) return null;
         ArrayList<Program> list = new ArrayList<Program>();
@@ -75,6 +75,23 @@ public class User extends Parent{
         if(db.Done()&&rs!=null){
                 while(rs.next())
                     try{
+                        if(rs.getString("program_state").equals("active"))
+                        list.add(new Program(rs.getInt("program_id")));
+                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }
+        return list;
+    }
+  
+    public ArrayList<Program> getCreatedPrograms() throws Exception
+    {
+        if(!Logined) return null;
+        ArrayList<Program> list = new ArrayList<Program>();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.Find("program");
+        if(db.Done()&&rs!=null){
+                while(rs.next())
+                    try{
+                        if(rs.getString("program_state").equals("created"))
                         list.add(new Program(rs.getInt("program_id")));
                     }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
         }

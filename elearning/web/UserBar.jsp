@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>
@@ -17,7 +18,7 @@ try{
 User user = (User) session.getAttribute("user");
 if(user!=null&&user.isLogined()){
     
-    ArrayList<Program> program = user.getPrograms();
+    ArrayList<Program> program = user.getCreatedPrograms();
     ArrayList<Course> l_cours = user.getCourses();
     UserSchedule ush = user.getSchedule();
 %>
@@ -38,14 +39,27 @@ if(user!=null&&user.isLogined()){
             <h6><a href="resetmail.jsp" alt="log in">Reset mail</a></h6>
 `            
             <div style="border: 1px solid black;">
-                <h3>Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
+                <h3>Created Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
 <%for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
-                    <a href="<%=program.get(i).isPublished()?"\">(Statistic)":"program/Publishe?program="+program.get(i).getID()+"\">(Publish)"%></a>
+                    <a href="program/Publishe?program=<%=program.get(i).getID()%>">Published</a>
+                </p>
+<%}
+program = user.getActivePrograms();
+%>                
+            </div>
+            
+            <div style="border: 1px solid black;">
+                <h3>Active Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
+<%for(int i=0; i<program.size(); i++) {%>  
+                <p>
+                    <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
+                    <a href="program/Publishe?program=<%=program.get(i).getID()%>">Start</a>
                 </p>
 <%}%>                
             </div>
+            
             <div style="border: 1px solid black;">
                 <h3>Learning Cours:  </h3>
 <%for(int i=0; i<l_cours.size(); i++) {

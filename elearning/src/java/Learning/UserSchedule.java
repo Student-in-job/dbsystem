@@ -38,7 +38,8 @@ public class UserSchedule {
     
    public void addSchedule(Schedule schedule){
        
-        ArrayList<Component> sch = schedule.getList();
+       if(schedule==null) return; 
+       ArrayList<Component> sch = schedule.getList();
         Day day = null;
         Component mat = null;
         for(int i=0; i<sch.size(); i++){

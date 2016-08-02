@@ -329,6 +329,35 @@ public class DataBase {
         }
     }
     
+    public ResultSet All(String column, String value) throws SQLException {
+        
+        try
+        {
+            PreparedStatement stmt = Connection.prepareStatement
+        ("select * from "+Type+" where ?=? and "+Type+"_deleted=0;");
+            stmt.setString(1, column);
+            stmt.setString(2, value);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                Done = true;
+                return rs;
+            }
+            else{
+                Done = true;
+                return null;
+            }
+        }
+        catch(SQLException ex)
+        {
+            Log.getOut(ex.getMessage());
+            Done = false;
+            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
+            throw ex;
+            
+        }
+    }
+    
     public ResultSet FindLast() throws SQLException {
         
         try
