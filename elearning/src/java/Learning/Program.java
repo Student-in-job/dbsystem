@@ -120,45 +120,7 @@ public class Program extends Parent{
         }
         else return null;
     }
-    
-    public ArrayList<Program> getAllPublished() throws Exception{
-        ArrayList<Program> list = new ArrayList<Program>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.All();
-        if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        if("published".equals(rs.getString("program_state"))){
-                        list.add(new Program(rs.getInt("program_id")));                        
-                        }
-                    }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else return null;
-    }
    
-    public ArrayList<Program> getPublished() throws Exception{
-        ArrayList<Program> published = new ArrayList<Program>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("program");
-        if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        published.add(new Program(rs.getInt("program_id")));
-                    }
-                    return published;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else return null;
-    }
-    
     public ArrayList<Test> getTests() throws Exception{
         ArrayList<Test> list = new ArrayList<Test>();
         DataBase db = new DataBase(this);

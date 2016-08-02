@@ -115,6 +115,12 @@ public class DataBase {
                 break;
             }
             
+            case 8 : {
+                
+                this.write_user_has_course();
+                break;
+            }
+            
             default: {
                 
                 Done=false;
@@ -173,6 +179,12 @@ public class DataBase {
             case 5 : {
                 
                 this.rewrite_test_task();
+                break;
+            }
+            
+            case 8 : {
+                
+                this.rewrite_user_has_course();
                 break;
             }
             
@@ -415,7 +427,18 @@ public class DataBase {
         Program program = (Program) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO program  (program_name,  program_description,  program_min_level,  program_level,  program_duration,  user,  area,  program_date,  program_controled,  program_typ) VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);");
+        ("INSERT INTO program  ("
+                + "program_name,  "
+                + "program_description,  "
+                + "program_min_level,  "
+                + "program_level,  "
+                + "program_duration,  "
+                + "user,  "
+                + "area,  "
+                + "program_date,  "
+                + "program_controled,  "
+                + "program_typ) "
+                + "VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);");
             stmt.setString(1, program.getName());
             stmt.setString(2, program.getInventory());
             stmt.setInt(3, program.getMinLevel());
@@ -521,6 +544,29 @@ public class DataBase {
             stmt.setInt(4, mat.getProgramID());
             stmt.setString(5, mat.getInventory());  
             stmt.setString(6, mat.getText());
+            int n = stmt.executeUpdate();
+            Done = n == 1;
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
+                return;
+            }
+            
+        
+    }
+    
+    private void write_user_has_course() throws SQLException {
+        
+        User_courses has_course = (User_courses) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("INSERT INTO user_has_course ("
+                + "user, "
+                + "course, "
+                + "user_has_course_datetime ) VALUES (?,?, now());");
+            stmt.setInt(1, has_course.getUser_id());
+            stmt.setInt(2, has_course.getCourse_id());
+            
             int n = stmt.executeUpdate();
             Done = n == 1;
             if(Done) return;
@@ -667,6 +713,25 @@ public class DataBase {
     private void rewrite_files() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+     private void rewrite_user_has_course() throws SQLException {
+        
+        User_courses has_course = (User_courses) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("UPDATE user_has_course SET user=?,course=? WHERE user_has_course_id=?;");
+            stmt.setInt(1, has_course.getUser_id());
+            stmt.setInt(2, has_course.getCourse_id());
+            stmt.setInt(3, has_course.getID());
+            
+            int n = stmt.executeUpdate();
+            Done = n == 1;
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
+                return;
+            }
+     }
 
     private void write_area() throws SQLException {
         
@@ -684,6 +749,8 @@ public class DataBase {
             
         
     }
+    
+    
 
     
 }
