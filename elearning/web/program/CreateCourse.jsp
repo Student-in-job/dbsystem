@@ -42,11 +42,6 @@
 </html>
         <%}
         if(request.getMethod().equals("POST")){
-            
-
-
-
-
 
         }
     }
