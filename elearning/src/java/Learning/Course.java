@@ -10,6 +10,7 @@ import DataBase.Log;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -66,11 +67,20 @@ public class Course extends Parent {
         }
         else throw new Error();
     }
+    
+    public Course(Date date, Program program){
+        Date = date;
+        ProgramID = program.getID();
+    }
    
     public Program getProgram() throws Exception{
     
         return new Program(this.ProgramID);
     } 
+    
+    public String Write(User user, ArrayList<Material> material, ArrayList<Test> test){
+        
+    }
     
     public Schedule getSchadule() throws Exception{
         
@@ -83,4 +93,7 @@ public class Course extends Parent {
         return null;
     }
     
+    public Date getDate(){
+        return Date;
+    }
 }

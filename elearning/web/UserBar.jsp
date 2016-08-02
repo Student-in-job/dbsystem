@@ -55,7 +55,7 @@ program = user.getActivePrograms();
 <%for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
-                    <a href="program/Publishe?program=<%=program.get(i).getID()%>">Start</a>
+                    <a href="program/CreateCourse.jsp?program=<%=program.get(i).getID()%>">Start</a>
                 </p>
 <%}%>                
             </div>
