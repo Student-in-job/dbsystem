@@ -30,7 +30,7 @@ public class Course extends Parent {
     
     @Override
     public int getTypeIndex(){
-        return 8;
+        return 9;
     }
     
     @Override
@@ -78,8 +78,14 @@ public class Course extends Parent {
         return new Program(this.ProgramID);
     } 
     
-    public String Write(User user, ArrayList<Material> material, ArrayList<Test> test){
-        
+    public String Write(User user, ArrayList<Component> comp){
+        DataBase db = new DataBase(this);
+        db.Write();
+        if(db.Done()) {
+            Schedule sh = new Schedule();
+            return sh.Write(this, comp);
+        }
+        else return db.Message();
     }
     
     public Schedule getSchadule() throws Exception{
@@ -95,5 +101,13 @@ public class Course extends Parent {
     
     public Date getDate(){
         return Date;
+    }
+    
+    public boolean getPublic(){
+        return Public;
+    }
+    
+    public int getProgramID(){
+        return ProgramID;
     }
 }

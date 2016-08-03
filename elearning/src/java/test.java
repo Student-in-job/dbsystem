@@ -1,42 +1,16 @@
+Statement stmt = null;   
+ResultSet rs = null;   
 
-import DataBase.Log;
-import Learning.Area;
-import Learning.Program;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
 
- 
-public class test extends HttpServlet {	
+stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_UPDATABLE);    //    // Issue the DDL queries for the table for this example    //    
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-            
-             ServletContext s = request.getServletContext();
-             String ss = s.getRealPath("index.jsp");
-	}
-        
-        
-        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-            
-    try {
-        PrintWriter out = response.getWriter();
-        Area area = new Area(1);
-        out.println(area.getID() + area.getName());
-        out.println("/n");
-        ArrayList<Program> er = area.getPrograms();
-        for(int i=0; i<er.size(); i++)
-            out.println(er.get(i).getID() + er.get(i).getName()+"\n");
-    } catch (Exception ex) {
-        Log.getOut(ex.getMessage());
-    }
-            
-	}
-}
+stmt.executeUpdate("DROP TABLE IF EXISTS autoIncTutorial");    
+stmt.executeUpdate(            "CREATE TABLE autoIncTutorial ("            + "priKey INT NOT NULL AUTO_INCREMENT, "            + "dataField VARCHAR(64), PRIMARY KEY (priKey))");    //    // Insert one row that will generate an AUTO INCREMENT    // key in the 'priKey' field    //    
+stmt.executeUpdate(            "INSERT INTO autoIncTutorial (dataField) "            + "values ('Can I Get the Auto Increment Field?')",            Statement.RETURN_GENERATED_KEYS);    //    // Example of using Statement.getGeneratedKeys()    // to retrieve the value of an auto-increment    // value    //    i
+nt autoIncKeyFromApi = -1;    rs = stmt.getGeneratedKeys();    
+if (rs.next()) {        autoIncKeyFromApi = rs.getInt(1);    } 
+else {        // throw an exception from here    
+}    
+rs.close();    
+rs = null;    
+System.out.println("Key returned from getGeneratedKeys():"        + autoIncKeyFromApi);} 

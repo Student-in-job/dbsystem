@@ -31,13 +31,15 @@ public class Schedule extends Parent{
     
     @Override
     public int getTypeIndex(){
-        return 9;
+        return 10;
     }
     
     @Override
     public String getType(){
         return "schedules";
     }
+    
+    public Schedule(){}
     
     public Schedule(int id) throws Exception{
         
@@ -56,7 +58,7 @@ public class Schedule extends Parent{
                     throw new Error();
                 }
             
-                rs = db.Find("material_has_schedule");
+                rs = db.Find("schedule_has_material");
                 if(db.Done()&&rs!=null){
                     while(rs.next()){
                         try{
@@ -90,8 +92,24 @@ public class Schedule extends Parent{
         
     }
     
+    public String Write (Course course, ArrayList<Component> comp){
+       
+        CourseID = course.getID();
+        List = comp;
+        DataBase db = new DataBase(this);
+        db.Write();
+        if(db.Done()) return null;
+        else return db.Message(); 
+    }
+    
     public ArrayList<Component> getList(){
         return List;
     }
+    
+    public int getCourseID(){
+        return CourseID;
+    }
+    
+    
     
 }

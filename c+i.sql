@@ -143,7 +143,7 @@ create table if not exists schedules (
   primary key (schedules_id),
   constraint fk_schedule_course1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
 
-create table if not exists material_has_schedule (
+create table if not exists schedule_has_material (
   material int(11) not null,
   schedules int(11) not null,
   date_time datetime not null,
@@ -152,7 +152,7 @@ create table if not exists material_has_schedule (
   constraint fk_material_has_schedule_material1  foreign key (material)  references material (material_id)    on delete no action    on update no action,
   constraint fk_material_has_schedule_schedule1  foreign key (schedules)  references schedules (schedules_id)    on delete no action    on update no action);
 
-create table if not exists task_has_schedule (
+create table if not exists schedule_has_task (
   task int(11) not null,
   schedules int(11) not null,
   date_time datetime not null,
@@ -311,7 +311,7 @@ INSERT INTO user_has_course(user, course, user_has_course_datetime, user_has_cou
 INSERT INTO schedules(course, schedules_deleted) VALUE 
 (1, 0);
 
-INSERT INTO material_has_schedule(material, schedules, date_time) VALUES 
+INSERT INTO schedule_has_material(material, schedules, date_time) VALUES 
 (2, 1, now()+interval 1 day),
 (3, 1, now()+interval 2 day),
 (4, 1, now()+interval 3 day),

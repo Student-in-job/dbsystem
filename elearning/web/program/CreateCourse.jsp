@@ -128,9 +128,13 @@
                 test.get(i).setDate(date);
             }
             session.setAttribute("test", test);
+        
+    
+        ArrayList<Component> comp = new ArrayList<Component>();
+        comp.addAll(material);
+        comp.addAll(test);
+        String mark = course.Write(user, comp);
         }
-    }else{
-        String mark = course.Write(user, material, test);
     }
 
 %>

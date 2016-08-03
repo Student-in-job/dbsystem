@@ -7,10 +7,14 @@ package DataBase;
 
 import Learning.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author ksinn
@@ -121,6 +125,18 @@ public class DataBase {
                 break;
             }
             
+            case 9 : {
+                
+                this.write_course();
+                break;
+            }
+            
+            case 10 : {
+                
+                this.write_schedules();
+                break;
+            }
+            
             default: {
                 
                 Done=false;
@@ -129,6 +145,11 @@ public class DataBase {
         }
         }catch(SQLException ex)
         {
+            Log.getOut(ex.getMessage());
+            ErrorMessage += "SQL: "+ex.getMessage()+"; ";
+            Done = false;
+            return;
+        } catch (Exception ex) {
             Log.getOut(ex.getMessage());
             ErrorMessage += "SQL: "+ex.getMessage()+"; ";
             Done = false;
@@ -185,6 +206,12 @@ public class DataBase {
             case 8 : {
                 
                 this.rewrite_user_has_course();
+                break;
+            }
+            
+            case 9 : {
+                
+                //this.rewrite_user_has_course();
                 break;
             }
             
@@ -777,6 +804,56 @@ public class DataBase {
             }
             
         
+    }
+
+    private void write_course() throws Exception {
+        
+        Course course = (Course) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into course (course_date, program, course_public)  values (?,?,?);", Statement.RETURN_GENERATED_KEYS);
+        
+            stmt.setDate(1, new Date(course.getDate().getTime()));
+            stmt.setInt(2, course.getProgramID());
+            stmt.setInt(3, course.getPublic()?1:0);
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            course = new Course(rs.getInt(1));
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
+    
+    }
+
+    private void write_schedules() throws Exception {
+        
+        Schedule sche = (Schedule) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into schedules (course)  values (?);", Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, sche.getCourseID());
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+                int scheid = rs.getInt(1);
+                
+                for(int i=0; i<sche.getList().size(); i++){
+                    stmt = Connection.prepareStatement
+                    ("insert into schedules_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedule, date_time)  values (?, ?, ?);");
+                        stmt.setInt(1, sche.getList().get(i).getID());
+                        stmt.setInt(1, scheid);
+                        stmt.setDate(1, new Date(sche.getList().get(i).getDate().getTime()));
+                        Done = stmt.executeUpdate() == 1;
+                }
+                
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
     }
     
     
