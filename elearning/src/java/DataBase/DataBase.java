@@ -450,7 +450,7 @@ public class DataBase {
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             PreparedStatement stmt = Connection.prepareStatement
-        ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());");
+        ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, user.getMail());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getName());
@@ -497,7 +497,7 @@ public class DataBase {
                 + "program_date,  "
                 + "program_controled,  "
                 + "program_typ) "
-                + "VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);");
+                + "VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, program.getName());
             stmt.setString(2, program.getInventory());
             stmt.setInt(3, program.getMinLevel());
@@ -522,7 +522,7 @@ public class DataBase {
         
         Files file = (Files) Ons;
         
-            PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type) values (?, ?, ?);");
+            PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type) values (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, file.getName());
             stmt.setInt(2, file.getMaterialID());
             stmt.setString(3, file.getExtension());
@@ -550,7 +550,7 @@ public class DataBase {
             
             stmt = Connection.prepareStatement
         ("INSERT INTO test_task (test_task_no, test_task_text, test_task_answer, test_task_v1, test_task_v2, test_task_v3, test_task_v4, test_task_ball, test) " +
-                                            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                                            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, no);
             stmt.setString(2, task.getQuestion());
             stmt.setString(3, task.getAnswer());
@@ -576,7 +576,7 @@ public class DataBase {
         Test test = (Test) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO test(test_name, test_day, program, test_text) VALUES (?, ?, ?, ?);");
+        ("INSERT INTO test(test_name, test_day, program, test_text) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, test.getName());
             stmt.setInt(2, test.getDay());
             stmt.setInt(3, test.getProgramID());
@@ -596,7 +596,7 @@ public class DataBase {
         Material mat = (Material) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO material (material_name, material_day, material_type, program, material_text, material_file) VALUES (?,?,?,?,?,?);");
+        ("INSERT INTO material (material_name, material_day, material_type, program, material_text, material_file) VALUES (?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, mat.getName());
             stmt.setInt(2, mat.getDay());
             stmt.setString(3, mat.getTyp());
@@ -622,7 +622,7 @@ public class DataBase {
         ("INSERT INTO user_has_course ("
                 + "user, "
                 + "course, "
-                + "user_has_course_datetime ) VALUES (?,?, now());");
+                + "user_has_course_datetime ) VALUES (?,?, now());", Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, has_course.getUser_id());
             stmt.setInt(2, has_course.getCourse_id());
             
@@ -635,6 +635,74 @@ public class DataBase {
             }
             
         
+    }
+    
+    private void write_area() throws SQLException {
+        
+      Area area = (Area) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("insert into area (area_name)  values (?);", Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, area.getName());
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) OnsID = rs.getInt(1);
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
+            
+        
+    }
+
+    private void write_course() throws Exception {
+        
+        Course course = (Course) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into course (course_date, program, course_public)  values (?,?,?);", Statement.RETURN_GENERATED_KEYS);
+        
+            stmt.setDate(1, new Date(course.getDate().getTime()));
+            stmt.setInt(2, course.getProgramID());
+            stmt.setInt(3, course.getPublic()?1:0);
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) OnsID = rs.getInt(1);
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
+    
+    }
+
+    private void write_schedules() throws Exception {
+        
+        Schedule sche = (Schedule) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into schedules (course)  values (?);", Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, sche.getCourseID());
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+                int scheid = rs.getInt(1);
+                
+                for(int i=0; i<sche.getList().size(); i++){
+                    stmt = Connection.prepareStatement
+                    ("insert into schedule_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedules, date_time)  values (?, ?, ?);");
+                        stmt.setInt(1, sche.getList().get(i).getID());
+                        stmt.setInt(2, scheid);
+                        stmt.setDate(3, new Date(sche.getList().get(i).getDate().getTime()));
+                        Done &= stmt.executeUpdate() == 1;
+                }
+                
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
     }
 
     private void rewrite_user() throws SQLException {
@@ -792,73 +860,7 @@ public class DataBase {
             }
      }
 
-    private void write_area() throws SQLException {
-        
-      Area area = (Area) Ons;
-        
-            PreparedStatement stmt = Connection.prepareStatement
-        ("insert into area (area_name)  values (?);");
-            stmt.setString(1, area.getName());
-            Done = stmt.executeUpdate() == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
-            
-        
-    }
-
-    private void write_course() throws Exception {
-        
-        Course course = (Course) Ons;
-        
-        PreparedStatement stmt = Connection.prepareStatement
-        ("insert into course (course_date, program, course_public)  values (?,?,?);", Statement.RETURN_GENERATED_KEYS);
-        
-            stmt.setDate(1, new Date(course.getDate().getTime()));
-            stmt.setInt(2, course.getProgramID());
-            stmt.setInt(3, course.getPublic()?1:0);
-            Done = stmt.executeUpdate() == 1;
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            OnsID = rs.getInt(1);
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
-    
-    }
-
-    private void write_schedules() throws Exception {
-        
-        Schedule sche = (Schedule) Ons;
-        
-        PreparedStatement stmt = Connection.prepareStatement
-        ("insert into schedules (course)  values (?);", Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, sche.getCourseID());
-            Done = stmt.executeUpdate() == 1;
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-                int scheid = rs.getInt(1);
-                
-                for(int i=0; i<sche.getList().size(); i++){
-                    stmt = Connection.prepareStatement
-                    ("insert into schedule_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedules, date_time)  values (?, ?, ?);");
-                        stmt.setInt(1, sche.getList().get(i).getID());
-                        stmt.setInt(2, scheid);
-                        stmt.setDate(3, new Date(sche.getList().get(i).getDate().getTime()));
-                        Done &= stmt.executeUpdate() == 1;
-                }
-                
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
-    }
-    
+      
     
 
     

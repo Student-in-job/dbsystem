@@ -25,6 +25,7 @@ create table if not exists user (
 create table if not exists area (
   area_id int(11) not null auto_increment,
   area_name varchar(45) not null,
+  area_img varchar(255) not null,
   area_deleted int(1) not null default 0,
   primary key (area_id));
 
@@ -156,7 +157,7 @@ create table if not exists schedule_has_task (
   task int(11) not null,
   schedules int(11) not null,
   date_time datetime not null,
-  task_has_schedule_deleted int(1) default 0,
+  schedule_has_tsak_deleted int(1) default 0,
   primary key (task, schedules),
   constraint fk_task_has_schedule_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action,
   constraint fk_task_has_schedule_schedule1  foreign key (schedules)  references schedules (schedules_id)    on delete no action    on update no action);
@@ -181,7 +182,7 @@ create table if not exists test_task (
   test_task_v3 varchar(100) not null,
   test_task_v4 varchar(100) not null,
   test_task_ball int(3) not null default 0,
-test_task_deleted int(1) not null default 0,
+  test_task_deleted int(1) not null default 0,
   test int(11) not null,
   primary key (test_task_id),
   constraint fk_test_task_test1  foreign key (test)  references test (test_id)    on delete no action    on update no action);
