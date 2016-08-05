@@ -82,6 +82,7 @@ public class Course extends Parent {
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
+            ID = db.ID();
             Schedule sh = new Schedule();
             return sh.Write(this, comp);
         }

@@ -13,8 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author ksinn
@@ -22,6 +20,7 @@ import java.util.logging.Logger;
 public class DataBase {
     
     protected String Type;
+    protected int OnsID;
     protected int TypeIndex;
     protected boolean Done;
     protected String ErrorMessage;
@@ -41,6 +40,10 @@ public class DataBase {
     
     public boolean Done(){
         return Done;
+    }
+    
+    public int ID(){
+        return OnsID;
     }
     
     public String Message(){
@@ -819,7 +822,7 @@ public class DataBase {
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            course = new Course(rs.getInt(1));
+            OnsID = rs.getInt(1);
             if(Done) return;
             else{
                 ErrorMessage += "Ошибка при записи; ";
@@ -842,11 +845,11 @@ public class DataBase {
                 
                 for(int i=0; i<sche.getList().size(); i++){
                     stmt = Connection.prepareStatement
-                    ("insert into schedules_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedule, date_time)  values (?, ?, ?);");
+                    ("insert into schedule_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedules, date_time)  values (?, ?, ?);");
                         stmt.setInt(1, sche.getList().get(i).getID());
-                        stmt.setInt(1, scheid);
-                        stmt.setDate(1, new Date(sche.getList().get(i).getDate().getTime()));
-                        Done = stmt.executeUpdate() == 1;
+                        stmt.setInt(2, scheid);
+                        stmt.setDate(3, new Date(sche.getList().get(i).getDate().getTime()));
+                        Done &= stmt.executeUpdate() == 1;
                 }
                 
             if(Done) return;

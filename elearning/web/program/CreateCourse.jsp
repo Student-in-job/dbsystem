@@ -134,6 +134,7 @@
         comp.addAll(material);
         comp.addAll(test);
         String mark = course.Write(user, comp);
+        %><%=mark%><%
         }
     }
 
