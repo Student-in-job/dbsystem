@@ -2,6 +2,7 @@ package Learning;
 
 import java.util.Date;
 import DataBase.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -100,13 +101,13 @@ public class User extends Parent{
   
     public UserSchedule getSchedule() throws Exception{
         UserSchedule schedule= new UserSchedule();
-        ArrayList<Course> courses = this.getCourses();
+        ArrayList<Course> courses = this.getLearningCourses();
         for(int i=0; i<courses.size(); i++)
             schedule.addSchedule(courses.get(i).getSchadule());
         return schedule;
     }
   
-    public ArrayList<Course> getCourses() throws Exception
+    public ArrayList<Course> getLearningCourses() throws Exception
     {
         if(!Logined) return null;
         ArrayList<Course> list = new ArrayList<Course>();
@@ -116,6 +117,23 @@ public class User extends Parent{
                 while(rs.next())
                     try{
                         list.add(new Course(rs.getInt("course")));
+                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }
+        return list;
+    }
+    
+    public ArrayList<Course> getTeachengCourses() throws Exception
+    {
+        if(!Logined) return null;
+        ArrayList<Course> list = new ArrayList<Course>();
+        PreparedStatement stmt = db.getConn().prepareStatement
+        ("select * from course where program in (select program_id from program where user = ?) and course_deleted=0;");
+        stmt.setInt(1, this.ID);
+        ResultSet rs = stmt.executeQuery();
+        if(rs!=null){
+                while(rs.next())
+                    try{
+                        list.add(new Course(rs.getInt("course_id")));
                     }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
         }
         return list;

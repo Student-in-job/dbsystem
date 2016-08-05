@@ -19,7 +19,7 @@ User user = (User) session.getAttribute("user");
 if(user!=null&&user.isLogined()){
     
     ArrayList<Program> program = user.getCreatedPrograms();
-    ArrayList<Course> l_cours = user.getCourses();
+    ArrayList<Course> cours = user.getLearningCourses();
     UserSchedule ush = user.getSchedule();
 %>
 
@@ -62,11 +62,30 @@ program = user.getActivePrograms();
             
             <div style="border: 1px solid black;">
                 <h3>Learning Cours:  </h3>
-<%for(int i=0; i<l_cours.size(); i++) {
-    ArrayList<Component> sch = l_cours.get(i).getSchadule().getList();
+<%for(int i=0; i<cours.size(); i++) {
+    ArrayList<Component> sch = cours.get(i).getSchadule().getList();
 %>  
                 <p>
-                    <a href="program/Cours.jsp?cours=<%=l_cours.get(i).getID()%>"><%=l_cours.get(i).getProgram().getName()%></a>
+                    <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
+                </p>
+                <ul>
+<%for(int j=0; j<sch.size(); j++){%>                    
+<li>
+    <%=sch.get(j).getDateString()+" - "+ sch.get(j).getName()%>
+</li>
+                </ul>
+<%}}%>                
+            </div>
+            
+            <div style="border: 1px solid black;">
+                <h3>Teaching Cours:  </h3>
+<%
+    cours = user.getTeachengCourses();
+    for(int i=0; i<cours.size(); i++) {
+    ArrayList<Component> sch = cours.get(i).getSchadule().getList();
+%>  
+                <p>
+                    <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
                 </p>
                 <ul>
 <%for(int j=0; j<sch.size(); j++){%>                    

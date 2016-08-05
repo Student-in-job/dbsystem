@@ -22,6 +22,7 @@ public class Course extends Parent {
     private Date Date;
     private boolean Public;
     private int ProgramID;
+    private Schedule Schedule;
 
     @Override
     public int getID(){
@@ -64,6 +65,7 @@ public class Course extends Parent {
                     Log.getOut(ex.getMessage());
                     throw new Error();
                 }
+        this.Schedule = new Schedule(this);
         }
         else throw new Error();
     }
@@ -79,25 +81,19 @@ public class Course extends Parent {
     } 
     
     public String Write(User user, ArrayList<Component> comp){
+        this.Schedule =  new Schedule(comp);
+        this.Public = user.getID() == this.getProgramID();
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
             ID = db.ID();
-            Schedule sh = new Schedule();
-            return sh.Write(this, comp);
+            return null;
         }
         else return db.Message();
     }
     
     public Schedule getSchadule() throws Exception{
-        
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("schedules");
-        if(db.Done()&&rs!=null){
-                if(rs.next())
-                    return new Schedule(rs.getInt("course"));
-        }
-        return null;
+        return  this.Schedule;
     }
     
     public Date getDate(){

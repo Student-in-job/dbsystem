@@ -133,13 +133,7 @@ public class DataBase {
                 this.write_course();
                 break;
             }
-            
-            case 10 : {
-                
-                this.write_schedules();
-                break;
-            }
-            
+                        
             default: {
                 
                 Done=false;
@@ -669,15 +663,26 @@ public class DataBase {
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);
+                        
+                for(int i=0; i<course.getSchadule().getList().size(); i++){
+                    stmt = Connection.prepareStatement
+                    ("insert into schedule_has_"+course.getSchadule().getList().get(i).getType()+" ("+course.getSchadule().getList().get(i).getType()+", course, date_time)  values (?, ?, ?);");
+                        stmt.setInt(1, course.getSchadule().getList().get(i).getID());
+                        stmt.setInt(2, OnsID);
+                        stmt.setDate(3, new Date(course.getSchadule().getList().get(i).getDate().getTime()));
+                        Done &= stmt.executeUpdate() == 1;
+                }
+                
             if(Done) return;
             else{
                 ErrorMessage += "Ошибка при записи; ";
                 return;
             }
+            
     
     }
 
-    private void write_schedules() throws Exception {
+/*    private void write_schedules() throws Exception {
         
         Schedule sche = (Schedule) Ons;
         
@@ -703,7 +708,7 @@ public class DataBase {
                 ErrorMessage += "Ошибка при записи; ";
                 return;
             }
-    }
+    }*/
 
     private void rewrite_user() throws SQLException {
         

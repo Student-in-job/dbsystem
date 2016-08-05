@@ -4,9 +4,10 @@ package Learning;
 import DataBase.DataBase;
 import DataBase.Log;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,47 +19,20 @@ import java.util.ArrayList;
  *
  * @author ksinn
  */
-public class Schedule extends Parent{
+public class Schedule{
     
     private ArrayList<Component> List;
     private int CourseID;
 
-    
-    @Override
-    public int getID(){
-        return this.ID;
+    public Schedule(ArrayList<Component> comp){
+        List = (ArrayList<Component>) comp.clone();
     }
     
-    @Override
-    public int getTypeIndex(){
-        return 10;
-    }
-    
-    @Override
-    public String getType(){
-        return "schedules";
-    }
-    
-    public Schedule(){}
-    
-    public Schedule(int id) throws Exception{
+    public Schedule(Course course) throws Exception{
         
-        this.ID = id;
         List = new ArrayList<Component>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
-                    rs.next();
-                    this.CourseID = rs.getInt("course");
-                    
-
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-            
-                rs = db.Find("schedule_has_material");
+        DataBase db = new DataBase(course);
+        ResultSet rs = db.Find("schedule_has_material");
                 if(db.Done()&&rs!=null){
                     while(rs.next()){
                         try{
@@ -86,23 +60,18 @@ public class Schedule extends Parent{
                     }
                 }
                 
-        }
         else throw new Exception();
         
+        Collections.sort(List, new Comparator<Component>() {
+            public int compare(Component o1, Component o2) {
+                return o1.getDate().compareTo(o2.getDate());
+        }
+});
+    
+    }
         
-    }
-    
-    public String Write (Course course, ArrayList<Component> comp){
-       
-        CourseID = course.getID();
-        List = comp;
-        DataBase db = new DataBase(this);
-        db.Write();
-        if(db.Done()) return null;
-        else return db.Message(); 
-    }
-    
     public ArrayList<Component> getList(){
+        
         return List;
     }
     
