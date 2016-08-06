@@ -5,6 +5,7 @@
  */
 package Learning;
 import DataBase.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -101,6 +102,21 @@ public class Program extends Parent{
         this.MinLevel  = minlevel;
         this.Duration = duration;
         this.State = "created";
+    }
+    
+    public Course getCourse() throws Exception{
+        PreparedStatement stmt = db.getConn().prepareStatement
+        ("select * from course where program = ? and date(now())<\n" +
+        "(select case when \n" +
+        "(select @m := max(date(date_time)) from schedule_has_material where course = 1)>\n" +
+        "(select @t := max(date(date_time)) from schedule_has_test where course = 1)\n" +
+        "then @m else @t end)\n" +
+        " and course_deleted=0;");
+        stmt.setInt(1, ID);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) return new Course(rs.getInt("course_id"));
+        else return null;
+        
     }
     
     public ArrayList<Program> getAll() throws Exception{

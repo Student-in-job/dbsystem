@@ -55,7 +55,7 @@ program = user.getActivePrograms();
 <%for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
-                    <a href="program/CreateCourse.jsp?program=<%=program.get(i).getID()%>">Start</a>
+                    <%if(program.get(i).getCourse()==null){%><a href="program/CreateCourse.jsp?program=<%=program.get(i).getID()%>">Start Course</a><%}%>
                 </p>
 <%}%>                
             </div>
@@ -123,6 +123,7 @@ for(int j=0; j<7; j++){
 else response.sendRedirect("/elearning/login.jsp");
 
 }catch(Exception ex){
+Log.getOut(ex.getMessage());
     response.sendRedirect("/elearning/Error.jsp");
 }
 %>
