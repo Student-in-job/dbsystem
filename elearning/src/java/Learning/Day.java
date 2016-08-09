@@ -30,6 +30,10 @@ public class Day {
         return Form.format(Day);
     }
     
+    public Date getDate(){
+        return Day;
+    }
+    
     public Component get(int i){
         return List.get(i);
     }
