@@ -63,18 +63,12 @@ program = user.getActivePrograms();
             <div style="border: 1px solid black;">
                 <h3>Learning Cours:  </h3>
 <%for(int i=0; i<cours.size(); i++) {
-    ArrayList<Component> sch = cours.get(i).getSchadule().getList();
 %>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
                 </p>
-                <ul>
-<%for(int j=0; j<sch.size(); j++){%>                    
-<li>
-    <%=sch.get(j).getDateString()+" - "+ sch.get(j).getName()%>
-</li>
-                </ul>
-<%}}%>                
+               
+<%} %>                
             </div>
             
             <div style="border: 1px solid black;">
@@ -82,18 +76,11 @@ program = user.getActivePrograms();
 <%
     cours = user.getTeachengCourses();
     for(int i=0; i<cours.size(); i++) {
-    ArrayList<Component> sch = cours.get(i).getSchadule().getList();
 %>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
                 </p>
-                <ul>
-<%for(int j=0; j<sch.size(); j++){%>                    
-<li>
-    <%=sch.get(j).getDateString()+" - "+ sch.get(j).getName()%>
-</li>
-                </ul>
-<%}}%>                
+<%}%>                
             </div>
             
             <div>
@@ -109,7 +96,11 @@ for(int j=0; j<7; j++){
                 <h4><%=d.getDateString()%></h4>
 <%
     for(int i=0; i<d.Size(); i++){%>
-                <p><%=d.get(i).getProgram().getName()%>-><%=d.get(i).getName()%></p>
+                <p>
+                    <a href="?program=<%=d.get(i).getProgram().getID()%>" ><%=d.get(i).getProgram().getName()%></a>
+                    ->
+                    <a href="Read.jsp?course=<%=d.get(i).getCourse()%>&material=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                </p>
 <%}
 }} 
 %>  

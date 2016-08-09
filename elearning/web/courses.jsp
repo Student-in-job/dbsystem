@@ -42,7 +42,7 @@
             <hr />
             <br />
             <% 
-                ArrayList<Program> programs =(new Program(1)).getAllPublished();
+                ArrayList<Program> programs =(new Program(1)).getAll();
             if(programs!=null){
                 for(int i = 0; i < 15; i++){
                     if(i==programs.size()){

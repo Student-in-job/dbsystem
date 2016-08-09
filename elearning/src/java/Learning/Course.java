@@ -80,13 +80,19 @@ public class Course extends Parent {
         return new Program(this.ProgramID);
     } 
     
-    public String Write(User user, ArrayList<Component> comp){
+    public String Write(User user, ArrayList<Component> comp) throws Exception{
         this.Schedule =  new Schedule(comp);
-        this.Public = user.getID() == this.getProgramID();
+        this.Public = user.getID() == this.getProgram().getTeacherID();
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
             ID = db.ID();
+            if(!Public) {
+                User_courses uhc = new User_courses();
+                uhc.setCourse_id(ID);
+                uhc.setUser_id(user.getID());
+                return uhc.Write();
+            }
             return null;
         }
         else return db.Message();

@@ -203,10 +203,11 @@ create table if not exists accept_test (
   accept_test_date datetime not null,
   accept_test_ball int(11) null default null,
   user_has_course int(11) not null,
-  task int(11) not null,
+  test int(11) not null,
+  accept_test_deleted int(1) default 0,
   primary key (accept_test_id),
   constraint fk_accept_test_user_has_course1  foreign key (user_has_course)  references user_has_course (user_has_course_id)    on delete no action    on update no action,
-  constraint fk_accept_test_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action);
+  constraint fk_accept_test_task1  foreign key (test)  references test (test_id)    on delete no action    on update no action);
 
 create table if not exists externe_has_test (
   externe int(11) not null,

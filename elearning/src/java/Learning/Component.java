@@ -18,6 +18,7 @@ public class Component extends Parent{
     protected String Inventory;
     protected int Day;
     protected int ProgramID;
+    protected int CourseID;
     
     protected Date Date;
     
@@ -63,6 +64,14 @@ public class Component extends Parent{
     
     public void setDate(Date date){
         Date = date;
+    }
+    
+    public void setCourse(int course){
+        CourseID = course;
+    }
+    
+    public int getCourse(){
+        return CourseID;
     }
  
 }
