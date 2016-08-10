@@ -55,6 +55,7 @@ public class Schedule{
                             SimpleDateFormat format = new SimpleDateFormat();
                             format.applyPattern("yyyy-MM-dd hh:mm:ss");
                             test.setDate(format.parse(rs.getString("date_time")));
+                            test.setCourse(course.getID());
                             List.add(test);
                         }
                         catch(Exception ex){ Log.getOut(ex.getMessage());}

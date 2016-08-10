@@ -36,6 +36,8 @@ public class User_courses extends Parent {
         return 8;
     }
     
+    public User_courses(){}
+    
     public User_courses(int id) throws Exception{
         ID = id;
         DataBase db = new DataBase(this);

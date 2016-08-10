@@ -218,11 +218,11 @@ public class DataBase {
                 break;
             }
             
-            /*case 6 : {
+            case 10 : {
                 
-                this.rewrite_files();
+                this.rewrite_accept_test();
                 break;
-            }*/
+            }
             
             default: {
                 
@@ -693,7 +693,7 @@ public class DataBase {
         AcceptTest accept = (AcceptTest) Ons;
         
         PreparedStatement stmt = Connection.prepareStatement
-        ("insert into accept_test accept_test_date, user_has_course, test) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
+        ("insert into accept_test (accept_test_date, user_has_course, test) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
         
             stmt.setInt(1, accept.getUserHasCourse());
             stmt.setInt(2, accept.getTestID());
@@ -890,6 +890,24 @@ public class DataBase {
                 return;
             }
      }
+
+    private void rewrite_accept_test() throws SQLException {
+        
+        AcceptTest accept = (AcceptTest) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("UPDATE into accept_test SET ball=? WHWRE accept_test_id=?;");
+        
+            stmt.setInt(1, accept.getBall());
+            stmt.setInt(2, accept.getID());
+            Done = stmt.executeUpdate() == 1;
+                                    
+            if(Done) return;
+            else{
+                ErrorMessage += "Ошибка при записи; ";
+                return;
+            }
+    }
 
     
 

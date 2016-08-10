@@ -70,8 +70,12 @@ public class Component extends Parent{
         CourseID = course;
     }
     
-    public int getCourse(){
+    public int getCourseID(){
         return CourseID;
+    }
+    
+    public Course getCourse() throws Exception{
+        return new Course(CourseID);
     }
  
 }

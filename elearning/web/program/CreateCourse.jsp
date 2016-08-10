@@ -30,6 +30,9 @@
         comp.addAll(material);
         comp.addAll(test);
         String mark = course.Write(user, comp);
+        session.removeAttribute("course");
+        session.removeAttribute("material");
+        session.removeAttribute("test");
         %><%=mark%><%
     }
     else{

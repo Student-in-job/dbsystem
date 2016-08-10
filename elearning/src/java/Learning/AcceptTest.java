@@ -58,7 +58,8 @@ public class AcceptTest  extends Parent{
         for(int i=0; i<Task.size(); i++){
             if(Task.get(i).getAnswer().equals(Answer.get(i))){ Ball+=Task.get(i).getPoint(); Right++;}
         }
-        //rewrite db;
+        DataBase db = new DataBase(this);
+        db.ReWrite();
     }
     
     public void putAnswer(int i, String answer){

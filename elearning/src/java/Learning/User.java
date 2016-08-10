@@ -116,7 +116,9 @@ public class User extends Parent{
         if(db.Done()&&rs!=null){
                 while(rs.next())
                     try{
-                        list.add(new Course(rs.getInt("course")));
+                        Course c = new Course(rs.getInt("course"));
+                        c.setUserHasCourseID(rs.getInt("user_has_course_id"));
+                        list.add(c);
                     }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
         }
         return list;
