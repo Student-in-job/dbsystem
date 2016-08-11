@@ -8,6 +8,7 @@ package Learning;
 import DataBase.DataBase;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  *
@@ -48,7 +49,7 @@ public class AcceptTest  extends Parent{
         }
         else throw new Exception();
         
-        Task = this.getTest().getTask();
+        Task = Mix(this.getTest().getTask());
         Answer = new HashMap<Integer, String>();
         
     }
@@ -65,6 +66,11 @@ public class AcceptTest  extends Parent{
     public void putAnswer(int i, String answer){
         Answer.put(i, answer);
     }
+    
+    public String getAnswer(int i){
+        return Answer.get(i);
+    }
+    
     
     public int getBall(){
         return Ball;
@@ -89,7 +95,20 @@ public class AcceptTest  extends Parent{
         v.add(Task.get(i).getVariant3());
         v.add(Task.get(i).getVariant4());
         v.add(Task.get(i).getAnswer());
-        return v;
+        return Mix(v);
+    }
+    
+    static private ArrayList Mix(ArrayList list){
+        Random r = new Random();
+        Object b;
+        int j;
+        for(int i=0; i<list.size(); i++){
+            j = r.nextInt(list.size()-1);
+            b=list.get(i);
+            list.set(i, list.get(j));
+            list.set(j, b);
+        }
+        return list;
     }
     
     public int getUserHasCourse(){

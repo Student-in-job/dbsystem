@@ -11,7 +11,7 @@
 
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
         if(accept==null){
-            response.sendRedirect("StartPassTest.jsp");
+            response.sendRedirect("/elearning/UserBar.jsp");
         }
         else{
             session.removeAttribute("accept");

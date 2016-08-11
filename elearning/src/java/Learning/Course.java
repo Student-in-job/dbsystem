@@ -23,7 +23,6 @@ public class Course extends Parent {
     private boolean Public;
     private int ProgramID;
     private Schedule Schedule;
-    private int UserHasCourseID;
 
     @Override
     public int getID(){
@@ -97,18 +96,6 @@ public class Course extends Parent {
             return null;
         }
         else return db.Message();
-    }
-    
-    public User_courses getUserHasCourse() throws Exception{
-        return new User_courses(UserHasCourseID);
-    }
-    
-    public int getUserHasCourseID(){
-        return this.UserHasCourseID;
-    }
-    
-    public void setUserHasCourseID(int id){
-        this.UserHasCourseID = id;
     }
     
     public Schedule getSchadule() throws Exception{

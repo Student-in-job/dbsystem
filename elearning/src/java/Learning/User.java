@@ -67,6 +67,21 @@ public class User extends Parent{
         FromDataBase = false;
     }
 
+  public int getHasCoursID(int course) throws Exception{
+      
+      PreparedStatement stmt = db.getConn().prepareStatement
+        ("select * from user_has_course where course = ? and user = ?;");
+        stmt.setInt(1, course);
+        stmt.setInt(2, this.ID);
+        ResultSet rs = stmt.executeQuery();
+        if(rs!=null){
+            if(rs.next())
+                return rs.getInt("user_has_course_id");
+            
+        }
+        return 0;
+  }
+  
   public ArrayList<Program> getActivePrograms() throws Exception
     {
         if(!Logined) return null;
@@ -117,7 +132,6 @@ public class User extends Parent{
                 while(rs.next())
                     try{
                         Course c = new Course(rs.getInt("course"));
-                        c.setUserHasCourseID(rs.getInt("user_has_course_id"));
                         list.add(c);
                     }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
         }

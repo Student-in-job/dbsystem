@@ -13,7 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     User user = (User) session.getAttribute("user");
-    if(user==null) response.sendError(500, "You are not logined");
+    if(user==null) {
+        response.sendError(500, "You are not logined"); 
+        return;}
     if(!user.isLogined()) response.sendError(500, "You are not logined");
     
     Course course = (Course) session.getAttribute("course");

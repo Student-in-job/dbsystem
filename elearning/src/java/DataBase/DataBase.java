@@ -231,6 +231,7 @@ public class DataBase {
             }
         }
         }catch(SQLException ex){
+            Log.getOut(ex.getMessage());
             ErrorMessage += "Sql: "+ex.getMessage()+"; "+ex.getSQLState()+"; ";
             Done = false;
             return;
@@ -896,7 +897,7 @@ public class DataBase {
         AcceptTest accept = (AcceptTest) Ons;
         
         PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE into accept_test SET ball=? WHWRE accept_test_id=?;");
+        ("UPDATE accept_test SET accept_test_ball=? WHERE accept_test_id=?;");
         
             stmt.setInt(1, accept.getBall());
             stmt.setInt(2, accept.getID());

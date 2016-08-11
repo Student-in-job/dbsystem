@@ -101,11 +101,11 @@ for(int j=0; j<7; j++){
                         ->
     <%        if(d.get(i).getType().equals("test")){
     %>
-                        <a href="Pass/StartPassTest.jsp?uhc=<%=d.get(i).getCourse().getUserHasCourseID()%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+    <a href="Pass/StartPassTest.jsp?uhc=<%=user.getHasCoursID(d.get(i).getCourseID())%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
     <%      }
             if(d.get(i).getType().equals("material")){
     %>
-                        <a href="Read.jsp?course=<%=d.get(i).getCourseID()%>&material=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                        <a href="Read.jsp?material=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
     <%
             }%>     </p>
     <%

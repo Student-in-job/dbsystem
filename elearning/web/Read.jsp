@@ -4,28 +4,38 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.Array"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-   
-User user = (User) session.getAttribute("user");
-    if(user==null) response.sendError(500, "You are not logined");
-    if(!user.isLogined()) response.sendError(500, "You are not logined");
+    Material mat = new Material(Integer.parseInt(request.getParameter("material")));
     
-    try{Material mat = new Material(Integer.parseInt(request.getParameter("material")));}
-    catch(Exception ex){response.sendError(500, "Material not exist!");}
-    
-
+    ArrayList<Files> file = mat.getDocFile();
 %>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title><%=mat.getName()%></title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1><%=mat.getProgram().getName()%></h1>
+        <h2><%=mat.getName()%></h2>
+        <div>
+            <%=mat.getText()%>
+        </div>
+            <div>
+<%
+for(int i=0; i<file.size(); i++){
+%>               
+                <a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
+<%}%>
+            </div>    
+<%
+ArrayList<Files> file = mat.getVideoFile();
+%>        
     </body>
 </html>

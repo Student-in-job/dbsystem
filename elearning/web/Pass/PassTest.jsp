@@ -20,11 +20,9 @@
         String answer = request.getParameter("answer");
         if(answer!=null){
             accept.putAnswer(no, answer);
-            no++;
-        }
-        
-if(no>=accept.getQuantity()) response.sendRedirect("FinishTest.jsp");
-else{
+            no++;}
+            if(no>=accept.getQuantity()) no--;
+
 
 %>
 
@@ -36,22 +34,25 @@ else{
     </head>
     <body>
         <h1>Pass Test!</h1>
-        <%--<div>
+        <div>
 <%for(int i=0; i<accept.getQuantity(); i++){%>            
-            <a href="?no=<%=i%>"><%=i%></a>
+            <a 
+<%if(accept.getAnswer(i)!=null)
+{%>style="background-color: antiquewhite"<%}%>
+                href="?no=<%=i%>"><%=i+1%></a>
 <%}%>   
             <a href="FinishTest.jsp">Finish</a>
-        </div>--%>
+        </div>
         
         <section>
-            <p><%=no%>. <%=accept.getQuestion(no)%></p>
+            <p><%=no+1%>. <%=accept.getQuestion(no)%></p>
             <form method="POST" action="PassTest.jsp">
                 <input type="hidden" name="no" value="<%=no%>">
 <%
 ArrayList<String> var = accept.getVariants(no);
 for(int i=0; i<var.size(); i++){
 %>                
-                <input type="radio" name="answer" value="<%=var.get(i)%>"><%=var.get(i)%><br>
+<input <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> type="radio" name="answer" value="<%=var.get(i)%>"><%=var.get(i)%><br>
 <%}%>          
                 <input type="submit">
             </form>
@@ -60,4 +61,4 @@ for(int i=0; i<var.size(); i++){
         
     </body>
 </html>
-<%}}%>
+<%}//}%>
