@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -81,6 +82,13 @@ public class Schedule{
         return CourseID;
     }
     
-    
+    public Date getDateOf(Component comp){
+        for(int i=0; i<List.size(); i++){
+            if(List.get(i).getTypeIndex()==comp.getTypeIndex()&&List.get(i).ID==comp.getID()){
+                return List.get(i).getDate();
+            }
+        }
+        return null;
+    }
     
 }

@@ -4,12 +4,13 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Array"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
+<%try{
     Material mat = new Material(Integer.parseInt(request.getParameter("material")));
     
     ArrayList<Files> file = mat.getDocFile();
@@ -19,6 +20,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="/elearning/jwplayer/jwplayer.js"></script>
         <title><%=mat.getName()%></title>
     </head>
     <body>
@@ -33,9 +35,39 @@ for(int i=0; i<file.size(); i++){
 %>               
                 <a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
 <%}%>
-            </div>    
+            </div>
+            <div>
 <%
-ArrayList<Files> file = mat.getVideoFile();
+file = mat.getVideoFile();
+if(!file.isEmpty()){
 %>        
+        <p>
+            <div id="myElement">Загрузка плеера...</div>
+            <script type="text/javascript">
+                    jwplayer("myElement").setup({
+                        width: 400, 
+                        height: 240,
+                        listbar: {
+                            position:'bottom',
+                            size:150},
+                        playlist: [
+                            <%for(int i=0; i<file.size(); i++){%>  
+                            {
+                                file:"<%=file.get(i).getURL()%>",
+                                title:"<%=file.get(i).getName()%>"
+                            },
+                            <%}%>
+                        ]
+                                
+                    });
+            </script>
+        </p>
+<%}%> 
+            </div>        
     </body>
 </html>
+<%
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"\n"+ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}%>   

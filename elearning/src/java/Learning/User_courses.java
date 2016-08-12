@@ -65,6 +65,10 @@ public class User_courses extends Parent {
     public int getCourse_id() {
         return course_id;
     }
+    
+    public Course getCourse() throws Exception {
+        return new Course(course_id);
+    }
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;

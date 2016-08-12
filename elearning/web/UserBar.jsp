@@ -13,12 +13,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-try{    
-    
 User user = (User) session.getAttribute("user");
-if(user!=null&&user.isLogined()){
+if(user==null) {response.sendRedirect("Login.jsp"); return; }
+if(!user.isLogined()){response.sendRedirect("Login.jsp"); return;}
     
-    ArrayList<Program> program = user.getCreatedPrograms();
+    ArrayList<Program> program;
     ArrayList<Course> cours = user.getLearningCourses();
     UserSchedule ush = user.getSchedule();
 %>
@@ -37,55 +36,98 @@ if(user!=null&&user.isLogined()){
             <p>Rating: 100</p>
             <h6><a href="resetpasswd.jsp" alt="log in">Reset password</a></h6>  
             <h6><a href="resetmail.jsp" alt="log in">Reset mail</a></h6>
-`            
+
+
+
+            
             <div style="border: 1px solid black;">
                 <h3>Created Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
-<%for(int i=0; i<program.size(); i++) {%>  
+<%try{
+    program = user.getCreatedPrograms();
+    for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
                     <a href="program/Publishe?program=<%=program.get(i).getID()%>">Published</a>
                 </p>
+                
 <%}
-program = user.getActivePrograms();
-%>                
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"/n"+ex.getMessage());%>
+    <h3>Ошибка: Контент не найден!</h3>
+<%}%>                
             </div>
+
+
+
+
             
             <div style="border: 1px solid black;">
                 <h3>Active Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
-<%for(int i=0; i<program.size(); i++) {%>  
+<%try{
+    program = user.getCreatedPrograms();
+    for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
                     <%if(program.get(i).getCourse()==null){%><a href="program/CreateCourse.jsp?program=<%=program.get(i).getID()%>">Start Course</a><%}%>
                 </p>
+<%}
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"/n"+ex.getMessage());%>
+    <h3>Ошибка: Контент не найден!</h3>
 <%}%>                
             </div>
             
+            
+            
+            
             <div style="border: 1px solid black;">
                 <h3>Learning Cours:  </h3>
-<%for(int i=0; i<cours.size(); i++) {
+<%try{
+    cours=user.getLearningCourses();
+    for(int i=0; i<cours.size(); i++) {
 %>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
                 </p>
                
-<%} %>                
+<%}
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"/n"+ex.getMessage());%>
+    <h3>Ошибка: Контент не найден!</h3>
+<%}%>               
             </div>
+ 
+            
+            
+            
+            
             
             <div style="border: 1px solid black;">
                 <h3>Teaching Cours:  </h3>
-<%
+<%try{
     cours = user.getTeachengCourses();
     for(int i=0; i<cours.size(); i++) {
 %>  
                 <p>
                     <a href="program/Cours.jsp?cours=<%=cours.get(i).getID()%>"><%=cours.get(i).getProgram().getName()%></a>
                 </p>
+<%}
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"/n"+ex.getMessage());%>
+    <h3>Ошибка: Контент не найден!</h3>
 <%}%>                
             </div>
             
+            
+            
+            
+            
+            
+            
+            
             <div>
                 <h3>Расписание</h3>
-<%
+<%try{
 Day d;
 Calendar c = new GregorianCalendar();
 for(int j=0; j<7; j++){
@@ -111,21 +153,16 @@ for(int j=0; j<7; j++){
     <%
         }
     }
-} 
-%>  
+}
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"/n"+ex.getMessage());%>
+    <h3>Ошибка: Контент не найден!</h3>
+<%}%>     
             </div>
             
         </div> 
     </body>
 </html>
         
-<%}
-else response.sendRedirect("/elearning/login.jsp");
-
-}catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>
 
 

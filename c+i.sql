@@ -325,7 +325,7 @@ INSERT INTO schedule_has_material(material, course, date_time) VALUES
 (11, 1, now()+interval 10 day);
 
 INSERT INTO schedule_has_test(course, test, date_time) VALUES 
-(1, 2, now()+interval 2 day),
-(1, 3, now()+interval 4 day),
-(1, 4, now()+interval 6 day),
-(1, 5, now()+interval 11 day);
+(1, 2, date(now())+interval 2 day),
+(1, 3, date(now())+interval 4 day),
+(1, 4, date(now())+interval 6 day),
+(1, 5, date(now())+interval 11 day);
