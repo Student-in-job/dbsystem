@@ -50,10 +50,9 @@ public class DataBase {
         return ErrorMessage;
     }
     
-    public void Delete() throws SQLException{
+    public void Delete() throws Exception{
         
-        try
-        {
+            this.Find();
             PreparedStatement stmt = Connection.prepareStatement
         ("update "+Type+" set "+Type+"_deleted = 1 where "+Type+"_id = ?;");
             stmt.setInt(1, Ons.getID());
@@ -64,20 +63,12 @@ public class DataBase {
                 ErrorMessage += "Ошибка при удаление; Изменено "+n+" строк; ";
                 return;
             }
-            
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            Done = false;
-            throw ex;
-        }
+       
     }
     
-    public void Write(){
+    public void Write() throws SQLException{
         
-        try{       
+        Done=false;       
         switch(TypeIndex){
             
             case 1 : {
@@ -146,34 +137,18 @@ public class DataBase {
                 ErrorMessage += "Unknow type object; ";
             }
         }
-        }catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "SQL: "+ex.getMessage()+"; ";
-            Done = false;
-            return;
-        } catch (Exception ex) {
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "SQL: "+ex.getMessage()+"; ";
-            Done = false;
-            return;
-        }
+        
         
         
         if(!Done)
             ErrorMessage += "Can not save data; ";
     }
     
-    public void ReWrite(){
+    public void ReWrite() throws Exception{
         
         
-        if(this.Find()==null){
-            Done=false;
-            ErrorMessage += "Такой записи не существует; ";
-            return;
-        }
+        this.Find();
         
-        try{
         switch(TypeIndex){
             
             case 1 : {
@@ -230,12 +205,7 @@ public class DataBase {
                 ErrorMessage += "Unknow type object; ";
             }
         }
-        }catch(SQLException ex){
-            Log.getOut(ex.getMessage());
-            ErrorMessage += "Sql: "+ex.getMessage()+"; "+ex.getSQLState()+"; ";
-            Done = false;
-            return;
-        }
+        
         
         
         if(!Done)
@@ -244,15 +214,14 @@ public class DataBase {
         
     }    
 
-    public ResultSet FindUser() throws SQLException {
+    public ResultSet FindUser() throws Exception {
         
         if(!"user".equals(Type)){
             Done=false;
             ErrorMessage += "Can not find " + Type + " as user; ";
             return null;
         }
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from user where user_mail = ? and user_deleted=0;");
             stmt.setString(1, ((User) Ons).getMail());
@@ -262,25 +231,13 @@ public class DataBase {
                 Done=true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
 
-    public ResultSet Find(){
+    public ResultSet Find() throws Exception{
         
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+Type+" where "+Type+"_id = ? and "+Type+"_deleted=0;");
             stmt.setInt(1, Ons.getID());
@@ -290,25 +247,14 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
+            else throw new ObjectNotFind();
         }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            return null;
-            
-        }
-    }
-    
-    public ResultSet Find(String where) throws SQLException {
         
-        try
-        {
+    
+    
+    public ResultSet Find(String where) throws Exception {
+        
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+where+" where "+Type+" = ? and "+where+"_deleted=0;");
             stmt.setInt(1, Ons.getID());
@@ -318,25 +264,13 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
     
-    public ResultSet All() throws SQLException {
+    public ResultSet All() throws Exception {
         
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+Type+" where "+Type+"_deleted=0;");
             ResultSet rs = stmt.executeQuery();
@@ -345,25 +279,13 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
     
-    public ResultSet All(String column, String value) throws SQLException {
+    public ResultSet All(String column, String value) throws Exception {
         
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+Type+" where ?=? and "+Type+"_deleted=0;");
             stmt.setString(1, column);
@@ -374,25 +296,13 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
     
-    public ResultSet FindLast() throws SQLException {
+    public ResultSet FindLast() throws Exception {
         
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+Type+" where "+Type+"_id = (select max("+Type+"_id) from "+Type+") and "+Type+"_deleted=0;");
             ResultSet rs = stmt.executeQuery();
@@ -401,25 +311,13 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            throw ex;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
     
-    public ResultSet FindLast(String where){
+    public ResultSet FindLast(String where) throws Exception{
         
-        try
-        {
+        
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+where+" where "+where+"_id = (select max("+where+"_id) from "+where+" where "+Type+"=?) and "+where+"_deleted=0;");
             stmt.setInt(1, Ons.getID());
@@ -429,26 +327,14 @@ public class DataBase {
                 Done = true;
                 return rs;
             }
-            else{
-                Done = true;
-                return null;
-            }
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            Done = false;
-            ErrorMessage += "MySQL: "+ex.getMessage()+"; ";
-            return null;
-            
-        }
+            else throw new ObjectNotFind();
+        
     }
     
     protected void write_user() throws SQLException{
         
         User user = (User) Ons;
-        try
-        {
+        
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             PreparedStatement stmt = Connection.prepareStatement
         ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());", Statement.RETURN_GENERATED_KEYS);
@@ -463,22 +349,7 @@ public class DataBase {
             else{
                 ErrorMessage += "Ошибка при записи; ";
                 return;
-            }
-            
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            if(ex.getErrorCode()==1062)
-            {
-                ErrorMessage += "This mail already registre; ";
-                Done = false;
-            }
-            else
-            {
-                throw ex;
-            }
-        }
+            }      
         
     }
 
@@ -510,13 +381,11 @@ public class DataBase {
             stmt.setString(9, program.getTyp());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
             
-        
+            
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
     }
 
     private void write_files() throws SQLException {
@@ -657,7 +526,7 @@ public class DataBase {
         
     }
 
-    private void write_course() throws Exception {
+    private void write_course() throws SQLException {
         
         Course course = (Course) Ons;
         
@@ -709,39 +578,10 @@ public class DataBase {
             }
     }
 
-/*    private void write_schedules() throws Exception {
-        
-        Schedule sche = (Schedule) Ons;
-        
-        PreparedStatement stmt = Connection.prepareStatement
-        ("insert into schedules (course)  values (?);", Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, sche.getCourseID());
-            Done = stmt.executeUpdate() == 1;
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-                int scheid = rs.getInt(1);
-                
-                for(int i=0; i<sche.getList().size(); i++){
-                    stmt = Connection.prepareStatement
-                    ("insert into schedule_has_"+sche.getList().get(i).getType()+" ("+sche.getList().get(i).getType()+", schedules, date_time)  values (?, ?, ?);");
-                        stmt.setInt(1, sche.getList().get(i).getID());
-                        stmt.setInt(2, scheid);
-                        stmt.setDate(3, new Date(sche.getList().get(i).getDate().getTime()));
-                        Done &= stmt.executeUpdate() == 1;
-                }
-                
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
-    }*/
-
     private void rewrite_user() throws SQLException {
         
         User user = (User) Ons;
-        try
-        {
+        
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement
@@ -761,18 +601,6 @@ public class DataBase {
                 return;
             }
             
-        }
-        catch(SQLException ex)
-        {
-            Log.getOut(ex.getMessage());
-            if(ex.getErrorCode()==1062)
-            {
-                ErrorMessage += "This mail already registre; ";
-                Done = false;
-            }
-            else 
-                throw ex;
-        }
     }
 
     private void rewrite_program() throws SQLException {
@@ -909,11 +737,6 @@ public class DataBase {
                 return;
             }
     }
-
-    
-
-      
-    
 
     
 }

@@ -9,6 +9,6 @@ package DataBase;
  *
  * @author ksinn
  */
-public class NotFaundObject extends Exception{
+public class IllegalAction extends Exception{
     
 }

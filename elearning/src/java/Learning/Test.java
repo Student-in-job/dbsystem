@@ -92,19 +92,22 @@ public class Test extends Component {
         else return db.Message();
     }
     
-    public ArrayList<TestTask> getTask() throws Exception{
+    public ArrayList<TestTask> getTask(){
         ArrayList<TestTask> list = new ArrayList<TestTask>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("test_task");
-        if(db.Done()&&rs!=null){
-            while(rs.next()){
-                    try {
-                        int i = rs.getInt("test_task_id");
-                        TestTask task = new TestTask(i);
-                        list.add(task);
-                    } catch (SQLException ex) {Log.getOut(ex.getMessage());}
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("test_task");
+            if(db.Done()&&rs!=null){
+                while(rs.next()){
+                        try {
+                            int i = rs.getInt("test_task_id");
+                            TestTask task = new TestTask(i);
+                            list.add(task);
+                        } catch (Exception ex) {Log.getOut(ex.getMessage());}
+                }
             }
-        }
+        }catch (Exception ex) { Log.getOut(ex.getMessage());}
+        
         return list;
     }
     

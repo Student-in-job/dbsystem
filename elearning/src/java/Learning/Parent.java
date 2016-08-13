@@ -39,7 +39,7 @@ public class Parent {
         return 0;
     }
     
-    public String Delete() throws SQLException{
+    public String Delete() throws Exception{
         
         if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
         DataBase db = new DataBase(this);
@@ -52,11 +52,14 @@ public class Parent {
         return false;
     }
     
-    protected String write() throws Exception{
+    protected String write() throws SQLException{
         DataBase db = new DataBase(this);
         db.Write();
-        if(db.Done()) return null;
-            else return db.Message();
+        if(db.Done()) {
+            this.ID=db.ID(); 
+            return null;
+        }
+        else return db.Message();
     }
     
 }

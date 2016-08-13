@@ -10,9 +10,10 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-try{    
+   
     User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
+    if(user==null){response.sendRedirect("../login.jsp"); return;}
+    
     int prog = Integer.parseInt(request.getParameter("program"));
 
         Program program = new Program(prog);
@@ -71,11 +72,3 @@ try{
         </article>
     </body>
 </html>
-<%
-}else response.sendRedirect("../login.jsp");
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>

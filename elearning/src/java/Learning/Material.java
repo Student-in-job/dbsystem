@@ -137,19 +137,21 @@ public class Material extends Component {
         return list;
    }
     
-    public ArrayList<Files> getDocFile() throws Exception{
+    public ArrayList<Files> getDocFile(){
         
         ArrayList<Files> list = new ArrayList<Files>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("files");
-        if(db.Done()&&rs!=null){
-                while(rs.next()){
-                        try {
-                            if(!"mp4".equals(rs.getString("files_type")))
-                            list.add(new Files(rs.getInt("files_id")));
-                        } catch (SQLException ex) {Log.getOut(ex.getMessage());}
-                }
-                }
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("files");
+            if(db.Done()&&rs!=null){
+                    while(rs.next()){
+                            try {
+                                if(!"mp4".equals(rs.getString("files_type")))
+                                list.add(new Files(rs.getInt("files_id")));
+                            } catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                    }
+                    }
+        } catch (Exception ex) { Log.getOut(ex.getMessage());}
         return list;
    }
     

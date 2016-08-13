@@ -13,11 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     User user = (User) session.getAttribute("user");
-    if(user==null) {
-        response.sendError(500, "You are not logined"); 
-        return;}
-    if(!user.isLogined()) response.sendError(500, "You are not logined");
-    
+    if(user==null) { response.sendError(500, "You are not logined"); return;}
+    if(!user.isLogined()) {response.sendError(500, "You are not logined"); return;}
+try{    
     Course course = (Course) session.getAttribute("course");
     ArrayList<Test> test = (ArrayList<Test>) session.getAttribute("test");
     ArrayList<Material> material = (ArrayList<Material>) session.getAttribute("material");
@@ -90,4 +88,9 @@
     }
     else response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));
 
-}}%>
+}}
+
+}catch(Exception ex){
+    Log.getOut(ex.getLocalizedMessage()+"\n"+ex.getMessage());
+    response.sendRedirect("/elearning/Error.jsp");
+}%> 

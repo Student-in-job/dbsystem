@@ -4,6 +4,9 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.ObjectNotFind"%>
+<%@page import="DataBase.IllegalAction"%>
+<%@page import="java.sql.SQLException"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DataBase.Log"%>
 <%@page import="java.util.Map.Entry"%>
@@ -12,23 +15,25 @@
 <%@page import="Learning.*"%>
 
 <%
-try{
+
         
     User user = (User) session.getAttribute("user");
-    if(user==null||!user.isLogined())
-        response.sendRedirect("../login.jsp");
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
     
     String url, name = null, inventory=null, typ=null, mark ="";
     int level=0, minlevel=-1, duration=0, program=0, area=0;
     Program np;
     program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
-    url=0==program?"CreateProgram.jsp":"EditProgram.jsp";
+    url= 0==program?"CreateProgram.jsp":"EditProgram.jsp";
     
     if(request.getMethod()=="GET"){
     
         if(program!=0){
 
-            np = new Program(program);
+            try{
+                np = new Program(program);
+            }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
             name = np.getName();
             inventory = np.getInventory();
             area = np.getAreaID();
@@ -61,18 +66,33 @@ try{
             if(program==0){
 
                 np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-                mark = np.Write(user);
+                try{
+                    mark = np.Write(user);
+                }catch(Exception ex){
+                    Log.getOut(ex.getMessage()); 
+                    response.sendRedirect("/elearning/Error.jsp"); 
+                    return;
+                }
+            
                 if(mark==null)
-                    response.sendRedirect("../UserBar.jsp");
+                {response.sendRedirect("Program.jsp?program="+np.getID()); return;}
 
             }
 
             else{
 
-                np = new Program(program);
-                mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
+                try{
+                    np = new Program(program);
+                }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+            
+                try{
+                    mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
+                }catch(SQLException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+                catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+                
                 if(mark==null)
-                    response.sendRedirect("../UserBar.jsp");
+                {response.sendRedirect("Program.jsp?program="+np.getID()); return;}
                 else{
 
                     name = np.getName();
@@ -146,10 +166,4 @@ try{
         
     </body>
 </html>
-<%
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>
+

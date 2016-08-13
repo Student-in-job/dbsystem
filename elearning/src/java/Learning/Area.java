@@ -7,7 +7,7 @@ package Learning;
 
 import DataBase.DataBase;
 import DataBase.Log;
-import DataBase.NotFaundObject;
+import DataBase.ObjectNotFind;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class Area extends Parent{
                 rs.next();
                 this.Name =  rs.getString("area_name");
 }
-        else throw new NotFaundObject();
+        else throw new ObjectNotFind();
     }
     
     public Area(String name){

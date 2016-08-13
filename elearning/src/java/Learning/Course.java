@@ -98,7 +98,7 @@ public class Course extends Parent {
         else return db.Message();
     }
     
-    public Schedule getSchadule() throws Exception{
+    public Schedule getSchadule(){
         return  this.Schedule;
     }
     
