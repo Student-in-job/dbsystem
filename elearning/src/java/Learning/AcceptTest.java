@@ -17,8 +17,8 @@ import java.util.Random;
 public class AcceptTest  extends Parent{
     
     private int ID;
-    private int TestID;
-    private int UserHasCourseID;
+    private Test Test;
+    private User_courses UserHasCourse;
     private ArrayList<TestTask> Task;
     public HashMap<Integer, String> Answer; 
     private int Ball;
@@ -40,8 +40,8 @@ public class AcceptTest  extends Parent{
     }
     
     public AcceptTest(User_courses user_course, Test test) throws Exception{
-        this.TestID = test.getID();
-        this.UserHasCourseID = user_course.getID();
+        this.Test = test;
+        this.UserHasCourse = user_course;
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
@@ -54,7 +54,7 @@ public class AcceptTest  extends Parent{
         
     }
     
-    public void Final(){
+    public void Final() throws Exception{
         Ball=0; Right =0;
         for(int i=0; i<Task.size(); i++){
             if(Task.get(i).getAnswer().equals(Answer.get(i))){ Ball+=Task.get(i).getPoint(); Right++;}
@@ -101,26 +101,32 @@ public class AcceptTest  extends Parent{
     static private ArrayList Mix(ArrayList list){
         Random r = new Random();
         Object b;
-        int j;
+        int j, k;
         for(int i=0; i<list.size(); i++){
-            j = r.nextInt(list.size()-1);
-            b=list.get(i);
-            list.set(i, list.get(j));
+            j = r.nextInt(list.size());
+            k = r.nextInt(list.size());
+            b=list.get(k);
+            list.set(k, list.get(j));
             list.set(j, b);
         }
         return list;
     }
     
-    public int getUserHasCourse(){
-        return UserHasCourseID;
+    public User_courses getUserHasCourse(){
+        return UserHasCourse;
     }
     
     public int getTestID(){
-        return TestID;
+        return Test.getID();
     }
     
-    public Test getTest() throws Exception{
-        return new Test(TestID);
+    public Test getTest(){
+        return Test;
+    }
+
+    @Override
+    public boolean MayChange(){
+        return false;
     }
     
 }

@@ -4,16 +4,18 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.InvalidParameter"%>
+<%@page import="DataBase.IllegalAction"%>
+<%@page import="java.io.IOException"%>
+<%@page import="DataBase.ObjectNotFind"%>
 <%@page import="DataBase.Log"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-try{
-    
-    
     User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
     
     String url=null, name=null, inventory = null, mark="";
     int day=0, test, program;
@@ -25,7 +27,9 @@ try{
 if(request.getMethod()=="GET"){
     if(test!=0){
         
-        nt = new Test(test);
+        try{
+            nt = new Test(test);
+        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
         name = nt.getName();
         day = nt.getDay();
         inventory = nt.getInventory();
@@ -44,21 +48,26 @@ if(request.getMethod()=="POST"){
     boolean d = day<=0;
     if(!(n||d||i)){
     
-        if(test==0){
+        try{
+            if(test==0){
 
-            Program prog = new Program(program);
-            nt = new Test(name, day, inventory);
-            mark = nt.Write(prog , user);
-            if(mark==null)
-                        response.sendRedirect("Test.jsp?test="+prog.getLastTest().getID());
-        }
-        else{
+                Program prog = new Program(program);
+                nt = new Test(name, day, inventory);
+                nt.Write(prog , user);
+                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
+            }
+            else{
 
-            nt = new Test(test);
-            mark = nt.Change(name, inventory, day, user);
-            if(mark==null)
-                    response.sendRedirect("Test.jsp?test="+nt.getID());
-        }   
+                nt = new Test(test);
+                nt.Change(name, inventory, day, user);
+                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
+            }   
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
     }  
 }
 %>
@@ -90,12 +99,3 @@ if(request.getMethod()=="POST"){
         </form>
     </body>
 </html>
-<%}
-else response.sendRedirect("login.jsp");
-
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>

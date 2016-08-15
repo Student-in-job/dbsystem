@@ -6,9 +6,7 @@
 package Learning;
 
 import DataBase.DataBase;
-import DataBase.Log;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -42,20 +40,10 @@ public class User_courses extends Parent {
         ID = id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
                     rs.next();
                     this.user_id = rs.getInt("user");
                     this.course_id = rs.getInt("course");
-                    //this.Datetime = rs.getString("user_has_course_datetime");
-
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else throw new Exception();
-        
+                    this.Datetime = rs.getDate("user_has_course_datetime");
     }
     
     public int getUser_id() {
@@ -78,13 +66,18 @@ public class User_courses extends Parent {
         this.course_id = course_id;
     }
 
-    public void setID(int ID) {
+    /*public void setID(int ID) {
         this.ID = ID;
-    }
+    }*/
     
-    public String Write() throws Exception
+    public boolean Write() throws Exception
     {
         return this.write();
+    }
+
+    @Override
+    public boolean MayChange() {
+        return false;
     }
     
 }

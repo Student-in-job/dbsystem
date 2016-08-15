@@ -20,7 +20,7 @@ public class Files extends Parent{
     
     protected String Name;
     protected String Extension;
-    protected int MaterialID;
+    protected Material Material;
     protected Part Part;
     protected final String Path = db.getRealPath() + "uploadFiles/materials/";
     
@@ -64,19 +64,11 @@ public class Files extends Parent{
         this.ID=id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
                     rs.next();
                     this.Name = rs.getString("files_name");
                     this.Extension = rs.getString("files_type");
-                    this.MaterialID = rs.getInt("material");
+                    this.Material = new Material(rs.getInt("material"));
 
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else throw new Error();
     }
     
     public Files(Part part){
@@ -87,56 +79,33 @@ public class Files extends Parent{
     }
     
     
-    public String Write(Material material, User user) throws Exception{
+    public boolean Write(Material material, User user) throws Exception{
         
-        if(user.getID()!=material.getProgram().getTeacherID()) return "Вы не можете этого сделать";
-        if(!material.MayChange()) return "Вы не можете менять опублекованную программу";
+        if(user.getID()!=material.getProgram().getTeacherID()) throw new IllegalAction();
+        if(!material.MayChange()) throw new IllegalAction();
         
-        if(!this.CorrectExtension()) return "Invalid extension file. Valid only .mp4, .pdf, .doc/.dox, .ppt/.pptx; ";
+        if(!this.CorrectExtension()) throw new InvalidParameter();
         
-        MaterialID = material.getID();    
-        DataBase db = new DataBase(this);
-        db.Write();
-        if(db.Done()){
-            DataBase db2 = new DataBase(material);
-            ResultSet rs2 = db2.FindLast("files");
-            if(db2.Done()&&rs2!=null){
-                try{
-                    rs2.next();
-                    this.ID = rs2.getInt("files_id");
-                    String mark = this.SaveFile();
-                if(mark==null)
-                    return null;
-                else{
-                    db.Delete();
-                    return mark;
-                }
-                }
-                catch(Exception ex){
-                    db.Delete();
-                    return "Error; ";
-                }
-                
-            }
-            else return db2.Message();
+        Material = material;   
+        this.write();
+        if(this.SaveFile()) return true;
+        else{
+            DataBase db = new DataBase(this);
+            db.Delete();
+            return false;
         }
-        else return db.Message();
         
             
     }
     
-    protected String SaveFile() throws IOException, Exception{
+    protected boolean SaveFile() throws IOException{
         
         
         String path = Path + this.getMaterial().getProgramID() + "/";
         new File(path).mkdirs();
         path += ID + "." + Extension;
         Part.write(path);
-        if(new File(path).exists())
-            return null;
-        else{
-            return "File not writen; ";
-        }        
+        return new File(path).exists();
     }
     
     static private String extractFileName(Part part) {
@@ -167,17 +136,16 @@ public class Files extends Parent{
     }
     
     public int getMaterialID(){
-        return MaterialID;
+        return Material.getID();
     }
     
     public Material getMaterial(){
-        try{return new Material(MaterialID);}
-        catch(Exception ex){return null;}
+        return Material;
     }
         
     public String getURL() throws Exception{
         
-        return "/elearning/uploadFiles/materials/" + this.getMaterial().getProgramID() + "/" + ID + "." + Extension;
+        return Path + this.getMaterial().getProgramID() + "/" + ID + "." + Extension;
     }
        
 }

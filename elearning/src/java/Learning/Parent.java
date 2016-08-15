@@ -14,30 +14,15 @@ package Learning;
 import DataBase.DataBase;
 import java.sql.SQLException;
 
-public class Parent {
+public abstract class Parent {
     
     protected int ID;
-    protected boolean FromDataBase;
     
-    public boolean FromDB(){
-        
-        return false;
-    }
+    abstract public int getID();
     
-    public int getID(){
-        
-        return 0;
-    }
+    abstract public String getType();
     
-    public String getType(){
-        
-        return "parant";
-    }
-    
-    public int getTypeIndex(){
-        
-        return 0;
-    }
+    abstract public int getTypeIndex();
     
     public String Delete() throws Exception{
         
@@ -48,18 +33,16 @@ public class Parent {
         else return db.Message();
     }
     
-    public boolean MayChange(){
-        return false;
-    }
+    abstract public boolean MayChange();
     
-    protected String write() throws SQLException{
+    protected boolean write() throws SQLException{
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
             this.ID=db.ID(); 
-            return null;
+            return true;
         }
-        else return db.Message();
+        else return false;
     }
     
 }

@@ -6,6 +6,7 @@
 package Learning;
 
 import DataBase.DataBase;
+import DataBase.IllegalAction;
 import DataBase.Log;
 import DataBase.ObjectNotFind;
 import java.sql.ResultSet;
@@ -39,63 +40,67 @@ public class Area extends Parent{
         ID = id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
                 rs.next();
                 this.Name =  rs.getString("area_name");
-}
-        else throw new ObjectNotFind();
     }
     
     public Area(String name){
         Name = name;
     }
     
-    public String Write(User user) throws Exception{
+    public boolean Write(User user) throws Exception{
         
-        if(user==null) return "Вы не можете этого сделать";
+        if(user==null) throw new IllegalAction();
         return this.write();
     }
     
-    public ArrayList<Program> getPrograms() throws Exception{
+    public ArrayList<Program> getPrograms(){
         ArrayList<Program> list = new ArrayList<Program>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("program");
-        if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        Program pg = new Program(rs.getInt("program_id"));
-                        if(pg.isPublished())
-                            list.add(pg);
-                    }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw ex;
-                }
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("program");
+                        while(rs.next()){
+                            try{
+                                Program pg = new Program(rs.getInt("program_id"));
+                                if(pg.isPublished())
+                                    list.add(pg);
+                            }catch (SQLException ex){
+                                Log.getOut(ex.getMessage());
+                            }
+                        }                
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
         }
-        else return null;
+        
+        return list;
     }
     
-    public ArrayList<Area> getAll() throws Exception{
+    public ArrayList<Area> getAll(){
         ArrayList<Area> list = new ArrayList<Area>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.All();
-        if(db.Done()&&rs!=null){
-                try {
-                    while(rs.next()){
-                        list.add(new Area(rs.getInt("area_id")));
-                    }
-                    return list;
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw ex;
-                }
-        }
-        else return null;
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.All();
+                        while(rs.next()){
+                            try{
+                                list.add(new Area(rs.getInt("area_id")));
+                            }catch (SQLException ex) {
+                                Log.getOut(ex.getMessage());
+                            }
+                        }
+            }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            }
+        
+        return list;
     }
     
     public String getName(){
         return Name;
+    }
+
+    @Override
+    public boolean MayChange() {
+        return false;
     }
 }
 

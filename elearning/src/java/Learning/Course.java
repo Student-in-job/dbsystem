@@ -80,7 +80,7 @@ public class Course extends Parent {
         return new Program(this.ProgramID);
     } 
     
-    public String Write(User user, ArrayList<Component> comp) throws Exception{
+    public boolean Write(User user, ArrayList<Component> comp) throws Exception{
         this.Schedule =  new Schedule(comp);
         this.Public = user.getID() == this.getProgram().getTeacherID();
         DataBase db = new DataBase(this);
@@ -93,9 +93,9 @@ public class Course extends Parent {
                 uhc.setUser_id(user.getID());
                 return uhc.Write();
             }
-            return null;
+            return true;
         }
-        else return db.Message();
+        else return false;
     }
     
     public Schedule getSchadule(){
@@ -112,5 +112,10 @@ public class Course extends Parent {
     
     public int getProgramID(){
         return ProgramID;
+    }
+
+    @Override
+    public boolean MayChange() {
+        return false;
     }
 }

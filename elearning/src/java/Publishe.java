@@ -42,23 +42,9 @@ public class Publishe extends HttpServlet {
             response.sendRedirect("/elearning/login.jsp");
             int p = Integer.parseInt(request.getParameter("program"));
             Program prog = new Program(p);
-            String mark = prog.Publish(user);
-            if(mark==null) response.sendRedirect("/elearning/UserBar.jsp");
-            else
-            {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet Publishe</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Servlet Publishe at " + mark + "</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-        } catch (Exception ex) {
-            Log.getOut(ex.getMessage());
-        }
+            prog.Publish(user);
+            response.sendRedirect("/elearning/UserBar.jsp"); return;
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

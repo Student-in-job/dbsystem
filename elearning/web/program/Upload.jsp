@@ -10,12 +10,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-try{
-
-User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
-String mark = null;
-int material = Integer.parseInt(request.getParameter("material"));
+    User user = (User) session.getAttribute("user");
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
+    String mark = null;
+    int material = Integer.parseInt(request.getParameter("material"));
 
 %>
 
@@ -37,11 +36,4 @@ int material = Integer.parseInt(request.getParameter("material"));
     </form>
 </body>
 </html>
-<%}
-else response.sendRedirect("login.jsp");
-}
-catch(Exception ex){
-    Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>
+

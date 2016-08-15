@@ -4,13 +4,11 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-try{    
-    
+<%      
 if(request.getMethod()=="GET"){
 %>
 <!DOCTYPE html>
@@ -44,8 +42,13 @@ else
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
         User user = new User(mail, password);
-        String mark = user.Authorize();
-        if(mark==null)
+        boolean a=false;
+        try{
+            a = user.Authorize();
+        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
+        if(a)
         {
             request.getSession().setAttribute("user", user);
             response.sendRedirect("UserBar.jsp");
@@ -60,8 +63,8 @@ else
                 </head>
                 <body>
                     <h1>Log in</h1>
-                    <h2 style="color: red;"><%=mark%></h2>
                     <section>
+                        <p>Uncorrect password</p>
                         <form action="login.jsp" method="post">
                             <div>
                             <p>e-mail:</p>
@@ -79,9 +82,4 @@ else
 <%
         }
     }
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
 %>

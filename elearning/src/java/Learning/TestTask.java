@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class TestTask extends Parent{
 
-    protected int TestID;
+    protected Test Test;
     protected String Question;
     protected String Answer;
     protected String Variant1;
@@ -23,7 +23,6 @@ public class TestTask extends Parent{
     protected String Variant3;
     protected String Variant4;
     protected int Point;
-    protected int Number;
     
     @Override
     public int getID(){
@@ -57,15 +56,11 @@ public class TestTask extends Parent{
         this.Point = point;
     }
     
-    public TestTask(int id) throws Exception
-    {
+    public TestTask(int id) throws Exception{
         this.ID = id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
                     rs.next();
-                    this.Number = rs.getInt("test_task_no");
                     this.Question = rs.getString("test_task_text");
                     this.Answer = rs.getString("test_task_answer");
                     this.Variant1 = rs.getString("test_task_v1");
@@ -73,39 +68,30 @@ public class TestTask extends Parent{
                     this.Variant3 = rs.getString("test_task_v3");
                     this.Variant4 = rs.getString("test_task_v4");
                     this.Point = rs.getInt("test_task_ball");
-                    this.TestID = rs.getInt("test");
-
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else throw new Error();
+                    this.Test = new Test(rs.getInt("test"));
     }
     
     
     
-    public String Write(Test test, User user) throws Exception{
+    public boolean Write(Test test, User user) throws Exception{
         
-        if(user.getID()!=test.getProgram().getTeacherID()) return "Вы не можете этого сделать";
-        if(!test.MayChange()) return "Вы не можете менять опублекованную программу";
+        if(user.getID()!=test.getProgram().getTeacherID()) throw new IllegalAction();
+        if(!test.MayChange()) throw new IllegalAction();
         
-        TestID = test.getID();
+        Test = test;
         return this.write();
     }
     
-    public String Change(String question, String answer, String v1, String v2, String v3, String v4, int point, User user) throws Exception{
+    public boolean Change(String question, String answer, String v1, String v2, String v3, String v4, int point, User user) throws Exception{
         
-        if(this.getTest().getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
-        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
+        if(this.getTest().getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
+        if(!this.MayChange()) throw new IllegalAction();
         TestTask task = new TestTask(question, answer, v1, v2, v3, v4, point);
-        task.TestID = this.TestID;
+        task.Test = this.Test;
         task.ID = this.ID;
         DataBase db = new DataBase(task);
         db.ReWrite();
-        if(db.Done())
-            return null;
-        else return db.Message();
+        return db.Done();
     }
     
     
@@ -115,12 +101,11 @@ public class TestTask extends Parent{
     
     public Test getTest(){
         
-        try{return new Test(this.TestID);}
-        catch(Exception ex){return null;}
+        return Test;
     }
     
     public int getTestID(){
-        return this.TestID;
+        return this.Test.getID();
     }
     
     public String getQuestion(){
@@ -150,10 +135,7 @@ public class TestTask extends Parent{
     public int getPoint(){
         return this.Point;
     }
-    
-    public int getNumber(){
-        return this.Number;
-    }
+
     
     
 }

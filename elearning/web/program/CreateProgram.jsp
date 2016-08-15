@@ -4,6 +4,8 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.InvalidParameter"%>
+<%@page import="java.io.IOException"%>
 <%@page import="DataBase.ObjectNotFind"%>
 <%@page import="DataBase.IllegalAction"%>
 <%@page import="java.sql.SQLException"%>
@@ -63,45 +65,25 @@
         boolean m = minlevel<0;
         if(!(n||i||t||d||l||m)){
         
+        try{    
             if(program==0){
 
                 np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-                try{
-                    mark = np.Write(user);
-                }catch(Exception ex){
-                    Log.getOut(ex.getMessage()); 
-                    response.sendRedirect("/elearning/Error.jsp"); 
-                    return;
-                }
-            
-                if(mark==null)
-                {response.sendRedirect("Program.jsp?program="+np.getID()); return;}
+                np.Write(user);
+                response.sendRedirect("Program.jsp?program="+np.getID()); return;
 
             }
-
             else{
-
-                try{
-                    np = new Program(program);
-                }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-            
-                try{
-                    mark = np.Change(name, inventory, typ, level, minlevel, duration, user);
-                }catch(SQLException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-                catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-                
-                if(mark==null)
-                {response.sendRedirect("Program.jsp?program="+np.getID()); return;}
-                else{
-
-                    name = np.getName();
-                    inventory = np.getInventory();
-                    typ = np.getTyp();
-                    level = np.getLevel();
-
+                np = new Program(program);
+                np.Change(name, inventory, typ, level, minlevel, duration, user);
+                response.sendRedirect("Program.jsp?program="+np.getID()); return;
             }
-        }
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+                 
     }
 }    
 %>

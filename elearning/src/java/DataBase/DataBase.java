@@ -181,17 +181,11 @@ public class DataBase {
                 break;
             }
             
-            case 8 : {
+            /*case 8 : {
                 
                 this.rewrite_user_has_course();
                 break;
-            }
-            
-            case 9 : {
-                
-                //this.rewrite_user_has_course();
-                break;
-            }
+            }*/
             
             case 10 : {
                 
@@ -217,9 +211,7 @@ public class DataBase {
     public ResultSet FindUser() throws Exception {
         
         if(!"user".equals(Type)){
-            Done=false;
-            ErrorMessage += "Can not find " + Type + " as user; ";
-            return null;
+            throw new IllegalAction();
         }
         
             PreparedStatement stmt = Connection.prepareStatement
@@ -335,21 +327,18 @@ public class DataBase {
         
         User user = (User) Ons;
         
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             PreparedStatement stmt = Connection.prepareStatement
         ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, user.getMail());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getName());
             stmt.setString(4, user.getSurname());
-            stmt.setString(5, dateFormat.format(user.getDirthday()));
+            stmt.setDate(5, new Date(user.getDirthday().getTime()));
             stmt.setString(6, user.getGender());
             Done = stmt.executeUpdate() == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }      
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);    
         
     }
 
@@ -382,8 +371,6 @@ public class DataBase {
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();
-            
-            
             if(rs.next()) 
                 OnsID = rs.getInt(1);
     }
@@ -398,11 +385,9 @@ public class DataBase {
             stmt.setString(3, file.getExtension());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
             
         
     }
@@ -411,32 +396,29 @@ public class DataBase {
         
         TestTask task = (TestTask) Ons;
         
-            PreparedStatement stmt = Connection.prepareStatement("select (case when max(test_task_no) is null then 0 else max(test_task_no) end)+1 as 'nom' from test_task where test=? and test_task_deleted=0;");
+            /*PreparedStatement stmt = Connection.prepareStatement("select (case when max(test_task_no) is null then 0 else max(test_task_no) end)+1 as 'nom' from test_task where test=? and test_task_deleted=0;");
             stmt.setInt(1, task.getTestID());
             ResultSet rs = stmt.executeQuery();
             int no=0;
             if(rs.next()) 
-                no = rs.getInt("nom");
+                no = rs.getInt("nom");*/
             
-            stmt = Connection.prepareStatement
-        ("INSERT INTO test_task (test_task_no, test_task_text, test_task_answer, test_task_v1, test_task_v2, test_task_v3, test_task_v4, test_task_ball, test) " +
+            PreparedStatement stmt = Connection.prepareStatement
+        ("INSERT INTO test_task (test_task_text, test_task_answer, test_task_v1, test_task_v2, test_task_v3, test_task_v4, test_task_ball, test) " +
                                             " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, no);
-            stmt.setString(2, task.getQuestion());
-            stmt.setString(3, task.getAnswer());
-            stmt.setString(4, task.getVariant1());
-            stmt.setString(5, task.getVariant2());
-            stmt.setString(6, task.getVariant3());
-            stmt.setString(7, task.getVariant4());
-            stmt.setInt(8, task.getPoint());
-            stmt.setInt(9, task.getTestID());
+            stmt.setString(1, task.getQuestion());
+            stmt.setString(2, task.getAnswer());
+            stmt.setString(3, task.getVariant1());
+            stmt.setString(4, task.getVariant2());
+            stmt.setString(5, task.getVariant3());
+            stmt.setString(6, task.getVariant4());
+            stmt.setInt(7, task.getPoint());
+            stmt.setInt(8, task.getTestID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
             
         
     }
@@ -453,11 +435,9 @@ public class DataBase {
             stmt.setString(4, test.getInventory());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
             
     }
 
@@ -475,11 +455,11 @@ public class DataBase {
             stmt.setString(6, mat.getText());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
+            
+            
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
             
         
     }
@@ -498,11 +478,9 @@ public class DataBase {
             
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
             
         
     }
@@ -517,11 +495,7 @@ public class DataBase {
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
+            
             
         
     }
@@ -549,11 +523,7 @@ public class DataBase {
                         Done &= stmt.executeUpdate() == 1;
                 }
                 
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
+            
             
     
     }
@@ -565,41 +535,31 @@ public class DataBase {
         PreparedStatement stmt = Connection.prepareStatement
         ("insert into accept_test (accept_test_date, user_has_course, test) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
         
-            stmt.setInt(1, accept.getUserHasCourse());
+            stmt.setInt(1, accept.getUserHasCourse().getID());
             stmt.setInt(2, accept.getTestID());
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);
-                        
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
+            
     }
 
     private void rewrite_user() throws SQLException {
         
         User user = (User) Ons;
         
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Connection conn  = db.getConn();
             PreparedStatement stmt = conn.prepareStatement
         ("update user set passwords=?, user_name=?, user_surname=?, birthday=?, gender=?, user_mail=? where user_id = ?;");
             stmt.setString(1, user.getPassword());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getSurname());
-            stmt.setString(4, dateFormat.format(user.getDirthday()));
+            stmt.setDate(4, new Date(user.getDirthday().getTime()));
             stmt.setString(5, user.getGender());
             stmt.setString(6, user.getMail());
             stmt.setInt(7, user.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            
             
     }
 
@@ -620,11 +580,7 @@ public class DataBase {
             stmt.setInt(9, program.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            
         
     }
 
@@ -642,11 +598,7 @@ public class DataBase {
             stmt.setInt(6, mat.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            
             
         
     }
@@ -663,11 +615,7 @@ public class DataBase {
             stmt.setInt(4, test.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            
             
        
     }
@@ -688,17 +636,7 @@ public class DataBase {
             stmt.setInt(8, task.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
             
-        
-    }
-
-    private void rewrite_files() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
      private void rewrite_user_has_course() throws SQLException {
@@ -713,11 +651,7 @@ public class DataBase {
             
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; Затронуто "+n+" строк; ";
-                return;
-            }
+            
      }
 
     private void rewrite_accept_test() throws SQLException {
@@ -730,12 +664,7 @@ public class DataBase {
             stmt.setInt(1, accept.getBall());
             stmt.setInt(2, accept.getID());
             Done = stmt.executeUpdate() == 1;
-                                    
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при записи; ";
-                return;
-            }
+            
     }
 
     

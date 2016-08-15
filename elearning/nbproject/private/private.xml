@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/Read.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/UserBar.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/src/java/Learning/Material.java</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/src/java/DataBase/DataBase.java</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/src/java/Learning/Parent.java</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/src/java/Learning/Program.java</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateProgram.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -4,14 +4,19 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.InvalidParameter"%>
+<%@page import="java.io.IOException"%>
+<%@page import="DataBase.ObjectNotFind"%>
+<%@page import="DataBase.IllegalAction"%>
+<%@page import="java.sql.SQLException"%>
 <%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-try{    
+<%   
     User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
         
     String mark=null, url, typ="Lecture", text=null, name=null, inventory=null;
     int day=0, material = Integer.parseInt(request.getParameter("material")), program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
@@ -22,7 +27,10 @@ try{
 if(request.getMethod()=="GET"){
     if(material!=0){
         
-        nm = new Material(material);
+        try{
+            nm = new Material(material);
+        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+            
         typ = nm.getTyp();
         text = nm.getText();
         name = nm.getName();
@@ -45,23 +53,26 @@ if(request.getMethod()=="POST"){
     boolean i = inventory==null||"".equals(inventory);
     boolean d = day<=0;
     if(!(n||d||i)){
-    
+        
+    try{    
         if(material==0){
 
-            Program prog = new Program(program);
-            nm = new Material(typ, text, name, inventory, day);    
-            mark = nm.Write(prog , user);
-            if(mark==null)
-
-                response.sendRedirect("Upload.jsp?material="+prog.getLastMaterial().getID());
+                Program prog = new Program(program);
+                nm = new Material(typ, text, name, inventory, day);    
+                nm.Write(prog , user);
+                response.sendRedirect("Upload.jsp?material="+nm.getID());
         }
         else{
-
-            nm = new Material(material);
-            mark = nm.Change(typ, text, name, inventory, day, user);
-            if(mark==null)
-                    response.sendRedirect("Material.jsp?material="+nm.getID());
+                nm = new Material(material);
+                nm.Change(typ, text, name, inventory, day, user);
+                response.sendRedirect("Material.jsp?material="+nm.getID());
         }
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
     }
 }
 %>    
@@ -115,15 +126,3 @@ if(request.getMethod()=="POST"){
             
     </body>
 </html>
-   
-<%}
-else response.sendRedirect("login.jsp");
-
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
-%>
-
-

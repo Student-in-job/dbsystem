@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class Program extends Parent{
     
-    private int ID;
     private String State;
     private String Name;
     private String Typ;
@@ -53,8 +52,6 @@ public class Program extends Parent{
         this.ID = id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        
-                
                     rs.next();
                     this.AreaID = rs.getInt("area");
                     this.Duration = rs.getInt("program_duration");
@@ -156,19 +153,15 @@ public class Program extends Parent{
     }  
     
     
-    public String Write(User user) throws SQLException
+    public boolean Write(User user) throws SQLException
     {
         TeacherID = user.getID();
         DataBase db = new DataBase(this);
         db.Write();
-        if(db.Done()) {
-            this.ID=db.ID(); 
-            return null;
-        }
-        else return db.Message();
+        return this.write();
     }
     
-    public String Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user) throws Exception{
+    public boolean Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user) throws Exception{
         
         if(TeacherID != user.getID()) throw new IllegalAction();
         if(!this.MayChange()) throw new IllegalAction();
@@ -177,21 +170,17 @@ public class Program extends Parent{
         prg.ID = this.ID;
         DataBase db = new DataBase(prg);
         db.ReWrite();
-        if(db.Done())
-            return null;
-        else return db.Message();
+        return db.Done();
     }
     
-    public String Publish(User user) throws Exception{
+    public boolean Publish(User user) throws Exception{
         
         if(TeacherID != user.getID()) throw new IllegalAction();
         if(this.Correct()!=null) throw new InvalidParameter();
         this.State = "active";
         DataBase db = new DataBase(this);
         db.ReWrite();
-        if(db.Done())
-            return null;
-        else return db.Message();
+        return db.Done();
     }
     
     public boolean MayAddTest(){

@@ -14,7 +14,8 @@
     if(request.getMethod().equals("POST")){
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
         if(accept==null){
-            User_courses uhc = new User_courses(Integer.parseInt(request.getParameter("uhc")));
+            int cours = Integer.parseInt(request.getParameter("course"));
+            User_courses uhc = user.getHasCours(new Course(cours));
             Test test = new Test(Integer.parseInt(request.getParameter("test")));
             
             Date dt = uhc.getCourse().getSchadule().getDateOf(test);

@@ -5,8 +5,6 @@ import DataBase.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -22,7 +20,7 @@ public class User extends Parent{
     protected String password;
     protected String Name;
     protected String Surname;
-    protected Date Birthday;
+    protected java.util.Date Birthday;
     protected String Gender;
     protected boolean Logined;
     protected int Rating;
@@ -56,7 +54,6 @@ public class User extends Parent{
         this.Surname = surname;
         this.Birthday = birthday;
         this.Gender = gender;
-        FromDataBase = false;
         
     }
   
@@ -64,159 +61,143 @@ public class User extends Parent{
         Logined = false;
         this.mail = mail;
         this.password = password;
-        FromDataBase = false;
     }
 
-  public int getHasCoursID(int course) throws Exception{
+  public User_courses getHasCours(Course course) throws Exception{
       
-      PreparedStatement stmt = db.getConn().prepareStatement
+        PreparedStatement stmt = db.getConn().prepareStatement
         ("select * from user_has_course where course = ? and user = ?;");
-        stmt.setInt(1, course);
+        stmt.setInt(1, course.getID());
         stmt.setInt(2, this.ID);
         ResultSet rs = stmt.executeQuery();
         if(rs!=null){
             if(rs.next())
-                return rs.getInt("user_has_course_id");
-            
+                return new User_courses(rs.getInt("user_has_course_id"));
         }
-        return 0;
+        throw new ObjectNotFind();
   }
   
-  public ArrayList<Program> getActivePrograms() throws Exception
-    {
-        if(!Logined) return null;
+  public ArrayList<Program> getActivePrograms(){
+      
         ArrayList<Program> list = new ArrayList<Program>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("program");
-        if(db.Done()&&rs!=null){
-                while(rs.next())
-                    try{
-                        if(rs.getString("program_state").equals("active"))
-                        list.add(new Program(rs.getInt("program_id")));
-                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("program");
+                    while(rs.next())
+                        try{
+                            if(rs.getString("program_state").equals("active"))
+                            list.add(new Program(rs.getInt("program_id")));
+                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
         }
+
         return list;
     }
   
-    public ArrayList<Program> getCreatedPrograms() throws Exception
-    {
-        if(!Logined) return null;
+    public ArrayList<Program> getCreatedPrograms(){
+        
         ArrayList<Program> list = new ArrayList<Program>();
+        try{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find("program");
-        if(db.Done()&&rs!=null){
-                while(rs.next())
+            while(rs.next())
                     try{
                         if(rs.getString("program_state").equals("created"))
                         list.add(new Program(rs.getInt("program_id")));
-                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+                    }catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
         }
+        
         return list;
     }
   
-    public UserSchedule getSchedule() throws Exception{
-        UserSchedule schedule= new UserSchedule();
+    public UserSchedule getMySchedule(){
+        UserSchedule uschedule= new UserSchedule();
         ArrayList<Course> courses = this.getLearningCourses();
         for(int i=0; i<courses.size(); i++)
-            schedule.addSchedule(courses.get(i).getSchadule());
-        return schedule;
+            uschedule.addSchedule(courses.get(i).getSchadule());
+        return uschedule;
     }
   
-    public ArrayList<Course> getLearningCourses() throws Exception
-    {
-        if(!Logined) return null;
+    public ArrayList<Course> getLearningCourses(){
         ArrayList<Course> list = new ArrayList<Course>();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("user_has_course");
-        if(db.Done()&&rs!=null){
-                while(rs.next())
-                    try{
-                        Course c = new Course(rs.getInt("course"));
-                        list.add(c);
-                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("user_has_course");
+                    while(rs.next())
+                        try{
+                            Course c = new Course(rs.getInt("course"));
+                            list.add(c);
+                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
         }
+        
         return list;
     }
     
-    public ArrayList<Course> getTeachengCourses() throws Exception
-    {
-        if(!Logined) return null;
+    public ArrayList<Course> getTeachengCourses(){
+        
         ArrayList<Course> list = new ArrayList<Course>();
-        PreparedStatement stmt = db.getConn().prepareStatement
-        ("select * from course where program in (select program_id from program where user = ?) and course_deleted=0;");
-        stmt.setInt(1, this.ID);
-        ResultSet rs = stmt.executeQuery();
-        if(rs!=null){
-                while(rs.next())
-                    try{
-                        list.add(new Course(rs.getInt("course_id")));
-                    }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from course where program in (select program_id from program where user = ?) and course_deleted=0;");
+            stmt.setInt(1, this.ID);
+            ResultSet rs = stmt.executeQuery();
+            if(rs!=null){
+                    while(rs.next())
+                        try{
+                            list.add(new Course(rs.getInt("course_id")));
+                        }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
+            }
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
         }
+        
         return list;
     }
  
-    public String Change(String mail, String password, String name, String surname, Date birthday, String gender) throws Exception
+    public boolean Change(String mail, String password, String name, String surname, Date birthday, String gender) throws Exception
     {
-        if(!Logined) return "Onli  for logined; ";
+        if(!Logined) throw new IllegalAction();
         User us = new User(mail, password, name, surname, birthday, gender);
         us.ID = this.ID;
         DataBase db = new DataBase(us);
         db.ReWrite();
-        if(db.Done())
-            return "";
-        else return db.Message();
+        return db.Done();
     }
     
-    public String Register() throws Exception
+    public boolean Register() throws Exception
     {
         if(!Logined){
             return this.write();
         }
-        else return "Logined user can not registre!"; 
+        else return false; 
     }
 
-    public String Authorize() throws ParseException, Exception
-    {
-        try {
+    public boolean Authorize() throws Exception{
+        
             DataBase db = new DataBase(this);
-            ResultSet rs = db.FindUser(); 
-            if(db.Done()){
-                if(rs!=null){
-                    rs.next();
-                    if(password.equals(rs.getString("passwords"))){
-                        Logined = true;
-                        this.ID =  rs.getInt("user_id");
-                        this.Name = rs.getString("user_name");
-                        this.Surname = rs.getString("user_surname");
-                        this.Gender = rs.getString("gender");
-                        SimpleDateFormat format = new SimpleDateFormat();
-                        format.applyPattern("yyyy-MM-dd");
-                        try {
-                            Birthday = format.parse(rs.getString("birthday"));
-                        } catch (ParseException ex) {
-                            Log.getOut(ex.getMessage());
-                            throw ex;
-                        }
-                        return null;
-                    }
-                    else return "Uncorrect password";
+                ResultSet rs = db.FindUser(); 
+                rs.next();
+                if(password.equals(rs.getString("passwords"))){
+                            Logined = true;
+                            this.ID =  rs.getInt("user_id");
+                            this.Name = rs.getString("user_name");
+                            this.Surname = rs.getString("user_surname");
+                            this.Gender = rs.getString("gender");
+                            Birthday = new Date(rs.getDate("birthday").getTime());
+                            
+                    return true;
                 }
-                else return "Такого пользователя не сущетвует";
-            }
-            else return db.Message();
-        } catch (SQLException ex) {
-            Log.getOut(ex.getMessage());
-            throw ex;
-        }
+                else return false;
     }
     
     public String getMail() {
         
         return mail;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public Date getDirthday() {
@@ -234,26 +215,22 @@ public class User extends Parent{
     
     public String getName()
     {
-        if(this.Logined)
-            return this.Name;
-        else
-            return "Visitor";
+        return this.Name;
     }
     
     public String getSurname()
     {
-        if(this.Logined)
-            return this.Surname;
-        else
-            return "Visitor";
+        return this.Surname;
     }
     
     public int getRating()
     {
-        if(this.Logined)
-            return this.Rating;
-        else
-            return 0;
+        return this.Rating;
+    }
+    
+    public String getPassword()
+    {
+        return this.password;
     }
     
 }

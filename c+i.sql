@@ -176,7 +176,6 @@ create table if not exists test (
 
 create table if not exists test_task (
   test_task_id int(11) not null auto_increment,
-  test_task_no int(3) not null,
   test_task_text varchar(200) not null,
   test_task_answer varchar(100) not null,
   test_task_v1 varchar(100) not null,

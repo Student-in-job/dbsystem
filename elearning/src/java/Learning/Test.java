@@ -53,7 +53,7 @@ public class Test extends Component {
                     rs.next();
                     this.Name = rs.getString("test_name");
                     this.Day = rs.getInt("test_day");
-                    this.ProgramID = rs.getInt("program");
+                    this.Program = new Program(rs.getInt("program"));
                     this.Inventory = rs.getString("test_text");
 
                 } catch (SQLException ex) {
@@ -66,24 +66,24 @@ public class Test extends Component {
    
     
     @Override
-    public String Write(Program program, User user) throws Exception{
+    public boolean Write(Program program, User user) throws Exception{
         
-        if(user.getID()!=program.getTeacherID()) return "Вы не можете этого сделать";
-        if(!program.MayChange()) return "Вы не можете менять опублекованную программу";
+        if(user.getID()!=program.getTeacherID()) throw new IllegalAction();
+        if(!program.MayChange()) throw new IllegalAction();
         
-        if(!program.MayAddTest()) return "Невозможно добавить тест; ";
-        if(Day>program.getDuration()) return "Прграмма длиться всего "+program.getDuration()+"; ";
+        if(!program.MayAddTest()) throw new IllegalAction();
+        if(Day>program.getDuration()) throw new InvalidParameter();
         
-        ProgramID = program.getID();
+        Program = program;
         return this.write();
     }
     
     public String Change(String name, String inventory, int day, User user) throws Exception{
         
-        if(this.getProgram().getTeacherID() != user.getID()) return "Вы не можете менять эту программу";
-        if(this.getProgram().isPublished()) return "Вы не можете менять опублекованную программу";
+        if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
+        if(this.getProgram().isPublished()) throw new IllegalAction();
         Test test = new Test(name, day, inventory);
-        test.ProgramID = this.ProgramID;
+        test.Program = this.Program;
         test.ID = this.ID;
         DataBase db = new DataBase(test);
         db.ReWrite();

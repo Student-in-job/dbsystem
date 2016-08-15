@@ -23,7 +23,7 @@ import java.util.Date;
 public class Schedule{
     
     private ArrayList<Component> List;
-    private int CourseID;
+    private Course Course;
 
     public Schedule(ArrayList<Component> comp){
         List = (ArrayList<Component>) comp.clone();
@@ -31,55 +31,62 @@ public class Schedule{
     
     public Schedule(Course course) throws Exception{
         
+        this.Course = course;
         List = new ArrayList<Component>();
         DataBase db = new DataBase(course);
-        ResultSet rs = db.Find("schedule_has_material");
-                if(db.Done()&&rs!=null){
-                    while(rs.next()){
-                        try{
-                            Material mat = new Material(rs.getInt("material"));
-                            SimpleDateFormat format = new SimpleDateFormat();
-                            format.applyPattern("yyyy-MM-dd hh:mm:ss");
-                            mat.setDate(format.parse(rs.getString("date_time")));
-                            mat.setCourse(course.getID());
-                            List.add(mat);
+        ResultSet rs;
+        try{
+            rs = db.Find("schedule_has_material");
+                        while(rs.next()){
+                            try{
+                                Material mat = new Material(rs.getInt("material"));
+                                SimpleDateFormat format = new SimpleDateFormat();
+                                format.applyPattern("yyyy-MM-dd hh:mm:ss");
+                                mat.setDate(format.parse(rs.getString("date_time")));
+                                mat.setCourse(course);
+                                List.add(mat);
+                            }
+                            catch(Exception ex){ Log.getOut(ex.getMessage());}
                         }
-                        catch(Exception ex){ Log.getOut(ex.getMessage());}
-                    }
-                }
-                
-                rs = db.Find("schedule_has_test");
-                if(db.Done()&&rs!=null){
-                    while(rs.next()){
-                        try{
-                            Test test = new Test(rs.getInt("test"));
-                            SimpleDateFormat format = new SimpleDateFormat();
-                            format.applyPattern("yyyy-MM-dd hh:mm:ss");
-                            test.setDate(format.parse(rs.getString("date_time")));
-                            test.setCourse(course.getID());
-                            List.add(test);
-                        }
-                        catch(Exception ex){ Log.getOut(ex.getMessage());}
-                    }
-                }
-                
-        else throw new Exception();
+        } catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+        }
         
+        try{
+                    rs = db.Find("schedule_has_test");
+                        while(rs.next()){
+                            try{
+                                Test test = new Test(rs.getInt("test"));
+                                SimpleDateFormat format = new SimpleDateFormat();
+                                format.applyPattern("yyyy-MM-dd hh:mm:ss");
+                                test.setDate(format.parse(rs.getString("date_time")));
+                                test.setCourse(course);
+                                List.add(test);
+                            }
+                            catch(Exception ex){ Log.getOut(ex.getMessage());}
+                        } 
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+        }
+                    
         Collections.sort(List, new Comparator<Component>() {
             public int compare(Component o1, Component o2) {
                 return o1.getDate().compareTo(o2.getDate());
-        }
-});
+            }
+        });
     
     }
         
     public ArrayList<Component> getList(){
-        
         return List;
     }
     
     public int getCourseID(){
-        return CourseID;
+        return Course.getID();
+    }
+    
+    public Course getCourse(){
+        return Course;
     }
     
     public Date getDateOf(Component comp){

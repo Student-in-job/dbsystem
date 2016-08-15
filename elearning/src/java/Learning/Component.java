@@ -12,29 +12,26 @@ import java.util.Date;
  *
  * @author ksinn
  */
-public class Component extends Parent{
+public abstract class Component extends Parent{
     
     protected String Name;
     protected String Inventory;
     protected int Day;
-    protected int ProgramID;
-    protected int CourseID;
+    protected Program Program;
+    protected Course Course;
     
     protected Date Date;
     
-    public String Write(Program prog, User user) throws Exception{
-        return null;
-    }
+    abstract public boolean Write(Program prog, User user) throws Exception;
     
     public int getProgramID(){
     
-        return this.ProgramID;
+        return this.Program.getID();
     } 
     
     public Program getProgram(){
     
-        try{return new Program(this.ProgramID);}
-        catch(Exception ex) {return null;}
+        return this.Program;
     } 
     
     public String getName(){
@@ -66,16 +63,16 @@ public class Component extends Parent{
         Date = date;
     }
     
-    public void setCourse(int course){
-        CourseID = course;
+    public void setCourse(Course cours){
+        Course = cours;
     }
     
     public int getCourseID(){
-        return CourseID;
+        return this.Course.getID();
     }
     
-    public Course getCourse() throws Exception{
-        return new Course(CourseID);
+    public Course getCourse(){
+        return Course;
     }
  
 }
