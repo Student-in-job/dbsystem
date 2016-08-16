@@ -433,6 +433,7 @@ public class DataBase {
             stmt.setInt(2, test.getDay());
             stmt.setInt(3, test.getProgramID());
             stmt.setString(4, test.getInventory());
+            stmt.setInt(5, test.getTime());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -608,11 +609,12 @@ public class DataBase {
         Test test = (Test) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE test set test_name=?, test_day=?, test_text=? where test_id=?;");
+        ("UPDATE test set test_name=?, test_day=?, test_text=?, test_time=? where test_id=?;");
             stmt.setString(1, test.getName());
             stmt.setInt(2, test.getDay());
             stmt.setString(3, test.getInventory());
-            stmt.setInt(4, test.getID());
+            stmt.setInt(4, test.getTime());
+            stmt.setInt(5, test.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
             

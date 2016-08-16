@@ -18,7 +18,7 @@
         response.sendRedirect("../login.jsp"); return;}
     
     String url=null, name=null, inventory = null, mark="";
-    int day=0, test, program;
+    int day=0, test, program, time;
     Test nt;
     program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     test = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
@@ -34,6 +34,7 @@ if(request.getMethod()=="GET"){
         day = nt.getDay();
         inventory = nt.getInventory();
         program = nt.getProgramID();
+        time=nt.getTime();
 
     }
     
@@ -43,23 +44,25 @@ if(request.getMethod()=="POST"){
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
     day = Integer.parseInt(request.getParameter("day")==null?"0":request.getParameter("day"));
+    time = Integer.parseInt(request.getParameter("time")==null?"0":request.getParameter("time"));
     boolean n = name==null||"".equals(name);
     boolean i = inventory==null||"".equals(inventory);
     boolean d = day<=0;
-    if(!(n||d||i)){
+    boolean t = time<0;
+    if(!(n||d||i||t)){
     
         try{
             if(test==0){
 
                 Program prog = new Program(program);
-                nt = new Test(name, day, inventory);
+                nt = new Test(name, day, inventory, time);
                 nt.Write(prog , user);
                 response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }
             else{
 
                 nt = new Test(test);
-                nt.Change(name, inventory, day, user);
+                nt.Change(name, inventory, day, user, time);
                 response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }   
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
@@ -94,6 +97,10 @@ if(request.getMethod()=="POST"){
             <div>
                 <p>Day:</p>
                 <input requered min="1" max="183" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
+            </div>
+            <div>
+                <p>Time:</p>
+                <input requered min="1" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
             </div>
             <input type="submit">
         </form>

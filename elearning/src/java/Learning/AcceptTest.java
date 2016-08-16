@@ -7,6 +7,7 @@ package Learning;
 
 import DataBase.DataBase;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class AcceptTest  extends Parent{
     public HashMap<Integer, String> Answer; 
     private int Ball;
     private int Right;
+    private Date StartTime;
     
     @Override
     public int getID(){
@@ -42,6 +44,7 @@ public class AcceptTest  extends Parent{
     public AcceptTest(User_courses user_course, Test test) throws Exception{
         this.Test = test;
         this.UserHasCourse = user_course;
+        StartTime=new Date();
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
@@ -122,6 +125,14 @@ public class AcceptTest  extends Parent{
     
     public Test getTest(){
         return Test;
+    }
+    
+    public Date getStartTime(){
+        return StartTime;
+    }
+    
+    public Date getEndTime(){
+        return new Date(StartTime.getTime()+Test.getTime()*1000);
     }
 
     @Override

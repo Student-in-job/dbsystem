@@ -20,7 +20,7 @@ public class Program extends Parent{
     private String Name;
     private String Typ;
     private String Inventory;
-    private int AreaID;
+    private Area Area;
     private int Duration;
     private int TeacherID;
     private String Area_name;
@@ -53,7 +53,7 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
                     rs.next();
-                    this.AreaID = rs.getInt("area");
+                    this.Area = new Area(rs.getInt("area"));
                     this.Duration = rs.getInt("program_duration");
                     this.Inventory = rs.getString("program_description");
                     this.Level = rs.getInt("program_level");
@@ -71,7 +71,7 @@ public class Program extends Parent{
         this.Name = name;
         this.Inventory = inventory;
         this.Typ = typ;
-        this.AreaID = area.getID();
+        this.Area = area;
         this.Level = level;
         this.MinLevel  = minlevel;
         this.Duration = duration;
@@ -208,11 +208,11 @@ public class Program extends Parent{
     }
     
     public int getAreaID(){
-        return this.AreaID;
+        return this.Area.getID();
     }
     
-    public Area getArea() throws Exception{
-        return new Area(this.AreaID);
+    public Area getArea(){
+        return Area;
     }
     
     public int getLevel(){

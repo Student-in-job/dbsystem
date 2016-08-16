@@ -30,9 +30,33 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="/elearning/jquery.js"></script> 
         <title>JSP Page</title>
     </head>
     <body>
+        
+        
+        <div id="content"></div>  
+      
+    <script>  
+        function show()  
+        {  
+            $.ajax({  
+                url: "/elearning/timer",  
+                cache: false,  
+                success: function(html){  
+                    $("#content").html(html);  
+                }  
+            });  
+        }  
+      
+        $(document).ready(function(){  
+            show();  
+            setInterval('show()',1000);  
+        });  
+    </script> 
+    
+        
         <h1>Pass Test!</h1>
         <div>
 <%for(int i=0; i<accept.getQuantity(); i++){%>            

@@ -39,6 +39,10 @@
         <servlet-name>Publishe</servlet-name>
         <servlet-class>Publishe</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>timer</servlet-name>
+        <servlet-class>timer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -70,6 +74,10 @@
     <servlet-mapping>
         <servlet-name>Publishe</servlet-name>
         <url-pattern>/program/Publishe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>timer</servlet-name>
+        <url-pattern>/timer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

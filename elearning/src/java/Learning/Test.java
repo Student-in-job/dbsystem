@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class Test extends Component {
 
+    protected int Time;
+    
     @Override
     public int getID(){
         return this.ID;
@@ -36,11 +38,12 @@ public class Test extends Component {
         return !this.getProgram().isPublished();
     }
     
-    public Test(String name, int day, String inventory){
+    public Test(String name, int day, String inventory, int time){
         
         this.Name=name;
         this.Day=day;
-        this.Inventory=inventory;       
+        this.Inventory=inventory;  
+        Time=time;
     }
     
     
@@ -55,6 +58,7 @@ public class Test extends Component {
                     this.Day = rs.getInt("test_day");
                     this.Program = new Program(rs.getInt("program"));
                     this.Inventory = rs.getString("test_text");
+                    this.Time = rs.getInt("test_time");
 
                 } catch (SQLException ex) {
                     Log.getOut(ex.getMessage());
@@ -78,11 +82,11 @@ public class Test extends Component {
         return this.write();
     }
     
-    public String Change(String name, String inventory, int day, User user) throws Exception{
+    public String Change(String name, String inventory, int day, User user, int time) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
         if(this.getProgram().isPublished()) throw new IllegalAction();
-        Test test = new Test(name, day, inventory);
+        Test test = new Test(name, day, inventory, time);
         test.Program = this.Program;
         test.ID = this.ID;
         DataBase db = new DataBase(test);
@@ -111,5 +115,8 @@ public class Test extends Component {
         return list;
     }
     
+    public int getTime(){
+        return Time;
+    }
     
 }
