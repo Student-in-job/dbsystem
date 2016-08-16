@@ -8,8 +8,8 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("user");
-    if(user!=null){
+User user = (User) session.getAttribute("user");
+if(user==null) {response.sendRedirect("login.jsp"); return; }
    
     if(request.getMethod().equals("POST")){
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
@@ -45,6 +45,7 @@
             response.sendRedirect("PassTest.jsp?no=0");
         }
     }
+
     if(request.getMethod().equals("GET")){
 %>
 
@@ -57,11 +58,11 @@
     <body>
         <h1>Do yuo whant statrt test!</h1>
         <form method="POST" action="StartPassTest.jsp">
-            <input type="hidden" name="uhc" value="<%=request.getParameter("uhc")%>">
+            <input type="hidden" name="course" value="<%=request.getParameter("course")%>">
             <input type="hidden" name="test" value="<%=request.getParameter("test")%>">
             <input type="submit" value="Start">
         </form>
     </body>
 </html>
-<%}}
+<%}
 %>

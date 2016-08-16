@@ -25,7 +25,7 @@ create table if not exists user (
 create table if not exists area (
   area_id int(11) not null auto_increment,
   area_name varchar(45) not null,
-  area_img varchar(255) not null,
+  #area_img varchar(255) not null,
   area_deleted int(1) not null default 0,
   primary key (area_id));
 
@@ -175,6 +175,7 @@ create table if not exists test (
   constraint fk_test_program1  foreign key (program)  references program (program_id)    on delete no action    on update no action);
 
 create table if not exists test_task (
+  test_task_no int,
   test_task_id int(11) not null auto_increment,
   test_task_text varchar(200) not null,
   test_task_answer varchar(100) not null,

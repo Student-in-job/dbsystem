@@ -279,9 +279,9 @@ public class DataBase {
         
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("select * from "+Type+" where ?=? and "+Type+"_deleted=0;");
-            stmt.setString(1, column);
-            stmt.setString(2, value);
+        ("select * from "+Type+" where "+column+" = ? and "+Type+"_deleted=0;");
+            //stmt.setString(1, column);
+            stmt.setString(1, value);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();

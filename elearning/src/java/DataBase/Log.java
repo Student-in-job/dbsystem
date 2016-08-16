@@ -42,7 +42,7 @@ public class Log {
             out.write("\n"+dateFormat.format(date)+"\n");
             out.write(massage);
             out.flush();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
