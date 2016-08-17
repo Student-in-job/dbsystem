@@ -153,8 +153,13 @@ public class Program extends Parent{
     }  
     
     
-    public boolean Write(User user) throws SQLException
+    public boolean Write(User user) throws Exception
     {
+        if(Level<=MinLevel) throw new InvalidParameter();
+        if(Typ.equals("Seminar") && Duration>7) throw new InvalidParameter();
+        if(Typ.equals("Mini") && (Duration<7)) throw new InvalidParameter();
+        if(Typ.equals("Standart") && Duration<7) throw new InvalidParameter();
+        
         TeacherID = user.getID();
         DataBase db = new DataBase(this);
         db.Write();

@@ -5,17 +5,17 @@
 --%>
 
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-   
     User user = (User) session.getAttribute("user");
-    if(user==null){response.sendRedirect("../login.jsp"); return;}
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
     
     int prog = Integer.parseInt(request.getParameter("program"));
-
+    try{
         Program program = new Program(prog);
         ArrayList<Material> mtr = program.getMaterials();
         ArrayList<Test> tst = program.getTests();
@@ -72,3 +72,10 @@
         </article>
     </body>
 </html>
+<%
+}catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
+%>

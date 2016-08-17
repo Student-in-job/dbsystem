@@ -33,7 +33,6 @@ public class DataBase {
         Ons = par;
         Connection = db.getConn();
         Done = false;
-        ErrorMessage = "Error; ";
         Type = par.getType();
         TypeIndex = par.getTypeIndex();
     }
@@ -46,10 +45,6 @@ public class DataBase {
         return OnsID;
     }
     
-    public String Message(){
-        return ErrorMessage;
-    }
-    
     public void Delete() throws Exception{
         
             this.Find();
@@ -58,12 +53,6 @@ public class DataBase {
             stmt.setInt(1, Ons.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
-            if(Done) return;
-            else{
-                ErrorMessage += "Ошибка при удаление; Изменено "+n+" строк; ";
-                return;
-            }
-       
     }
     
     public void Write() throws SQLException{

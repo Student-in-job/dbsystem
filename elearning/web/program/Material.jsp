@@ -4,22 +4,17 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-try{    
     User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
-    
-    if(request.getParameter("material")==null) 
-        response.sendRedirect("../UserBar.jsp");
-    
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
+    try{
         Material material = new Material(Integer.parseInt(request.getParameter("material")));
-           
-
 %>
 
 <!DOCTYPE html>
@@ -76,11 +71,9 @@ if(!file.isEmpty()){
     </body>
 </html>
 <%
-}
-else response.sendRedirect("login.jsp");
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
+}catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
 %>

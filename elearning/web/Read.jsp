@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Array"%>
 <%@page import="Learning.*"%>
@@ -12,7 +12,6 @@
 
 <%try{
     Material mat = new Material(Integer.parseInt(request.getParameter("material")));
-    
     ArrayList<Files> file = mat.getDocFile();
 %>
 
@@ -67,7 +66,8 @@ if(!file.isEmpty()){
     </body>
 </html>
 <%
-}catch(Exception ex){
-    Log.getOut(ex.getLocalizedMessage()+"\n"+ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}%>   
+}catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+%>   

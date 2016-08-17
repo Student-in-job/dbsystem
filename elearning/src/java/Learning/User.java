@@ -174,7 +174,7 @@ public class User extends Parent{
         if(!Logined){
             return this.write();
         }
-        else return false; 
+        else throw new IllegalAction(); 
     }
 
     public boolean Authorize() throws Exception{

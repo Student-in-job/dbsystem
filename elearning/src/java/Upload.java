@@ -7,7 +7,6 @@
 import DataBase.*;
 import Learning.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +35,6 @@ public class Upload extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         if(user==null){response.sendRedirect("../login.jsp"); return;}
             
-        String mark;        
         int material = Integer.parseInt(request.getParameter("material"));
                 Part part = request.getPart("data");
                 try{

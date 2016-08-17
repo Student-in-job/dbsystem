@@ -58,7 +58,7 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
             <div style="border: 1px solid black;">
                 <h3>Active Programs:  <a href="program/CreateProgram.jsp?program=0" alt="registration">+</a></h3>
 <%
-    program = user.getCreatedPrograms();
+    program = user.getActivePrograms();
     for(int i=0; i<program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
@@ -88,7 +88,7 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
             
             
             
-            <div style="border: 1px solid black;">
+<%--            <div style="border: 1px solid black;">
                 <h3>Teaching Cours:  </h3>
 <%
     cours = user.getTeachengCourses();
@@ -99,7 +99,7 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
                 </p>
 <%}%>                
             </div>
-            
+--%>            
             
             
             

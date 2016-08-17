@@ -43,12 +43,23 @@
         {  
             $.ajax({  
                 url: "/elearning/timer",  
-                cache: false,  
-                success: function(html){  
-                    $("#content").html(html);  
+                cache: false, 
+                error: function(){
+                    window.location.href = "/elearning/Error.jsp";
+                },
+                success: function(data){ 
+                    setTimeout(function(){window.location.href = "FinishTest.jsp"}, data);
+                    data = Math.floor(data/1000);
+                    var h = Math.floor(data/3600);
+                    data = Math.floor(data%3600);
+                    var m = Math.floor(data/60);
+                    var s = Math.floor(data%60);
+                    $("#content").html(h + ':' + m + ':' + s);  
                 }  
             });  
-        }  
+        } 
+        
+        
       
         $(document).ready(function(){  
             show();  

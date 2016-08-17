@@ -17,6 +17,7 @@ public class db {
     private static db conn = new db();
     private static Connection db_conn;
     private static String RealPath;
+    private static String LogPath;
     
     private db() 
     {
@@ -34,12 +35,13 @@ public class db {
             if(rs.next()){
                 this.RealPath = rs.getString("value");
             }
-            } 
-        catch (ClassNotFoundException ex) {
-            Log.getOut(ex.getMessage());
-        } catch (SQLException ex) {
-            Log.getOut(ex.getMessage());
-        }
+            stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                this.LogPath = rs.getString("value");
+            }
+        }catch (ClassNotFoundException ex) {} 
+        catch (Exception ex) {}
     }
     
     public static Connection getConn()
@@ -50,5 +52,9 @@ public class db {
     public static String getRealPath()
     {
         return RealPath;
+    }
+    public static String getLogPath()
+    {
+        return LogPath;
     }
 }

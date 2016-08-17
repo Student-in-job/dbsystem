@@ -29,8 +29,7 @@ public class Schedule{
         List = (ArrayList<Component>) comp.clone();
     }
     
-    public Schedule(Course course) throws Exception{
-        
+    public Schedule(Course course){
         this.Course = course;
         List = new ArrayList<Component>();
         DataBase db = new DataBase(course);

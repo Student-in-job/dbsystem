@@ -6,10 +6,7 @@
 package Learning;
 
 import DataBase.DataBase;
-import DataBase.Log;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,7 +18,7 @@ public class Course extends Parent {
 
     private Date Date;
     private boolean Public;
-    private int ProgramID;
+    private Program Program;
     private Schedule Schedule;
 
     @Override
@@ -52,32 +49,22 @@ public class Course extends Parent {
         this.ID=id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
-                    rs.next();
-                    SimpleDateFormat format = new SimpleDateFormat();
-                    format.applyPattern("yyyy-MM-dd");
-                    this.Date = format.parse(rs.getString("course_date"));
+        rs.next();
+                    this.Date = rs.getDate("course_date");
                     this.Public = rs.getInt("course_public")==1;
-                    this.ProgramID = rs.getInt("program");
+                    this.Program = new Program(rs.getInt("program"));
 
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
         this.Schedule = new Schedule(this);
-        }
-        else throw new Error();
     }
     
     public Course(Date date, Program program){
         Date = date;
-        ProgramID = program.getID();
+        Program = program;
     }
    
-    public Program getProgram() throws Exception{
+    public Program getProgram(){
     
-        return new Program(this.ProgramID);
+        return this.Program;
     } 
     
     public boolean Write(User user, ArrayList<Component> comp) throws Exception{
@@ -111,7 +98,7 @@ public class Course extends Parent {
     }
     
     public int getProgramID(){
-        return ProgramID;
+        return Program.getID();
     }
 
     @Override

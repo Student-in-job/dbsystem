@@ -3,13 +3,13 @@
     Created on : 07.07.2016, 16:49:09
     Author     : ksinn
 --%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="DataBase.*"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-try{    
-    
+<%   
 if(request.getMethod()=="GET")
 {
 %>
@@ -69,25 +69,25 @@ else
         Date birthday = format.parse(request.getParameter("birthday"));
         
         User user = new User(mail, password, name, surname, birthday, gender);
-        String mark = user.Register();        
-        if(mark==null)
-        {
-            response.sendRedirect("login.jsp");
-        }
-        else{
+        try{
+            user.Register();
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(SQLException ex){
+            Log.getOut(ex.getMessage());
+            if(ex.getErrorCode()==1062){
 %>
-            <!DOCTYPE html>
+<!DOCTYPE html>
             <html>
                 <head>
                     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                     <title>Registration</title>
                 </head>
                 <body>
-                    <p style="color: red;">Error: <%=mark%></p>
+                    <p style="color: red;">Такой мэил уже зарегестрирован</p>
                     <form action="registration.jsp" method="post">
                         <div>
                             <p>e-mail:</p>
-                            <input required type="mail" name="mail" value="<%=mail%>">
+                            <input required type="mail" name="mail" value="">
                         </div>
                         <div>
                             <p>Password:</p>
@@ -122,10 +122,11 @@ else
 
                 </body>
             </html>
-<%
+ <%         return;  
+            }
         }
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+           
+        response.sendRedirect("login.jsp");
     }
-}catch(Exception ex){
-    response.sendRedirect("/elearning/Error.jsp");}
-
 %>

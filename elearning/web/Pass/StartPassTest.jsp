@@ -13,8 +13,8 @@ User user = (User) session.getAttribute("user");
 if(user==null) {response.sendRedirect("login.jsp"); return; }
    
     if(request.getMethod().equals("POST")){
-        AcceptTest accept = (AcceptTest) session.getAttribute("accept");
-        if(accept==null){
+        AcceptTest accept;// = (AcceptTest) session.getAttribute("accept");
+        /*if(accept==null){*/
             int cours = Integer.parseInt(request.getParameter("course"));
             try{
                 User_courses uhc = user.getHasCours(new Course(cours));
@@ -44,10 +44,10 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
             catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
             catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
             catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-        }
+        /*}
         else{
             response.sendRedirect("PassTest.jsp?no=0");
-        }
+        }*/
         
     }
 

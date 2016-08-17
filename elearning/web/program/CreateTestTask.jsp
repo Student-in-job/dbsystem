@@ -4,15 +4,14 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-try{    
-    
     User user = (User) session.getAttribute("user");
-    if(user!=null&&user.isLogined()){
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;}
     
     String mark="", url=null, question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
     int point=0, tst, testtask;
@@ -24,7 +23,11 @@ try{
 if(request.getMethod()=="GET"){
     if(0!=testtask){
         
-        nt = new TestTask(testtask);
+        try{
+            nt = new TestTask(testtask);
+        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
         question=nt.getQuestion();
         answer=nt.getAnswer();
         v1=nt.getVariant1();
@@ -50,23 +53,24 @@ if(request.getMethod()=="POST"){
     if(!nul){
         boolean p = question.length()*answer.length()*v1.length()*v2.length()*v3.length()*v4.length()*point==0;
         if(!p){
-            if(0==testtask){
+            try{
+                if(0==testtask){
 
-                nt = new TestTask(question, answer, v1, v2, v3, v4, point);
-                mark = nt.Write(new Test(tst), user);
-                
-                if(mark==null);
-                    response.sendRedirect("Test.jsp?test="+tst);
-            }
-            else{
+                    nt = new TestTask(question, answer, v1, v2, v3, v4, point);
+                    nt.Write(new Test(tst), user);
+                    response.sendRedirect("Test.jsp?test="+nt.getTest());
+                }
+                else{
 
-                nt = new TestTask(testtask);
-                mark = nt.Change(question, answer, v1, v2, v3, v4, point, user);
-                if(mark==null);
-                {
+                    nt = new TestTask(testtask);
+                    nt.Change(question, answer, v1, v2, v3, v4, point, user);
                     response.sendRedirect("Test.jsp?test="+nt.getTestID());
                 }
-            }
+            }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+            catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+            catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
         }    
     }
 }
@@ -116,12 +120,4 @@ if(request.getMethod()=="POST"){
         </form>
     </body>
 </html>
-<%}
-else response.sendRedirect("login.jsp");
-
-}
-catch(Exception ex){
-Log.getOut(ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}
 %>

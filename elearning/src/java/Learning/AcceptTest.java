@@ -17,11 +17,11 @@ import java.util.Random;
  */
 public class AcceptTest  extends Parent{
     
-    private int ID;
     private Test Test;
     private User_courses UserHasCourse;
     private ArrayList<TestTask> Task;
-    public HashMap<Integer, String> Answer; 
+    private ArrayList<ArrayList<String>> Variant;
+    private HashMap<Integer, String> Answer; 
     private int Ball;
     private int Right;
     private Date StartTime;
@@ -53,6 +53,9 @@ public class AcceptTest  extends Parent{
         else throw new Exception();
         
         Task = Mix(this.getTest().getTask());
+        Variant = new  ArrayList<ArrayList<String>>();
+        for(int i=0; i<Task.size(); i++)
+            Variant.add(this.getVar(i));
         Answer = new HashMap<Integer, String>();
         
     }
@@ -91,7 +94,7 @@ public class AcceptTest  extends Parent{
         return Task.get(i).getQuestion();
     }
     
-    public ArrayList<String> getVariants(int i){
+    private ArrayList<String> getVar(int i){
         ArrayList<String> v = new ArrayList<String>();
         v.add(Task.get(i).getVariant1());
         v.add(Task.get(i).getVariant2());
@@ -99,6 +102,10 @@ public class AcceptTest  extends Parent{
         v.add(Task.get(i).getVariant4());
         v.add(Task.get(i).getAnswer());
         return Mix(v);
+    }
+    
+    public ArrayList<String> getVariants(int i){
+        return Variant.get(i);
     }
     
     static private ArrayList Mix(ArrayList list){

@@ -5,8 +5,8 @@
  */
 package DataBase;
 
+import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,10 +23,11 @@ public class Log {
     private Log() 
     {
         try {
-        
-            this.out = new FileWriter("/home/ksinn/NetBeansProjects/ProgramLogs.txt", true);
+            File log = new File(db.getLogPath());
+            log.createNewFile();
+            this.out = new FileWriter(db.getLogPath(), true);
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);
         }
         

@@ -29,7 +29,8 @@ if(request.getMethod()=="GET"){
         
         try{
             nt = new Test(test);
-        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         name = nt.getName();
         day = nt.getDay();
         inventory = nt.getInventory();

@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBase.*"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -14,8 +15,9 @@
             response.sendRedirect("/elearning/UserBar.jsp");
         }
         else{
-            session.removeAttribute("accept");
-            accept.Final();            
+            try{
+                accept.Final();
+                session.removeAttribute("accept");                     
 %>
 <!DOCTYPE html>
 <html>
@@ -29,4 +31,8 @@
         <h2>You right answer on  <%=accept.getRightPointer()%> from <%=accept.getQuantity()%>!</h2>
     </body>
 </html>
-<%}%>
+<%}catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
+}
+%>

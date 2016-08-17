@@ -12,9 +12,54 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Error!</h1>
-<%=request.getParameter("sql")==null?"":"<h2>Data Base error!</h2>"%>     
-<%=request.getParameter("noexist")==null?"":"<h2>This page have no exists data!</h2>"%>     
+        <h1>Error!</h1>  
+        
+<%
+String er = request.getParameter("e");
+if("ObjectNotFind".equals(er)){
+%>
+        <p>Содержимое этой страницы не было найдено</p>
+<%
+    return;
+}
+if("ObjectNotFind".equals(er)){
+%>
+        <p>Содержимое этой страницы не было найдено</p>
+<%
+    return;
+}
+if("ObjectNotFind".equals(er)){
+%>
+        <p>Содержимое этой страницы не было найдено</p>
+<%
+    return;
+}
+if("IllegalAction".equals(er)){
+%>
+        <p>Вы попыталсь совершить недопустимое действие</p>
+<%
+    return;
+}
+if("IOExtension".equals(er)){
+%>
+        <p>Невозможно найти фаил</p>
+<%
+    return;
+}
+if("InvalidParameter".equals(er)){
+%>
+        <p>Неверный параметор</p>
+<%
+    return;
+}
+if("".equals(er)){
+%>
+        <p>Ошибка на сервере</p>
+<%
+    return;
+}
+%>        
+        
         <a href = "/elearning/">Go to main page.</a>
     </body>
 </html>

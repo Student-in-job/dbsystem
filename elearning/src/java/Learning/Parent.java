@@ -12,6 +12,7 @@
 package Learning;
 
 import DataBase.DataBase;
+import DataBase.IllegalAction;
 import java.sql.SQLException;
 
 public abstract class Parent {
@@ -24,13 +25,12 @@ public abstract class Parent {
     
     abstract public int getTypeIndex();
     
-    public String Delete() throws Exception{
+    public boolean Delete() throws Exception{
         
-        if(!this.MayChange()) return "Вы не можете менять опублекованную программу";
+        if(!this.MayChange()) throw new IllegalAction();
         DataBase db = new DataBase(this);
         db.Delete();
-        if(db.Done()) return null;
-        else return db.Message();
+        return db.Done();
     }
     
     abstract public boolean MayChange();

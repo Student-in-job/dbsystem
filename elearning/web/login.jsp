@@ -45,7 +45,33 @@ else
         boolean a=false;
         try{
             a = user.Authorize();
-        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); 
+%>
+            <html>
+                <head>
+                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                    <title>Log in</title>
+                </head>
+                <body>
+                    <h1>Log in</h1>
+                    <section>
+                        <p>Uncorrect mail</p>
+                        <form action="login.jsp" method="post">
+                            <div>
+                            <p>e-mail:</p>
+                            <input required type="mail" name="mail" value="<%=mail%>">
+                        </div>
+                        <div>
+                            <p>Password:</p>
+                            <input required type="password" name="password" placeholder="*****">
+                        </div>
+                        <input type="submit">
+                        </form>
+                    </section>
+                </body>
+            </html>
+<%
+        return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         
         if(a)

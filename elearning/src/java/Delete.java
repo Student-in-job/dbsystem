@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DataBase.Log;
+import DataBase.*;
 import Learning.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,25 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Delete extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,30 +32,7 @@ public class Delete extends HttpServlet {
         try(PrintWriter out = response.getWriter()){
             
             String param="";
-            /*if(request.getParameter("program")!=null){
-                
-                param="program";
-            }
-            if(request.getParameter("material")!=null){
-                
-                param="material";
-            }
-            if(request.getParameter("test")!=null){
-                
-                param="test";
-            }
-            if(request.getParameter("test_task")!=null){
-                
-                param="test_task";
-            }
-            if(request.getParameter("task")!=null){
-                
-                param="task";
-            }
-            if(request.getParameter("user")!=null){
-                
-                param="user";
-            }*/
+            
             Enumeration<String> parameterNames = request.getParameterNames();
             param = parameterNames.nextElement();
             
@@ -106,51 +65,45 @@ public class Delete extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         if(user==null||!user.isLogined())
             response.sendRedirect("../login.jsp");
-        try(PrintWriter out = response.getWriter()){
         
         String param=request.getParameter("param"); int value=Integer.parseInt(request.getParameter("value"));
-        String m=null;
             try{
-            if("program".equals(param)){
-                
-                Program p = new Program(value);
-                m = p.Delete();
-            }
-            if("material".equals(param)){
-                
-                Material p = new Material(value);
-                m = p.Delete();
-            }
-            if("test".equals(param)){
-                
-                Test p = new Test(value);
-                m = p.Delete();
-            }
-            if("testtask".equals(param)){
-                
-                TestTask p = new TestTask(value);
-                m = p.Delete();
-            }
-            if("files".equals(param)){
-                
-                Files p = new Files(value);
-                m = p.Delete();
-            }
-            if("user".equals(param)){
-                
-                User p = (User) request.getSession().getAttribute("user");
-                m = p.Delete();
-            }
-            }catch(Exception ex){
-                Log.getOut(ex.getMessage());
-                response.sendRedirect("/elearning/Error.jsp");
-            }
-        
-        if(m==null) response.sendRedirect("/elearning/UserBar.jsp");
-        out.println(m);
-        
-        }
-        
+                if("program".equals(param)){
+
+                    Program p = new Program(value);
+                    p.Delete();
+                }
+                if("material".equals(param)){
+
+                    Material p = new Material(value);
+                    p.Delete();
+                }
+                if("test".equals(param)){
+
+                    Test p = new Test(value);
+                    p.Delete();
+                }
+                if("testtask".equals(param)){
+
+                    TestTask p = new TestTask(value);
+                    p.Delete();
+                }
+                if("files".equals(param)){
+
+                    Files p = new Files(value);
+                    p.Delete();
+                }
+                if("user".equals(param)){
+
+                    User p = (User) request.getSession().getAttribute("user");
+                    p.Delete();
+                }
+            }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+            catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+            catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+
+        response.sendRedirect("/elearning/UserBar.jsp");
         
     }
 

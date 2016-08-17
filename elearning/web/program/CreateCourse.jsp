@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBase.*"%>
 <%@page import="Learning.Material"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,9 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     User user = (User) session.getAttribute("user");
-    if(user==null) { response.sendError(500, "You are not logined"); return;}
-    if(!user.isLogined()) {response.sendError(500, "You are not logined"); return;}
-try{    
+    if(user==null){
+        response.sendRedirect("../login.jsp"); return;} 
+   
     Course course = (Course) session.getAttribute("course");
     ArrayList<Test> test = (ArrayList<Test>) session.getAttribute("test");
     ArrayList<Material> material = (ArrayList<Material>) session.getAttribute("material");
@@ -29,68 +29,80 @@ try{
         ArrayList<Component> comp = new ArrayList<Component>();
         comp.addAll(material);
         comp.addAll(test);
-        String mark = course.Write(user, comp);
+        try{
+            course.Write(user, comp);
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        
         session.removeAttribute("course");
         session.removeAttribute("material");
         session.removeAttribute("test");
-        %><%=mark%><%
+
     }
     else{
 
-
-    
     int program = Integer.parseInt(request.getParameter("program")); 
-    Program prog = new Program(program);
-    if((!prog.isPublished())&&prog.getCourse()!=null) 
-        response.sendError(500, "This program is not publish or have course");
-    else{
-    
-    if(course==null){
+    try{
+        Program prog = new Program(program);
         
-        
-        if(request.getMethod().equals("GET")){%>
+        if((!prog.isPublished())/*&&prog.getCourse()!=null**/) {
+            %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>CreateCourse:1</h1>
-        <form method="POST" action="CreateCourse.jsp">
-            <input type="hidden" name="program" value="<%=program%>">
-            <div>
-                <p>Start Date:</p>
-                <input requered type="date" name="start" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>">
-            </div>
-            <input type="submit">
-        </form>
-    </body>
-</html>
-        <%}
-        if(request.getMethod().equals("POST")){
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <title>JSP Page</title>
+            </head>
+            <body>
+                <p>Вы не можете начать курс по этой программе</p>
+            </body>
+        </html>
 
-            try{
-                Date start = form.parse(request.getParameter("start"));
-                if(start.compareTo(new Date(new Date().getTime() + 3600*1000*24*7))<0) 
-                    response.sendError(500, "Uncorrect date");
-                else{
-                    course = new Course(start, prog);
-                    session.setAttribute("course", course);
-                    response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));
-                }
-                }
-            catch(Exception ex){
-                Log.getOut(ex.getMessage());
-                response.sendRedirect("CreateCourse.jsp?program="+String.valueOf(program));}
-            
+<%
         }
-    }
-    else response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));
+        else{
+            if(course==null){
+                if(request.getMethod().equals("GET")){%>
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <title>JSP Page</title>
+            </head>
+            <body>
+                <h1>CreateCourse:1</h1>
+                <form method="POST" action="CreateCourse.jsp">
+                    <input type="hidden" name="program" value="<%=program%>">
+                    <div>
+                        <p>Start Date:</p>
+                        <input requered type="date" name="start" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>">
+                    </div>
+                    <input type="submit">
+                </form>
+            </body>
+        </html>
+                <%}
+                if(request.getMethod().equals("POST")){
 
-}}
+                        Date start = form.parse(request.getParameter("start"));
+                        if(start.compareTo(new Date(new Date().getTime() + 3600*1000*24*7))<0) 
+                            {response.sendError(500, "Uncorrect date"); return;}
+                        course = new Course(start, prog);
+                        session.setAttribute("course", course);
+                        response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));
+                }
+            }
+            else response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));
 
-}catch(Exception ex){
-    Log.getOut(ex.getLocalizedMessage()+"\n"+ex.getMessage());
-    response.sendRedirect("/elearning/Error.jsp");
-}%> 
+        }
+    }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+    catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+    
+
+}
+
+%> 

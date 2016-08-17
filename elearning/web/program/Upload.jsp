@@ -13,8 +13,6 @@
     User user = (User) session.getAttribute("user");
     if(user==null){
         response.sendRedirect("../login.jsp"); return;}
-    String mark = null;
-    int material = Integer.parseInt(request.getParameter("material"));
 
 %>
 
@@ -28,9 +26,8 @@
         <html>
 <head>
 <body>
-    <h2><%=mark==null?"":mark%></h2>
     <form action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
-        <input name="material" type="hidden" value="<%=material%>"><br>
+        <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
 	<input name="data" type="file" accept="	application/msword, video/mp4, 	application/pdf, application/powerpoint"><br>
         <input type="submit"><br>
     </form>
