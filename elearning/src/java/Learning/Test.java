@@ -82,7 +82,7 @@ public class Test extends Component {
         return this.write();
     }
     
-    public String Change(String name, String inventory, int day, User user, int time) throws Exception{
+    public boolean Change(String name, String inventory, int day, User user, int time) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
         if(this.getProgram().isPublished()) throw new IllegalAction();
@@ -91,9 +91,7 @@ public class Test extends Component {
         test.ID = this.ID;
         DataBase db = new DataBase(test);
         db.ReWrite();
-        if(db.Done())
-            return null;
-        else return db.Message();
+        return db.Done();
     }
     
     public ArrayList<TestTask> getTask(){
