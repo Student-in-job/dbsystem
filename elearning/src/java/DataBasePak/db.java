@@ -31,7 +31,7 @@ public class db {
             PreparedStatement stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                this.RealPath = rs.getString("value");
+                this.RealPath = rs.getString("value") + "uploadFiles/";
             }
             stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
             rs = stmt.executeQuery();

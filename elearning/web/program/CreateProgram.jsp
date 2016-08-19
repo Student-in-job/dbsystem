@@ -67,13 +67,13 @@
             if(program==0){
 
                 np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-                np.Write(user);
+                np.Write(user, request.getPart("picture"));
                 response.sendRedirect("Program.jsp?program="+np.getID()); return;
 
             }
             else{
                 np = new Program(program);
-                np.Change(name, inventory, typ, level, minlevel, duration, user);
+                np.Change(name, inventory, typ, level, minlevel, duration, user, request.getPart("picture"));
                 response.sendRedirect("Program.jsp?program="+np.getID()); return;
             }
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
@@ -94,7 +94,7 @@
     <body>
         <h1><%=mark==null?"":mark%></h1>
         <h1>Create new program: first step</h1>
-        <form action="<%=url%>" method="POST">
+        <form action="<%=url%>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="program" value="<%=program%>">
             <div>
                 <p>Name:</p>
@@ -141,6 +141,11 @@
                 поставить условие длительности
                 <input required type="number" name="duration" min="1" <%=duration==0?"placeholder=\"1":"value=\""+duration%>"> days.
             </div>
+            <div>
+                <p>Picture:</p>
+                поставить условие длительности
+                <input required type="file" name="picture" >
+            </div>            
             <input type="submit">
         </form>
         

@@ -28,6 +28,7 @@
     </head>
     <body>
         <article style="border: 1px solid black;">
+            <img src="/elearning/<%=program.getIco()%>">
             <h1><%=program.getName()%></h1>
             <h6>
                 <a href="EditProgram.jsp?program=<%=program.getID()%>">*</a>

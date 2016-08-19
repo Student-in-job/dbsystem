@@ -9,9 +9,14 @@ import DataBasePak.Log;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,22 +59,17 @@ public class Test extends Component {
         this.ID=id;
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
-        if(db.Done()&&rs!=null){
-                try {
                     rs.next();
                     this.Name = rs.getString("test_name");
                     this.Day = rs.getInt("test_day");
                     this.Program = new Program(rs.getInt("program"));
                     this.Inventory = rs.getString("test_text");
                     this.Time = rs.getInt("test_time");
+        
+        
+        
 
-                } catch (SQLException ex) {
-                    Log.getOut(ex.getMessage());
-                    throw new Error();
-                }
-        }
-        else throw new Error();
-    }
+  }
    
     
     @Override
@@ -120,4 +120,42 @@ public class Test extends Component {
         return Time;
     }
     
+    public HashMap<String, String> getStatistic(){
+        
+        HashMap<String, String> inf = new HashMap<String, String>();
+                inf.put("MaxBall", "Unknown");
+                inf.put("MinBall", "Unknown");
+                inf.put("AverageBall", "Unknown");
+                inf.put("CountOfPass", "Unknown");
+                inf.put("CountOfUserWhoPass", "Unknown");    
+        try{
+                Statement stmt = DataBasePak.db.getConn().createStatement();
+                ResultSet rs;
+                
+                try{rs = stmt.executeQuery("select max(accept_test_ball) as 'inf' from accept_test where test=2;");
+                rs.next(); inf.put("MaxBall", rs.getString("inf"));
+                }catch(Exception ex){}
+                
+                try{rs = stmt.executeQuery("select min(accept_test_ball)  as 'inf' from accept_test where test=2;");
+                rs.next(); inf.put("MinBall", rs.getString("inf"));
+                }catch(Exception ex){}
+                
+                try{rs = stmt.executeQuery("select avg(accept_test_ball)  as 'inf' from accept_test where test=2;");
+                rs.next(); inf.put("AverageBall", rs.getString("inf"));
+                }catch(Exception ex){}
+                
+                try{rs = stmt.executeQuery("select count(accept_test_id)  as 'inf' from accept_test where not accept_test_ball is null and test=2;");
+                rs.next(); inf.put("CountOfPass", rs.getString("inf"));
+                }catch(Exception ex){}
+                
+                try{rs = stmt.executeQuery("select count(DISTINCT user_has_course)  as 'inf' from accept_test where not accept_test_ball is null and test=2;");
+                rs.next(); inf.put("CountOfUserWhoPass", rs.getString("inf"));
+                }catch(Exception ex){}
+                
+            }catch(SQLException ex){Log.getOut(ex.getMessage());}
+        
+        return inf;
+            
+    }
+
 }

@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="DataBasePak.*"%>
 <%@page import="java.util.Date"%>
 <%@page import="Learning.*"%>
@@ -52,6 +53,10 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
     }
 
     if(request.getMethod().equals("GET")){
+    
+        try{
+            Test test = new Test(Integer.parseInt(request.getParameter("test")));
+            HashMap<String, String> stat = test.getStatistic();
 %>
 
 <!DOCTYPE html>
@@ -62,6 +67,15 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
     </head>
     <body>
         <h1>Do yuo whant statrt test!</h1>
+        
+        <div>
+            <p>Max Ball: <%=stat.get("MaxBall")%></p>
+            <p>Min Ball: <%=stat.get("MinBall")%></p>
+            <p>Average Ball: <%=stat.get("AverageBall")%></p>
+            <p>Count of pass: <%=stat.get("CountOfPass")%></p>
+            <p>Count of user who pass: <%=stat.get("CountOfUserWhoPass")%></p>
+        </div>
+        
         <form method="POST" action="StartPassTest.jsp">
             <input type="hidden" name="course" value="<%=request.getParameter("course")%>">
             <input type="hidden" name="test" value="<%=request.getParameter("test")%>">
@@ -69,5 +83,8 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
         </form>
     </body>
 </html>
-<%}
+<%}        
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+}
 %>

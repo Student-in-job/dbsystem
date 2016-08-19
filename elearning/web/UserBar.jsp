@@ -30,7 +30,7 @@ if(user==null) {response.sendRedirect("login.jsp"); return; }
     </head>
     <body>
        <div>
-            <img src="http://cs623726.vk.me/v623726602/4a73a/xh1E6l3zWvw.jpg" height="100">
+            <img src="/elearning/<%=user.getIco()%>" height="100">
             <h3><%=user.getName() + user.getSurname()%></h3>
             <p>Rating: 100</p>
             <h6><a href="resetpasswd.jsp" alt="log in">Reset password</a></h6>  

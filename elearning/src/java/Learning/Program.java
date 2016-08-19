@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -30,6 +31,7 @@ public class Program extends Parent{
     private String Area_name;
     private int Level;
     private int MinLevel;
+    protected String Ico;
     
     @Override
     public int getID(){
@@ -157,7 +159,7 @@ public class Program extends Parent{
     }  
     
     
-    public boolean Write(User user) throws Exception
+    public void Write(User user, Part part) throws Exception
     {
         if(Level<=MinLevel) throw new InvalidParameter();
         if(Typ.equals("Seminar") && Duration>7) throw new InvalidParameter();
@@ -165,12 +167,12 @@ public class Program extends Parent{
         if(Typ.equals("Standart") && Duration<7) throw new InvalidParameter();
         
         TeacherID = user.getID();
-        DataBase db = new DataBase(this);
-        db.Write();
-        return this.write();
+        this.write();
+        IcoFile file = new IcoFile(part, this);
+        file.SaveFile();
     }
     
-    public boolean Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user) throws Exception{
+    public boolean Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user, Part part) throws Exception{
         
         if(TeacherID != user.getID()) throw new IllegalAction();
         if(!this.MayChange()) throw new IllegalAction();
@@ -179,6 +181,9 @@ public class Program extends Parent{
         prg.ID = this.ID;
         DataBase db = new DataBase(prg);
         db.ReWrite();
+        if(part!=null){
+            IcoFile file = new IcoFile(part, this);
+            file.SaveFile();}
         return db.Done();
     }
     
@@ -278,5 +283,8 @@ public class Program extends Parent{
         
     }
     
+    public String getIco(){
+         return "uploadFiles/" + this.getType() + "/" +String.valueOf(ID)+".png";
+    }    
     
 }

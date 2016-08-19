@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.servlet.http.Part;
 
 
 
@@ -24,6 +25,7 @@ public class User extends Parent{
     protected String Gender;
     protected boolean Logined;
     protected int Rating;
+    protected String Ico;
     
     @Override
     public int getID(){
@@ -202,10 +204,12 @@ public class User extends Parent{
         return db.Done();
     }
     
-    public boolean Register() throws Exception
+    public void Register(Part part) throws Exception
     {
         if(!Logined){
-            return this.write();
+            this.write();
+            IcoFile file = new IcoFile(part, this);
+            file.SaveFile();
         }
         else throw new IllegalAction(); 
     }
@@ -266,4 +270,7 @@ public class User extends Parent{
         return this.password;
     }
     
+    public String getIco(){
+         return "uploadFiles/" + this.getType() + "/" +String.valueOf(ID)+".png";
+    } 
 }

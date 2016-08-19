@@ -5,13 +5,11 @@
  */
 package Learning;
 
-import DataBasePak.DataBase;
-import DataBasePak.IllegalAction;
-import DataBasePak.Log;
-import DataBasePak.ObjectNotFind;
+import DataBasePak.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -19,7 +17,8 @@ import java.util.ArrayList;
  */
 public class Area extends Parent{
     
-    String Name; 
+    protected String Name; 
+    protected String Ico;
     
     @Override
     public int getID(){
@@ -48,10 +47,12 @@ public class Area extends Parent{
         Name = name;
     }
     
-    public boolean Write(User user) throws Exception{
+    public void Write(User user, Part part) throws Exception{
         
         if(user==null) throw new IllegalAction();
-        return this.write();
+        this.write();
+        IcoFile file = new IcoFile(part, this);
+        file.SaveFile();
     }
     
     public ArrayList<Program> getPrograms(){
@@ -102,6 +103,10 @@ public class Area extends Parent{
     public boolean MayChange() {
         return false;
     }
+    
+    public String getIco(){
+         return "uploadFiles/" + this.getType() + "/" +String.valueOf(ID)+".png";
+    } 
 }
 
 
