@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.*"%>
+<%@page import="DataBasePak.*"%>
 <%@page import="Learning.Material"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>

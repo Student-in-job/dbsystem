@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 
-import DataBase.*;
+import DataBasePak.Log;
+import DataBasePak.ObjectNotFind;
+import DataBasePak.InvalidParameter;
+import DataBasePak.IllegalAction;
 import Learning.*;
 import java.io.IOException;
 import java.io.PrintWriter;

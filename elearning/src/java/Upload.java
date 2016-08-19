@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DataBase.*;
+import DataBasePak.*;
 import Learning.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 /**
  *
@@ -36,6 +37,9 @@ public class Upload extends HttpServlet {
         if(user==null){response.sendRedirect("../login.jsp"); return;}
             
         int material = Integer.parseInt(request.getParameter("material"));
+        
+        boolean multipartContent = ServletFileUpload.isMultipartContent(request);
+        if(multipartContent){
                 Part part = request.getPart("data");
                 try{
                     Files file = new Files(part);
@@ -46,7 +50,20 @@ public class Upload extends HttpServlet {
                 catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
                 catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
                 catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;} 
-            
+        }
+        else{
+            String name = request.getParameter("file");
+                try{
+                    Files file = new Files(name);
+                    file.Write(new Material(material), user);
+                    response.sendRedirect("Material.jsp?material="+material);
+                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;} 
+                catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
+                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+                catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;} 
+       
+        }
         
         
         

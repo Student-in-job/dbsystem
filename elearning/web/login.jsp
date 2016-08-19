@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.*"%>
+<%@page import="DataBasePak.*"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

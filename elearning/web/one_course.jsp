@@ -17,9 +17,9 @@
         }
         else{
             User_courses user_course = new User_courses();
-            user_course.setCourse_id(Integer.parseInt(request.getParameter("programID")));
-            user_course.setUser_id(user.getID());
-            mark = user_course.Write();
+            user_course.setCourse(new Course(Integer.parseInt(request.getParameter("programID"))));
+            user_course.setUser(user);
+            user_course.Write();
             if(mark==null)
                     response.sendRedirect("../UserBar.jsp");
             

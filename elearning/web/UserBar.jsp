@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.Log"%>
+<%@page import="DataBasePak.Log"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>

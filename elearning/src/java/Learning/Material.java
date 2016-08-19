@@ -5,7 +5,10 @@
  */
 package Learning;
 
-import DataBase.*;
+import DataBasePak.Log;
+import DataBasePak.DataBase;
+import DataBasePak.InvalidParameter;
+import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -116,7 +119,7 @@ public class Material extends Component {
             ResultSet rs = db.Find("files");
                 while(rs.next()){ 
                     try {
-                            if("mp4".equals(rs.getString("files_type")))
+                            if("video".equals(rs.getString("files_type")))
                             list.add(new Files(rs.getInt("files_id")));
                     } catch (SQLException ex) { Log.getOut(ex.getMessage());}
                 }
@@ -133,7 +136,7 @@ public class Material extends Component {
             ResultSet rs = db.Find("files");
                     while(rs.next()){
                             try {
-                                if(!"mp4".equals(rs.getString("files_type")))
+                                if("document".equals(rs.getString("files_type")))
                                 list.add(new Files(rs.getInt("files_id")));
                             } catch (SQLException ex) {Log.getOut(ex.getMessage());}
                     }

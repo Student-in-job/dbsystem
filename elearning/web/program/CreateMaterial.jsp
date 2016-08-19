@@ -4,12 +4,9 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.InvalidParameter"%>
+<%@page import="DataBasePak.*"%>
 <%@page import="java.io.IOException"%>
-<%@page import="DataBase.ObjectNotFind"%>
-<%@page import="DataBase.IllegalAction"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="DataBase.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

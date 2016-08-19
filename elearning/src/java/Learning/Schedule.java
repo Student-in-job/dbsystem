@@ -1,8 +1,8 @@
 package Learning;
 
 
-import DataBase.DataBase;
-import DataBase.Log;
+import DataBasePak.DataBase;
+import DataBasePak.Log;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataBase;
+package DataBasePak;
 
 /**
  *
  * @author ksinn
  */
-public class InvalidParameter  extends Exception{
+public class ObjectNotFind extends Exception{
     
+    @Override
+    public String getMessage(){
+       return "Object not find!"; 
+    }
 }

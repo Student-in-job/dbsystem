@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="javax.servlet.annotation.MultipartConfig"%>
-<%@page import="DataBase.Log"%>
+<%@page import="DataBasePak.Log"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -28,9 +28,15 @@
 <body>
     <form action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
         <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
-	<input name="data" type="file" accept="	application/msword, video/mp4, 	application/pdf, application/powerpoint"><br>
+	<input name="data" type="file"><br>
         <input type="submit"><br>
     </form>
+        <h1>or</h1>    
+    <form action="/elearning/program/Upload" method="post">
+        <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
+	<input name="file" type="text" ><br>
+        <input type="submit"><br>
+    </form>    
 </body>
 </html>
 

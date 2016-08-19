@@ -5,7 +5,9 @@
  */
 package Learning;
 
-import DataBase.DataBase;
+import DataBasePak.DataBase;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,6 +69,19 @@ public class AcceptTest  extends Parent{
         }
         DataBase db = new DataBase(this);
         db.ReWrite();
+        
+        PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+        ("select test_id from test where program = ? and test_id not in " +
+        "(select DISTINCT test from accept_test where not(accept_test_ball is null) and user_has_course = ?);");
+        stmt.setInt(1, UserHasCourse.getCourse().getProgram().getID());
+        stmt.setInt(2, UserHasCourse.getID());
+        ResultSet rs = stmt.executeQuery();
+        if(!rs.next()){
+            db = new DataBase(UserHasCourse);
+            UserHasCourse.Finish();
+        }
+        
+        
     }
     
     public void putAnswer(int i, String answer){

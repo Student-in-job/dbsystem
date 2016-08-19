@@ -1,7 +1,7 @@
 package Learning;
 
+import DataBasePak.*;  
 import java.util.Date;
-import DataBase.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,8 +44,22 @@ public class User extends Parent{
     public boolean MayChange(){
         return true;
     }
-            
-  public User(String mail, String password, String name, String surname, Date birthday, String gender)
+     
+    public User(int id) throws Exception{
+        
+        this.ID=id;    
+        DataBase db = new DataBase(this);
+                ResultSet rs = db.Find(); 
+                rs.next();
+                            Logined = false;
+                            this.Name = rs.getString("user_name");
+                            this.Surname = rs.getString("user_surname");
+                            this.Gender = rs.getString("gender");
+                            Birthday = new Date(rs.getDate("birthday").getTime());
+
+    }
+    
+    public User(String mail, String password, String name, String surname, Date birthday, String gender)
     {
         this.Logined = false;
         this.mail = mail;
@@ -128,6 +142,25 @@ public class User extends Parent{
             ResultSet rs = db.Find("user_has_course");
                     while(rs.next())
                         try{
+                            if(rs.getDate("user_has_course_complited")!=null) continue;
+                            Course c = new Course(rs.getInt("course"));
+                            list.add(c);
+                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Course> getLearnedCourses(){
+        ArrayList<Course> list = new ArrayList<Course>();
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("user_has_course");
+                    while(rs.next())
+                        try{
+                            if(rs.getDate("user_has_course_complited")==null) continue;
                             Course c = new Course(rs.getInt("course"));
                             list.add(c);
                         }catch (SQLException ex) { Log.getOut(ex.getMessage());}

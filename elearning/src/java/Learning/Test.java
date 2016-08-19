@@ -5,7 +5,10 @@
  */
 package Learning;
 
-import DataBase.*;
+import DataBasePak.Log;
+import DataBasePak.DataBase;
+import DataBasePak.InvalidParameter;
+import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

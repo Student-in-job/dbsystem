@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package Learning;
-import DataBase.*;
+import DataBasePak.Log;
+import DataBasePak.db;
+import DataBasePak.DataBase;
+import DataBasePak.InvalidParameter;
+import DataBasePak.IllegalAction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

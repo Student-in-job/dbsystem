@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataBase;
+package DataBasePak;
 
 import Learning.*;
 import java.sql.Connection;
@@ -170,11 +170,11 @@ public class DataBase {
                 break;
             }
             
-            /*case 8 : {
+            case 8 : {
                 
                 this.rewrite_user_has_course();
                 break;
-            }*/
+            }
             
             case 10 : {
                 
@@ -371,7 +371,7 @@ public class DataBase {
             PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type) values (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, file.getName());
             stmt.setInt(2, file.getMaterialID());
-            stmt.setString(3, file.getExtension());
+            stmt.setString(3, file.getFileType());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -635,10 +635,9 @@ public class DataBase {
         User_courses has_course = (User_courses) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE user_has_course SET user=?,course=? WHERE user_has_course_id=?;");
-            stmt.setInt(1, has_course.getUser_id());
-            stmt.setInt(2, has_course.getCourse_id());
-            stmt.setInt(3, has_course.getID());
+        ("UPDATE user_has_course SET user_has_course_complited=now() WHERE user_has_course_id=?;");
+            
+            stmt.setInt(1, has_course.getID());
             
             int n = stmt.executeUpdate();
             Done = n == 1;
@@ -657,6 +656,7 @@ public class DataBase {
             Done = stmt.executeUpdate() == 1;
             
     }
+
 
     
 }

@@ -11,7 +11,6 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

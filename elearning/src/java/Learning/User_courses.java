@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBase.DataBase;
+import DataBasePak.*;
 import java.sql.ResultSet;
 import java.util.Date;
 
@@ -14,8 +14,8 @@ import java.util.Date;
  * @author javlonboy
  */
 public class User_courses extends Parent {
-    private int user_id;
-    private int course_id;
+    private User user;
+    private Course course;
     private int ID;
     private Date Datetime;
 
@@ -41,29 +41,40 @@ public class User_courses extends Parent {
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
                     rs.next();
-                    this.user_id = rs.getInt("user");
-                    this.course_id = rs.getInt("course");
+                    if(rs.getDate("user_has_course_complited")!=null) throw new IllegalAction();
+                    this.user = new User(rs.getInt("user"));
+                    this.course = new Course(rs.getInt("course"));
                     this.Datetime = rs.getDate("user_has_course_datetime");
     }
     
+    public boolean Finish() throws Exception{
+        DataBase db = new DataBase(this);
+        db.ReWrite();
+        return db.Done();
+    }
+    
     public int getUser_id() {
-        return user_id;
+        return user.getID();
     }
 
     public int getCourse_id() {
-        return course_id;
+        return course.getID();
     }
     
-    public Course getCourse() throws Exception {
-        return new Course(course_id);
+    public Course getCourse(){
+        return course;
+    }
+    
+    public User getUser(){
+        return user;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(User us) {
+        this.user = us;
     }
 
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
+    public void setCourse(Course cours) {
+        this.course = cours;
     }
 
     /*public void setID(int ID) {

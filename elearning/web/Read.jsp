@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.*"%>
+<%@page import="DataBasePak.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Array"%>
 <%@page import="Learning.*"%>

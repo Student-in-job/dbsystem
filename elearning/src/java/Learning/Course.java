@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBase.DataBase;
+import DataBasePak.DataBase;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,8 +76,8 @@ public class Course extends Parent {
             ID = db.ID();
             if(!Public) {
                 User_courses uhc = new User_courses();
-                uhc.setCourse_id(ID);
-                uhc.setUser_id(user.getID());
+                uhc.setCourse(this);
+                uhc.setUser(user);
                 return uhc.Write();
             }
             return true;

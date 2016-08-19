@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataBase;
+package DataBasePak;
 
 /**
  *
  * @author ksinn
  */
-public class ObjectNotFind extends Exception{
+public class IllegalAction extends Exception{
     
-    @Override
-    public String getMessage(){
-       return "Object not find!"; 
-    }
 }

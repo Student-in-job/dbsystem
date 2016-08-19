@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBase.*"%>
+<%@page import="DataBasePak.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -38,7 +38,7 @@
 ArrayList <Files> file = material.getDocFile();
 for(int i=0; i<file.size(); i++){%>
 <p>
-    <a href="<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
+    <a href="/elearning/<%=file.get(i).getURL()%>"><%=file.get(i).getName()%></a>
     <a href="Delete?files=<%=file.get(i).getID()%>">-</a>
 </p>
 <%}
@@ -58,7 +58,7 @@ if(!file.isEmpty()){
                         playlist: [
                             <%for(int i=0; i<file.size(); i++){%>  
                             {
-                                file:"<%=file.get(i).getURL()%>",
+                                file:"/elearning/<%=file.get(i).getURL()%>",
                                 title:"<%=file.get(i).getName()%>"
                             },
                             <%}%>

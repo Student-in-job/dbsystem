@@ -5,11 +5,10 @@
  */
 package Learning;
 
-import DataBase.*;
+import DataBasePak.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.http.Part;
 
 /**
@@ -19,15 +18,17 @@ import javax.servlet.http.Part;
 public class Files extends Parent{
     
     protected String Name;
-    protected String Extension;
+    protected String FileType;
     protected Material Material;
     protected Part Part;
-    protected final String Path = db.getRealPath() + "uploadFiles/materials/";
+    protected final String Derectory = "uploadFiles/materials/";
+    protected final String Path = db.getRealPath() + Derectory;
     
     
     
 
     public boolean CorrectExtension(){
+        String Extension = extractFileExtension(Name);
         return (
                 ("mp4".equals(Extension)
                 ||"pdf".equals(Extension)
@@ -66,7 +67,7 @@ public class Files extends Parent{
         ResultSet rs = db.Find();
                     rs.next();
                     this.Name = rs.getString("files_name");
-                    this.Extension = rs.getString("files_type");
+                    this.FileType = rs.getString("files_type");
                     this.Material = new Material(rs.getInt("material"));
 
     }
@@ -74,36 +75,40 @@ public class Files extends Parent{
     public Files(Part part){
         
         Name = extractFileName(part);
-        Extension = extractFileExtension(Name);
         Part = part;
     }
     
+    public Files(String name) throws IOException{
+        
+        Name = name;
+    }
     
-    public boolean Write(Material material, User user) throws Exception{
+    
+    public void Write(Material material, User user) throws Exception{
+        
         
         if(user.getID()!=material.getProgram().getTeacherID()) throw new IllegalAction();
         if(!material.MayChange()) throw new IllegalAction();
-        
         if(!this.CorrectExtension()) throw new InvalidParameter();
         
-        Material = material;   
+        FileType = extractFileExtension(Name).equals("mp4")?"video":"document";
+        Material = material;
         this.write();
-        if(this.SaveFile()) return true;
-        else{
-            DataBase db = new DataBase(this);
-            db.Delete();
-            return false;
+        if(Part!=null){
+            if(!this.SaveFile()) {
+                DataBase db = new DataBase(this);
+                db.Delete();
+            }
         }
         
-            
     }
     
     protected boolean SaveFile() throws IOException{
         
         
-        String path = Path + this.getMaterial().getProgramID() + "/";
+        String path = Path + this.getMaterial().getProgramID() + File.pathSeparator;
         new File(path).mkdirs();
-        path += ID + "." + Extension;
+        path += Name;
         Part.write(path);
         return new File(path).exists();
     }
@@ -122,17 +127,21 @@ public class Files extends Parent{
     static private String extractFileExtension(String name) {
         
         String s = name;
-        if(s.indexOf(".")!=-1)
-            s = extractFileExtension(s.substring(s.indexOf(".")+1, s.length()));
-        return s;
+        if(s.contains(".")){
+            while(s.contains(".")){
+                s = s.substring(s.indexOf(".")+1, s.length());
+            }
+            return s;
+        }
+        else return "";
     }
     
     public String getName(){
         return Name;
     }
     
-    public String getExtension(){
-        return Extension;
+    public String getFileType(){
+        return FileType;
     }
     
     public int getMaterialID(){
@@ -145,7 +154,7 @@ public class Files extends Parent{
         
     public String getURL() throws Exception{
         
-        return Path + this.getMaterial().getProgramID() + "/" + ID + "." + Extension;
+        return Derectory + this.getMaterial().getProgramID() + "/" + Name;
     }
        
 }

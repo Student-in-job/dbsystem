@@ -11,8 +11,8 @@
 
 package Learning;
 
-import DataBase.DataBase;
-import DataBase.IllegalAction;
+import DataBasePak.DataBase;
+import DataBasePak.IllegalAction;
 import java.sql.SQLException;
 
 public abstract class Parent {

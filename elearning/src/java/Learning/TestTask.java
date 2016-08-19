@@ -5,7 +5,8 @@
  */
 package Learning;
 
-import DataBase.*;
+import DataBasePak.DataBase;
+import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

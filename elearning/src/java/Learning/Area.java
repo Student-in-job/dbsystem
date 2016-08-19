@@ -5,10 +5,10 @@
  */
 package Learning;
 
-import DataBase.DataBase;
-import DataBase.IllegalAction;
-import DataBase.Log;
-import DataBase.ObjectNotFind;
+import DataBasePak.DataBase;
+import DataBasePak.IllegalAction;
+import DataBasePak.Log;
+import DataBasePak.ObjectNotFind;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
