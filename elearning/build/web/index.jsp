@@ -16,7 +16,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Main Page :: Online Education System &mdash; 2016 </title>
+    <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,63 +32,9 @@ ArrayList<Area> areas = (new Area(1).getAll());
 <body>
 
 <div class="fst-block">
-	<div class="row around">
-		<div class="col col-3">
-			<div id="sidenav" class="sidenav">
-	            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	            <div class="row centered">
-	            	<div class="item logo"></div>
-	            </div>
-	            <div class="valign-sidenav">
-		            <div class="row centered">
-		            	<a href="#"><b>ABOUT US</b></a>
-		            	<a href="#"><b>MANUAL</b></a>
-		            	<a href="#"><b>COURSES</b></a>
-		            </div>
-					<div class="row centered">
-			            <a href="#">UZ</a>
-			            <a href="#">RU</a>
-			            <a href="#">EN</a>
-		            </div>
-		        </div>
-        	</div>
-        	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
-		</div>
-	    <div class="col col-3 text-center">
-	    	<a href="#"><div class="item centered logo"></div></a>
-	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
-	   	</div>
-	    <div class="col col-3 text-right"><img src="img/login-ico.png"> <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a></div>
-	</div>
-	<div id="login-modal" class="modal-box hide">
-	    <div class="modal">
-	        <span class="close"></span>
-	        <div class="modal-header">Sign in</div>
-	        <div class="modal-body">
-				<form method="post" action="login.jsp" class="form">
-				    <div class="form-item">
-				        <label>Email <span class="req">*</span></label>
-				        
-				        <input type="email" name="mail" class="width-100" required>
-				    </div>
-				    <div class="form-item">
-				        <label>Password <span class="req">*</span></label>
-				        
-				        <input type="password" name="password" class="width-100" required>
-				    </div>
-                                    
-				    <div class="form-item">
-                                        <button class="button primary width-100 big">Log in</button>		
-				    </div>
-                                    
-                                    
-				    <hr>
-                                    <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
-                                    <p class="text-center"><a href="#" >Lost your password?</a></p>
-				</form>
-	        </div>
-	    </div>
-	</div>	
+    
+    <%@include file="header.jsp"%>	
+                
 	<div class="row around">
 		<div class="col col-4">
 			<div class="valign-25">			
@@ -161,10 +107,10 @@ ArrayList<Area> areas = (new Area(1).getAll());
 		</div>
 	</div>
 <div class="row between">
-<%for(int i=0; i<6&&i<areas.size(); i++){%>     
+<%for(int i=0; i<4&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="#"><img src="<%=areas.get(i).getIco()%>"></a>
+				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>
@@ -173,38 +119,16 @@ ArrayList<Area> areas = (new Area(1).getAll());
 <%}%>                
 	</div>
 	<div class="row between">
+<%for(int i=4; i<8&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="#"><img src="img/db_11.png"></a>
+				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
-				<b>mongoDB</b>
+				<b><%=areas.get(i).getName()%></b>
 			</div>
 		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_12.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>MariaDB</b>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_13.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>cassandra</b>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_14.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>Titan</b>
-			</div>
-		</div>
+<%}%>
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
@@ -214,29 +138,8 @@ ArrayList<Area> areas = (new Area(1).getAll());
 </div>
 
 
-<div class="footer">
-	<div class="row">
-		<div class="col text-center"><h6>Online Education System &copy; 2016, All right reserved.</h6></div>
-	</div>	
-	<div class="row">
-		<div class="col text-center small"><b>Made with <i class="fa fa-heart error"></i> in <a href="http://www.tuit.uz/">TUIT</b></a></div>
-	</div>
-	<div class="row">
-		<div class="col text-center"><p><img src="img/we_love_to_code.png" width="200px" height="31px"></p></div>
-	</div>
-</div>
+<%@include file="footer.jsp" %>
 
-    <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/kube.min.js"></script>
-	<script>
-		function openNav() {
-		    document.getElementById("sidenav").style.width = "100%";
-		}
-
-		function closeNav() {
-		    document.getElementById("sidenav").style.width = "0";
-		}
-	</script>
+    
 </body>
 </html>
