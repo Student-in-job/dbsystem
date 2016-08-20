@@ -9,6 +9,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 ArrayList<Area> areas = (new Area(1).getAll());
+int p = Integer.parseInt(request.getParameter("page"));
+int b = p-1;
+int n = (p*8)<areas.size()?p+1:0;
+
 %>
 <!DOCTYPE html>
 <html>
@@ -42,23 +46,12 @@ ArrayList<Area> areas = (new Area(1).getAll());
 			<h3 class="warning upper text-center">Areas</h3>
 		</div>
 	</div>
-<div class="row between">
-<%for(int i=0; i<4&&i<areas.size(); i++){%>     
-		<div class="col text-center">		
-			<div class="item">
-				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
-			</div>
-			<div class="area-info centered">
-				<b><%=areas.get(i).getName()%></b>
-			</div>
-		</div>
-<%}%>                
-	</div>
+
 	<div class="row between">
-<%for(int i=4; i<8&&i<areas.size(); i++){%>     
+<%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+                            <a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>
@@ -68,7 +61,8 @@ ArrayList<Area> areas = (new Area(1).getAll());
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
-			<a class="button round outline">See all &rarr;</a>
+                    <%if(b!=0){%><a href="Areas.jsp?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
+                    <%if(n!=0){%><a href="Areas.jsp?page=<%=String.valueOf(n)%>" class="button round outline">&rarr;</a><%}%>
 		</div>
 	</div>	
 </div>

@@ -250,7 +250,14 @@ INSERT INTO area(area_name) VALUES
 ('mongoDB'),
 ('MariaDB'),
 ('cassandra'),
-('Titan'); 
+('Titan'),
+('H2'),
+('BaseX'),
+('Berkeley DB'),
+('CouchDB'),
+('SQLite'),
+('Neo4j'),
+('Ingres'); 
 
 
 INSERT INTO program(program_name, program_description, program_min_level, program_level, program_state, program_duration, user, area, program_date, program_controled, program_typ, program_deleted) VALUES 
