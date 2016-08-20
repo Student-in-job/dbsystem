@@ -57,15 +57,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 			<h3 class="upper success">Online Courses</h3>
 		</div>
 	</div>
-	<div class="row around">
-		<div class="col text-center">
-			<a class="button"><i class="fa fa-chevron-left"></i></a>
-			<a class="button success">Updated</a>
-			<a class="button">Popular</a>
-			<a class="button">All</a>
-			<a class="button"><i class="fa fa-chevron-right"></i></a>
-		</div>
-	</div>
+			
 	<div class="row between">
 <%for(int i=0; i<3&&i<courses.size(); i++){%>            
 		<div class="col text-center">		
@@ -81,11 +73,9 @@ ArrayList<Area> areas = (new Area(1).getAll());
 				</div>
 				<div class="item">
 					<div class="row">
+						
 						<div class="col">
-							<span class="success">17/08/2016</span>
-						</div>
-						<div class="col">
-							<a class="button success outline small" href="Courses.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
+                                                    <a class="button success outline small" href="one_course.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>
@@ -95,7 +85,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
-			<a class="button round outline">See all &rarr;</a>
+                    <a href="course.jsp" class="button round outline">See all &rarr;</a>
 		</div>
 	</div>
 </div>
