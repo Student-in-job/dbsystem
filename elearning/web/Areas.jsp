@@ -50,9 +50,9 @@ int n = (p*8)<areas.size()?p+1:0;
 		</div>
 	</div>
 
-	<div class="row between">
+	<div class="row left">
 <%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
-		<div class="col text-center">		
+		<div class="col col-3 text-center">		
 			<div class="item">
                             <a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
