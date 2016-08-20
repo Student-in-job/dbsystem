@@ -207,12 +207,12 @@ public class User extends Parent{
         return db.Done();
     }
     
-    public void Register(Part part) throws Exception
+    public void Register() throws Exception
     {
         if(!Logined){
             this.write();
-            IcoFile file = new IcoFile(part, this);
-            file.SaveFile();
+            /*IcoFile file = new IcoFile(part, this);
+            file.SaveFile();*/
         }
         else throw new IllegalAction(); 
     }

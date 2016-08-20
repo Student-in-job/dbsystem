@@ -7,6 +7,10 @@
         <param-name>LogPath</param-name>
         <param-value>/home/ksinn/Log.txt</param-value>
     </context-param>
+    <context-param>
+        <param-name>SiteName</param-name>
+        <param-value>ONLINE EDUCATION SYSTEM</param-value>
+    </context-param>
     <listener>
         <description>ServletContextListener</description>
         <listener-class>sys_conf</listener-class>

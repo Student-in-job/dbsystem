@@ -4,7 +4,15 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+ArrayList<Program> courses = (new Program(1).getAll());
+ArrayList<Area> areas = (new Area(1).getAll());
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +56,7 @@
 		</div>
 	    <div class="col col-3 text-center">
 	    	<a href="#"><div class="item centered logo"></div></a>
-	    	<h5 class="upper primary">Online Education System</h5>
+	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
 	   	</div>
 	    <div class="col col-3 text-right"><img src="img/login-ico.png"> <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a></div>
 	</div>
@@ -68,15 +76,15 @@
 				        
 				        <input type="password" name="password" class="width-100" required>
 				    </div>
-				    <label class="form-item checkbox">
-				        <input type="checkbox"> Remember me
-				        <a href="#" class="float-right">Lost your password?</a>
-				    </label>
+                                    
 				    <div class="form-item">
                                         <button class="button primary width-100 big">Log in</button>		
 				    </div>
+                                    
+                                    
 				    <hr>
                                     <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                    <p class="text-center"><a href="#" >Lost your password?</a></p>
 				</form>
 	        </div>
 	    </div>
@@ -113,39 +121,17 @@
 		</div>
 	</div>
 	<div class="row between">
+<%for(int i=0; i<3&&i<courses.size(); i++){%>            
 		<div class="col text-center">		
 			<div class="item">
-				<img src="img/c_1.png">
+                            <img src="<%=courses.get(i).getIco()%>">
 			</div>
 			<div class="course-info centered">
 				<div class="item upper">
-					<b>Cource name</b>
+					<b><%=courses.get(i).getName()%></b>
 				</div>
 				<div class="item">
-					Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-				</div>
-				<div class="item">
-					<div class="row">
-						<div class="col">
-							<span class="success">17/08/2016</span>
-						</div>
-						<div class="col">
-							<a class="button success outline small">Show more &rarr;</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<img src="img/c_2.png">
-			</div>
-			<div class="course-info centered">
-				<div class="item upper">
-					<b>Cource name</b>
-				</div>
-				<div class="item">
-					Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+					<%=courses.get(i).getInventory().substring(0, 50)+"..."%>
 				</div>
 				<div class="item">
 					<div class="row">
@@ -153,58 +139,13 @@
 							<span class="success">17/08/2016</span>
 						</div>
 						<div class="col">
-							<a class="button success  small">Show more &rarr;</a>
+							<a class="button success outline small" href="Courses.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<img src="img/c_3.png">
-			</div>
-			<div class="course-info centered">			
-				<div class="item upper">
-					<b>Cource name</b>
-				</div>
-				<div class="item">
-					Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-				</div>
-				<div class="item">
-					<div class="row">
-						<div class="col">
-							<span class="success">17/08/2016</span>
-						</div>
-						<div class="col">
-							<a class="button success outline small">Show more &rarr;</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<img src="img/c_4.png">
-			</div>
-			<div class="course-info centered">			
-				<div class="item upper">
-					<b>Cource name</b>
-				</div>
-				<div class="item">
-					Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-				</div>
-				<div class="item">
-					<div class="row">
-						<div class="col">
-							<span class="success">17/08/2016</span>
-						</div>
-						<div class="col">
-							<a class="button success outline small">Show more &rarr;</a>
-						</div>
-					</div>
-				</div>
-			</div>				
-		</div>
+<%}%>                
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
@@ -220,38 +161,16 @@
 		</div>
 	</div>
 <div class="row between">
+<%for(int i=0; i<6&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="#"><img src="img/db_01.png"></a>
+				<a href="#"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
-				<b>MySQL</b>
+				<b><%=areas.get(i).getName()%></b>
 			</div>
 		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_02.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>PostgreSQL</b>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_03.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>Oracle</b>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/db_04.png"></a>
-			</div>
-			<div class="area-info centered">
-				<b>Azure</b>
-			</div>
-		</div>
+<%}%>                
 	</div>
 	<div class="row between">
 		<div class="col text-center">		
