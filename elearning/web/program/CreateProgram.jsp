@@ -92,8 +92,6 @@
         <title>Create new program</title>
     </head>
     <body>
-        <h1><%=mark==null?"":mark%></h1>
-        <h1>Create new program: first step</h1>
         <form action="<%=url%>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="program" value="<%=program%>">
             <div>

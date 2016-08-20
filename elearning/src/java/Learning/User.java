@@ -194,13 +194,16 @@ public class User extends Parent{
         return list;
     }
  
-    public boolean Change(String mail, String password, String name, String surname, Date birthday, String gender) throws Exception
+    public boolean Change(String mail, String password, String name, String surname, Date birthday, String gender, Part part) throws Exception
     {
         if(!Logined) throw new IllegalAction();
         User us = new User(mail, password, name, surname, birthday, gender);
         us.ID = this.ID;
         DataBase db = new DataBase(us);
         db.ReWrite();
+        if(part!=null){
+            IcoFile file = new IcoFile(part, this);
+        }            
         return db.Done();
     }
     
