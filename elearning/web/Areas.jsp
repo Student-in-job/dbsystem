@@ -8,8 +8,11 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-ArrayList<Area> areas = (new Area(1).getAll());
-int p = Integer.parseInt(request.getParameter("page"));
+ArrayList<Area> areas = (new Area().getAll());
+int p;
+try{
+    p = Integer.parseInt(request.getParameter("page"));
+}catch(Exception ex){p=1;}
 int b = p-1;
 int n = (p*8)<areas.size()?p+1:0;
 
@@ -51,7 +54,7 @@ int n = (p*8)<areas.size()?p+1:0;
 <%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-                            <a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+                            <a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>

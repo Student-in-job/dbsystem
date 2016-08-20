@@ -53,7 +53,9 @@ public class Program extends Parent{
     public boolean MayChange(){
         return !this.isPublished();
     }   
-     
+    
+    public Program(){}
+    
     public Program(int id) throws Exception{
         
         this.ID = id;

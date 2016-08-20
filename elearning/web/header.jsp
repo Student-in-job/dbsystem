@@ -25,7 +25,7 @@
         	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
 		</div>
 	    <div class="col col-3 text-center">
-	    	<a href="#"><div class="item centered logo"></div></a>
+	    	<a href="/elearning"><div class="item centered logo"></div></a>
 	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
 	   	</div>
 	    <div class="col col-3 text-right"><img src="img/login-ico.png"> <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a></div>

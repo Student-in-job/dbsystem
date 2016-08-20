@@ -85,7 +85,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
-                    <a href="course.jsp" class="button round outline">See all &rarr;</a>
+                    <a href="Courses.jsp" class="button round outline">See all &rarr;</a>
 		</div>
 	</div>
 </div>
@@ -100,7 +100,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 <%for(int i=0; i<4&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+				<a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>
@@ -112,7 +112,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 <%for(int i=4; i<8&&i<areas.size(); i++){%>     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="Areas.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+				<a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>
@@ -122,7 +122,7 @@ ArrayList<Area> areas = (new Area(1).getAll());
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
-			<a class="button round outline">See all &rarr;</a>
+			<a class="button round outline" href="Areas.jsp">See all &rarr;</a>
 		</div>
 	</div>	
 </div>

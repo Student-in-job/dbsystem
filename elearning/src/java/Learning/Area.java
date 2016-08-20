@@ -35,6 +35,8 @@ public class Area extends Parent{
         return "area";
     }
     
+    public Area(){}
+    
     public Area(int id) throws Exception{
         ID = id;
         DataBase db = new DataBase(this);

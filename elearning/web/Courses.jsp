@@ -3,13 +3,29 @@
     Created on : Aug 20, 2016, 3:06:53 PM
     Author     : javlonboy
 --%>
+<%@page import="DataBasePak.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
 int N=12;  //число записей на странице  
-ArrayList<Program> courses = (new Program(1).getAll());
-int p = Integer.parseInt(request.getParameter("page"));
+int area_id;
+try{
+    area_id = Integer.parseInt(request.getParameter("area_id"));
+}catch(Exception ex){area_id=0;}
+ArrayList<Program> courses;
+if(area_id!=0)
+    try{
+        courses = (new Area(area_id)).getPrograms();
+    }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}      
+else
+    courses = (new Program().getAll());
+
+int p;
+try{
+    p = Integer.parseInt(request.getParameter("page"));
+}catch(Exception ex){p=1;}
 int b = p-1;
 int n = (p*N)<courses.size()?p+1:0;
 %>
