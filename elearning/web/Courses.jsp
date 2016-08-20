@@ -44,12 +44,13 @@ int n = (p*N)<courses.size()?p+1:0;
 
     <link rel="stylesheet" href="css/kube-ext.css">
     <link rel="stylesheet" href="css/master.css">
+    
     </head>
     <body>
         
         <%@include file="header.jsp"%>
         
-        <div class="course-block">
+        <div class="long-course-block">
 	<div class="row around">
 		<div class="col text-center">
 			<h3 class="upper success">Online Courses</h3>

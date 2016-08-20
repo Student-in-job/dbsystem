@@ -6,6 +6,10 @@
 	background: url('../img/c-bg.png') no-repeat left;
 	height: 720px;
 }
+    .long-course-block {
+	background: url('../img/c-bg.png') no-repeat left bottom;
+	padding-bottom: 190px;
+    }
 .area-block {
 	background: url('../img/db-bg.png') no-repeat left;
 	height: 720px;
