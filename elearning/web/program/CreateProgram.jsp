@@ -123,12 +123,10 @@
                     <option <%="Mini".equals(typ)?"selected":""%> value="Mini">Mini</option>
                     <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
                 </select>
-            </div>
-                   
-        <h1>Create new program: second step</h1> 
+            </div> 
             <div>
                 <p>Level:</p>
-                <p>Какой уровень знаний будет после прохождения курса</p>
+                <p>Какой уровень будет после прохождения курса</p>
                 <input required type="number" min="1" max="3" name="level" <%=level==0?"placeholder=\"1":"value=\""+level%>">
             </div>
             <div>
@@ -143,8 +141,7 @@
             </div>
             <div>
                 <p>Picture:</p>
-                поставить условие длительности
-                <input required type="file" name="picture" >
+                <input <%=name==null?"requered":""%> type="file" name="picture" >
             </div>            
             <input type="submit">
         </form>
