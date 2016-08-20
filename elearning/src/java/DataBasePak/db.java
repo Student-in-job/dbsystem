@@ -15,7 +15,9 @@ public class db {
     private static db conn = new db();
     private static Connection db_conn;
     private static String RealPath;
-    private static String LogPath;
+    private static String LogPath;    
+    private static String FileDir;
+
     
     private db() 
     {
@@ -31,13 +33,20 @@ public class db {
             PreparedStatement stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                this.RealPath = rs.getString("value") + "uploadFiles/";
+                this.RealPath = rs.getString("value");
             }
             stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
             rs = stmt.executeQuery();
             if(rs.next()){
                 this.LogPath = rs.getString("value");
             }
+            
+            stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'FileDir';");
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                this.FileDir = rs.getString("value");
+            }
+            
         }catch (ClassNotFoundException ex) {} 
         catch (Exception ex) {}
     }
@@ -54,5 +63,9 @@ public class db {
     public static String getLogPath()
     {
         return LogPath;
+    }
+    public static String getFileDir()
+    {
+        return FileDir;
     }
 }

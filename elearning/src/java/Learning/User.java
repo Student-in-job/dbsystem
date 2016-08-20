@@ -274,6 +274,6 @@ public class User extends Parent{
     }
     
     public String getIco(){
-         return "uploadFiles/" + this.getType() + "/" +String.valueOf(ID)+".png";
+         return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
     } 
 }

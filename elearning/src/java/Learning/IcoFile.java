@@ -19,7 +19,7 @@ public class IcoFile{
     
     protected Parent Owener;
     protected Part Part;
-    protected final String Path = db.getRealPath();
+    protected final String Path = db.getRealPath()+db.getFileDir();
     
     
     

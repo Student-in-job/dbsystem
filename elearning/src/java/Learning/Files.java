@@ -21,7 +21,7 @@ public class Files extends Parent{
     protected String FileType;
     protected Material Material;
     protected Part Part;
-    protected final String Derectory = "uploadFiles/materials/";
+    protected final String Derectory = db.getFileDir() + "materials/";
     protected final String Path = db.getRealPath() + Derectory;
     
     

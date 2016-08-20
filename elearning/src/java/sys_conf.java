@@ -44,6 +44,13 @@ public class sys_conf implements ServletContextListener {
             stmt = conn.prepareStatement("insert into sys_conf(name, value) values ('LogPath', ?);");
             stmt.setString(1, sce.getServletContext().getInitParameter("LogPath"));
             stmt.executeUpdate();
+            
+            stmt = conn.prepareStatement("delete from sys_conf where name = 'FileDir';");
+            stmt.executeUpdate();
+            
+            stmt = conn.prepareStatement("insert into sys_conf(name, value) values ('FileDir', ?);");
+            stmt.setString(1, sce.getServletContext().getInitParameter("FileDir"));
+            stmt.executeUpdate();
         
         } catch (SQLException ex) {
             Log.getOut(ex.getMessage());

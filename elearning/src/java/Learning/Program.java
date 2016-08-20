@@ -87,6 +87,26 @@ public class Program extends Parent{
         this.State = "created";
     }
     
+    public ArrayList<Program> Find(String find) {
+        ArrayList<Program> list = new ArrayList<Program>();
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from program where program_deleted = 0 and program_state='active' and program_name like ?;");
+            stmt.setString(1, "%"+find+"%");
+            ResultSet rs = stmt.executeQuery();
+                    while(rs.next()){
+                        try {
+                            list.add(new Program(rs.getInt("program_id")));
+                        } catch (SQLException ex) {
+                        Log.getOut(ex.getMessage());
+                        }
+                    }
+                }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                }
+        return list;
+    }
+    
     public Course getCourse() {
         try{
         PreparedStatement stmt = db.getConn().prepareStatement
@@ -287,7 +307,7 @@ public class Program extends Parent{
     }
     
     public String getIco(){
-         return "uploadFiles/" + this.getType() + "/" +String.valueOf(ID)+".png";
+         return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
     }    
     
 }
