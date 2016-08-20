@@ -1,0 +1,124 @@
+.fst-block{
+	background: url('../img/main-bg.png') no-repeat right;
+	height: 720px;
+}
+.course-block {
+	background: url('../img/c-bg.png') no-repeat left;
+	height: 720px;
+}
+.area-block {
+	background: url('../img/db-bg.png') no-repeat left;
+	height: 720px;
+}
+.user-block {
+	background: url('../img/user-bg.png') repeat-x bottom;
+	height: 730px;
+}
+.footer {
+	background-color: #eee;
+}
+.footer a {
+	text-decoration: none;
+}
+.footer .copyright {
+	
+}
+.primary {
+	color: #3c74d9;
+}
+.warning {
+	color: #fed443;
+}
+.login {
+	color: #fff;
+	text-decoration: none;
+}
+.login:hover {
+	color: rgba(0, 0, 0, 0.6);
+	cursor: pointer;
+	text-decoration: underline;
+}
+.logo {
+ height: 39px;
+ width: 50px;
+ background: url(../img/logo-sm.png) no-repeat;
+ background-position: 0 0;
+}
+.logo:hover{
+ background-position: 0 -40px;
+}
+.row {
+	padding-top: 22px;
+}
+.space-both {
+	padding: 15px 0;
+}
+.course-info, .area-info {
+	background-color: #fff;
+	margin-top: -6px;
+	padding: 10px 7px;
+	width: 250px; /* todo: change px to percent for use true adaptive */
+	border: 1px solid #f0f0f0;
+}
+/* TODO: need hover effect on the link-img at area & user blocks */
+.area-block a:hover img, user-block a:hover img {
+	/*background: rgb(255, 193, 7, 0.4);*/
+}
+.valign-25 {
+	margin-top: 25%;
+}
+.valign-50, .valign-half {
+	margin-top: 50%;
+}
+.valign-75 {
+	margin-top: 75%;
+}
+.valign-sidenav {
+	padding-top: 100px; /* need to change value after stay new valid logo */
+}
+/* start slide menu */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #00bcd4;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    text-align:center;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 22px;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover{
+    color: #fff;
+    text-decoration: underline;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+.sidenav .closebtn:hover {
+	color: #f34248;
+	text-decoration: none;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* end slide menu */ 
