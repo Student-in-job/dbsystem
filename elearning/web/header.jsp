@@ -20,12 +20,7 @@
 		            	<a href="#"><b>MANUAL</b></a>
 		            	<a href="#"><b>COURSES</b></a>
 		            </div>
-					<div class="row centered">
-			            <a href="#">UZ</a>
-			            <a href="#">RU</a>
-			            <a href="#">EN</a>
-		            </div>
-		        </div>
+                    </div>
         	</div>
         	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
 		</div>
