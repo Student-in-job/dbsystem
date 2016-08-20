@@ -7,7 +7,11 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
+int N=12;  //число записей на странице  
 ArrayList<Program> courses = (new Program(1).getAll());
+int p = Integer.parseInt(request.getParameter("page"));
+int b = p-1;
+int n = (p*N)<courses.size()?p+1:0;
 %>
 
 <!DOCTYPE html>
@@ -37,7 +41,7 @@ ArrayList<Program> courses = (new Program(1).getAll());
 	</div>
 			
 	<div class="row between">
-<%for(int i=0; i<3&&i<courses.size(); i++){%>            
+<%for(int i=(p-1)*N; i<p*N&&i<courses.size(); i++){%>            
 		<div class="col text-center">		
 			<div class="item">
                             <img src="<%=courses.get(i).getIco()%>">
@@ -62,6 +66,12 @@ ArrayList<Program> courses = (new Program(1).getAll());
 <%}%>  
 
 	</div>
+        <div class="row around">
+		<div class="col col-11 text-right"> 
+                    <%if(b!=0){%><a href="Courses.jsp?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
+                    <%if(n!=0){%><a href="Courses.jsp?page=<%=String.valueOf(n)%>" class="button round outline">&rarr;</a><%}%>
+		</div>
+	</div>	
         </div>
         <%@include file="footer.jsp" %>
     </body>
