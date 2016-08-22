@@ -97,8 +97,8 @@ int n = (p*N)<courses.size()?p+1:0;
 	</div>
         <div class="row around">
 		<div class="col col-11 text-right"> 
-                    <%if(b!=0){%><a href="Courses.jsp?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
-                    <%if(n!=0){%><a href="Courses.jsp?page=<%=String.valueOf(n)%>" class="button round outline">&rarr;</a><%}%>
+                    <%if(b!=0){%><a href="?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
+                    <%if(n!=0){%><a href="?page=<%=String.valueOf(n)%>" class="button round outline">&rarr;</a><%}%>
 		</div>
 	</div>	
         </div>

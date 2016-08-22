@@ -49,124 +49,37 @@ int n = (p*N)<users.size()?p+1:0;
 		<div class="col">
 			<h3 class="error upper text-center">People</h3>
 		</div>
-	</div>
-	
+	</div>	
 	<div class="row between">
+<%for(int i=(p-1)*N; i<p*N/2&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
-				<a href="#"><img src="img/user_06.png"></a>
+                            <a href="User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
-				<b>John Doe</b>
+				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
 				<h6 class="error">Tutor</h6>
 			</div>
-		</div>
+		</div>		
+<%}%>                                
+	</div>        
+	<div class="row between">
+<%for(int i=(p-1)*N+N/2; i<p*N&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
-				<a href="#"><img src="img/user_09.png"></a>
+                            <a href="User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
-				<b>Jane Doe</b>
+				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
 				<h6 class="error">Tutor</h6>
 			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_11.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_13.png"></a>
-			</div>
-			<div class="item">
-				<b>Jane Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_15.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_03.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>								
-	</div>
-	<div class="row between">
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_23.png"></a>
-			</div>
-			<div class="item">
-				<b>Jane Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_24.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_26.png"></a>
-			</div>
-			<div class="item">
-				<b>Jane Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_28.png"></a>
-			</div>
-			<div class="item">
-				<b>Jane Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_29.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>
-		<div class="col text-center">		
-			<div class="item">
-				<a href="#"><img src="img/user_30.png"></a>
-			</div>
-			<div class="item">
-				<b>John Doe</b>
-				<h6 class="error">Student</h6>
-			</div>
-		</div>								
-	</div>
+		</div>		
+<%}%>                                
+	</div> 
 	<div class="row around">
 		<div class="col col-11 text-right">
-                    <a href="#" class="button round outline">&larr;</a>
-                    <a href="#" class="button round outline">&rarr;</a>
+                    <%if(b!=0){%><a href="?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
+                    <%if(n!=0){%><a href="?page=<%=String.valueOf(n)%>" class="button round outline">&rarr;</a><%}%>
 		</div>
 	</div>
 </div>
