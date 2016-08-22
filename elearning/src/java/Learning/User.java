@@ -72,14 +72,57 @@ public class User extends Parent{
         this.Gender = gender;
         
     }
-  
-  public User(String mail, String password){
+    
+    /*public void SendPassword(){
+        
+    }*/
+    
+    public ArrayList<User> Find(String find) {
+        ArrayList<User> list = new ArrayList<User>();
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from user where user_deleted = 0 and (user_name like ? or user_surname like ?);");
+            stmt.setString(1, "%"+find+"%");
+            stmt.setString(2, "%"+find+"%");
+            ResultSet rs = stmt.executeQuery();
+                    while(rs.next()){
+                        try {
+                            list.add(new User(rs.getInt("user_id")));
+                        } catch (SQLException ex) {
+                        Log.getOut(ex.getMessage());
+                        }
+                    }
+                }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                }
+        return list;
+    }
+    
+    public ArrayList<User> getAll(){
+        ArrayList<User> list = new ArrayList<User>();
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.All();
+                    while(rs.next()){
+                        try {
+                            list.add(new User(rs.getInt("user_id")));
+                        } catch (SQLException ex) {
+                        Log.getOut(ex.getMessage());
+                        }
+                    }
+                }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                }
+        return list;
+    }
+    
+    public User(String mail, String password){
         Logined = false;
         this.mail = mail;
         this.password = password;
     }
 
-  public User_courses getHasCours(Course course) throws Exception{
+    public User_courses getHasCours(Course course) throws Exception{
       
         PreparedStatement stmt = db.getConn().prepareStatement
         ("select * from user_has_course where course = ? and user = ?;");
@@ -91,9 +134,9 @@ public class User extends Parent{
                 return new User_courses(rs.getInt("user_has_course_id"));
         }
         throw new ObjectNotFind();
-  }
+    }
   
-  public ArrayList<Program> getActivePrograms(){
+    public ArrayList<Program> getActivePrograms(){
       
         ArrayList<Program> list = new ArrayList<Program>();
         try{

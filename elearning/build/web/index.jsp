@@ -8,8 +8,8 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-ArrayList<Program> courses = (new Program(1).getAll());
-ArrayList<Area> areas = (new Area(1).getAll());
+ArrayList<Program> courses = (new Program().getAll());
+ArrayList<Area> areas = (new Area().getAll());
 
 
 %>

@@ -12,23 +12,28 @@ int N=12;  //число записей на странице
 ArrayList<Program> courses;
 
 String find = request.getParameter("find");
-if(find!=null){
-courses = (new Program()).Find(find);    
-}
-else{
-    int area_id;
+int area_id;
     try{
         area_id = Integer.parseInt(request.getParameter("area_id"));
     }catch(Exception ex){area_id=0;}
 
-    if(area_id!=0)
-        try{
+if(area_id!=0){
+    try{
+        if(find!=null)
+            courses = (new Area(area_id)).FindPrograms(find);
+        else 
             courses = (new Area(area_id)).getPrograms();
-        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}      
+    }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}      
+}
+else{
+    if(find!=null)
+        courses = (new Program()).Find(find); 
     else
         courses = (new Program().getAll());
 }
+    
+
 int p;
 try{
     p = Integer.parseInt(request.getParameter("page"));

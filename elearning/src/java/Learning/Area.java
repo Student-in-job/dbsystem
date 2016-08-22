@@ -6,6 +6,7 @@
 package Learning;
 
 import DataBasePak.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,6 +48,27 @@ public class Area extends Parent{
     
     public Area(String name){
         Name = name;
+    }
+    
+    public ArrayList<Program> FindPrograms(String find){
+        ArrayList<Program> list = new ArrayList<Program>();
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from program where program_deleted = 0 and area = ? and program_state='active' and program_name like ?;");
+            stmt.setInt(1, this.ID);
+            stmt.setString(2, "%"+find+"%");
+            ResultSet rs = stmt.executeQuery();
+                    while(rs.next()){
+                        try {
+                            list.add(new Program(rs.getInt("program_id")));
+                        } catch (SQLException ex) {
+                        Log.getOut(ex.getMessage());
+                        }
+                    }
+                }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                }
+        return list;
     }
     
     public void Write(User user, Part part) throws Exception{
