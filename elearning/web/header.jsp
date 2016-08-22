@@ -20,6 +20,9 @@
 		            	<a href="#"><b>MANUAL</b></a>
 		            	<a href="#"><b>COURSES</b></a>
 		            </div>
+                        <div class="row centered">
+                            <a href="people.jsp"><b>PEOPLE</b></a>
+                        </div>
                     </div>
         	</div>
         	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
