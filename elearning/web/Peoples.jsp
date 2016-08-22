@@ -4,7 +4,29 @@
     Author     : javlonboy
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% 
+int N=12;  //число записей на странице
+ArrayList<User> users;
+
+String find = request.getParameter("find");
+
+    if(find!=null)
+        users = (new User()).Find(find); 
+    else
+        users = (new User().getAll());
+
+    
+
+int p;
+try{
+    p = Integer.parseInt(request.getParameter("page"));
+}catch(Exception ex){p=1;}
+int b = p-1;
+int n = (p*N)<users.size()?p+1:0;
+%>
 <!DOCTYPE html>
 <html>
     <head>
