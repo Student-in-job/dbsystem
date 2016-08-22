@@ -61,7 +61,6 @@
 				</form>
 	        </div>
 	    </div
-    
 	</div>
                 
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
