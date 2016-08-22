@@ -126,3 +126,18 @@
   .sidenav a {font-size: 18px;}
 }
 /* end slide menu */ 
+
+.course-2 {
+    background: url(../img/co_bg.png) no-repeat bottom;
+    
+}
+
+.pustota {
+    height: 120px;
+    width: 100%;
+}
+
+.imgc {
+    float: left;
+    margin: 0px 20px 7px 0;
+}
