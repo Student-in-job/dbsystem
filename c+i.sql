@@ -33,8 +33,8 @@ create table if not exists area (
 create table if not exists program (
   program_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  program_name varchar(45) not null,
-  program_description text(2000) not null,
+  program_name varchar(100) not null,
+  program_description text(3000) not null,
   program_min_level int(1) not null default 0,
   program_level int(1) not null,
   program_state varchar(10) not null default 'created',
