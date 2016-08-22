@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
 <div class="row around">
 		<div class="col col-3">
 			<div id="sidenav" class="sidenav">
@@ -32,7 +31,7 @@
 	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
 	   	</div>
 	    <div class="col col-3 text-right"><img src="img/login-ico.png"> <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a></div>
-	</div>
+</div>
 	<div id="login-modal" class="modal-box hide">
 	    <div class="modal">
 	        <span class="close"></span>
@@ -59,10 +58,10 @@
                                     <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
                                     <p class="text-center"><a href="#" >Lost your password?</a></p>
 				</form>
-	        </div>
-	    </div
+	        </div> 
+            </div>
 	</div>
-                
+               
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
     <script src="js/jquery.min.js"></script>
     <script src="js/kube.min.js"></script>
