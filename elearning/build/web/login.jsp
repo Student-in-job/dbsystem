@@ -4,11 +4,18 @@
     Author     : ksinn
 --%>
 
+<%@page import="org.apache.commons.codec.digest.DigestUtils"%>
 <%@page import="DataBasePak.*"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%      
+<% 
+if(request.getParameter("logout")!=null){
+    request.getSession().invalidate();
+    response.sendRedirect("/elearning/");
+    return;
+}    
+    
 if(request.getMethod()=="GET"){
 %>
 <!DOCTYPE html>
@@ -41,7 +48,7 @@ else
 
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
-        User user = new User(mail, password);
+        User user = new User(mail, DigestUtils.md2Hex(password));
         boolean a=false;
         try{
             a = user.Authorize();
@@ -76,6 +83,15 @@ else
         
         if(a)
         {
+            if(request.getParameter("remember")!=null){
+                Cookie m = new Cookie("usermail", user.getMail()); 
+                m.setMaxAge(3600*24*30);
+                Cookie p = new Cookie("password", user.getPassword()); 
+                p.setMaxAge(3600*24*30);
+                response.addCookie(m);
+                response.addCookie(p);
+            }
+            
             request.getSession().setAttribute("user", user);
             response.sendRedirect("UserBar.jsp");
             

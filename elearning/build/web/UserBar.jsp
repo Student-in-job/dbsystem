@@ -4,7 +4,6 @@
     Author     : ksinn
 --%>
 
-<%@page import="DataBasePak.Log"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>
@@ -12,10 +11,9 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-User user = (User) session.getAttribute("user");
-if(user==null) {response.sendRedirect("login.jsp"); return; }
-    
+
+<%@include file="/logfrag.jsp" %>
+<% 
     ArrayList<Program> program;
     ArrayList<Course> cours = user.getLearningCourses();
     UserSchedule ush = user.getMySchedule();

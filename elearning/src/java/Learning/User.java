@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.http.Part;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 
@@ -269,13 +270,14 @@ public class User extends Parent{
             DataBase db = new DataBase(this);
                 ResultSet rs = db.FindUser(); 
                 rs.next();
-                if(password.equals(rs.getString("passwords"))){
+                if(password.equals(DigestUtils.md2Hex(rs.getString("passwords")))){
                             Logined = true;
                             this.ID =  rs.getInt("user_id");
                             this.Name = rs.getString("user_name");
                             this.Surname = rs.getString("user_surname");
                             this.Gender = rs.getString("gender");
                             Birthday = new Date(rs.getDate("birthday").getTime());
+                            this.DateRegestration = rs.getDate("addDate");
                             
                     return true;
                 }

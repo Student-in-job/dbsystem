@@ -23,6 +23,7 @@
     
     String url, name = null, inventory=null, typ=null, mark ="";
     int level=0, minlevel=-1, duration=0, program=0, area=0;
+    Part img=null;
     Program np;
     program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     url= 0==program?"CreateProgram.jsp":"EditProgram.jsp";
@@ -54,6 +55,7 @@
         level = Integer.parseInt(request.getParameter("level")==null?"0":request.getParameter("level"));
         minlevel = Integer.parseInt(request.getParameter("minlevel")==null?"0":request.getParameter("minlevel"));
         duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
+        img = request.getPart("picture");
         
         boolean n = name==null||"".equals(name);
         boolean i = inventory==null||"".equals(inventory);
@@ -61,19 +63,20 @@
         boolean d = duration<=0;
         boolean l = level<=0;
         boolean m = minlevel<0;
+        boolean im = img==null;
         if(!(n||i||t||d||l||m)){
         
         try{    
             if(program==0){
-
-                np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-                np.Write(user, request.getPart("picture"));
-                response.sendRedirect("Program.jsp?program="+np.getID()); return;
-
+                if(im){
+                    np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
+                    np.Write(user, img);
+                    response.sendRedirect("Program.jsp?program="+np.getID()); return;
+                }    
             }
             else{
                 np = new Program(program);
-                np.Change(name, inventory, typ, level, minlevel, duration, user, request.getPart("picture"));
+                np.Change(name, inventory, typ, level, minlevel, duration, user, img);
                 response.sendRedirect("Program.jsp?program="+np.getID()); return;
             }
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
@@ -140,7 +143,7 @@
             <div>
                 <p>Picture:</p>
                 <input <%=name==null?"requered":""%> type="file" name="picture" >
-            </div>            
+            </div>             
             <input type="submit">
         </form>
         
