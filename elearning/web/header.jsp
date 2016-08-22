@@ -60,7 +60,7 @@
                                     <p class="text-center"><a href="#" >Lost your password?</a></p>
 				</form>
 	        </div>
-	    </div>
+	    </div
 	</div>
                 
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
