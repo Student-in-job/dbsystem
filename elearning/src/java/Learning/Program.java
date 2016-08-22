@@ -33,6 +33,7 @@ public class Program extends Parent{
     private int Level;
     private int MinLevel;
     protected String Ico;
+    protected Date Date;
     
     @Override
     public int getID(){
@@ -71,6 +72,7 @@ public class Program extends Parent{
                     this.State = rs.getString("program_state");
                     this.Typ = rs.getString("program_typ");
                     this.TeacherID = rs.getInt("user");
+                    this.Date = rs.getDate("addDate");
         
             
     }

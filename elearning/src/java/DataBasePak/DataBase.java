@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 /**
  *
  * @author ksinn
@@ -237,7 +236,7 @@ public class DataBase {
         
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("select * from "+where+" where "+Type+" = ? and "+where+"_deleted=0;");
+        ("select * from "+where+" where "+Type+" = ? and "+where+"_deleted=0 order by addDate desc;");
             stmt.setInt(1, Ons.getID());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
@@ -253,7 +252,7 @@ public class DataBase {
         
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("select * from "+Type+" where "+Type+"_deleted=0;");
+        ("select * from "+Type+" where "+Type+"_deleted=0 order by addDate desc;");
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -268,7 +267,7 @@ public class DataBase {
         
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("select * from "+Type+" where "+column+" = ? and "+Type+"_deleted=0;");
+        ("select * from "+Type+" where "+column+" = ? and "+Type+"_deleted=0 order by addDate desc;");
             //stmt.setString(1, column);
             stmt.setString(1, value);
             ResultSet rs = stmt.executeQuery();
@@ -281,7 +280,7 @@ public class DataBase {
         
     }
     
-    public ResultSet FindLast() throws Exception {
+    /*public ResultSet FindLast() throws Exception {
         
         
             PreparedStatement stmt = Connection.prepareStatement
@@ -294,8 +293,8 @@ public class DataBase {
             }
             else throw new ObjectNotFind();
         
-    }
-    
+    }*/
+    /*
     public ResultSet FindLast(String where) throws Exception{
         
         
@@ -311,7 +310,7 @@ public class DataBase {
             else throw new ObjectNotFind();
         
     }
-    
+    */
     protected void write_user() throws SQLException{
         
         User user = (User) Ons;
@@ -384,13 +383,6 @@ public class DataBase {
     private void write_test_task() throws SQLException {
         
         TestTask task = (TestTask) Ons;
-        
-            /*PreparedStatement stmt = Connection.prepareStatement("select (case when max(test_task_no) is null then 0 else max(test_task_no) end)+1 as 'nom' from test_task where test=? and test_task_deleted=0;");
-            stmt.setInt(1, task.getTestID());
-            ResultSet rs = stmt.executeQuery();
-            int no=0;
-            if(rs.next()) 
-                no = rs.getInt("nom");*/
             
             PreparedStatement stmt = Connection.prepareStatement
         ("INSERT INTO test_task (test_task_text, test_task_answer, test_task_v1, test_task_v2, test_task_v3, test_task_v4, test_task_ball, test) " +

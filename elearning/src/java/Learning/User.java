@@ -26,6 +26,7 @@ public class User extends Parent{
     protected boolean Logined;
     protected int Rating;
     protected String Ico;
+    protected java.util.Date DateRegestration;
     
     @Override
     public int getID(){
@@ -58,6 +59,7 @@ public class User extends Parent{
                             this.Surname = rs.getString("user_surname");
                             this.Gender = rs.getString("gender");
                             Birthday = new Date(rs.getDate("birthday").getTime());
+                            this.DateRegestration = rs.getDate("addDate");
 
     }
     
@@ -72,6 +74,8 @@ public class User extends Parent{
         this.Gender = gender;
         
     }
+    
+    public User(){}
     
     /*public void SendPassword(){
         
