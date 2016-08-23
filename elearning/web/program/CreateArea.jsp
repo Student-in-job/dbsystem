@@ -45,9 +45,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new program</title>
+        <script type="text/javascript" src="js/jquery-1.5.2.min.js"></script> 
+        <script type="text/javascript" src="js/jquery.validate.min.js"></script> 
     </head>
     <body>
-        <form action="CreateArea.jsp" method="POST" enctype="multipart/form-data">
+        <form id="form" action="CreateArea.jsp" method="POST" enctype="multipart/form-data">
             <div>
                 <p>Name:</p>
                 <input required type="text" name="name" placeholder="MySQL">
@@ -59,5 +61,43 @@
             <input type="submit">
         </form>
         
+        
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        name{
+                            required: true,
+                            minlength: 4,
+                            maxlength: 16,
+                        },
+
+                        picture{
+                            required: true,
+                        },
+                   },
+
+                   messages:{
+
+                        name{
+                            required: "Это поле обязательно для заполнения",
+                            minlength: "Название должен быть минимум 4 символа",
+                            maxlength: "Максимальное число символо - 16",
+                        },
+
+                        picture{
+                            required: "Это поле обязательно для заполнения",
+                        },
+
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script>
     </body>
 </html>
