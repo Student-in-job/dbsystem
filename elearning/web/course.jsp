@@ -68,16 +68,16 @@
         <div class="row centered course-2">
             <div class="col col-9">
                 <h3>ADJUSTMENTS</h3>
-                <nav class="tabs" data-component="tabs" data-equals="true">
+                <nav class="tabs" data-component="tabs"  data-equals="true">
                     <ul>
-                        <li class="active"><a href="#tab11">BOOKS</a></li>
+                        <li class="active"><a href="#tab11">VIDEO</a></li>
                         <li><a href="#tab12">FILES</a></li>
                         <li><a href="#tab13">AUDIO</a></li>
-                        <li><a href="#tab14">VIDEO</a></li>
+                        <li><a href="#tab14">BOOKS</a></li>
                     </ul>
                 </nav>
 
-                <div id="tab11"  >
+                <div id="tab11" class="tab-live" >
                     <div class="row">
                         <div class="col">
                             <p>
@@ -114,46 +114,8 @@
                     </div>
                 </div>
                 <div id="tab14">
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                            </p>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#" class="button round outline">Download</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                            </p>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#" class="button round outline">Download</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                            </p>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#" class="button round outline">Download</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                            </p>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#" class="button round outline">Download</a>
-                        </div>
-                    </div>
+
+
                     <div class="row">
                         <div class="col">
                             <p>
@@ -166,22 +128,22 @@
                     </div>
                 </div>
             </div>
-                    <div class="pustota"></div>
-
         </div>
-        <%@include file="footer.jsp" %>
+    </div>
 
-        <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kube.min.js"></script>
-        <script>
-                    function openNav() {
-                        document.getElementById("sidenav").style.width = "100%";
-                    }
+    <%@include file="footer.jsp" %>
 
-                    function closeNav() {
-                        document.getElementById("sidenav").style.width = "0";
-                    }
-        </script>
-    </body>
+    <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kube.min.js"></script>
+    <script>
+        function openNav() {
+            document.getElementById("sidenav").style.width = "100%";
+        }
+
+        function closeNav() {
+            document.getElementById("sidenav").style.width = "0";
+        }
+    </script>
+</body>
 </html>
