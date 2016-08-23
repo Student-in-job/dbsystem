@@ -140,3 +140,55 @@
     float: left;
     margin: 0px 20px 7px 0;
 }
+
+.userbar-1 {
+    background: #00BCD3;
+    color: #fff;
+}
+
+.img-circle {
+    border-radius: 50%;
+    border: 12px solid #fff;
+}
+
+.userbar-2 {
+    min-height: 720px;
+    background: url(../img/usr_bg.png) no-repeat bottom;
+}
+
+.nav {
+    border: 1px solid #c3c3c3;
+    padding: 0;
+    max-height: 129px;
+   }
+
+.nav a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    padding: 4px 4px 4px 10px;
+    font-size: 14px;
+}
+
+.nav a:hover {
+    color: aqua;
+    border: 1px solid #c3c3c3;
+}
+
+.a-blue {
+    color: #fff important;
+    background: #00BCD3;
+    
+}
+
+.userbar-tab {
+    min-height: 300px;
+}
+
+.courses {
+    display: none;
+}
+
+.border {
+    border: 1px solid #c3c3c3;
+}
