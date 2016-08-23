@@ -4,6 +4,8 @@
     Author     : javlonboy
 --%>
 
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="Learning.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,8 +14,8 @@
 <% 
     ArrayList<Course> learning_cours = user.getLearningCourses();
     ArrayList<Course> learned_cours = user.getLearnedCourses();
-    ArrayList<Program> aprogram = user.getActivePrograms();
-    ArrayList<Program> cprogram = user.getCreatedPrograms();
+    ArrayList<Program> activ_program = user.getActivePrograms();
+    ArrayList<Program> created_program = user.getCreatedPrograms();
     UserSchedule ush = user.getMySchedule();
 %>
 <!DOCTYPE html>
@@ -68,36 +70,59 @@
                         <div class="col col-7 userbar-tab">
                             <div id="created_courses" class="courses">
                                 <h3>Created courses</h3>
-for(int i=0; i<created_course.size(); i++) {%>  
+<%for(int i=0; i<created_program.size(); i++) {%>  
                 <p>
-                    <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
-                    <a href="program/Publishe?program=<%=program.get(i).getID()%>">Published</a>
-                </p>
-                
+                    <a href="program/Program.jsp?program=<%=created_program.get(i).getID()%>"><%=created_program.get(i).getName()%></a>
+                </p>                
 <%}%>                                               
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum illum corporis tempora, nemo vitae repellendus dignissimos asperiores molestiae ab harum nisi laudantium explicabo earum dolores similique aspernatur commodi ad expedita!</p>
                             </div>
+                            
                             <div id="active_courses" class="courses">
                                 <h3>Active courses</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, maiores provident voluptate error harum, accusantium pariatur doloribus numquam consectetur illum perspiciatis nobis exercitationem, natus tempora repellat dolorem mollitia quis! Ducimus?</p>
+<%for(int i=0; i<activ_program.size(); i++) {%>  
+                <p>
+                    <a href="program/Program.jsp?program=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
+                </p>                
+<%}%>                                               
                             </div>
+                            
                             <div id="learn_courses" class="courses">
                                 <h3>Learn courses</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id vero, omnis blanditiis ab autem doloremque illo. Aliquid ea at similique officia harum facilis, voluptates atque commodi, eveniet, odio nesciunt enim?</p>
+<%for(int i=0; i<learning_cours.size(); i++) {%>  
+                <p>
+                    <a href="program/Program.jsp?program=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
+                </p>                
+<%}%>                                               
                             </div>
+                            
                             <div id="finished_courses" class="courses">
                                 <h3>Finished courses</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat architecto doloremque aperiam minima iusto explicabo nam dolore earum, ducimus dicta, excepturi dolores nulla maiores laudantium blanditiis officia temporibus asperiores ad.</p>
+<%for(int i=0; i<learned_cours.size(); i++) {%>  
+                <p>
+                    <a href="program/Program.jsp?program=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
+                </p>                
+<%}%>                                               
                             </div>
                         </div>
                         <div class="col col-5">
                             <h3>Расписание</h3>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
-                            <p>Lorem ipsum dolor - 12:00am 12.09.2016 </p>
+<%
+Day d;
+Calendar c = new GregorianCalendar();
+for(int j=0; j<7; j++){
+    c.add(Calendar.DAY_OF_YEAR, 1);
+    d = ush.getDay(c);
+    if(d!=null){
+        for(int i=0; i<d.Size(); i++){              
+            if(d.get(i).getType().equals("test")){%>
+                <p><a href="Pass/StartPassTest.jsp?course=<%=d.get(i).getCourse().getID()%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+            <%}if(d.get(i).getType().equals("material")){%>
+                <p><a href="Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+            <%}
+        }
+    }
+}
+%>
                         </div>
                     </div>
                 </div>

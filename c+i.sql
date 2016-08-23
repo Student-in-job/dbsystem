@@ -394,7 +394,7 @@ INSERT INTO course(course_date, program, course_public, course_deleted) VALUES
 (now(), 2, 0, 0);
 
 INSERT INTO user_has_course(user, course, user_has_course_datetime, user_has_course_deleted) VALUES 
-(2, 1, now(), 0);
+(1, 1, now(), 0);
 
 INSERT INTO schedule_has_material(material, course, date_time) VALUES 
 (2, 1, now()+interval 1 day),
