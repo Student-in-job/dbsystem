@@ -4,7 +4,18 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.*"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="/logfrag.jsp" %>
+<% 
+    ArrayList<Course> learning_cours = user.getLearningCourses();
+    ArrayList<Course> learned_cours = user.getLearnedCourses();
+    ArrayList<Program> aprogram = user.getActivePrograms();
+    ArrayList<Program> cprogram = user.getCreatedPrograms();
+    UserSchedule ush = user.getMySchedule();
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,15 +39,15 @@
             <%@include file="header.jsp" %>
             <div class="row userbar-1">
                 <div class="col col-3 text-right">
-                    <img src="img/user_13.png" alt="" class="img-circle">
+                    <img src="/elearning/<%=user.getIco()%>" alt="" class="img-circle">
                 </div>
                 <div class="col col-3">
                     <br>
                     <p>
-                        Имя: Jane Shepard <br>
-                        Дата рождения: 12.09.1991<br>
-                        Пол: Женский <br>
-                        Дата регистрации: 18.08.2016<br>
+                        Имя: <%=user.getName()%> <%=user.getSurname()%> <br>
+                        Дата рождения: <%=user.getBirthday()%><br>
+                        Пол: <%=user.getGender()%> <br>
+                        Дата регистрации: <%=user.getDateRegestration()%><br>
                     </p>
                 </div>
                 <div class="col text-center"> 
@@ -57,6 +68,13 @@
                         <div class="col col-7 userbar-tab">
                             <div id="created_courses" class="courses">
                                 <h3>Created courses</h3>
+for(int i=0; i<created_course.size(); i++) {%>  
+                <p>
+                    <a href="program/Program.jsp?program=<%=program.get(i).getID()%>"><%=program.get(i).getName()%></a>
+                    <a href="program/Publishe?program=<%=program.get(i).getID()%>">Published</a>
+                </p>
+                
+<%}%>                                               
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum illum corporis tempora, nemo vitae repellendus dignissimos asperiores molestiae ab harum nisi laudantium explicabo earum dolores similique aspernatur commodi ad expedita!</p>
                             </div>
                             <div id="active_courses" class="courses">

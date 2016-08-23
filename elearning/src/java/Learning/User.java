@@ -276,7 +276,7 @@ public class User extends Parent{
                             this.Name = rs.getString("user_name");
                             this.Surname = rs.getString("user_surname");
                             this.Gender = rs.getString("gender");
-                            Birthday = new Date(rs.getDate("birthday").getTime());
+                            Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
                             
                     return true;
@@ -289,12 +289,16 @@ public class User extends Parent{
         return mail;
     }
 
-    public Date getDirthday() {
+    public Date getBirthday() {
         return Birthday;
+    }
+    
+    public Date getDateRegestration() {
+        return DateRegestration;
     }
 
     public String getGender() {
-        return Gender;
+        return Gender.equals("w")?"Women":"Men";
     }
     
         public boolean isLogined()

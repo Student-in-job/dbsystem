@@ -124,6 +124,7 @@ else
             </html>
  <%         return;  
             }
+            else {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         }
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
            
