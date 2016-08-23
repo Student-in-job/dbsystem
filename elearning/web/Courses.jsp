@@ -86,7 +86,7 @@ int n = (p*N)<courses.size()?p+1:0;
 					<div class="row">
 						
 						<div class="col">
-							<a class="button success outline small" href="Courses.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
+							<a class="button success outline small" href="Course.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>

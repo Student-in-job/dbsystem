@@ -37,12 +37,13 @@ public class Upload extends HttpServlet {
         if(user==null){response.sendRedirect("../login.jsp"); return;}
             
         int material = Integer.parseInt(request.getParameter("material"));
+        String title = request.getParameter("title");
         
         boolean multipartContent = ServletFileUpload.isMultipartContent(request);
         if(multipartContent){
                 Part part = request.getPart("data");
                 try{
-                    Files file = new Files(part);
+                    Files file = new Files(part, title);
                     file.Write(new Material(material), user);
                     response.sendRedirect("Material.jsp?material="+material);
                 }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
@@ -54,7 +55,7 @@ public class Upload extends HttpServlet {
         else{
             String name = request.getParameter("file");
                 try{
-                    Files file = new Files(name);
+                    Files file = new Files(name, title);
                     file.Write(new Material(material), user);
                     response.sendRedirect("Material.jsp?material="+material);
                 }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}

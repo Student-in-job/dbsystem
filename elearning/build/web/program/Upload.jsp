@@ -28,13 +28,15 @@
 <body>
     <form action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
         <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
-	<input name="data" type="file"><br>
+	Описание: <input name="title" type="text" ><br>
+        <input name="data" type="file"><br>
         <input type="submit"><br>
     </form>
         <h1>or</h1>    
     <form action="/elearning/program/Upload" method="post">
         <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
-	<input name="file" type="text" ><br>
+	Описание: <input name="title" type="text" ><br>
+        Имя файла: <input name="file" type="text" ><br>
         <input type="submit"><br>
     </form>    
 </body>

@@ -18,10 +18,11 @@ import javax.servlet.http.Part;
 public class Files extends Parent{
     
     protected String Name;
+    protected String Title;
     protected String FileType;
     protected Material Material;
     protected Part Part;
-    protected final String Derectory = db.getFileDir() + "materials/";
+    protected final String Derectory = db.getFileDir() + "material/";
     protected final String Path = db.getRealPath() + Derectory;
     
     
@@ -66,21 +67,24 @@ public class Files extends Parent{
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
                     rs.next();
+                    this.Title = rs.getString("files_title");
                     this.Name = rs.getString("files_name");
                     this.FileType = rs.getString("files_type");
                     this.Material = new Material(rs.getInt("material"));
 
     }
     
-    public Files(Part part){
+    public Files(Part part, String title){
         
         Name = extractFileName(part);
         Part = part;
+        Title = title;
     }
     
-    public Files(String name) throws IOException{
+    public Files(String name, String title){
         
         Name = name;
+        Title = title;
     }
     
     
@@ -138,6 +142,10 @@ public class Files extends Parent{
     
     public String getName(){
         return Name;
+    }
+    
+    public String getTitle(){
+        return Title;
     }
     
     public String getFileType(){

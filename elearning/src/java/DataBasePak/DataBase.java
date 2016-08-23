@@ -367,10 +367,11 @@ public class DataBase {
         
         Files file = (Files) Ons;
         
-            PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type) values (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = Connection.prepareStatement("insert into files(files_name, material, files_type, files_title) values (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, file.getName());
             stmt.setInt(2, file.getMaterialID());
             stmt.setString(3, file.getFileType());
+            stmt.setString(3, file.getTitle());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();

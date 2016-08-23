@@ -41,9 +41,9 @@ file = mat.getVideoFile();
 if(!file.isEmpty()){
 %>        
         <p>
-            <div id="myElement">Загрузка плеера...</div>
+            <div id="myPlayer">Загрузка плеера...</div>
             <script type="text/javascript">
-                    jwplayer("myElement").setup({
+                    jwplayer("myPlayer").setup({
                         width: 400, 
                         height: 240,
                         listbar: {

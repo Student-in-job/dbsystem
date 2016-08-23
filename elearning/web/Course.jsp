@@ -1,7 +1,7 @@
 <%-- 
-    Document   : usrbar
-    Created on : Aug 22, 2016, 2:42:09 PM
-    Author     : javlonboy
+    Document   : Course
+    Created on : 23.08.2016, 18:37:47
+    Author     : ksinn
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
