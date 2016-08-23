@@ -91,8 +91,14 @@ if(request.getMethod()=="POST"){
       'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
       'save table contextmenu directionality emoticons template paste textcolor'
     ],
-    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
-  });
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+    onchange_callback: function(editor) {
+			tinyMCE.triggerSave();
+			$("#" + editor.id).valid();
+		}
+    });
+    
+    
         </script>
         
     </head>
@@ -164,19 +170,19 @@ if(request.getMethod()=="POST"){
                         },
                         
                         day:{
-                            requered: "Это поле обязательно для заполнения",
+                            required: "Это поле обязательно для заполнения",
                             number: "Должно быть число",
                             min: "1"
                         },
                         
                         inventory:{
-                            requered: "Это поле обязательно для заполнения",
+                            required: "Это поле обязательно для заполнения",
                             minlength: "Название должен быть минимум 20 символа",
                             maxlength: "Максимальное число символо - 200",
                         },
                         
                         text:{
-                            requered: "Это поле обязательно для заполнения",
+                            required: "Это поле обязательно для заполнения",
                             minlength: "Название должен быть минимум 20 символа",
                         }
 

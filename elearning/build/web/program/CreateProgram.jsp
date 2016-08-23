@@ -144,7 +144,7 @@
             </div>
             <div>
                 <p>Picture:</p>
-                <input <%=name==null?"requered":""%> type="file" name="picture" >
+                <input <%=name==null?"required":""%> type="file" name="picture" >
             </div>             
             <input type="submit">
         </form>
@@ -169,21 +169,21 @@
                         },
                         
                         level:{
-                            requered: true,
+                            required: true,
                             number: true,
                             min: 1,
                             max: 3,
                         },
                         
                         minlevel:{
-                            requered: true,
+                            required: true,
                             number: true,
                             min: 1,
                             max: 3,
                         },
                         
                         duration:{
-                            requered: true,
+                            required: true,
                             number: true,
                             min: 1,
                         },
@@ -204,27 +204,27 @@
                         },
                         
                         inventory:{
-                            requered: "Это поле обязательно для заполнения",
+                            required: "Это поле обязательно для заполнения",
                             minlength: "Название должен быть минимум 20 символа",
                             maxlength: "Максимальное число символо - 3000",
                         },                        
                         
                         level:{
-                            requered: "true",
+                            required: "true",
                             number: "true",
                             min: "1",
                             max: "3",
                         },
                         
                         minlevel:{
-                            requered: "true",
+                            required: "true",
                             number: "true",
                             min: "0",
                             max: "3",
                         },
                         
                         duration:{
-                            requered: "true",
+                            required: "true",
                             number: "true",
                             min: "1",
                         },
