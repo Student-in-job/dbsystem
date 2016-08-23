@@ -88,19 +88,19 @@ if(request.getMethod()=="POST"){
         <input type="hidden" name="test" value="<%=test%>"> 
             <div>
                 <p>Name:</p>
-                <input requered type="text" name="name" <%=name==null?" placeholder=\"Name of test":"value=\""+name%>">
+                <input required type="text" name="name" <%=name==null?" placeholder=\"Name of test":"value=\""+name%>">
             </div>
             <div>
                 <p>Inventory:</p>
-                <textarea requered name="inventory"><%=inventory==null?"":inventory%></textarea>
+                <textarea required name="inventory"><%=inventory==null?"":inventory%></textarea>
             </div>
             <div>
                 <p>Day:</p>
-                <input requered min="1" max="183" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
+                <input required min="1" max="183" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
             </div>
             <div>
                 <p>Time:</p>
-                <input requered min="1" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
+                <input required min="1" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
             </div>
             <input type="submit">
         </form>

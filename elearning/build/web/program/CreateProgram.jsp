@@ -26,7 +26,6 @@
     Part img=null;
     Program np;
     program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
-    url= 0==program?"CreateProgram.jsp":"EditProgram.jsp";
     
     if(request.getMethod()=="GET"){
     
@@ -57,22 +56,13 @@
         duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
         img = request.getPart("picture");
         
-        boolean n = name==null||"".equals(name);
-        boolean i = inventory==null||"".equals(inventory);
-        boolean t = typ==null||"".equals(typ);
-        boolean d = duration<=0;
-        boolean l = level<=0;
-        boolean m = minlevel<0;
-        boolean im = img==null;
-        if(!(n||i||t||d||l||m)){
+        if(minlevel<=level){
         
         try{    
             if(program==0){
-                if(im){
                     np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
                     np.Write(user, img);
-                    response.sendRedirect("Program.jsp?program="+np.getID()); return;
-                }    
+                    response.sendRedirect("Program.jsp?program="+np.getID()); return;  
             }
             else{
                 np = new Program(program);
@@ -97,7 +87,7 @@
         <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
     </head>
     <body>
-        <form id="form" action="<%=url%>" method="POST" enctype="multipart/form-data">
+        <form id="form" action="CreateProgram.jsp" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="program" value="<%=program%>">
             <div>
                 <p>Name:</p>
@@ -144,7 +134,7 @@
             </div>
             <div>
                 <p>Picture:</p>
-                <input <%=name==null?"required":""%> type="file" name="picture" >
+                <input <%=program==0?"required":""%> type="file" name="picture" >
             </div>             
             <input type="submit">
         </form>
@@ -178,7 +168,7 @@
                         minlevel:{
                             required: true,
                             number: true,
-                            min: 1,
+                            min: 0,
                             max: 3,
                         },
                         
@@ -186,55 +176,15 @@
                             required: true,
                             number: true,
                             min: 1,
+                            max: 183
                         },
                         
-                        picture:{
+<%if(program==0){%>                        picture:{
                             required: true,
                             accept: "png",
                         }
-                        
+<%}%>                        
                    },
-
-                   messages:{
-
-                        name:{
-                            required: "true",
-                            minlength: "6",
-                            maxlength: "100",
-                        },
-                        
-                        inventory:{
-                            required: "Это поле обязательно для заполнения",
-                            minlength: "Название должен быть минимум 20 символа",
-                            maxlength: "Максимальное число символо - 3000",
-                        },                        
-                        
-                        level:{
-                            required: "true",
-                            number: "true",
-                            min: "1",
-                            max: "3",
-                        },
-                        
-                        minlevel:{
-                            required: "true",
-                            number: "true",
-                            min: "0",
-                            max: "3",
-                        },
-                        
-                        duration:{
-                            required: "true",
-                            number: "true",
-                            min: "1",
-                        },
-                        
-                        picture:{
-                            required: "true",
-                            accept: "png",
-                        }
-
-                   }
 
                 });
 

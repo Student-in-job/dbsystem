@@ -14,9 +14,14 @@
     User user = (User) session.getAttribute("user");
     if(user==null){
         response.sendRedirect("../login.jsp"); return;}
+    int material = 0;
+    try{
+        material = Integer.parseInt(request.getParameter("material"));
+    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidRequest"); return;}
         
+    
     String mark=null, url, typ="Lecture", text=null, name=null, inventory=null;
-    int day=0, material = Integer.parseInt(request.getParameter("material")), program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
+    int day=0, program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     Material nm;
 
     url=material==0?"CreateMaterial.jsp":"EditMaterial.jsp";
@@ -44,12 +49,9 @@ if(request.getMethod()=="POST"){
     text = request.getParameter("text");
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    day = Integer.parseInt(request.getParameter("day")==null?"0":request.getParameter("day"));
+    day = Integer.parseInt(request.getParameter("day"));
     
-    boolean n = name==null||"".equals(name);
-    boolean i = inventory==null||"".equals(inventory);
-    boolean d = day<=0;
-    if(!(n||d||i)){
+    
         
     try{    
         if(material==0){
@@ -70,7 +72,7 @@ if(request.getMethod()=="POST"){
         catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         
-    }
+    
 }
 %>    
 <!DOCTYPE html>
@@ -92,10 +94,7 @@ if(request.getMethod()=="POST"){
       'save table contextmenu directionality emoticons template paste textcolor'
     ],
     toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
-    onchange_callback: function(editor) {
-			tinyMCE.triggerSave();
-			$("#" + editor.id).valid();
-		}
+    
     });
     
     
@@ -111,19 +110,19 @@ if(request.getMethod()=="POST"){
             <input type="hidden" name="material" value="<%=material%>">
             <div>
                 <p>Name: </p>
-                <input requered type="text" name="name" <%=name==null?" placeholder=\"Name":"value=\""+name%>">
+                <input required type="text" name="name" <%=name==null?" placeholder=\"Name":"value=\""+name%>">
             </div>
             <div>
                 <p>Day: </p>
-                <input requered type="number" min="1" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>" >
+                <input required type="number" min="1" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>" >
             </div>
             <div>
                 <p>Inventory: </p>
-                <textarea requered name="inventory" <%=inventory==null?" placeholder=\"Inventory\">":">"+inventory%></textarea>
+                <textarea required name="inventory" <%=inventory==null?" placeholder=\"Inventory\">":">"+inventory%></textarea>
             </div>
             <div>
                 <p>Text: </p>
-                <textarea requered name="text" id="input"><%=text==null?"":text%></textarea>
+                <textarea required name="text" id="input"><%=text==null?"":text%></textarea>
             </div> 
             <input type="submit"> 
         </form>

@@ -69,7 +69,7 @@
 <%for(Entry entry : days.entrySet()){ %>            
             <div>
                 <p>Day <%=entry.getKey()%>:</p>
-                <input requered type="date" name="<%=entry.getKey()%>" value="<%=form2.format(((Day)entry.getValue()).getDate())%>">
+                <input required type="date" name="<%=entry.getKey()%>" value="<%=form2.format(((Day)entry.getValue()).getDate())%>">
                 <div>
                     <%for(int i=0; i<((Day)entry.getValue()).Size(); i++){%>
                     <p><%=((Day)entry.getValue()).get(i).getName()%></p>

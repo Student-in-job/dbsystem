@@ -49,7 +49,7 @@
             </div>
             <div>
                 <p>Picture:</p>
-                <input requered type="file" name="picture" >
+                <input required type="file" name="picture" >
             </div>            
             <input type="submit">
         </form>
@@ -74,20 +74,6 @@
                         },
                         
                    },
-
-                   messages:{
-
-                        name:{
-                            required: "Это поле обязательно для заполнения",
-                            minlength: "Название должен быть минимум 4 символа",
-                            maxlength: "Максимальное число символо - 16",
-                        },
-
-                        picture:{
-                            required: "Это поле обязательно для заполнения",
-                        },
-
-                   }
 
                 });
 

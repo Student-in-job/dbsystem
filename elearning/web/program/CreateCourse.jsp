@@ -75,14 +75,34 @@
             </head>
             <body>
                 <h1>CreateCourse:1</h1>
-                <form method="POST" action="CreateCourse.jsp">
+                <form id="form" method="POST" action="CreateCourse.jsp">
                     <input type="hidden" name="program" value="<%=program%>">
                     <div>
                         <p>Start Date:</p>
-                        <input requered type="date" name="start" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>">
+                        <input required type="date" name="start" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>">
                     </div>
                     <input type="submit">
                 </form>
+    
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        start:{
+                            required: true,
+                            date: true,
+                            maxlength: 100,
+                        }                        
+                   },
+
+                });
+
+
+            }); //end of ready
+        </script>
             </body>
         </html>
                 <%}
@@ -90,7 +110,48 @@
 
                         Date start = form.parse(request.getParameter("start"));
                         if(start.compareTo(new Date(new Date().getTime() + 3600*1000*24*7))<0) 
-                            {response.sendError(500, "Uncorrect date"); return;}
+                            {%>
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <title>JSP Page</title>
+                <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
+                <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+            </head>
+            <body>
+                <h1>CreateCourse:1</h1>
+                <form id="form" method="POST" action="CreateCourse.jsp">
+                    <input type="hidden" name="program" value="<%=program%>">
+                    <div>
+                        <p>Start Date:</p>
+                        <input required type="date" name="start" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>">
+                    </div>
+                    <input type="submit">
+                </form>
+    
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        start:{
+                            required: true,
+                            date: true,
+                            maxlength: 100,
+                        }                        
+                   },
+
+                });
+
+
+            }); //end of ready
+        </script>
+            </body>
+        </html>
+                <% return;}
                         course = new Course(start, prog);
                         session.setAttribute("course", course);
                         response.sendRedirect("CreateMaterialSchedule.jsp?program="+String.valueOf(program));

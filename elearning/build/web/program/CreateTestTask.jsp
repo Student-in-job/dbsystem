@@ -91,31 +91,31 @@ if(request.getMethod()=="POST"){
         <input type="hidden" name="test" value="<%=tst%>"> 
             <div>
                 <p>Question:</p>
-                <input requered type="text" name="question" <%=question==null?"placeholder=\"Qwestion":"value=\""+question%>">
+                <input required type="text" name="question" <%=question==null?"placeholder=\"Qwestion":"value=\""+question%>">
             </div>
             <div>
                 <p>Point:</p>
-                <input requered type="number" name="point" <%=point==0?"placeholder=\"1":"value=\""+point%>">
+                <input required type="number" name="point" <%=point==0?"placeholder=\"1":"value=\""+point%>">
             </div>
             <div>
                 <p>*Answer:</p>
-                <input requered type="text" name="answer" <%=answer==null?"placeholder=\"Right answer":"value=\""+answer%>">
+                <input required type="text" name="answer" <%=answer==null?"placeholder=\"Right answer":"value=\""+answer%>">
             </div>
             <div>
                 <p>V1:</p>
-                <input requered type="text" name="v1" <%=v1==null?"placeholder=\"Variant":"value=\""+v1%>">
+                <input required type="text" name="v1" <%=v1==null?"placeholder=\"Variant":"value=\""+v1%>">
             </div>
             <div>
                 <p>V2:</p>
-                <input requered type="text" name="v2" <%=v2==null?"placeholder=\"Variant":"value=\""+v2%>">
+                <input required type="text" name="v2" <%=v2==null?"placeholder=\"Variant":"value=\""+v2%>">
             </div>
             <div>
                 <p>V3:</p>
-                <input requered type="text" name="v3" <%=v3==null?"placeholder=\"Variant":"value=\""+v3%>">
+                <input required type="text" name="v3" <%=v3==null?"placeholder=\"Variant":"value=\""+v3%>">
             </div>
             <div>
                 <p>V4:</p>
-                <input requered type="text" name="v4" <%=v4==null?"placeholder=\"Variant":"value=\""+v4%>">
+                <input required type="text" name="v4" <%=v4==null?"placeholder=\"Variant":"value=\""+v4%>">
             </div>
             
             <input type="submit">
