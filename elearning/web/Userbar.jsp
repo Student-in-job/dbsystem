@@ -46,7 +46,7 @@
                     <p>
                         Имя: <%=user.getName()%> <%=user.getSurname()%> <br>
                         Дата рождения: <%=user.getBirthday()%><br>
-                        Пол: <%=user.getGender()%> <br>
+                        Пол: <%=user.getGenderString()%> <br>
                         Дата регистрации: <%=user.getDateRegestration()%><br>
                     </p>
                 </div>

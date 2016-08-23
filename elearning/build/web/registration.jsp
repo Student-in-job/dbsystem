@@ -68,13 +68,11 @@ else
         String gender = request.getParameter("gender");
         Date birthday = format.parse(request.getParameter("birthday"));
         
+        
+
         User user = new User(mail, password, name, surname, birthday, gender);
-        try{
-            user.Register();
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-        catch(SQLException ex){
-            Log.getOut(ex.getMessage());
-            if(ex.getErrorCode()==1062){
+        DataBase db = new DataBase(user);
+        if(db.FindUser()!=null){
 %>
 <!DOCTYPE html>
             <html>
@@ -123,9 +121,11 @@ else
                 </body>
             </html>
  <%         return;  
-            }
-            else {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-        }
+}
+        try{
+            user.Register();
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+        catch(SQLException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
            
         response.sendRedirect("login.jsp");

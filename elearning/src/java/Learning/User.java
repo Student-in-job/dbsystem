@@ -298,6 +298,10 @@ public class User extends Parent{
     }
 
     public String getGender() {
+        return Gender;
+    }
+    
+    public String getGenderString() {
         return Gender.equals("w")?"Women":"Men";
     }
     

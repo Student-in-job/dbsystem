@@ -316,12 +316,12 @@ public class DataBase {
         User user = (User) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender, date_reg)  values (?, ?, ?, ?, ?, ?, now());", Statement.RETURN_GENERATED_KEYS);
+        ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender)  values (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, user.getMail());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getName());
             stmt.setString(4, user.getSurname());
-            stmt.setDate(5, new Date(user.getDirthday().getTime()));
+            stmt.setDate(5, new Date(user.getBirthday().getTime()));
             stmt.setString(6, user.getGender());
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -536,7 +536,7 @@ public class DataBase {
             stmt.setString(1, user.getPassword());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getSurname());
-            stmt.setDate(4, new Date(user.getDirthday().getTime()));
+            stmt.setDate(4, new Date(user.getBirthday().getTime()));
             stmt.setString(5, user.getGender());
             stmt.setString(6, user.getMail());
             stmt.setInt(7, user.getID());
