@@ -20,11 +20,6 @@
     if(request.getMethod()=="POST"){
         
         name = request.getParameter("name");
-        
-        boolean n = name==null||"".equals(name);
-        
-        if(!(n)){
-        
         try{    
                 Area na = new Area(name);
                 na.Write(user, request.getPart("picture"));
@@ -35,9 +30,7 @@
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
         catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
         catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-                 
-    }
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}       
 }    
 %>
 <!DOCTYPE html>
@@ -45,8 +38,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new program</title>
-        <script type="text/javascript" src="js/jquery-1.5.2.min.js"></script> 
-        <script type="text/javascript" src="js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
+        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
     </head>
     <body>
         <form id="form" action="CreateArea.jsp" method="POST" enctype="multipart/form-data">
@@ -69,26 +62,28 @@
 
                    rules:{ 
 
-                        name{
+                        name:{
                             required: true,
                             minlength: 4,
-                            maxlength: 16,
+                            maxlength: 20,
                         },
 
-                        picture{
+                        picture:{
                             required: true,
+                            accept: "png",
                         },
+                        
                    },
 
                    messages:{
 
-                        name{
+                        name:{
                             required: "Это поле обязательно для заполнения",
                             minlength: "Название должен быть минимум 4 символа",
                             maxlength: "Максимальное число символо - 16",
                         },
 
-                        picture{
+                        picture:{
                             required: "Это поле обязательно для заполнения",
                         },
 

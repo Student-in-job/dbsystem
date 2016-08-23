@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/Courses.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/logfrag.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/UserBar.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/Peoples.jsp</file>
-            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/index.jsp</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateMaterial.jsp</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateTestTask.jsp</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateTest.jsp</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateProgram.jsp</file>
+            <file>file:/home/ksinn/NetBeansProjects/dbsystem/elearning/web/program/CreateArea.jsp</file>
         </group>
     </open-files>
 </project-private>

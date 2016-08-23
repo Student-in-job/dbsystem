@@ -78,7 +78,8 @@ else
 
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
-        User user = new User(mail, DigestUtils.md2Hex(password));
+        String hashp = DigestUtils.md2Hex(password);
+        User user = new User(mail, hashp);
         boolean a=false;
         try{
             a = user.Authorize();

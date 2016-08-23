@@ -93,9 +93,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new program</title>
+        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
+        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
     </head>
     <body>
-        <form action="<%=url%>" method="POST" enctype="multipart/form-data">
+        <form id="form" action="<%=url%>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="program" value="<%=program%>">
             <div>
                 <p>Name:</p>
@@ -103,7 +105,7 @@
             </div>
             <div>
                 <p>Area:</p>
-                <select name="area" requered>
+                <select required name="area" >
 <%
     ArrayList<Area> arealist = (new Area(1).getAll());
     for(int i=0; i<arealist.size(); i++){
@@ -115,11 +117,11 @@
             </div>
             <div>
                 <p>Inventory:</p>
-                <textarea required type="inventory" name="inventory" <%=inventory==null?"placeholder=\"Inventory\">":">"+inventory%></textarea>
+                <textarea required  name="inventory" <%=inventory==null?"placeholder=\"Inventory\">":">"+inventory%></textarea>
             </div>
             <div>
                 <p>Type:</p>
-                <select name="typ" requered>
+                <select required required name="typ" >
                     <option <%="Seminar".equals(typ)?"selected":""%> value="Seminar">Seminar</option>
                     <option <%="Mini".equals(typ)?"selected":""%> value="Mini">Mini</option>
                     <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
@@ -146,7 +148,99 @@
             </div>             
             <input type="submit">
         </form>
-        
+    
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        name:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 100,
+                        },
+                        
+                        inventory:{
+                            required: true,
+                            minlength: 20,
+                            maxlength: 3000,
+                        },
+                        
+                        level:{
+                            requered: true,
+                            number: true,
+                            min: 1,
+                            max: 3,
+                        },
+                        
+                        minlevel:{
+                            requered: true,
+                            number: true,
+                            min: 1,
+                            max: 3,
+                        },
+                        
+                        duration:{
+                            requered: true,
+                            number: true,
+                            min: 1,
+                        },
+                        
+                        picture:{
+                            required: true,
+                            accept: "png",
+                        }
+                        
+                   },
+
+                   messages:{
+
+                        name:{
+                            required: "true",
+                            minlength: "6",
+                            maxlength: "100",
+                        },
+                        
+                        inventory:{
+                            requered: "Это поле обязательно для заполнения",
+                            minlength: "Название должен быть минимум 20 символа",
+                            maxlength: "Максимальное число символо - 3000",
+                        },                        
+                        
+                        level:{
+                            requered: "true",
+                            number: "true",
+                            min: "1",
+                            max: "3",
+                        },
+                        
+                        minlevel:{
+                            requered: "true",
+                            number: "true",
+                            min: "0",
+                            max: "3",
+                        },
+                        
+                        duration:{
+                            requered: "true",
+                            number: "true",
+                            min: "1",
+                        },
+                        
+                        picture:{
+                            required: "true",
+                            accept: "png",
+                        }
+
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script>
     </body>
 </html>
 

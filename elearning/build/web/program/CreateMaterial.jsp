@@ -78,6 +78,8 @@ if(request.getMethod()=="POST"){
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create new material</title>
+        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
+        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({
     selector: '#input',
@@ -98,10 +100,9 @@ if(request.getMethod()=="POST"){
         
         <h1>Create new material</h1>
         <h1><%=mark==null?"":mark%></h1>
-        <form method="POST" action="<%=url%>">
+        <form id="form" method="POST" action="<%=url%>">
             <input type="hidden" name="program" value="<%=program%>">
             <input type="hidden" name="material" value="<%=material%>">
-            
             <div>
                 <p>Name: </p>
                 <input requered type="text" name="name" <%=name==null?" placeholder=\"Name":"value=\""+name%>">
@@ -120,6 +121,71 @@ if(request.getMethod()=="POST"){
             </div> 
             <input type="submit"> 
         </form>
+        
             
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        name:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 100,
+                        },
+                        
+                        day:{
+                            required: true,
+                            number: true,
+                            min: 1
+                        },
+                        
+                        inventory:{
+                            required: true,
+                            minlength: 20,
+                            maxlength: 200,
+                        },
+                        
+                        text:{
+                            required: true,
+                            minlength: 20,
+                        }
+                        
+                   },
+
+                   messages:{
+
+                        name:{
+                            required: "Это поле обязательно для заполнения",
+                            minlength: "Название должен быть минимум 6 символа",
+                            maxlength: "Максимальное число символо - 100",
+                        },
+                        
+                        day:{
+                            requered: "Это поле обязательно для заполнения",
+                            number: "Должно быть число",
+                            min: "1"
+                        },
+                        
+                        inventory:{
+                            requered: "Это поле обязательно для заполнения",
+                            minlength: "Название должен быть минимум 20 символа",
+                            maxlength: "Максимальное число символо - 200",
+                        },
+                        
+                        text:{
+                            requered: "Это поле обязательно для заполнения",
+                            minlength: "Название должен быть минимум 20 символа",
+                        }
+
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script>    
     </body>
 </html>
