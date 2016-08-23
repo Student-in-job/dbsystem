@@ -20,26 +20,56 @@ if(request.getMethod()=="GET"){
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Autorization</title>
-    </head>
-    <body>
-        <h1>Log in</h1>
-        <section>
-            <form action="login.jsp" method="post">
-                <div>
-                <p>e-mail:</p>
-                <input required type="mail" name="mail" value="ksinn@mail.ru">
-            </div>
-            <div>
-                <p>Password:</p>
-                <input required type="password" name="password" value="qwerty">
-            </div>
-            <input type="submit">
-            </form>
-        </section>
-    </body>
+<head>
+    <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Kube CSS -->
+    <link rel="stylesheet" href="css/kube.min.css">
+
+    <link rel="stylesheet" href="css/kube-ext.css">
+    <link rel="stylesheet" href="css/master.css">
+</head>
+<body>
+
+    
+    <%@include file="header.jsp"%>	
+                
+	<div class="row around">
+		<div class="col col-4">		
+				<div class="modal">
+                                    <div class="modal-header">Sign in</div>
+                                    <div class="modal-body">
+                                                    <form method="post" action="login.jsp" class="form">
+                                                        <div class="form-item">
+                                                            <label>Email <span class="req">*</span></label>
+
+                                                            <input type="email" name="mail" class="width-100" required>
+                                                        </div>
+                                                        <div class="form-item">
+                                                            <label>Password <span class="req">*</span></label>
+
+                                                            <input type="password" name="password" class="width-100" required>
+                                                        </div>
+
+                                                        <div class="form-item">
+                                                            <button class="button primary width-100 big">Log in</button>		
+                                                        </div>
+
+
+                                                        <hr>
+                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center"><a href="#" >Lost your password?</a></p>
+                                                    </form>
+                                    </div> 
+			</div>
+		</div>
+	</div>
+</body>
 </html>
 <%
 }
@@ -54,29 +84,62 @@ else
             a = user.Authorize();
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); 
 %>
-            <html>
-                <head>
-                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                    <title>Log in</title>
-                </head>
-                <body>
-                    <h1>Log in</h1>
-                    <section>
-                        <p>Uncorrect mail</p>
-                        <form action="login.jsp" method="post">
-                            <div>
-                            <p>e-mail:</p>
-                            <input required type="mail" name="mail" value="<%=mail%>">
-                        </div>
-                        <div>
-                            <p>Password:</p>
-                            <input required type="password" name="password" placeholder="*****">
-                        </div>
-                        <input type="submit">
-                        </form>
-                    </section>
-                </body>
-            </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Kube CSS -->
+    <link rel="stylesheet" href="css/kube.min.css">
+
+    <link rel="stylesheet" href="css/kube-ext.css">
+    <link rel="stylesheet" href="css/master.css">
+</head>
+<body>
+
+    
+    <%@include file="header.jsp"%>	
+                
+	<div class="row around">
+		<div class="col col-4">		
+				<div class="modal">
+                                    <div class="modal-header">Sign in</div>
+                                    <div class="modal-body">
+                                                    <form method="post" action="login.jsp" class="form">
+                                                        <div class="form-item">
+                                                            <span class="req">The email and password that you entered don't match.</span>
+                                                        </div>   
+                                                        <div class="form-item">
+                                                            <label>Email <span class="req">*</span></label>
+
+                                                            <input type="email" name="mail" class="width-100" required>
+                                                        </div>
+                                                        <div class="form-item">
+                                                            <label>Password <span class="req">*</span></label>
+
+                                                            <input type="password" name="password" class="width-100" required>
+                                                        </div>
+
+                                                        <div class="form-item">
+                                                            <button class="button primary width-100 big">Log in</button>		
+                                                        </div>
+
+
+                                                        <hr>
+                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center"><a href="#" >Lost your password?</a></p>
+                                                    </form>
+                                    </div> 
+			</div>
+		</div>
+	</div>
+</body>
+</html>
 <%
         return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
@@ -98,29 +161,62 @@ else
         }
         else{
 %>
-            <html>
-                <head>
-                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                    <title>Log in</title>
-                </head>
-                <body>
-                    <h1>Log in</h1>
-                    <section>
-                        <p>Uncorrect password</p>
-                        <form action="login.jsp" method="post">
-                            <div>
-                            <p>e-mail:</p>
-                            <input required type="mail" name="mail" value="<%=mail%>">
-                        </div>
-                        <div>
-                            <p>Password:</p>
-                            <input required type="password" name="password" placeholder="*****">
-                        </div>
-                        <input type="submit">
-                        </form>
-                    </section>
-                </body>
-            </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Kube CSS -->
+    <link rel="stylesheet" href="css/kube.min.css">
+
+    <link rel="stylesheet" href="css/kube-ext.css">
+    <link rel="stylesheet" href="css/master.css">
+</head>
+<body>
+
+    
+    <%@include file="header.jsp"%>	
+                
+	<div class="row around">
+		<div class="col col-4">		
+				<div class="modal">
+                                    <div class="modal-header">Sign in</div>
+                                    <div class="modal-body">
+                                                    <form method="post" action="login.jsp" class="form">
+                                                        <div class="form-item">
+                                                            <span class="req">The email and password that you entered don't match.</span>
+                                                        </div>
+                                                        <div class="form-item">
+                                                            <label>Email <span class="req">*</span></label>
+
+                                                            <input type="email" name="mail" class="width-100" required>
+                                                        </div>
+                                                        <div class="form-item">
+                                                            <label>Password <span class="req">*</span></label>
+                                                            
+                                                            <input type="password" name="password" class="width-100" required>
+                                                        </div>
+
+                                                        <div class="form-item">
+                                                            <button class="button primary width-100 big">Log in</button>		
+                                                        </div>
+
+
+                                                        <hr>
+                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center"><a href="#" >Lost your password?</a></p>
+                                                    </form>
+                                    </div> 
+			</div>
+		</div>
+	</div>
+</body>
+</html>
 <%
         }
     }
