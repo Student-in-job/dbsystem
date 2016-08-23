@@ -128,13 +128,12 @@
 /* end slide menu */ 
 
 .course-2 {
-    background: url(../img/co_bg.png) no-repeat bottom;
-    
+    background: url(../img/course_bg.png) no-repeat bottom;
+    padding-bottom: 140px;
 }
 
-.pustota {
-    height: 120px;
-    width: 100%;
+.clear {
+    clear: both;
 }
 
 .imgc {

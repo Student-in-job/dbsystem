@@ -164,11 +164,50 @@
                             <a href="#" class="button round outline">Download</a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#" class="button round outline">Download</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#" class="button round outline">Download</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#" class="button round outline">Download</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#" class="button round outline">Download</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-                    <div class="pustota"></div>
-
         </div>
+
         <%@include file="footer.jsp" %>
 
         <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
