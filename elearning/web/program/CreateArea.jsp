@@ -23,7 +23,7 @@
         try{    
                 Area na = new Area(name);
                 na.Write(user, request.getPart("picture"));
-                response.sendRedirect("/elearning/Area_programs.jsp?area="+na.getID()); return;
+                response.sendRedirect("/elearning/Courses.jsp?area_id="+na.getID()); return;
 
             
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
@@ -70,7 +70,7 @@
 
                         picture:{
                             required: true,
-                            accept: "png",
+                            accept: "png|jpg|jpeg",
                         },
                         
                    },

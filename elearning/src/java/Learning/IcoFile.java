@@ -6,8 +6,11 @@
 package Learning;
 
 import DataBasePak.*;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
 /**
@@ -40,7 +43,21 @@ public class IcoFile{
         String path = Path + Owener.getType() + File.separator;
         new File(path).mkdirs();
         path += Owener.getID()+".png";
-        Part.write(path);
+        BufferedImage img = ImageIO.read(Part.getInputStream());
+        
+        int x, y, X, Y;
+        float k = 266/164;
+        X = img.getWidth();
+        Y = img.getHeight();
+        if(Y>X*k) {x=X; y = (int) (X*k);}
+        else {y = Y; x=(int) (y/k);}
+        img = img.getSubimage( 0, 0, x, y);
+        
+        BufferedImage img_litl = new BufferedImage(266, 164, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img_litl.createGraphics();
+        g.drawImage(img, 0, 0, 266, 164, null);
+        g.dispose();
+        ImageIO.write(img_litl, "png", new File(path));
         return new File(path).exists();
     }
     

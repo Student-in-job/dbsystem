@@ -9,6 +9,7 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <% 
 if(request.getParameter("logout")!=null){
     request.getSession().invalidate();
