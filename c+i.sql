@@ -93,7 +93,8 @@ create table if not exists task (
 create table if not exists course (
   course_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  course_date date not null,
+  course_start_date date not null,
+  course_end_date date not null,
   program int(11) not null,
   course_public varchar(45) not null,
   course_deleted int(11) not null default 0,
@@ -390,8 +391,8 @@ INSERT INTO test_task(test_task_text, test_task_answer, test_task_v1, test_task_
 ('20В чем преимущества дискреционного способа защиты файлов перед мандатным способом?','Ответ','быстрее обрабатывается проверка законности доступа','обеспечивается более высокий уровень защиты','мандатные системы не позволяют моделировать \"группы пользователей\"','4',1,0,5), 
 ('21В чем преимущества дискреционного способа защиты файлов перед мандатным способом?','Ответ','быстрее обрабатывается проверка законности доступа','обеспечивается более высокий уровень защиты','мандатные системы не позволяют моделировать \"группы пользователей\"','4',1,0,5); 
 
-INSERT INTO course(course_date, program, course_public, course_deleted) VALUES 
-(now(), 2, 0, 0);
+INSERT INTO course(course_start_date, course_end_date, program, course_public, course_deleted) VALUES 
+(now(), now()+interval 5 day, 2, 0, 0);
 
 INSERT INTO user_has_course(user, course, user_has_course_datetime, user_has_course_deleted) VALUES 
 (1, 1, now(), 0);

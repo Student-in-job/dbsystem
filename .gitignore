@@ -1,4 +1,3 @@
 /elearning/build
-/nbproject/
-/nbproject/private/
-/elearning/dist/
+/elearning/nbproject
+/elearning/dist
