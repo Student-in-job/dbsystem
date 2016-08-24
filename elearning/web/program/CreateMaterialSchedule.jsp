@@ -14,16 +14,16 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="../logfrag.jsp" %>
 <%
-    User user = (User) session.getAttribute("user");
-    if(user==null){
-        response.sendRedirect("../login.jsp"); return;}
     
-    int program = Integer.parseInt(request.getParameter("program")); 
+    //int program = Integer.parseInt(request.getParameter("program")); 
     Course course = (Course) session.getAttribute("course");
-    if(course==null) {response.sendRedirect("CreateCourse.jsp?program="+String.valueOf(program)); return;}
-    ArrayList<Material> material = (ArrayList<Material>) session.getAttribute("material");
-    ArrayList<Test> test = (ArrayList<Test>) session.getAttribute("test");
+    if(course==null) {response.sendRedirect(request.getServletContext().getContextPath()+"Userbar.jsp"); return;}
+    
+    ArrayList<Material> material;
+    ArrayList<Test> test;
     
     SimpleDateFormat form = new SimpleDateFormat();
     form.applyPattern("yyyy-MM-dd");    
@@ -33,59 +33,74 @@
         
         if(request.getMethod().equals("GET")){
             
-        HashMap<Integer, Day> days = new HashMap<Integer, Day>();
-        Day d;
-        for(int i=0;i<material.size(); i++){
-            d = days.get(material.get(i).getDay());
-            if(d==null)
-                d = new Day(new Date(course.getDate().getTime()+3600*24*1000*material.get(i).getDay()));
-            d.put(material.get(i));
-            days.put(material.get(i).getDay(), d);
-        }
-        
-        for(int i=0;i<test.size(); i++){
-            d = days.get(test.get(i).getDay());
-            if(d==null)
-                d = new Day(new Date(course.getDate().getTime()+3600*24*1000*test.get(i).getDay()));
-            d.put(test.get(i));
-            days.put(test.get(i).getDay(), d);
-        }
+            HashMap<Integer, Day> days = new HashMap<Integer, Day>();
+            Day d;
+            for(int i=0;i<material.size(); i++){
+                d = days.get(material.get(i).getDay());
+                if(d==null)
+                    d = new Day(new Date(course.getDate().getTime()+3600*24*1000*material.get(i).getDay()));
+                d.put(material.get(i));
+                days.put(material.get(i).getDay(), d);
+            }
 
-            
-            
+            for(int i=0;i<test.size(); i++){
+                d = days.get(test.get(i).getDay());
+                if(d==null)
+                    d = new Day(new Date(course.getDate().getTime()+3600*24*1000*test.get(i).getDay()));
+                d.put(test.get(i));
+                days.put(test.get(i).getDay(), d);
+            }
+          
 %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <title>Course</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <link rel="stylesheet" href="../css/normalize.css">
+        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="../css/kube.min.css">
+
+        <link rel="stylesheet" href="../css/kube-ext.css">
+        <link rel="stylesheet" href="../css/master.css">
+
     </head>
     <body>
-        <h1>CreateCourse:1</h1>
-        <form method="POST" action="CreateMaterialSchedule.jsp">
-            <input type="hidden" name="program" value="<%=program%>">
+        <%@include file="../header.jsp"%>
+
+        <div class="row centered registration">
+            <div class="col col-4">
+
+                <form method="POST" action="CreateMaterialSchedule.jsp" id="form" class="form">
+                    <h3 class="text-centered">Course</h3>
 <%for(Entry entry : days.entrySet()){ %>            
-            <div>
-                <p>Day <%=entry.getKey()%>:</p>
-                <input required type="date" name="<%=entry.getKey()%>" value="<%=form2.format(((Day)entry.getValue()).getDate())%>">
-                <div>
-                    <%for(int i=0; i<((Day)entry.getValue()).Size(); i++){%>
-                    <p><%=((Day)entry.getValue()).get(i).getName()%></p>
-                    <%}%>
-                </div>
-            </div>
+                    <div class="form-item">
+                        <label>Day <%=entry.getKey()%>:</label>
+                        <input class="width-100"  required type="date" name="<%=entry.getKey()%>" value="<%=form.format(((Day)entry.getValue()).getDate())%>">
+                        <div>
+<%for(int i=0; i<((Day)entry.getValue()).Size(); i++){%>
+                            <p><%=((Day)entry.getValue()).get(i).getName()%></p>
 <%}%>
-            <input type="submit">
-        </form>
+                        </div>
+                    </div>
+<%}%>
+                    <div class="form-item">
+                        <button class="button primary width-100 big">Complete Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <%@include file="../footer.jsp" %>
     </body>
 </html>
 <%}
         if(request.getMethod().equals("POST")){
             HashMap<Integer, Date> days = new HashMap<Integer, Date>();
             Enumeration<String> name = request.getParameterNames();
-            name.nextElement();//первый параметор это id программы
+            //name.nextElement();//первый параметор это id программы
             while(name.hasMoreElements()){
                 String key = name.nextElement();
                 String value = request.getParameter(key);

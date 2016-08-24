@@ -19,8 +19,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registration</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <!-- Kube CSS -->
@@ -36,7 +35,7 @@
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form action="Registration.jsp" method="post" class="form">
+                <form id="form" action="Registration.jsp" method="post" class="form" enctype="multipart/form-data">
                     <h3 class="text-centered">REGISTRATION</h3>
 
                     <div class="form-item">
@@ -46,7 +45,7 @@
 
                     <div class="form-item">
                         <label>Password</label>
-                        <input class="width-100" type="password" name="password" required >
+                        <input class="width-100" type="password" id="password" name="password" required >
                     </div>
 
                     <div class="form-item">
@@ -79,11 +78,7 @@
 
                     <div class="form-item">
                         Your photo:
-                        <input type="file" required>
-                    </div>
-
-                    <div class="form-item">
-                        <textarea rows="6"></textarea>
+                        <input type="file" name="picture" required>
                     </div>
 
                     <div class="form-item">
@@ -92,12 +87,66 @@
                 </form>
             </div>
         </div>
+        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <script>
+            $(document).ready(function(){
 
+                $("#form").validate({
+
+                   rules:{ 
+
+                        mail:{
+                            required: true,
+                            email: true,
+                        },
+                        
+                        password:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 45,
+                        },
+                        
+                        password_confirm:{
+                            required: true,
+                            equalTo: "#password",
+                        },
+                        
+                        surname:{
+                            required: true,
+                            minlength: 1,
+                            maxlength: 32,
+                        },
+                        
+                        name:{
+                            required: true,
+                            minlength: 1,
+                            maxlength: 32,
+                        },
+                        
+                        birthday:{
+                            required: true,
+                            date: true,
+                        },
+                        
+                        picture:{
+                            required: true,
+                            accept: "png|jpg|jpeg",
+                        },
+                        
+                   },
+
+                });
+
+
+            }); //end of ready
+        </script>
         <%@include file="footer.jsp" %>
     </body>
 </html>
 <%
-} else
+}   
+
+ else
     if (request.getMethod() == "POST") {
 
         SimpleDateFormat format = new SimpleDateFormat();
@@ -144,7 +193,7 @@
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form action="Registration.jsp" method="post" class="form">
+                <form id="form" action="Registration.jsp" method="post" class="form" enctype="multipart/form-data">
                     <h3 class="text-centered">REGISTRATION</h3>
                     
                     <div class="alert error">
@@ -210,7 +259,59 @@
                 </form>
             </div>
         </div>
+        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <script>
+            $(document).ready(function(){
 
+                $("#form").validate({
+
+                   rules:{ 
+
+                        mail:{
+                            required: true,
+                            email: true,
+                        },
+                        
+                        password:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 45,
+                        },
+                        
+                        password_confirm:{
+                            required: true,
+                            equalTo: "#password",
+                        },
+                        
+                        surname:{
+                            required: true,
+                            minlength: 1,
+                            maxlength: 32,
+                        },
+                        
+                        name:{
+                            required: true,
+                            minlength: 1,
+                            maxlength: 32,
+                        },
+                        
+                        birthday:{
+                            required: true,
+                            date: true,
+                        },
+                        
+                        picture:{
+                            required: true,
+                            accept: "png|jpg|jpeg",
+                        },
+                        
+                   },
+
+                });
+
+
+            }); //end of ready
+        </script>
         <%@include file="footer.jsp" %>
     </body>
 </html>

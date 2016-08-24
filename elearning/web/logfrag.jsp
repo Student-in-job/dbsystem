@@ -36,8 +36,8 @@ if(user==null) {
         if(a){
             session.setAttribute("user", user);
         }
-        else {response.sendRedirect("login.jsp"); return;} 
+        else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
     }
-    else {response.sendRedirect("login.jsp"); return;}
+    else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
 }
 %>

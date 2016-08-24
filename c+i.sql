@@ -10,8 +10,8 @@ primary key(name)
 
 create table if not exists user (
   user_id int(11) not null auto_increment,
-  user_name varchar(20) not null,
-  user_surname varchar(20) not null,
+  user_name varchar(32) not null,
+  user_surname varchar(32) not null,
   birthday date not null,
   gender char(1) not null,
   user_mail varchar(45) not null,
@@ -56,7 +56,7 @@ create table if not exists material (
   material_type varchar(10) not null,
   material_file text,
   program int(11) not null,
-  material_text text(200) not null,
+  material_text text(2000) not null,
   material_deleted int(1) not null default 0,
   primary key (material_id),
   constraint fk_material_program1 foreign key (program) references program (program_id) on delete no action on update no action

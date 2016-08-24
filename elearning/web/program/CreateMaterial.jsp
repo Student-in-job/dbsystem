@@ -10,28 +10,31 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%   
-    User user = (User) session.getAttribute("user");
-    if(user==null){
-        response.sendRedirect("../login.jsp"); return;}
-    int material = 0;
-    try{
-        material = Integer.parseInt(request.getParameter("material"));
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidRequest"); return;}
-        
-    
-    String mark=null, url, typ="Lecture", text=null, name=null, inventory=null;
-    int day=0, program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
-    Material nm;
 
-    url=material==0?"CreateMaterial.jsp":"EditMaterial.jsp";
+<%@include file="../logfrag.jsp" %>
+<%   
+    int program = 0, material=0;
+    Program pg;
+    try{
+        program = Integer.parseInt(request.getParameter("program"));
+        pg = new Program(program);
+        material = Integer.parseInt(request.getParameter("material"));
+    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
+            
     
-if(request.getMethod()=="GET"){
+    String typ="Lecture", text=null, name=null, inventory=null;
+    int day=0;
+    Material nm;
+    
+    
+    if(request.getMethod()=="GET"){
     if(material!=0){
         
         try{
             nm = new Material(material);
-        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
             
         typ = nm.getTyp();
         text = nm.getText();
@@ -56,9 +59,8 @@ if(request.getMethod()=="POST"){
     try{    
         if(material==0){
 
-                Program prog = new Program(program);
                 nm = new Material(typ, text, name, inventory, day);    
-                nm.Write(prog , user);
+                nm.Write(pg , user);
                 response.sendRedirect("Upload.jsp?material="+nm.getID());
         }
         else{
@@ -66,28 +68,33 @@ if(request.getMethod()=="POST"){
                 nm.Change(typ, text, name, inventory, day, user);
                 response.sendRedirect("Material.jsp?material="+nm.getID());
         }
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-        
-    
-}
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
+}    
 %>    
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create new material</title>
-        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <title>Material</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <link rel="stylesheet" href="../css/normalize.css">
+        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="../css/kube.min.css">
+
+        <link rel="stylesheet" href="../css/kube-ext.css">
+        <link rel="stylesheet" href="../css/master.css">
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({
     selector: '#input',
     theme: 'modern',
-    width: 600,
-    height: 300,
+    width: 800,
+    height: 400,
     plugins: [
       'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
       'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
@@ -99,35 +106,45 @@ if(request.getMethod()=="POST"){
     
     
         </script>
-        
     </head>
     <body>
-        
-        <h1>Create new material</h1>
-        <h1><%=mark==null?"":mark%></h1>
-        <form id="form" method="POST" action="<%=url%>">
-            <input type="hidden" name="program" value="<%=program%>">
-            <input type="hidden" name="material" value="<%=material%>">
-            <div>
-                <p>Name: </p>
-                <input required type="text" name="name" <%=name==null?" placeholder=\"Name":"value=\""+name%>">
+        <%@include file="../header.jsp"%>
+
+        <div class="row centered registration">
+            <div class="col col-4">
+
+                <form id="form" action="CreateMaterial.jsp" method="post" class="form" enctype="multipart/form-data">
+                    <h3 class="text-centered">Material</h3>
+                    <input type="hidden" name="program" value="<%=request.getParameter("program")%>">
+                    <input type="hidden" name="material" value="<%=request.getParameter("material")%>">
+                    
+                    <div class="form-item">
+                        <label>Name</label>
+                        <input class="width-100" name="name" value="<%=name!=null?name:""%>" type="text" required>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Day</label>
+                        <input class="width-100" name="day" min="1" name="day" value="<%=day!=0?day:""%>" type="text" required>
+                    </div>
+                    
+                    <div class="form-item">
+                    <label>Inventory</label>
+                    <textarea rows="6" required name="inventory"><%=inventory!=null?inventory:""%></textarea>
+                    </div>
+                    
+                    <div class="form-item">
+                    <label>Inventory</label>
+                    <textarea required name="text" id="input"><%=text!=null?text:""%></textarea>
+                    </div>
+                    
+                    <div class="form-item">
+                        <button class="button primary width-100 big">Complete Sign Up</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <p>Day: </p>
-                <input required type="number" min="1" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>" >
-            </div>
-            <div>
-                <p>Inventory: </p>
-                <textarea required name="inventory" <%=inventory==null?" placeholder=\"Inventory\">":">"+inventory%></textarea>
-            </div>
-            <div>
-                <p>Text: </p>
-                <textarea required name="text" id="input"><%=text==null?"":text%></textarea>
-            </div> 
-            <input type="submit"> 
-        </form>
-        
-            
+        </div>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
         <script>
             $(document).ready(function(){
 
@@ -144,7 +161,8 @@ if(request.getMethod()=="POST"){
                         day:{
                             required: true,
                             number: true,
-                            min: 1
+                            min: 1,
+                            max: <%=pg.getDuration()%>
                         },
                         
                         inventory:{
@@ -158,39 +176,13 @@ if(request.getMethod()=="POST"){
                             minlength: 20,
                         }
                         
-                   },
-
-                   messages:{
-
-                        name:{
-                            required: "Это поле обязательно для заполнения",
-                            minlength: "Название должен быть минимум 6 символа",
-                            maxlength: "Максимальное число символо - 100",
-                        },
-                        
-                        day:{
-                            required: "Это поле обязательно для заполнения",
-                            number: "Должно быть число",
-                            min: "1"
-                        },
-                        
-                        inventory:{
-                            required: "Это поле обязательно для заполнения",
-                            minlength: "Название должен быть минимум 20 символа",
-                            maxlength: "Максимальное число символо - 200",
-                        },
-                        
-                        text:{
-                            required: "Это поле обязательно для заполнения",
-                            minlength: "Название должен быть минимум 20 символа",
-                        }
-
                    }
 
                 });
 
 
             }); //end of ready
-        </script>    
+        </script> 
+        <%@include file="../footer.jsp" %>
     </body>
 </html>
