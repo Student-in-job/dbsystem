@@ -10,9 +10,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%   
-if(request.getMethod()=="GET")
-{
+<%
+    if (request.getMethod() == "GET") {
 %>
 <!DOCTYPE html>
 <html>
@@ -36,7 +35,7 @@ if(request.getMethod()=="GET")
 
         <div class="row centered registration">
             <div class="col col-4">
-                
+
                 <form action="Registration.jsp" method="post" class="form">
                     <h3 class="text-centered">REGISTRATION</h3>
 
@@ -93,14 +92,13 @@ if(request.getMethod()=="GET")
                 </form>
             </div>
         </div>
-        
+
         <%@include file="footer.jsp" %>
     </body>
 </html>
 <%
-}
-else
-    if(request.getMethod()=="POST"){
+} else
+    if (request.getMethod() == "POST") {
 
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
@@ -110,17 +108,20 @@ else
         String password = request.getParameter("password");
         String gender = request.getParameter("gender");
         Date birthday = format.parse(request.getParameter("birthday"));
-        
+
         User user = new User(mail, password, name, surname, birthday, gender);
-        try{
+        try {
             user.Register();
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-        catch(SQLException ex){
+        } catch (IllegalAction ex) {
             Log.getOut(ex.getMessage());
-            if(ex.getErrorCode()==1062){
+            response.sendRedirect("/elearning/Error.jsp?e=IllegalAction");
+            return;
+        } catch (SQLException ex) {
+            Log.getOut(ex.getMessage());
+            if (ex.getErrorCode() == 1062) {
 %>
-        
-  <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -142,10 +143,14 @@ else
 
         <div class="row centered registration">
             <div class="col col-4">
-                
+
                 <form action="Registration.jsp" method="post" class="form">
                     <h3 class="text-centered">REGISTRATION</h3>
-                        <p style="color: red;">Такой мэил уже зарегестрирован</p>
+                    
+                    <div class="alert error">
+                        <p style="color: red;">The email address you have entered is already registered</p>
+                    </div>
+
                     <div class="form-item">
                         <label>Email</label>
                         <input class="width-100" type="email" name="mail"  placeholder="example@mail.com" required>
@@ -174,12 +179,13 @@ else
                     <div class="form-item">
                         <label>Gender</label>
                         <select name="gender" required>
-                            <%if(gender.equals("m")){%>
+                            <%if (gender.equals("m")) {%>
                             <option selected value="m">Men</option>
                             <option value="w">Women</option>
-                           <%}if(gender.equals("w")){%> 
-                           <option selected value="m">Men</option>
-                           <%}%>
+                            <%}
+                               if (gender.equals("w")) {%> 
+                            <option selected value="m">Men</option>
+                            <%}%>
                             <option value="w">Women</option>
                         </select>
                     </div>
@@ -204,15 +210,18 @@ else
                 </form>
             </div>
         </div>
-        
+
         <%@include file="footer.jsp" %>
     </body>
 </html>
-<%         return;  
+<%         return;
+                }
+            } catch (Exception ex) {
+                Log.getOut(ex.getMessage());
+                response.sendRedirect("/elearning/Error.jsp");
+                return;
             }
+
+            response.sendRedirect("login.jsp");
         }
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-           
-        response.sendRedirect("login.jsp");
-    }
 %>
