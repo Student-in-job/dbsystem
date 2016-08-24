@@ -16,7 +16,8 @@ import java.util.Date;
  */
 public class Course extends Parent {
 
-    private Date Date;
+    private Date StartDate;
+    private Date EndDate;
     private boolean Public;
     private Program Program;
     private Schedule Schedule;
@@ -50,7 +51,8 @@ public class Course extends Parent {
         DataBase db = new DataBase(this);
         ResultSet rs = db.Find();
         rs.next();
-                    this.Date = rs.getDate("course_date");
+                    this.StartDate = rs.getDate("course_start_date");
+                    this.EndDate = rs.getDate("course_end_date");
                     this.Public = rs.getInt("course_public")==1;
                     this.Program = new Program(rs.getInt("program"));
 
@@ -58,7 +60,7 @@ public class Course extends Parent {
     }
     
     public Course(Date date, Program program){
-        Date = date;
+        StartDate = date;
         Program = program;
     }
    
@@ -67,7 +69,8 @@ public class Course extends Parent {
         return this.Program;
     } 
     
-    public boolean Write(User user, ArrayList<Component> comp) throws Exception{
+    public boolean Write(Date date, User user, ArrayList<Component> comp) throws Exception{
+        this.EndDate = date;
         this.Schedule =  new Schedule(comp);
         this.Public = user.getID() == this.getProgram().getTeacherID();
         DataBase db = new DataBase(this);
@@ -90,7 +93,11 @@ public class Course extends Parent {
     }
     
     public Date getDate(){
-        return Date;
+        return StartDate;
+    }
+    
+    public Date getEndDate(){
+        return EndDate;
     }
     
     public boolean getPublic(){

@@ -14,14 +14,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Learning.*"%>
 
+<%@include file="../logfrag.jsp" %>
 <%
-
-        
-    User user = (User) session.getAttribute("user");
-    if(user==null){
-        response.sendRedirect("../login.jsp"); return;}
-    
-    String url, name = null, inventory=null, typ=null, mark ="";
+    String name = null, inventory=null, typ=null, mark ="";
     int level=0, minlevel=-1, duration=0, program=0, area=0;
     Part img=null;
     Program np;

@@ -488,11 +488,12 @@ public class DataBase {
         Course course = (Course) Ons;
         
         PreparedStatement stmt = Connection.prepareStatement
-        ("insert into course (course_date, program, course_public)  values (?,?,?);", Statement.RETURN_GENERATED_KEYS);
+        ("insert into course (course_start_date, program, course_public, course_end_date)  values (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
         
             stmt.setDate(1, new Date(course.getDate().getTime()));
             stmt.setInt(2, course.getProgramID());
             stmt.setInt(3, course.getPublic()?1:0);
+            stmt.setDate(4, new Date(course.getEndDate().getTime()));
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);

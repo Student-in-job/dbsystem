@@ -115,8 +115,8 @@ if(request.getMethod()=="POST"){
 
                 <form id="form" action="CreateMaterial.jsp" method="post" class="form" enctype="multipart/form-data">
                     <h3 class="text-centered">Material</h3>
-                    <input type="hidden" name="program" value="<%=request.getParameter("program")%>">
-                    <input type="hidden" name="material" value="<%=request.getParameter("material")%>">
+                    <input type="hidden" name="program" value="<%=program%>">
+                    <input type="hidden" name="material" value="<%=material%>">
                     
                     <div class="form-item">
                         <label>Name</label>

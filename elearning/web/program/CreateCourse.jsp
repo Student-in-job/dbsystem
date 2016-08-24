@@ -14,31 +14,9 @@
 
 <%@include file="../logfrag.jsp" %>
 <%
-    Course course = (Course) session.getAttribute("course");
-    ArrayList<Test> test = (ArrayList<Test>) session.getAttribute("test");
-    ArrayList<Material> material = (ArrayList<Material>) session.getAttribute("material");
-    
     SimpleDateFormat form = new SimpleDateFormat();
     form.applyPattern("yyyy-MM-dd");
         
-    if(request.getParameter("create")!=null&&course!=null&&material!=null&&test!=null){
-        ArrayList<Component> comp = new ArrayList<Component>();
-        comp.addAll(material);
-        comp.addAll(test);
-        try{
-            course.Write(user, comp);
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-        
-        session.removeAttribute("course");
-        session.removeAttribute("material");
-        session.removeAttribute("test");
-
-    }
-    else{
-
     int program;
     Program prog;
     try{
@@ -49,7 +27,7 @@
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
-        if((!prog.isPublished())/*&&prog.getCourse()!=null**/) {
+        if(!(prog.isPublished()/*&&user.getActiveCourse(program)==null*/)/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
         <html>
@@ -63,9 +41,9 @@
         </html>
 
 <%
-        }
-        else{
-                if(request.getMethod().equals("GET")){%>
+            return;}
+
+        if(request.getMethod().equals("GET")){%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -197,12 +175,9 @@
     </body>
 </html>
                 <% return;}
-                        course = new Course(start, prog);
+                        Course course = new Course(start, prog);
                         session.setAttribute("course", course);
                         response.sendRedirect("CreateMaterialSchedule.jsp");
                 }
-            }
-
-}
 
 %> 

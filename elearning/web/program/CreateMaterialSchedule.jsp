@@ -20,7 +20,7 @@
     
     //int program = Integer.parseInt(request.getParameter("program")); 
     Course course = (Course) session.getAttribute("course");
-    if(course==null) {response.sendRedirect(request.getServletContext().getContextPath()+"Userbar.jsp"); return;}
+    if(course==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
     
     ArrayList<Material> material;
     ArrayList<Test> test;
@@ -125,6 +125,7 @@
                     {err=true; break;}
             }
 
+            //Проверка, что бы курс не слишком превосходил длину программы
             long a = course.getProgram().getDuration()+(course.getProgram().getDuration()*2)/7+3;
             Date dl = new Date(course.getDate().getTime() + 3600*1000*24*a);
             Date d2 = days.get(k[k.length-1]);
@@ -152,10 +153,27 @@
                     test.get(i).setDate(days.get(test.get(i).getDay()));
                 }
 
-                session.setAttribute("material", material);
+                /*session.setAttribute("material", material);
                 session.setAttribute("test", test);
-                response.sendRedirect("CreateCourse.jsp?create=ok");
+                response.sendRedirect("CreateCourse.jsp?create=ok");*/
+
+                ArrayList<Component> comp = new ArrayList<Component>();
+                comp.addAll(material);
+                comp.addAll(test);
+                try{
+                    course.Write(d2, user, comp);
+                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
+                catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+
+                session.removeAttribute("course");
+                session.removeAttribute("material");
+                session.removeAttribute("test");
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
+                return;
+
+    }
             
             }
-        }
 %>

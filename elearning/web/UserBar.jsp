@@ -110,7 +110,7 @@
 <%
 Day d;
 Calendar c = new GregorianCalendar();
-for(int j=0; j<7; j++){
+for(int j=0; j<30; j++){
     c.add(Calendar.DAY_OF_YEAR, 1);
     d = ush.getDay(c);
         if(d!=null){

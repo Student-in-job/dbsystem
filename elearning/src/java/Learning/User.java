@@ -82,6 +82,22 @@ public class User extends Parent{
         
     }*/
     
+    public Course getActiveCourse(int program){
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from user_has_course where user=? and " +
+             "course in (select course_id from course where program=?) and " +
+            "user_has_course_complited is null;");
+            stmt.setInt(1, this.ID);
+            stmt.setInt(2, program);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next())
+             return new Course(rs.getInt("course"));
+            else return null;
+                        
+            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
+    }
+    
     public ArrayList<User> Find(String find) {
         ArrayList<User> list = new ArrayList<User>();
         try{
