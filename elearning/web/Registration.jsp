@@ -319,7 +319,7 @@
                 }
             } catch (Exception ex) {
                 Log.getOut(ex.getMessage());
-                response.sendRedirect("<%=request.getServletContext().getContextPath()%>/Error.jsp");
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp");
                 return;
             }
 
