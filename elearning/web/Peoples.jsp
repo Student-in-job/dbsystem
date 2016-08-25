@@ -7,6 +7,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <% 
 int N=12;  //число записей на странице
 ArrayList<User> users;

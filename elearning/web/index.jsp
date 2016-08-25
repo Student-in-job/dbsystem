@@ -7,11 +7,11 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <%
 ArrayList<Program> courses = (new Program().getAll());
 ArrayList<Area> areas = (new Area().getAll());
-
-
 %>
 <!DOCTYPE html>
 <html>

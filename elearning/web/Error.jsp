@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>

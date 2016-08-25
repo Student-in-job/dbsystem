@@ -12,8 +12,8 @@
 <%@page import="Learning.Program"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@include file="avtorize.jsp"%>
 <%
-User user = (User) session.getAttribute("user");
 boolean u = false;
 
 int program_id = 0;

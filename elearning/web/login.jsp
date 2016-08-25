@@ -10,13 +10,20 @@
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% 
+
+<%
 if(request.getParameter("logout")!=null){
+    
+    response.addCookie(new Cookie("usermail", null));
+    response.addCookie(new Cookie("password", null));
     request.getSession().invalidate();
     response.sendRedirect(request.getServletContext().getContextPath());
     return;
 }    
-    
+%>
+<%@include file="avtorize.jsp"%>
+<% 
+if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
 if(request.getMethod()=="GET"){
 %>
 <!DOCTYPE html>
@@ -82,10 +89,10 @@ else
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
         String hashp = DigestUtils.md2Hex(password);
-        User user = new User(mail, hashp);
+        User nuser = new User(mail, hashp);
         boolean a=false;
         try{
-            a = user.Authorize();
+            a = nuser.Authorize();
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); 
 %>
 <!DOCTYPE html>
@@ -151,15 +158,15 @@ else
         if(a)
         {
             if(request.getParameter("remember")!=null){
-                Cookie m = new Cookie("usermail", user.getMail()); 
+                Cookie m = new Cookie("usermail", nuser.getMail()); 
                 m.setMaxAge(3600*24*30);
-                Cookie p = new Cookie("password", user.getPassword()); 
+                Cookie p = new Cookie("password", nuser.getPassword()); 
                 p.setMaxAge(3600*24*30);
                 response.addCookie(m);
                 response.addCookie(p);
             }
             
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("user", nuser);
             response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
             
         }

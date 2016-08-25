@@ -4,6 +4,8 @@
     Author     : ksinn
 --%>
 
+<%@page import="DataBasePak.Log"%>
+<%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row around">
@@ -30,7 +32,21 @@
 	    	<a href="<%=request.getServletContext().getContextPath()%>"><div class="item centered logo"></div></a>
 	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
 	   	</div>
-	    <div class="col col-3 text-right"><img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a></div>
+                
+	    <div class="col col-3 text-right">
+<%
+if(user!=null){%>                
+                <div class="user_board ">
+                    <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
+                    <div class="float-right"><a  href="<%=request.getServletContext().getContextPath()%>/login.jsp?logout=ok" >Log out</a></div>
+                    <p><a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp"><%=user.getName()%></a> </p>
+
+                </div>
+<%}else{%>                
+                <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
+                <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
+<%}%>            
+            </div>
 </div>
 	<div id="login-modal" class="modal-box hide">
 	    <div class="modal">

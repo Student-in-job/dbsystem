@@ -10,8 +10,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.Material"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <%
-User user = (User) session.getAttribute("user");
 Material mat;
 
 try{

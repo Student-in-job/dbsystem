@@ -10,7 +10,10 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <%
+    if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
     if (request.getMethod() == "GET") {
 %>
 <!DOCTYPE html>
@@ -158,9 +161,9 @@
         String gender = request.getParameter("gender");
         Date birthday = format.parse(request.getParameter("birthday"));
 
-        User user = new User(mail, password, name, surname, birthday, gender);
+        User nuser = new User(mail, password, name, surname, birthday, gender);
         try {
-            user.Register();
+            nuser.Register();
         } catch (IllegalAction ex) {
             Log.getOut(ex.getMessage());
             response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction");

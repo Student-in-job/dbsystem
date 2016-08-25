@@ -7,6 +7,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="avtorize.jsp"%>
 <%
 ArrayList<Area> areas = (new Area().getAll());
 int p;
