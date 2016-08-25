@@ -57,7 +57,7 @@
                                     
                                     
 				    <hr>
-                                    <p class="text-center">Don`t have an account yet? <a href="<%=request.getServletContext().getContextPath()%>/registration.jsp">Sign Up</a></p>    
+                                    <p class="text-center">Don`t have an account yet? <a href="<%=request.getServletContext().getContextPath()%>/Registration.jsp">Sign Up</a></p>    
                                     <p class="text-center"><a href="#" >Lost your password?</a></p>
 				</form>
 	        </div> 
