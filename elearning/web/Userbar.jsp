@@ -46,10 +46,10 @@
                 <div class="col col-3">
                     <br>
                     <p>
-                        Имя: <%=user.getName()%> <%=user.getSurname()%> <br>
-                        Дата рождения: <%=user.getBirthday()%><br>
-                        Пол: <%=user.getGenderString()%> <br>
-                        Дата регистрации: <%=user.getDateRegestration()%><br>
+                        Name: <%=user.getName()%> <%=user.getSurname()%> <br>
+                        Birthday: <%=user.getBirthday()%><br>
+                        Gender: <%=user.getGenderString()%> <br>
+                        Registered on: <%=user.getDateRegestration()%><br>
                     </p>
                 </div>
                 <div class="col text-center"> 
@@ -60,14 +60,15 @@
             </div>
             <div class="row userbar-2 ">
                 <div class="col col-2 offset-1 nav">
-                    <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Созданные курсы</a>
-                    <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Опубликованные курсы</a>
-                    <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Текущие курсы</a>
-                    <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Изученные курсы</a>
+                    <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Created courses</a>
+                    <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Active courses</a>
+                    <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
+                    <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
+                    <a href="#schedule" class="tablink" onclick="openTab(event, 'schedule')">Schedule</a>
                 </div>
                 <div class="col col-8 border">
-                    <div class="row">
-                        <div class="col col-7 userbar-tab">
+                    
+                        
                             <div id="created_courses" class="courses">
                                 <h3>Created courses</h3>
 <%for(int i=0; i<created_program.size(); i++) {%>  
@@ -103,8 +104,8 @@
                 </p>                
 <%}%>                                               
                             </div>
-                        </div>
-                        <div class="col col-5">
+                        
+                        <div id="schedule" class="courses">
                             <h3>Расписание</h3>
 <%
 Day d;
@@ -124,7 +125,7 @@ for(int j=0; j<7; j++){
 }
 %>
                         </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>  
@@ -133,6 +134,8 @@ for(int j=0; j<7; j++){
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
         <script>
+            document.getElementById("schedule").style.display = "block";
+            
                      function openTab(evt, cityName) {
                           var i, x, tablinks;
                           x = document.getElementsByClassName("courses");
