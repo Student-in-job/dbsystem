@@ -10,15 +10,15 @@
     <head>
         <meta charset="UTF-8">
         <title>Program</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/kube.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/kube.css">
-        <link rel="stylesheet" href="css/master.css">
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kube.min.js"></script>
-        <script src="js/extend/tabs.js"></script>
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/style.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/extend/tabs.js"></script>
 
     </head>
     <body>

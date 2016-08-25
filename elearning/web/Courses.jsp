@@ -23,8 +23,8 @@ if(area_id!=0){
             courses = (new Area(area_id)).FindPrograms(find);
         else 
             courses = (new Area(area_id)).getPrograms();
-    }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}      
+    }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}      
 }
 else{
     if(find!=null)
@@ -49,13 +49,13 @@ int n = (p*N)<courses.size()?p+1:0;
         <title>Courses</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     
     </head>
     <body>
@@ -73,7 +73,7 @@ int n = (p*N)<courses.size()?p+1:0;
 <%for(int i=(p-1)*N; i<p*N&&i<courses.size(); i++){%>            
 		<div class="col text-center">		
 			<div class="item">
-                            <img src="<%=courses.get(i).getIco()%>">
+                            <img src="<%=request.getServletContext().getContextPath()%>/<%=courses.get(i).getIco()%>">
 			</div>
 			<div class="course-info centered">
 				<div class="item upper">
@@ -86,7 +86,7 @@ int n = (p*N)<courses.size()?p+1:0;
 					<div class="row">
 						
 						<div class="col">
-							<a class="button success outline small" href="Course.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
+							<a class="button success outline small" href="<%=request.getServletContext().getContextPath()%>/Course.jsp?cours_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>

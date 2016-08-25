@@ -20,13 +20,13 @@
         <title>Registration</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
     </head>
     <body>
@@ -87,7 +87,7 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
         <script>
             $(document).ready(function(){
 
@@ -163,7 +163,7 @@
             user.Register();
         } catch (IllegalAction ex) {
             Log.getOut(ex.getMessage());
-            response.sendRedirect("/elearning/Error.jsp?e=IllegalAction");
+            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction");
             return;
         } catch (SQLException ex) {
             Log.getOut(ex.getMessage());
@@ -178,13 +178,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
     </head>
     <body>
@@ -259,7 +259,7 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
         <script>
             $(document).ready(function(){
 
@@ -319,7 +319,7 @@
                 }
             } catch (Exception ex) {
                 Log.getOut(ex.getMessage());
-                response.sendRedirect("/elearning/Error.jsp");
+                response.sendRedirect("<%=request.getServletContext().getContextPath()%>/Error.jsp");
                 return;
             }
 

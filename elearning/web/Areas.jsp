@@ -25,13 +25,13 @@ int n = (p*8)<areas.size()?p+1:0;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 </head>
 <body>
 
@@ -54,7 +54,7 @@ int n = (p*8)<areas.size()?p+1:0;
 <%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
 		<div class="col col-3 text-center">		
 			<div class="item">
-                            <a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=<%=request.getServletContext().getContextPath()%>/areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>

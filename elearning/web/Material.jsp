@@ -13,11 +13,11 @@
 Material mat;  
 try{
     mat = new Material(Integer.parseInt(request.getParameter("material_id")));
-}catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidRequest"); return;}
-catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+}catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
+catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
 
 ArrayList<Files> dfile = mat.getDocFile();
 ArrayList<Files> vfile = mat.getVideoFile();
@@ -29,15 +29,15 @@ ArrayList<Files> vfile = mat.getVideoFile();
         <title><%=mat.getName()%> - <%=mat.getProgram().getName()%></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script type="text/javascript" src="/elearning/js/jwplayer/jwplayer.js"></script>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jwplayer/jwplayer.js"></script>
         
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
         <%@include file="header.jsp"%>
@@ -67,9 +67,9 @@ if(!vfile.isEmpty()){
                                         playlist: [
                                             <%for(int i=0; i<vfile.size(); i++){%>  
                                             {
-                                                file:"/elearning/<%=vfile.get(i).getURL()%>",
+                                                file:"<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>",
                                                 title:"<%=vfile.get(i).getTitle()%>",
-                                                image:"/elearning/img/logo-full.png"
+                                                image:"<%=request.getServletContext().getContextPath()%>/img/logo-full.png"
                                             },
                                             <%}%>
                                         ]
@@ -100,7 +100,7 @@ if(!vfile.isEmpty()){
                             </p>
                         </div>
                         <div class="col text-right">
-                            <a href="/elearning/<%=vfile.get(i).getURL()%>" class="button round outline">Download</a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
 <%
@@ -127,7 +127,7 @@ else{%>
                             </p>
                         </div>
                         <div class="col text-right">
-                            <a href="/elearning/<%=dfile.get(i).getURL()%>" class="button round outline">Download</a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/<%=dfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
 <%
@@ -148,18 +148,6 @@ else{%>
     </div>
 
     <%@include file="footer.jsp" %>
-
-    <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/kube.min.js"></script>
-    <script>
-        function openNav() {
-            document.getElementById("sidenav").style.width = "100%";
-        }
-
-        function closeNav() {
-            document.getElementById("sidenav").style.width = "0";
-        }
-    </script>
+   
 </body>
 </html>

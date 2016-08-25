@@ -33,13 +33,13 @@ int n = (p*N)<users.size()?p+1:0;
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
         <title>JSP Page</title>
     </head>
     <body>
@@ -54,7 +54,7 @@ int n = (p*N)<users.size()?p+1:0;
 <%for(int i=(p-1)*N; i<p*N/2&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
-                            <a href="User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=users.get(i).getIco()%>"></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
@@ -67,7 +67,7 @@ int n = (p*N)<users.size()?p+1:0;
 <%for(int i=(p-1)*N+N/2; i<p*N&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
-                            <a href="User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=users.get(i).getIco()%>"></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>

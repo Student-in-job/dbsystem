@@ -60,6 +60,6 @@ if("".equals(er)){
 }
 %>        
         
-        <a href = "/elearning/">Go to main page.</a>
+        <a href = "<%=request.getServletContext().getContextPath()%>">Go to main page.</a>
     </body>
 </html>

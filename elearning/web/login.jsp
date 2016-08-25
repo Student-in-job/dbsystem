@@ -13,7 +13,7 @@
 <% 
 if(request.getParameter("logout")!=null){
     request.getSession().invalidate();
-    response.sendRedirect("/elearning/");
+    response.sendRedirect(request.getServletContext().getContextPath());
     return;
 }    
     
@@ -27,13 +27,13 @@ if(request.getMethod()=="GET"){
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 </head>
 <body>
 
@@ -96,13 +96,13 @@ else
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 </head>
 <body>
 
@@ -146,7 +146,7 @@ else
 </html>
 <%
         return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         
         if(a)
         {
@@ -160,7 +160,7 @@ else
             }
             
             request.getSession().setAttribute("user", user);
-            response.sendRedirect("UserBar.jsp");
+            response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
             
         }
         else{
@@ -173,13 +173,13 @@ else
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 </head>
 <body>
 

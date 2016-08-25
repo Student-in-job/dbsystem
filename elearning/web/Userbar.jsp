@@ -26,13 +26,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
 
     </head>
@@ -41,7 +41,7 @@
             <%@include file="header.jsp" %>
             <div class="row userbar-1">
                 <div class="col col-3 text-right">
-                    <img src="/elearning/<%=user.getIco()%>" alt="" class="img-circle">
+                    <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" alt="" class="img-circle">
                 </div>
                 <div class="col col-3">
                     <br>
@@ -72,7 +72,7 @@
                                 <h3>Created courses</h3>
 <%for(int i=0; i<created_program.size(); i++) {%>  
                 <p>
-                    <a href="program/Program.jsp?program=<%=created_program.get(i).getID()%>"><%=created_program.get(i).getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=created_program.get(i).getID()%>"><%=created_program.get(i).getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -90,7 +90,7 @@
                                 <h3>Learn courses</h3>
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
-                    <a href="program/Program.jsp?program=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -99,7 +99,7 @@
                                 <h3>Finished courses</h3>
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
-                    <a href="program/Program.jsp?program=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -115,9 +115,9 @@ for(int j=0; j<7; j++){
     if(d!=null){
         for(int i=0; i<d.Size(); i++){              
             if(d.get(i).getType().equals("test")){%>
-                <p><a href="Pass/StartPassTest.jsp?course=<%=d.get(i).getCourse().getID()%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+                <p><a href="<%=request.getServletContext().getContextPath()%>/Pass/StartPassTest.jsp?course=<%=d.get(i).getCourse().getID()%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
             <%}if(d.get(i).getType().equals("material")){%>
-                <p><a href="Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+                <p><a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
             <%}
         }
     }
@@ -130,8 +130,8 @@ for(int j=0; j<7; j++){
         </div>  
         <%@include file="footer.jsp" %>
         <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kube.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
         <script>
                      function openTab(evt, cityName) {
                           var i, x, tablinks;
