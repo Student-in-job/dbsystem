@@ -22,6 +22,8 @@
     Program np;
     program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     
+    
+    
     if(request.getMethod()=="GET"){
     
         if(program!=0){
@@ -29,6 +31,7 @@
             try{
                 np = new Program(program);
             }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+            if(user.getID()!=np.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
             name = np.getName();
             inventory = np.getInventory();
             area = np.getAreaID();
@@ -57,12 +60,13 @@
             if(program==0){
                     np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
                     np.Write(user, img);
-                    response.sendRedirect("Program.jsp?program="+np.getID()); return;  
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+np.getID()); return;
             }
             else{
                 np = new Program(program);
+                if(user.getID()!=np.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
                 np.Change(name, inventory, typ, level, minlevel, duration, user, img);
-                response.sendRedirect("Program.jsp?program="+np.getID()); return;
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+np.getID()); return;
             }
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}

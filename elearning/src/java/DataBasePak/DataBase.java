@@ -343,10 +343,9 @@ public class DataBase {
                 + "program_duration,  "
                 + "user,  "
                 + "area,  "
-                + "program_date,  "
                 + "program_controled,  "
                 + "program_typ) "
-                + "VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  now(),  ?,  ?);", Statement.RETURN_GENERATED_KEYS);
+                + "VALUES  (?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, program.getName());
             stmt.setString(2, program.getInventory());
             stmt.setInt(3, program.getMinLevel());

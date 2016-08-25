@@ -4,13 +4,16 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.User"%>
 <%@page import="Learning.Files"%>
 <%@page import="DataBasePak.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.Material"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-Material mat;  
+User user = (User) session.getAttribute("user");
+Material mat;
+
 try{
     mat = new Material(Integer.parseInt(request.getParameter("material_id")));
 }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -18,6 +21,9 @@ catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(reque
 catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
 catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
 catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
+
+boolean u = false;
+if(user!=null) u = user.getID()==mat.getProgram().getTeacherID();
 
 ArrayList<Files> dfile = mat.getDocFile();
 ArrayList<Files> vfile = mat.getVideoFile();
@@ -45,7 +51,9 @@ ArrayList<Files> vfile = mat.getVideoFile();
             <div class="col col-9">
                 <h2><%=mat.getName()%></h2>
                 <p>
-                    <%=mat.getText()%>
+<%if(u){%>                    <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=mat.getID()%>&program=<%=mat.getProgramID()%>"><button class="button small round success">UPDATE</button></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=mat.getID()%>"><button class="button small round success">DELETE</button></a>
+<%}%>                    <%=mat.getText()%>
                 </p>
 <%
 if(!vfile.isEmpty()){
@@ -84,8 +92,8 @@ if(!vfile.isEmpty()){
                 <h3>ADJUSTMENTS</h3>
                 <nav class="tabs" data-component="tabs"  data-equals="true">
                     <ul>
-                        <li class="active"><a href="#tab11">VIDEO</a></li>
-                        <li><a href="#tab12">FILES</a></li>
+                        <li class="active"><a href="#tab12">FILES</a></li>
+                        <li><a href="#tab11">VIDEO</a></li>
                     </ul>
                 </nav>
 
@@ -100,7 +108,8 @@ if(!vfile.isEmpty()){
                             </p>
                         </div>
                         <div class="col text-right">
-                            <a href="<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>" class="button round outline">Download</a>
+<%if(u){%>                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?files=<%=vfile.get(i).getID()%>" class="button round outline">Delete</a>
+<%}%>                            <a href="<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
 <%
@@ -114,7 +123,19 @@ else{%>
                             </p>
                         </div>
                     </div>
-<%}%>                    
+<%}
+if(u){%>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Uploud new video 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                           <a href="<%=request.getServletContext().getContextPath()%>/program/Upload.jsp?material=<%=mat.getID()%>" class="button round outline">Upload</a>
+                        </div>
+                    </div>
+<%}%>
                 </div>
                 <div id="tab12">
 <%if(!dfile.isEmpty()){
@@ -127,7 +148,8 @@ else{%>
                             </p>
                         </div>
                         <div class="col text-right">
-                            <a href="<%=request.getServletContext().getContextPath()%>/<%=dfile.get(i).getURL()%>" class="button round outline">Download</a>
+<%if(u){%>                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?files=<%=dfile.get(i).getID()%>" class="button round outline">Delete</a>
+<%}%>                            <a href="<%=request.getServletContext().getContextPath()%>/<%=dfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
 <%
@@ -139,6 +161,18 @@ else{%>
                             <p>
                                 Have not same video. 
                             </p>
+                        </div>
+                    </div>
+<%}
+if(u){%>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Uploud new document 
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                           <a href="<%=request.getServletContext().getContextPath()%>/program/Upload.jsp?material=<%=mat.getID()%>" class="button round outline">Upload</a>
                         </div>
                     </div>
 <%}%>       

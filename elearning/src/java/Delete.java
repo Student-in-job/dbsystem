@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +30,37 @@ public class Delete extends HttpServlet {
             throws ServletException, IOException {
         
         User user = (User) request.getSession().getAttribute("user");
-        if(user==null||!user.isLogined())
-            response.sendRedirect("../login.jsp");
+        if(user==null) {
+            String mail=null, cpassword = null;
+            Cookie[] c = request.getCookies();
+            for(int i=0; i<c.length; i++){
+                if(c[i].getName().equals("usermail")){
+                    mail = c[i].getValue();
+                    for(int j=0; j<c.length; j++){
+                        if(c[j].getName().equals("password")){
+                            cpassword = c[j].getValue();
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            if(mail!=null&&cpassword!=null){
+
+
+
+                user = new User(mail, cpassword);
+                boolean a=false;
+                try{
+                    a = user.Authorize();
+                }catch(Exception ex){Log.getOut(ex.getMessage());}
+                if(a){
+                    request.getSession().setAttribute("user", user);
+                }
+                else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
+            }
+            else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
+        }
         
         try(PrintWriter out = response.getWriter()){
             
@@ -66,8 +96,37 @@ public class Delete extends HttpServlet {
             throws ServletException, IOException {
         
         User user = (User) request.getSession().getAttribute("user");
-        if(user==null||!user.isLogined())
-            response.sendRedirect("../login.jsp");
+        if(user==null) {
+            String mail=null, cpassword = null;
+            Cookie[] c = request.getCookies();
+            for(int i=0; i<c.length; i++){
+                if(c[i].getName().equals("usermail")){
+                    mail = c[i].getValue();
+                    for(int j=0; j<c.length; j++){
+                        if(c[j].getName().equals("password")){
+                            cpassword = c[j].getValue();
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            if(mail!=null&&cpassword!=null){
+
+
+
+                user = new User(mail, cpassword);
+                boolean a=false;
+                try{
+                    a = user.Authorize();
+                }catch(Exception ex){Log.getOut(ex.getMessage());}
+                if(a){
+                    request.getSession().setAttribute("user", user);
+                }
+                else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
+            }
+            else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
+        }
         
         String param=request.getParameter("param"); int value=Integer.parseInt(request.getParameter("value"));
             try{
@@ -106,7 +165,7 @@ public class Delete extends HttpServlet {
             catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
             catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
 
-        response.sendRedirect("/elearning/UserBar.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
         
     }
 

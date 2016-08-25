@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.User"%>
 <%@page import="Learning.Test"%>
 <%@page import="Learning.Material"%>
 <%@page import="java.util.ArrayList"%>
@@ -12,6 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+User user = (User) session.getAttribute("user");
+boolean u = false;
+
 int program_id = 0;
     Program prog;
     try{
@@ -22,8 +26,10 @@ int program_id = 0;
     catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
-    ArrayList<Material> mtr = prog.getMaterials();
-    ArrayList<Test> tst = prog.getTests();
+    if(user!=null) u = user.getID()==prog.getTeacherID();
+    
+    ArrayList<Material> materials = prog.getMaterials();
+    ArrayList<Test> tests = prog.getTests();
     
 %>
 
@@ -61,6 +67,10 @@ int program_id = 0;
                             Level: <%=prog.getLevel()%><br>
                             Minimal Level: <%=prog.getMinLevel()%><br>
                             Teacher: <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=prog.getTeacher().getID()%>"> <%=prog.getTeacher().getName()%> <%=prog.getTeacher().getSurname()%></a> <br>
+<%if(u){%>                            
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round success">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round success">DELETE</button></a>
+<%}%>                        
                         </p>
                     </div>
                 </div>
@@ -83,18 +93,22 @@ int program_id = 0;
                 </nav>
 
                 <div id="tab11"  >
+<%for(int i=0; i<materials.size(); i++){%>                    
                     <div class="row">
                         <div class="col">
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=materials.get(i).getID()%>"><%=materials.get(i).getName()%></a>. 
                             </p>
                         </div>
+<%if(u){%>                             
                         <div>
-                            <button class="button small round success">UPDATE</button>
-                            <button class="button small round primary">DELETE</button>
-
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=materials.get(i).getID()%>&program=<%=materials.get(i).getProgramID()%>"><button class="button small round success">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=materials.get(i).getID()%>"><button class="button small round primary">DELETE</button></a>
                         </div>
+<%}%>                        
                     </div>
+<%}
+if(u){%>                    
                     <div class="row">
                         <div class="col">
                             <p>
@@ -102,25 +116,31 @@ int program_id = 0;
                             </p>
                         </div>
                         <div>
-                            <button class="button small round error">ADD</button>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?program=<%=prog.getID()%>"><button class="button small round error">ADD</button></a>
                         </div>
                     </div>
+<%}%>                        
 
                 </div>
 
                 <div id="tab12">
+<%for(int i=0; i<tests.size(); i++){%>                    
                     <div class="row">
                         <div class="col">
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Test.jsp?material_id=<%=materials.get(i).getID()%>"><%=tests.get(i).getName()%></a>. 
                             </p>
                         </div>
+<%if(u){%> 
                         <div>
-                            <button class="button small round success">UPDATE</button>
-                            <button class="button small round primary">DELETE</button>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?test=<%=tests.get(i).getID()%>&program=<%=tests.get(i).getProgramID()%>"><button class="button small round success">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round primary">DELETE</button></a>
 
                         </div>
+<%}%>                            
                     </div>
+<%}
+if(u){%>                    
 
                     <div class="row">
                         <div class="col">
@@ -129,9 +149,10 @@ int program_id = 0;
                             </p>
                         </div>
                         <div>
-                            <button class="button small round error">ADD</button>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?program=<%=prog.getID()%>"><button class="button small round error">ADD</button></a>
                         </div>
                     </div>
+<%}%>                        
                 </div>
             </div>
         </div>
