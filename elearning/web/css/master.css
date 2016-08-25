@@ -192,3 +192,64 @@
 .border {
     border: 1px solid #c3c3c3;
 }
+
+.chart {
+  position: relative;
+  display: inline-block;
+  width: 110px;
+  height: 110px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+    
+  text-align: center;
+  font-size: 24px;
+}
+.chart canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.percent {
+  display: inline-block;
+  padding-top: 40px;
+    margin-left: 10px;
+  z-index: 0;
+}
+.percent:after {
+  content: '%';
+  margin-left: 0.1em;
+  font-size: .8em;
+}
+
+.answers {
+    margin: 0;
+   font-size: .7em;
+}
+
+.test {
+    background: url(../img/test_bg.png) no-repeat bottom;
+}
+
+.best-results {
+    margin-top: 30px;
+}
+
+.test-btn {
+    margin-top: 30px;
+    margin-bottom: 120px
+}
+
+.middle {
+    margin: 25px 0;
+    margin-left: 20px; 
+}
+
+
+.green-bg {
+    background-color: #8BC34A;
+    color: #fff;
+}
+
+.green-bg img {
+    border: 5px solid #fff;
+}
