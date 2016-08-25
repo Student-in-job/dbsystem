@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.Map.Entry"%>
 <%@page import="DataBasePak.*"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,27 +13,84 @@
 
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
         if(accept==null){
-            response.sendRedirect("/elearning/UserBar.jsp");
+            response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
+            return;
         }
-        else{
-            try{
-                accept.Final();
-                session.removeAttribute("accept");                     
+        try{
+            accept.Final();
+            session.removeAttribute("accept"); 
+        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+  
 %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
-        <h1>You pass test <%=accept.getTest().getName()%>!</h1>
-        <h2>You ball <%=accept.getBall()%>!</h2>
-        <h2>You right answer on  <%=accept.getRightPointer()%> from <%=accept.getQuantity()%>!</h2>
+        <%@include file="../header.jsp" %>
+        
+        <div class="row centered text-center test">
+            <div class="col col-8 ">
+                <h3><%=accept.getTest().getName()%></h3>
+                <p>
+                    <%=accept.getTest().getInventory()%>
+                </p>
+            </div>
+
+            <div class="row centered best-results">
+                <h4 class="col col-12">YOU RESULTS</h4>                
+                <div class="col">
+                    <span class="chart" data-percent="<%= 100* accept.getBall()/accept.getTest().getBall() %>">
+                        <span class="percent"></span>
+                        <span class="answers"><br><%=accept.getBall()%>/<%=accept.getTest().getBall()%></span>
+                    </span>
+                    <p></p>
+                </div>             
+            </div>
+                
+            <div class="row centered best-results">
+                <h4 class="col col-12">BEST RESULTS</h4>
+<%
+for(Entry e : accept.getTest().getStatistic().entrySet()){
+%>                
+                <div class="col">
+                    <span class="chart" data-percent="<%= 100* (int) e.getKey()/accept.getTest().getBall() %>">
+                        <span class="percent"></span>
+                        <span class="answers"><br><%=e.getKey()%>/<%=accept.getTest().getBall()%></span>
+                    </span>
+                    <p><%=((User)e.getValue()).getName()%> <%=((User)e.getValue()).getSurname()%></p>
+                </div>
+<%}%>              
+            </div>
+        </div>
+        <%@include file="../footer.jsp" %>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+
+
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.easypiechart.min.js"></script>
+        <script>
+            $(function () {
+                $('.chart').easyPieChart({
+                    easing: 'easeOutBounce',
+                    onStep: function (from, to, percent) {
+                        $(this.el).find('.percent').text(Math.round(percent));
+                    }
+                });
+            });
+        </script>
+
     </body>
 </html>
-<%}catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-        
-}
-%>
