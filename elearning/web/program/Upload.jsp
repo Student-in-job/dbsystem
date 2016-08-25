@@ -43,15 +43,17 @@
                         <label>Описание</label> 
                         <input name="title" type="text" >
                     </div>
-                    
-                    <input name="data" type="file"><br>
+                    <div class="form-item">        
+                        <label>File</label> 
+                        <input name="data" type="file"><br>
+                    </div>
                     
                     <div class="form-item">        
                     	<button class="button primary width-100 big">Complete Sign Up</button>
                     </div> 
                 </form>
         
-        <h1>or</h1>    
+   
         
                 <form id="form2" class="form" action="/elearning/program/Upload" method="post">
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
@@ -104,7 +106,7 @@
                             maxlength: 100
                         },
                         
-                        name:{
+                        file:{
                             required: true,
                             minlength: 5,
                             maxlength: 100
