@@ -30,7 +30,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="/elearning/jquery.js"></script> 
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script> 
         <title>JSP Page</title>
     </head>
     <body>
@@ -42,10 +42,10 @@
         function show()  
         {  
             $.ajax({  
-                url: "/elearning/timer",  
+                url: "<%=request.getServletContext().getContextPath()%>/timer",  
                 cache: false, 
                 error: function(){
-                    window.location.href = "/elearning/Error.jsp";
+                    window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
                 },
                 success: function(data){ 
                     setTimeout(function(){window.location.href = "FinishTest.jsp"}, data);

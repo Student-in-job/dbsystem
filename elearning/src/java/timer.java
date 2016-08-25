@@ -36,12 +36,7 @@ public class timer extends HttpServlet {
             Date end = ((AcceptTest)request.getSession().getAttribute("accept")).getEndTime();
             long t = end.getTime() - (new Date()).getTime();
             if(t<0) t=0;
-           /* t/=1000;
-            long h = t/(3600);
-            t=t%(3600);
-            long m = t/60;
-            long s = t%60;*/
-            out.println(t/*String.valueOf(h)+":"+String.valueOf(m)+":"+String.valueOf(s)*/);
+            out.println(t);
 
             
         }
