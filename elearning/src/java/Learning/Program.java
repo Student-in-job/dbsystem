@@ -28,8 +28,7 @@ public class Program extends Parent{
     private String Inventory;
     private Area Area;
     private int Duration;
-    private int TeacherID;
-    private String Area_name;
+    private User Teacher;
     private int Level;
     private int MinLevel;
     protected String Ico;
@@ -71,7 +70,7 @@ public class Program extends Parent{
                     this.Name = rs.getString("program_name");
                     this.State = rs.getString("program_state");
                     this.Typ = rs.getString("program_typ");
-                    this.TeacherID = rs.getInt("user");
+                    this.Teacher = new User(rs.getInt("user"));
                     this.Date = rs.getDate("addDate");
         
             
@@ -191,7 +190,7 @@ public class Program extends Parent{
         if(Typ.equals("Mini") && (Duration<7)) throw new InvalidParameter();
         if(Typ.equals("Standart") && Duration<7) throw new InvalidParameter();
         
-        TeacherID = user.getID();
+        Teacher = user;
         this.write();
         IcoFile file = new IcoFile(part, this);
         file.SaveFile();
@@ -199,10 +198,10 @@ public class Program extends Parent{
     
     public boolean Change(String name, String inventory, String typ, int level, int minlevel, int duration, User user, Part part) throws Exception{
         
-        if(TeacherID != user.getID()) throw new IllegalAction();
+        if(Teacher.getID() != user.getID()) throw new IllegalAction();
         if(!this.MayChange()) throw new IllegalAction();
         Program prg = new Program(name, inventory, this.getArea(), typ, level, minlevel, duration);
-        prg.TeacherID = this.TeacherID;
+        prg.Teacher = this.Teacher;
         prg.ID = this.ID;
         DataBase db = new DataBase(prg);
         db.ReWrite();
@@ -214,7 +213,7 @@ public class Program extends Parent{
     
     public boolean Publish(User user) throws Exception{
         
-        if(TeacherID != user.getID()) throw new IllegalAction();
+        if(Teacher.getID() != user.getID()) throw new IllegalAction();
         if(this.Correct()!=null) throw new InvalidParameter();
         this.State = "active";
         DataBase db = new DataBase(this);
@@ -235,15 +234,13 @@ public class Program extends Parent{
     }  
     
     
-    
+    public User getTeacher(){
+        return Teacher;
+    }
     
     
     public int getTeacherID(){
-        return TeacherID;
-    }
-    
-    public String getAreaName(){
-        return this.Area_name;
+        return Teacher.getID();
     }
     
     public int getAreaID(){

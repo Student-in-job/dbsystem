@@ -54,7 +54,7 @@ int n = (p*8)<areas.size()?p+1:0;
 <%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
 		<div class="col col-3 text-center">		
 			<div class="item">
-                            <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=<%=request.getServletContext().getContextPath()%>/areas.get(i).getIco()%>"></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=areas.get(i).getIco()%>"></a>
 			</div>
 			<div class="area-info centered">
 				<b><%=areas.get(i).getName()%></b>
