@@ -9,18 +9,23 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@include file="../logfrag.jsp" %>
 <%
-    User user = (User) session.getAttribute("user");
-    if(user==null){
-        response.sendRedirect("../login.jsp"); return;}
+    int program = 0;
+    Program pg;
+    try{
+        program = Integer.parseInt(request.getParameter("program"));
+        pg = new Program(program);
+        
+    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
-    String url=null, name=null, inventory = null, mark="";
-    int day=0, test, program, time;
+    String url=null, name=null, inventory = null;
+    int day=0, test, time=0;
     Test nt;
-    program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
     test = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
-    url = 0==test?"CreateTest.jsp":"EditTest.jsp";
-    
+ 
 if(request.getMethod()=="GET"){
     if(test!=0){
         
@@ -41,20 +46,14 @@ if(request.getMethod()=="POST"){
     
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    day = Integer.parseInt(request.getParameter("day")==null?"0":request.getParameter("day"));
-    time = Integer.parseInt(request.getParameter("time")==null?"0":request.getParameter("time"));
-    boolean n = name==null||"".equals(name);
-    boolean i = inventory==null||"".equals(inventory);
-    boolean d = day<=0;
-    boolean t = time<0;
-    if(!(n||d||i||t)){
+    day = Integer.parseInt(request.getParameter("day"));
+    time = Integer.parseInt(request.getParameter("time"));
     
         try{
             if(test==0){
 
-                Program prog = new Program(program);
                 nt = new Test(name, day, inventory, time);
-                nt.Write(prog , user);
+                nt.Write(pg , user);
                 response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }
             else{
@@ -69,40 +68,102 @@ if(request.getMethod()=="POST"){
         catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
         
-    }  
+
 }
 %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create Test</title>
-        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <title>Test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
-        <h1>Create Test</h1>
-        <h2><%=mark==null?"":mark%></h2>
-        <form action="<%=url%>" method="POST">
-        <input type="hidden" name="program" value="<%=program%>"> 
-        <input type="hidden" name="test" value="<%=test%>"> 
-            <div>
-                <p>Name:</p>
-                <input required type="text" name="name" <%=name==null?" placeholder=\"Name of test":"value=\""+name%>">
+        <%@include file="../header.jsp"%>
+
+        <div class="row centered registration">
+            <div class="col col-4">
+
+                <form id="form" class="form" action="CreateTest.jsp" method="POST">
+                    <h3 class="text-centered">Test</h3>
+                    <input type="hidden" name="program" value="<%=program%>"> 
+                    <input type="hidden" name="test" value="<%=test%>"> 
+                    
+                    <div class="form-item">
+                        <label>Name:</label>
+                        <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Inventory:</label>
+                        <textarea required name="inventory"><%=inventory==null?"":inventory%></textarea>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Day:</label>
+                        <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>"">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Time:</label>
+                        <input class="width-100" required min="1" type="number" name="time" value="<%=time!=0?time:""%>"> min.
+                    </div>
+                    
+                    <div class="form-item">
+                        <button class="button primary width-100 big">Complete Sign Up</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <p>Inventory:</p>
-                <textarea required name="inventory"><%=inventory==null?"":inventory%></textarea>
-            </div>
-            <div>
-                <p>Day:</p>
-                <input required min="1" max="183" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
-            </div>
-            <div>
-                <p>Time:</p>
-                <input required min="1" type="number" name="day" <%=day==0?" placeholder=\"1":"value=\""+day%>">
-            </div>
-            <input type="submit">
-        </form>
+        </div>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                        name:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 100,
+                        },
+                        
+                        day:{
+                            required: true,
+                            number: true,
+                            min: 1,
+                            max: <%=pg.getDuration()%>
+                        },
+                            
+                        inventory:{
+                            required: true,
+                            minlength: 20,
+                            maxlength: 500,
+                        },
+                        
+                        time:{
+                            required: true,
+                            number: true,
+                            min: 3,
+                            max: 120,
+                        },
+                        
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script> 
+        <%@include file="../footer.jsp" %>
     </body>
 </html>

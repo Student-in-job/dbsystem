@@ -19,7 +19,7 @@
         try{    
                 Area na = new Area(name);
                 na.Write(user, request.getPart("picture"));
-                response.sendRedirect("/elearning/Courses.jsp?area_id="+na.getID()); return;
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Courses.jsp?area_id="+na.getID()); return;
 
             
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -36,13 +36,13 @@
         <title>Area</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="../css/normalize.css">
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="../css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="../css/kube-ext.css">
-        <link rel="stylesheet" href="../css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
     </head>
     <body>

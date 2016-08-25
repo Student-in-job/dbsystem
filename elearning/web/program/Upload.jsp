@@ -15,30 +15,108 @@
         response.sendRedirect("../login.jsp"); return;}
 
 %>
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Upload</title>
+        <title>Program</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
-        <html>
-<head>
-<body>
-    <form action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
-        <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
-	Описание: <input name="title" type="text" ><br>
-        <input name="data" type="file"><br>
-        <input type="submit"><br>
-    </form>
+        <%@include file="../header.jsp"%>
+
+        <div class="row centered registration">
+            <div class="col col-4">
+
+                <form id="form1" class="form" action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
+                    <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
+                    
+                    <div class="form-item">        
+                        <label>Описание</label> 
+                        <input name="title" type="text" >
+                    </div>
+                    
+                    <input name="data" type="file"><br>
+                    
+                    <div class="form-item">        
+                    	<button class="button primary width-100 big">Complete Sign Up</button>
+                    </div> 
+                </form>
+        
         <h1>or</h1>    
-    <form action="/elearning/program/Upload" method="post">
-        <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
-	Описание: <input name="title" type="text" ><br>
-        Имя файла: <input name="file" type="text" ><br>
-        <input type="submit"><br>
-    </form>    
-</body>
+        
+                <form id="form2" class="form" action="/elearning/program/Upload" method="post">
+                    <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
+                    
+                    <div class="form-item">        
+                        <label>Описание</label> 
+                        <input name="title" type="text" >
+                    </div>
+                    
+                    <div class="form-item">        
+                        <label>Имя файла</label> 
+                        <input name="file" type="text" >
+                    </div>
+                    
+                    <div class="form-item">        
+                    	<button class="button primary width-100 big">Complete Sign Up</button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+        <script>
+            $(document).ready(function(){
+
+                $("#form1").validate({
+
+                   rules:{ 
+
+                        title:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 100
+                        },
+                        
+                        data:{
+                            required:true,
+                            accept: "doc|docx|pdf|ppt|pptx"
+                        }                        
+                   }
+
+                });
+                
+                $("#form2").validate({
+
+                   rules:{ 
+
+                        title:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 100
+                        },
+                        
+                        name:{
+                            required: true,
+                            minlength: 5,
+                            maxlength: 100
+                        }                        
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script>
+        <%@include file="../footer.jsp" %>
+    </body>
 </html>
 

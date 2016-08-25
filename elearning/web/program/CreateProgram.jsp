@@ -28,7 +28,7 @@
 
             try{
                 np = new Program(program);
-            }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
+            }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
             name = np.getName();
             inventory = np.getInventory();
             area = np.getAreaID();
@@ -64,12 +64,11 @@
                 np.Change(name, inventory, typ, level, minlevel, duration, user, img);
                 response.sendRedirect("Program.jsp?program="+np.getID()); return;
             }
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-                 
+        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
     }
 }    
 %>
@@ -77,64 +76,86 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create new program</title>
-        <script type="text/javascript" src="/elearning/js/jquery-1.5.2.min.js"></script> 
-        <script type="text/javascript" src="/elearning/js/jquery.validate.min.js"></script> 
+        <title>Program</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
-        <form id="form" action="CreateProgram.jsp" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="program" value="<%=program%>">
-            <div>
-                <p>Name:</p>
-                <input required type="text" name="name" <%=name==null?"placeholder=\"Name":"value=\""+name%>">
-            </div>
-            <div>
-                <p>Area:</p>
-                <select required name="area" >
+        <%@include file="../header.jsp"%>
+
+        <div class="row centered registration">
+            <div class="col col-4">
+
+                <form id="form" class="form" action="CreateProgram.jsp" method="POST" enctype="multipart/form-data">
+                    <h3 class="text-centered">Program</h3>
+                    <input type="hidden" name="program" value="<%=program%>">
+                    <div class="form-item">
+                        <label>Name:</label>
+                        <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
+                    </div>
+                    <div class="form-item">
+                        <label>Area:</label>
+                        <select required name="area" >
 <%
-    ArrayList<Area> arealist = (new Area(1).getAll());
-    for(int i=0; i<arealist.size(); i++){
-    
+ArrayList<Area> arealist = (new Area()).getAll();
+for(int i=0; i<arealist.size(); i++){
 %>
-                    <option value="<%=arealist.get(i).getID()%>" <%=area==arealist.get(i).getID()?"selected":""%>><%=arealist.get(i).getName()%></option>
+                            <option value="<%=arealist.get(i).getID()%>" <%=area==arealist.get(i).getID()?"selected":""%>><%=arealist.get(i).getName()%></option>
 <%}%>
-                </select>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label>Inventory:</label>
+                        <textarea rows="6" required  name="inventory"><%=inventory!=null?inventory:""%></textarea>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Type:</label>
+                        <select required required name="typ" >
+                            <option <%="Seminar".equals(typ)?"selected":""%> value="Seminar">Seminar</option>
+                            <option <%="Mini".equals(typ)?"selected":""%> value="Mini">Mini</option>
+                            <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
+                        </select>
+                    </div> 
+                        
+                    <div class="form-item">
+                        <label>Level:</label>
+                        <label>Какой уровень будет после прохождения курса</label>
+                        <input class="width-100" id="level" required type="number" min="1" max="3" name="level" value="<%=level!=0?level:""%>">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Min - Levet:</label>
+                        <label>Какого уровня курс надо прайти, для зачисления</label>
+                        <input class="width-100" required type="number" min="0" max="2" name="minlevel" value="<%=minlevel!=-1?minlevel:""%>">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Duration:</label>
+                        поставить условие длительности
+                        <input class="width-100" required type="number" name="duration" min="1" value="<%=duration!=0?duration:""%>"> days.
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Picture:</label>
+                        <input class="width-100" <%=program==0?"required":""%> type="file" name="picture" >
+                    </div>  
+                    
+		    <div class="form-item">        
+                    	<button class="button primary width-100 big">Complete Sign Up</button>
+                    </div>  
+                </form>
             </div>
-            <div>
-                <p>Inventory:</p>
-                <textarea required  name="inventory" <%=inventory==null?"placeholder=\"Inventory\">":">"+inventory%></textarea>
-            </div>
-            <div>
-                <p>Type:</p>
-                <select required required name="typ" >
-                    <option <%="Seminar".equals(typ)?"selected":""%> value="Seminar">Seminar</option>
-                    <option <%="Mini".equals(typ)?"selected":""%> value="Mini">Mini</option>
-                    <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
-                </select>
-            </div> 
-            <div>
-                <p>Level:</p>
-                <p>Какой уровень будет после прохождения курса</p>
-                <input required type="number" min="1" max="3" name="level" <%=level==0?"placeholder=\"1":"value=\""+level%>">
-            </div>
-            <div>
-                <p>Min - Levet:</p>
-                <p>Какого уровня курс надо прайти, для зачисления</p>
-                <input required type="number" min="0" max="3" name="minlevel" <%=minlevel==-1?"placeholder=\"0":"value=\""+minlevel%>">
-            </div>
-            <div>
-                <p>Duration:</p>
-                поставить условие длительности
-                <input required type="number" name="duration" min="1" <%=duration==0?"placeholder=\"1":"value=\""+duration%>"> days.
-            </div>
-            <div>
-                <p>Picture:</p>
-                <input <%=program==0?"required":""%> type="file" name="picture" >
-            </div>             
-            <input type="submit">
-        </form>
-    
-        <script>
+        </div>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+<script>
             $(document).ready(function(){
 
                 $("#form").validate({
@@ -164,7 +185,7 @@
                             required: true,
                             number: true,
                             min: 0,
-                            max: 3,
+                            max: 2,
                         },
                         
                         duration:{
@@ -174,9 +195,9 @@
                             max: 183
                         },
                         
-<%if(program==0){%>                        picture:{
-                            required: true,
-                            accept: "png",
+<%if(program==0){%>     picture:{
+                            <%=program==0?"required:true,":""%>
+                            accept: "png|jpg|jpeg",
                         }
 <%}%>                        
                    },
@@ -186,6 +207,6 @@
 
             }); //end of ready
         </script>
+        <%@include file="../footer.jsp" %>
     </body>
 </html>
-

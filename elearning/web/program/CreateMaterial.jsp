@@ -13,19 +13,19 @@
 
 <%@include file="../logfrag.jsp" %>
 <%   
-    int program = 0, material=0;
+    int program = 0;
     Program pg;
     try{
         program = Integer.parseInt(request.getParameter("program"));
         pg = new Program(program);
-        material = Integer.parseInt(request.getParameter("material"));
+        
     }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
     catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
             
     
     String typ="Lecture", text=null, name=null, inventory=null;
-    int day=0;
+    int day=0, material = Integer.parseInt(request.getParameter("material")==null?"0":request.getParameter("material"));
     Material nm;
     
     
@@ -70,7 +70,6 @@ if(request.getMethod()=="POST"){
         }
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
         catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
 }    
@@ -82,14 +81,14 @@ if(request.getMethod()=="POST"){
         <title>Material</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="../css/normalize.css">
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="../css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="../css/kube-ext.css">
-        <link rel="stylesheet" href="../css/master.css">
-        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/tinymce/tinymce.min.js"></script>
         <script>tinymce.init({
     selector: '#input',
     theme: 'modern',
@@ -113,7 +112,7 @@ if(request.getMethod()=="POST"){
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form id="form" action="CreateMaterial.jsp" method="post" class="form" enctype="multipart/form-data">
+                <form id="form" action="CreateMaterial.jsp" method="post" class="form">
                     <h3 class="text-centered">Material</h3>
                     <input type="hidden" name="program" value="<%=program%>">
                     <input type="hidden" name="material" value="<%=material%>">
@@ -168,13 +167,8 @@ if(request.getMethod()=="POST"){
                         inventory:{
                             required: true,
                             minlength: 20,
-                            maxlength: 200,
+                            maxlength: 500,
                         },
-                        
-                        text:{
-                            required: true,
-                            minlength: 20,
-                        }
                         
                    }
 

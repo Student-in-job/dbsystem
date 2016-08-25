@@ -27,7 +27,7 @@
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
-        if(!(prog.isPublished()/*&&user.getActiveCourse(program)==null*/)/*&&prog.getCourse()!=null**/){
+        if(!(prog.isPublished()&&user.getActiveCourse(program)==null)/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
         <html>
@@ -51,13 +51,13 @@
         <title>Course</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="../css/normalize.css">
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="../css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="../css/kube-ext.css">
-        <link rel="stylesheet" href="../css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
     </head>
     <body>
@@ -117,13 +117,13 @@
         <title>Course</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="../css/normalize.css">
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="../css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="../css/kube-ext.css">
-        <link rel="stylesheet" href="../css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
 
     </head>
     <body>
