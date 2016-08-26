@@ -8,6 +8,8 @@
 <%@page import="DataBasePak.*"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="/avtorize.jsp"%>
 <%
    
 
@@ -44,23 +46,19 @@
         
         <div class="row centered text-center test">
             <div class="col col-8 ">
-                <h3><%=accept.getTest().getName()%></h3>
-                <p>
-                    <%=accept.getTest().getInventory()%>
-                </p>
-            </div>
-
-            <div class="row centered best-results">
                 <h4 class="col col-12">YOU RESULTS</h4>                
                 <div class="col">
+                    <h3><%=accept.getTest().getName()%></h3>
+                    <p>
+                        <%=accept.getTest().getInventory()%>
+                    </p>
                     <span class="chart" data-percent="<%= 100* accept.getBall()/accept.getTest().getBall() %>">
                         <span class="percent"></span>
                         <span class="answers"><br><%=accept.getBall()%>/<%=accept.getTest().getBall()%></span>
                     </span>
                     <p></p>
-                </div>             
+                </div>  
             </div>
-                
             <div class="row centered best-results">
                 <h4 class="col col-12">BEST RESULTS</h4>
 <%
@@ -75,6 +73,7 @@ for(Entry e : accept.getTest().getStatistic().entrySet()){
                 </div>
 <%}%>              
             </div>
+            <div class="col col-12 test-btn"></div>
         </div>
         <%@include file="../footer.jsp" %>
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>

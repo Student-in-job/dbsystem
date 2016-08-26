@@ -128,7 +128,7 @@ if(u){%>
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "<%=request.getServletContext().getContextPath()%>/Test.jsp?material_id=<%=materials.get(i).getID()%>"><%=tests.get(i).getName()%></a>. 
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=tests.get(i).getID()%>"><%=tests.get(i).getName()%></a>. 
                             </p>
                         </div>
 <%if(u){%> 

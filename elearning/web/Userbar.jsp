@@ -38,7 +38,7 @@
     </head>
     <body>
         <div class=userbar>
-            <%@include file="header.jsp" %>
+            <%@include file="/header.jsp" %>
             <div class="row userbar-1">
                 <div class="col col-3 text-right">
                     <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" alt="" class="img-circle">
@@ -116,7 +116,7 @@ for(int j=0; j<7; j++){
     if(d!=null){
         for(int i=0; i<d.Size(); i++){              
             if(d.get(i).getType().equals("test")){%>
-                <p><a href="<%=request.getServletContext().getContextPath()%>/Pass/StartPassTest.jsp?course=<%=d.get(i).getCourse().getID()%>&test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+                <p><a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
             <%}if(d.get(i).getType().equals("material")){%>
                 <p><a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
             <%}
@@ -129,7 +129,7 @@ for(int j=0; j<7; j++){
                 </div>
             </div>
         </div>  
-        <%@include file="footer.jsp" %>
+        <%@include file="/footer.jsp" %>
         <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>

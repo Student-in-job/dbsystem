@@ -8,6 +8,7 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@include file="/avtorize.jsp"%>
 <%
    request.setCharacterEncoding("UTF-8");
     

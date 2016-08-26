@@ -11,22 +11,33 @@
 <%@page import="Learning.Test"%>
 <%@page import="Learning.Course"%>
 <%@page import="Learning.AcceptTest"%>
-<%@include file="/logfrag.jsp" %>
+
+<%@include file="/avtorize.jsp"%>
 <%  
-    int cours, tst;
-    User_courses uhc;
+    int tst;
     Test test;
-    try{
-        cours = Integer.parseInt(request.getParameter("course"));
-        tst = Integer.parseInt(request.getParameter("test"));
-        uhc = user.getHasCours(new Course(cours));
-        test = new Test(tst);
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
-    
+        try{
+            tst = Integer.parseInt(request.getParameter("test"));
+            test = new Test(tst);
+        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
+
     if(request.getMethod().equals("POST")){
+        
+        if(user==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+            
+        Course cours; 
+        User_courses uhc;
+        try{
+            cours = user.getActiveCourse(test.getProgramID());
+            if(cours==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+            uhc = user.getHasCours(cours); 
+        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
+
+        
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
         if(accept!=null){response.sendRedirect("PassTest.jsp?no=0"); return;}
             
@@ -100,14 +111,15 @@ for(Entry e : test.getStatistic().entrySet()){
 <%}%>              
             </div>
             <div class="col col-12 test-btn">
-                <form method="POST" action="StartPassTest.jsp">
-                <input type="hidden" name="course" value="<%=request.getParameter("course")%>">
-                <input type="hidden" name="test" value="<%=request.getParameter("test")%>">
+<%if(user!=null){%>
+                <form method="POST" action="StartTest.jsp">
+                <input type="hidden" name="test" value="<%=tst%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">
                 </form>
-            </div>
+<%}%>   
+            </div>             
         </div>
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
 
 
