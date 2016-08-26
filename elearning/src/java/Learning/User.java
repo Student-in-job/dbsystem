@@ -6,6 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -78,9 +85,34 @@ public class User extends Parent{
     
     public User(){}
     
-    /*public void SendPassword(){
-        
-    }*/
+    public void SendPassword(){
+        String to = "ksinn@mail.ru";         // sender email 
+           String from = "ksinnd@gmail.com";       // receiver email 
+           String host = "smtp.gmail.com";            // mail server host 
+
+           Properties properties = System.getProperties(); 
+           properties.setProperty("mail.smtp.host", host); 
+           properties.setProperty("mail.smtp.port", "465");
+           Session session = Session.getDefaultInstance(properties); // default session 
+           
+           try { 
+                MimeMessage message = new MimeMessage(session); // email message 
+
+                message.setFrom(new InternetAddress(from)); // setting header fields  
+
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to)); 
+
+                message.setSubject("Test Mail from Java Program"); // subject line 
+
+                // actual mail body   
+                message.setText("You can send mail from Java program by using mail API, but you need" +          
+                                "couple of more JAR files e.g. smtp.jar and activation.jar"); 
+                
+                // Send message 
+                Transport.send(message); System.out.println("Email Sent successfully...."); 
+               } catch (MessagingException mex){ mex.printStackTrace(); } 
+
+    }
     
     public Course getActiveCourse(int program){
         try{
@@ -271,12 +303,12 @@ public class User extends Parent{
         return db.Done();
     }
     
-    public void Register() throws Exception
+    public void Register(Part part) throws Exception
     {
         if(!Logined){
             this.write();
-            /*IcoFile file = new IcoFile(part, this);
-            file.SaveFile();*/
+            IcoFile file = new IcoFile(part, this);
+            file.SaveFile();
         }
         else throw new IllegalAction(); 
     }
