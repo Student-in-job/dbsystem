@@ -177,7 +177,7 @@
                 <% return;}
                         Course course = new Course(start, prog);
                         session.setAttribute("course", course);
-                        response.sendRedirect("CreateMaterialSchedule.jsp");
+                        response.sendRedirect("CreateSchedule.jsp");
                 }
 
 %> 

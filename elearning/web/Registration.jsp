@@ -11,7 +11,7 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="avtorize.jsp"%>
+<%@include file="/avtorize.jsp"%>
 <%
     if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
     if (request.getMethod() == "GET") {
@@ -33,7 +33,7 @@
 
     </head>
     <body>
-        <%@include file="header.jsp" %>
+        <%@include file="/header.jsp" %>
 
         <div class="row centered registration">
             <div class="col col-4">
@@ -143,7 +143,7 @@
 
             }); //end of ready
         </script>
-        <%@include file="footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
 <%

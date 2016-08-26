@@ -74,7 +74,7 @@
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form method="POST" action="CreateMaterialSchedule.jsp" id="form" class="form">
+                <form method="POST" action="CreateSchedule.jsp" id="form" class="form">
                     <h3 class="text-centered">Course</h3>
 <%for(Entry entry : days.entrySet()){ %>            
                     <div class="form-item">
