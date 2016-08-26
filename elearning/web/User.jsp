@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Userbar.jsp
-    Created on : Aug 23, 2016, 4:41:08 PM
-    Author     : javlonboy
+    Document   : User
+    Created on : 26.08.2016, 10:58:44
+    Author     : ksinn
 --%>
 
 <%@page import="java.util.GregorianCalendar"%>
@@ -10,19 +10,28 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="/logfrag.jsp" %>
+<%@include file="/avtorize.jsp" %>
 <% 
-    ArrayList<Course> learning_cours = user.getLearningCourses();
-    ArrayList<Course> learned_cours = user.getLearnedCourses();
-    ArrayList<Program> activ_program = user.getActivePrograms();
-    ArrayList<Program> created_program = user.getCreatedPrograms();
-    UserSchedule ush = user.getMySchedule();
+    int user_id = 0;
+    User show_user;
+    try{
+        user_id = Integer.parseInt(request.getParameter("user_id"));
+        show_user = new User(user_id);
+        
+    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
+    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
+    
+    ArrayList<Course> learning_cours = show_user.getLearningCourses();
+    ArrayList<Course> learned_cours = show_user.getLearnedCourses();
+    ArrayList<Program> activ_program = show_user.getActivePrograms();
+    UserSchedule ush = show_user.getMySchedule();
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Userbar</title>
+        <title>User</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -41,15 +50,15 @@
             <%@include file="/header.jsp" %>
             <div class="row userbar-1">
                 <div class="col col-3 text-right">
-                    <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" alt="" class="img-circle">
+                    <img src="<%=request.getServletContext().getContextPath()%>/<%=show_user.getIco()%>" alt="" class="img-circle">
                 </div>
                 <div class="col col-3">
                     <br>
                     <p>
-                        Name: <%=user.getName()%> <%=user.getSurname()%> <br>
-                        Birthday: <%=user.getBirthday()%><br>
-                        Gender: <%=user.getGenderString()%> <br>
-                        Registered on: <%=user.getDateRegestration()%><br>
+                        Name: <%=show_user.getName()%> <%=show_user.getSurname()%> <br>
+                        Birthday: <%=show_user.getBirthday()%><br>
+                        Gender: <%=show_user.getGenderString()%> <br>
+                        Registered on: <%=show_user.getDateRegestration()%><br>
                     </p>
                 </div>
                 <div class="col text-center"> 
@@ -60,7 +69,6 @@
             </div>
             <div class="row userbar-2 ">
                 <div class="col col-2 offset-1 nav">
-                    <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Created courses</a>
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Active courses</a>
                     <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
@@ -69,20 +77,11 @@
                 <div class="col col-8 border">
                     
                         
-                            <div id="created_courses" class="courses">
-                                <h3>Created courses</h3>
-<%for(int i=0; i<created_program.size(); i++) {%>  
-                <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=created_program.get(i).getID()%>"><%=created_program.get(i).getName()%></a>
-                </p>                
-<%}%>                                               
-                            </div>
-                            
                             <div id="active_courses" class="courses">
                                 <h3>Active courses</h3>
 <%for(int i=0; i<activ_program.size(); i++) {%>  
                 <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
+                    <a href="program/Program.jsp?program=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -91,7 +90,7 @@
                                 <h3>Learn courses</h3>
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -100,7 +99,7 @@
                                 <h3>Finished courses</h3>
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -153,3 +152,4 @@ for(int j=0; j<7; j++){
 
     </body>
 </html>
+

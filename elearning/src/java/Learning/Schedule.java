@@ -42,7 +42,6 @@ public class Schedule{
                                 SimpleDateFormat format = new SimpleDateFormat();
                                 format.applyPattern("yyyy-MM-dd hh:mm:ss");
                                 mat.setDate(format.parse(rs.getString("date_time")));
-                                mat.setCourse(course);
                                 List.add(mat);
                             }
                             catch(Exception ex){ Log.getOut(ex.getMessage());}
@@ -59,7 +58,6 @@ public class Schedule{
                                 SimpleDateFormat format = new SimpleDateFormat();
                                 format.applyPattern("yyyy-MM-dd hh:mm:ss");
                                 test.setDate(format.parse(rs.getString("date_time")));
-                                test.setCourse(course);
                                 List.add(test);
                             }
                             catch(Exception ex){ Log.getOut(ex.getMessage());}

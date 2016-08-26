@@ -15,7 +15,7 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="../logfrag.jsp" %>
+<%@include file="/logfrag.jsp" %>
 <%
     
     //int program = Integer.parseInt(request.getParameter("program")); 
@@ -69,7 +69,7 @@
 
     </head>
     <body>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
@@ -93,7 +93,7 @@
                 </form>
             </div>
         </div>
-    <%@include file="../footer.jsp" %>
+    <%@include file="/footer.jsp" %>
     </body>
 </html>
 <%}

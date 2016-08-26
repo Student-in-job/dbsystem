@@ -12,7 +12,7 @@
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="../logfrag.jsp" %>
+<%@include file="/logfrag.jsp" %>
 <%
     SimpleDateFormat form = new SimpleDateFormat();
     form.applyPattern("yyyy-MM-dd");
@@ -27,7 +27,7 @@
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
-        if(!(prog.isPublished()&&user.getActiveCourse(program)==null)/*&&prog.getCourse()!=null**/){
+        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()==program)/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
         <html>
@@ -61,7 +61,7 @@
 
     </head>
     <body>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
@@ -100,7 +100,7 @@
 
             }); //end of ready
         </script>
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
 
@@ -127,7 +127,7 @@
 
     </head>
     <body>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
@@ -171,7 +171,7 @@
 
             }); //end of ready
         </script>
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
                 <% return;}

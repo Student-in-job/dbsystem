@@ -70,7 +70,10 @@ int program_id = 0;
 <%if(u){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round success">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round success">DELETE</button></a>
-<%}%>                        
+<%}%> 
+<%if(prog.isPublished()&&!u){%>                            
+                            <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round success">START</button></a>
+<%}%> 
                         </p>
                     </div>
                 </div>
@@ -133,7 +136,7 @@ if(u){%>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?test=<%=tests.get(i).getID()%>&program=<%=tests.get(i).getProgramID()%>"><button class="button small round success">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Test.jsp?test=<%=tests.get(i).getID()%>"><button class="button small round success">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round primary">DELETE</button></a>
 
                         </div>
