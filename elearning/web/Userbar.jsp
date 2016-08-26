@@ -106,7 +106,10 @@
                             </div>
                         
                         <div id="schedule" class="courses">
-                            <h3>Расписание</h3>
+                            <h3>Schedule</h3>
+                            <table class="striped bordered">   
+                                <tbody>
+                            
 <%
 Day d;
 Calendar c = new GregorianCalendar();
@@ -116,14 +119,32 @@ for(int j=0; j<7; j++){
     if(d!=null){
         for(int i=0; i<d.Size(); i++){              
             if(d.get(i).getType().equals("test")){%>
-                <p><a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+                                    <tr>
+                                        <td>
+                                            <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                        </td>
+                                        <td>
+                                            <%=d.get(i).getDateString()%>
+                                        </td>
+                                    </tr>
+                                
+                    
             <%}if(d.get(i).getType().equals("material")){%>
-                <p><a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
+                                    <tr>
+                                        <td>
+                                            <a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                        </td>
+                                        <td>
+                                            <%=d.get(i).getDateString()%>
+                                        </td>
+                                    </tr>
             <%}
         }
     }
 }
 %>
+                                </tbody>
+                            </table>
                         </div>
                     
                 </div>

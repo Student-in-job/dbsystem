@@ -191,6 +191,8 @@
 
 .border {
     border: 1px solid #c3c3c3;
+    margin-left: 15px;
+    margin-bottom: 170px;
 }
 
 .chart {
@@ -292,4 +294,8 @@
 
 .float-right {
     float: right;
+}
+
+table {
+    max-width: 98%;
 }
