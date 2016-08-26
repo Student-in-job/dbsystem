@@ -12,16 +12,18 @@
 
 
 <%
+String path = request.getParameter("rederectto");
+if(path==null) path ="";
 if(request.getParameter("logout")!=null){
     
     response.addCookie(new Cookie("usermail", null));
     response.addCookie(new Cookie("password", null));
     request.getSession().invalidate();
-    response.sendRedirect(request.getServletContext().getContextPath());
+    response.sendRedirect(path);
     return;
 }    
 %>
-<%@include file="avtorize.jsp"%>
+<%@include file="/avtorize.jsp"%>
 <% 
 if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
 if(request.getMethod()=="GET"){
@@ -45,7 +47,7 @@ if(request.getMethod()=="GET"){
 <body>
 
     
-    <%@include file="header.jsp"%>	
+    <%@include file="/header.jsp"%>	
                 
 	<div class="row around">
 		<div class="col col-4">		
@@ -53,6 +55,7 @@ if(request.getMethod()=="GET"){
                                     <div class="modal-header">Sign in</div>
                                     <div class="modal-body">
                                                     <form method="post" action="login.jsp" class="form">
+                                                        <input name="rederectto" type="hidden" value="<%=path%>">
                                                         <div class="form-item">
                                                             <label>Email <span class="req">*</span></label>
 
@@ -79,6 +82,7 @@ if(request.getMethod()=="GET"){
 			</div>
 		</div>
 	</div>
+    <%@include file="/footer.jsp" %>    
 </body>
 </html>
 <%
@@ -114,7 +118,7 @@ else
 <body>
 
     
-    <%@include file="header.jsp"%>	
+    <%@include file="/header.jsp"%>	
                 
 	<div class="row around">
 		<div class="col col-4">		
@@ -122,6 +126,7 @@ else
                                     <div class="modal-header">Sign in</div>
                                     <div class="modal-body">
                                                     <form method="post" action="login.jsp" class="form">
+                                                        <input name="rederectto" type="hidden" value="<%=path%>">
                                                         <div class="form-item">
                                                             <span class="req">The email and password that you entered don't match.</span>
                                                         </div>   
@@ -149,6 +154,7 @@ else
 			</div>
 		</div>
 	</div>
+    <%@include file="/footer.jsp" %>    
 </body>
 </html>
 <%
@@ -167,7 +173,7 @@ else
             }
             
             request.getSession().setAttribute("user", nuser);
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
+            response.sendRedirect(path);
             
         }
         else{
@@ -191,7 +197,7 @@ else
 <body>
 
     
-    <%@include file="header.jsp"%>	
+    <%@include file="/header.jsp"%>	
                 
 	<div class="row around">
 		<div class="col col-4">		
@@ -199,6 +205,7 @@ else
                                     <div class="modal-header">Sign in</div>
                                     <div class="modal-body">
                                                     <form method="post" action="login.jsp" class="form">
+                                                        <input name="rederectto" type="hidden" value="<%=path%>">
                                                         <div class="form-item">
                                                             <span class="req">The email and password that you entered don't match.</span>
                                                         </div>
@@ -226,6 +233,7 @@ else
 			</div>
 		</div>
 	</div>
+    <%@include file="/footer.jsp" %>    
 </body>
 </html>
 <%

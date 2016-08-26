@@ -4,8 +4,12 @@
     Author     : ksinn
 --%>
 
+<%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+User user = new User(1);
+user.SendPassword();
+%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,7 +19,9 @@
 <script src="../../dist/jquery.validate.js"></script>
 <script src="tiny_mce.js"></script>
 <script>
-	tinyMCE.init({
+
+    
+    tinyMCE.init({
 		mode: "textareas",
 		theme: "simple",
 		// update validation status on change

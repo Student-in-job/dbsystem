@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -85,15 +87,38 @@ public class User extends Parent{
     
     public User(){}
     
+    public Course getActiveCourse(int program){
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select * from user_has_course where user=? and " +
+             "course in (select course_id from course where program=?) and " +
+            "user_has_course_complited is null;");
+            stmt.setInt(1, this.ID);
+            stmt.setInt(2, program);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next())
+             return new Course(rs.getInt("course"));
+            else return null;
+                        
+            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
+    }
+    
     public void SendPassword(){
-        String to = "ksinn@mail.ru";         // sender email 
-           String from = "ksinnd@gmail.com";       // receiver email 
-           String host = "smtp.gmail.com";            // mail server host 
+        String to = "phantomus94@gmail.com";         // sender email 
+        String from = "ksinnd@gmail.com";       // receiver email 
+        String host = "smtp.gmail.com";            // mail server host 
 
-           Properties properties = System.getProperties(); 
-           properties.setProperty("mail.smtp.host", host); 
-           properties.setProperty("mail.smtp.port", "465");
-           Session session = Session.getDefaultInstance(properties); // default session 
+           Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", "aspmx.l.google.com"); 
+
+        Session session;
+        session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, "shini-42");
+            }
+        });
            
            try { 
                 MimeMessage message = new MimeMessage(session); // email message 
@@ -109,25 +134,11 @@ public class User extends Parent{
                                 "couple of more JAR files e.g. smtp.jar and activation.jar"); 
                 
                 // Send message 
-                Transport.send(message); System.out.println("Email Sent successfully...."); 
-               } catch (MessagingException mex){ mex.printStackTrace(); } 
-
-    }
+                Transport.send(message); 
+               }catch (MessagingException ex){ 
+                   Log.getOut(ex.getMessage()); 
+               } 
     
-    public Course getActiveCourse(int program){
-        try{
-            PreparedStatement stmt = db.getConn().prepareStatement
-            ("select * from user_has_course where user=? and " +
-             "course in (select course_id from course where program=?) and " +
-            "user_has_course_complited is null;");
-            stmt.setInt(1, this.ID);
-            stmt.setInt(2, program);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next())
-             return new Course(rs.getInt("course"));
-            else return null;
-                        
-            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
     }
     
     public ArrayList<User> Find(String find) {

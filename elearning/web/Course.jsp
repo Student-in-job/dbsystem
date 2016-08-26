@@ -14,7 +14,7 @@
 
 <%@include file="avtorize.jsp"%>
 <%
-boolean u = false;
+boolean u = false, c=true;
 
 int program_id = 0;
     Program prog;
@@ -26,7 +26,8 @@ int program_id = 0;
     catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
-    if(user!=null) u = user.getID()==prog.getTeacherID();
+    if(user!=null) {u = !prog.isPublished()&&user.getID()==prog.getTeacherID();
+                    c = prog.isPublished()&&user.getID()!=prog.getTeacherID();}
     
     ArrayList<Material> materials = prog.getMaterials();
     ArrayList<Test> tests = prog.getTests();
@@ -71,7 +72,7 @@ int program_id = 0;
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round success">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round success">DELETE</button></a>
 <%}%> 
-<%if(prog.isPublished()&&!u){%>                            
+<%if(c){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round success">START</button></a>
 <%}%> 
                         </p>
