@@ -27,7 +27,7 @@
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
-        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()==program)/*&&prog.getCourse()!=null**/){
+        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()!=program)/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
         <html>
@@ -71,7 +71,7 @@
                     <input type="hidden" name="program" value="<%=request.getParameter("program")%>">
                     <div class="form-item">
                         <label>Start Date</label>
-                        <input class="width-100" name="start" type="date" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>" required>
+                        <input class="width-100" name="start" type="date" value="<%=form.format(new Date())%>" required>
                     </div>
                     
                     <div class="form-item">
@@ -108,7 +108,7 @@
                 if(request.getMethod().equals("POST")){
 
                         Date start = form.parse(request.getParameter("start"));
-                        if(start.compareTo(new Date(new Date().getTime() + 3600*1000*24*7))<0) 
+                        if(start.before(new Date(new Date().getTime() - 1000*3600*24))) 
                             {%>
 <!DOCTYPE html>
 <html>
@@ -142,7 +142,7 @@
                     
                     <div class="form-item">
                         <label>Start Date</label>
-                        <input class="width-100" name="start" type="date" value="<%=form.format(new Date(new Date().getTime() + 3600*1000*24*8))%>" required>
+                        <input class="width-100" name="start" type="date" value="<%=form.format(new Date())%>" required>
                     </div>
                     
                     <div class="form-item">
