@@ -37,7 +37,7 @@
 <%
 if(user!=null){%>  
 <div class="col col-3">
-               <div class="col col-8 offset-3"> 
+               <div class="col col-8 offset-5"> 
                     <div class="user_board">
                     
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
@@ -57,8 +57,9 @@ if(user!=null){%>
                <div class="col col-3 text-right">
                    <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
                 <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
-<%}%>            
             </div>
+
+                <%}%>            
 
 	<div id="login-modal" class="modal-box hide">
 	    <div class="modal">
