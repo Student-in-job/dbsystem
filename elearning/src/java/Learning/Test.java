@@ -117,16 +117,16 @@ public class Test extends Component {
         return Time;
     }
     
-    public HashMap<Integer, User> getStatistic(){
+    public HashMap<User, Integer> getStatistic(){
         
-        HashMap<Integer, User> list = new HashMap<Integer, User>();   
+        HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
                 Statement stmt = DataBasePak.db.getConn().createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT distinct (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', accept_test_ball\n" +
                                             "FROM accept_test where test=2 order by accept_test_ball desc;");
-                for(int i=0; i<3&&rs.next(); i++)
+                while(list.size()<3&&rs.next())
                     try{
-                        list.put(rs.getInt("accept_test_ball"), new User(rs.getInt("user")));
+                        list.put(new User(rs.getInt("user")), rs.getInt("accept_test_ball"));
                     }catch(Exception ex){}
                 
         }catch(SQLException ex){Log.getOut(ex.getMessage());}

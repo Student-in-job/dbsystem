@@ -102,11 +102,11 @@
 for(Entry e : test.getStatistic().entrySet()){
 %>                
                 <div class="col">
-                    <span class="chart" data-percent="<%= 100* (int) e.getKey()/test.getBall() %>">
+                    <span class="chart" data-percent="<%= 100* (int) e.getValue()/test.getBall() %>">
                         <span class="percent"></span>
-                        <span class="answers"><br><%=e.getKey()%>/<%=test.getBall()%></span>
+                        <span class="answers"><br><%=e.getValue()%>/<%=test.getBall()%></span>
                     </span>
-                    <p><%=((User)e.getValue()).getName()%> <%=((User)e.getValue()).getSurname()%></p>
+                    <p><%=((User)e.getKey()).getName()%> <%=((User)e.getKey()).getSurname()%></p>
                 </div>
 <%}%>              
             </div>
