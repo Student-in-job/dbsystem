@@ -301,10 +301,20 @@ public class User extends Parent{
         return list;
     }
  
-    public boolean Change(String mail, String password, String name, String surname, Date birthday, String gender, Part part) throws Exception
+    public boolean Change(String password, String mail, String new_password, String name, String surname, Date birthday, String gender, Part part) throws Exception
     {
         if(!Logined) throw new IllegalAction();
-        User us = new User(mail, password, name, surname, birthday, gender);
+        if(!this.password.equals(password)) throw new IllegalAction();
+        
+        User us = new User(mail, new_password, name, surname, birthday, gender);
+        
+        if(us.mail==null) us.mail = this.mail;
+        if(us.password == null) us.password = this.password;
+        if(us.Name==null) us.Name = this.Name;
+        if(us.Surname==null) us.Surname = this.Surname;
+        if(us.Birthday==null) us.Birthday = this.Birthday;
+        if(us.Gender==null) us.Gender = this.Gender;
+        
         us.ID = this.ID;
         DataBase db = new DataBase(us);
         db.ReWrite();
@@ -337,7 +347,7 @@ public class User extends Parent{
                             this.Gender = rs.getString("gender");
                             Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
-                            
+                            password = rs.getString("passwords");
                     return true;
                 }
                 else return false;

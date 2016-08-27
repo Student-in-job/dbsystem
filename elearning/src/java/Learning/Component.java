@@ -55,7 +55,7 @@ public abstract class Component extends Parent{
     }
     
     public String getDateString(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM.");
         return dateFormat.format(this.Date);
     }
     
@@ -63,7 +63,7 @@ public abstract class Component extends Parent{
         Date = date;
     }
     
-    public void setCourse(Course cours){
+    /*public void setCourse(Course cours){
         Course = cours;
     }
     
@@ -73,6 +73,6 @@ public abstract class Component extends Parent{
     
     public Course getCourse(){
         return Course;
-    }
+    }*/
  
 }

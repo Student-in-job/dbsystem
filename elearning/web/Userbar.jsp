@@ -55,7 +55,7 @@
                 <div class="col text-center"> 
                     <br>
                     <br>
-                    <a class="button round outline">Settings &rarr;</a>
+                    <a class="button round outline" href="<%=request.getServletContext().getContextPath()%>/UserSettings.jsp">Settings &rarr;</a>
                 </div>
             </div>
             <div class="row userbar-2 ">
