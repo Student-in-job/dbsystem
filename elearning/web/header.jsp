@@ -58,8 +58,8 @@ if(user!=null){%>
                     
 <%}else{%>                
                <div class="col col-3 text-right">
-                   <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
-                <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
+                   <img src="<%=request.getServletContext().getContextPath()%>/img/<%=main%>login-ico.png"> 
+                <a class="<%=main%>login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
             </div>
 
                 <%}%>            

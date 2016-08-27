@@ -33,10 +33,22 @@
 .warning {
 	color: #fed443;
 }
-.login {
+.main-login {
 	color: #fff;
 	text-decoration: none;
 }
+
+.main-login:hover {
+	color: rgba(0, 0, 0, 0.6);
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.login {
+	color: #00BCD3;
+	text-decoration: none;
+}
+
 .login:hover {
 	color: rgba(0, 0, 0, 0.6);
 	cursor: pointer;
@@ -256,6 +268,35 @@
     border: 5px solid #fff;
 }
 
+.main-user_board button {
+  border-radius: 20px;
+    border: 1px solid #fff;
+    height: 25px;
+    padding: 0px 10px 0px 10px;
+    line-height: 25px;
+    margin-top: 10px;
+    background: #00BCD3;
+    font-size: 16px;
+    color: #fff;
+}
+
+.main-user_board button:hover {
+    background: #00BCD3;
+    color: #fff;
+}
+
+.main-user_board a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #fff;
+        
+}
+
+.main-user_board a:hover {
+    text-decoration: underline;
+    color: #f34248;
+}
+
 .user_board button {
   border-radius: 20px;
     border: 1px solid #00BCD3;
@@ -287,7 +328,7 @@
 
 .usr-img {
     border-radius: 50%;
-    border: 3px solid #fff;
+    border: 3px d #fff;
     width: 60px;
 }
 
