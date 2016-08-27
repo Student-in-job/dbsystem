@@ -1,22 +1,26 @@
 .fst-block{
-	background: url('../img/main-bg.png') no-repeat right;
-	height: 720px;
+	background: url('../img/main-bg.png') no-repeat right bottom;
+	min-height: 720px;
 }
 .course-block {
-	background: url('../img/c-bg.png') no-repeat left;
-	height: 720px;
+	background: url('../img/c-bg.png') no-repeat left bottom;
+	min-height: 720px;
+        padding-bottom: 190px;
 }
     .long-course-block {
 	background: url('../img/c-bg.png') no-repeat left bottom;
-	padding-bottom: 190px;
+	min-height: 720px;
+        padding-bottom: 190px;
     }
 .area-block {
-	background: url('../img/db-bg.png') no-repeat left;
-	height: 720px;
+	background: url('../img/db-bg.png') no-repeat left bottom;
+	min-height: 720px;
+        padding-bottom: 190px;
 }
 .user-block {
 	background: url('../img/user-bg.png') repeat-x bottom;
-	height: 740px;
+	min-height: 740px;
+        padding-bottom: 140px;
 }
 .footer {
 	background-color: #eee;
