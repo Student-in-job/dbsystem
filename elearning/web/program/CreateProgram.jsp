@@ -16,6 +16,7 @@
 
 <%@include file="../logfrag.jsp" %>
 <%
+    request.setCharacterEncoding("UTF-8");
     String name = null, inventory=null, typ=null, mark ="";
     int level=0, minlevel=-1, duration=0, program=0, area=0;
     Part img=null;

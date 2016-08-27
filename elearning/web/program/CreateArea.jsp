@@ -11,6 +11,7 @@
 
 <%@include file="../logfrag.jsp" %>
 <%
+    request.setCharacterEncoding("UTF-8");
     String name = null;
     
     if(request.getMethod()=="POST"){

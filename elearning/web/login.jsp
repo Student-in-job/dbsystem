@@ -75,7 +75,7 @@ if(request.getMethod()=="GET"){
 
 
                                                         <hr>
-                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center">Don`t have an account yet? <a href="Registration.jsp">Sign Up</a></p>    
                                                         <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
                                                     </form>
                                     </div> 
@@ -146,7 +146,7 @@ if(request.getMethod()=="GET"){
 
 
                                                         <hr>
-                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center">Don`t have an account yet? <a href="Registration.jsp">Sign Up</a></p>    
                                                         <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
                                                     </form>
                                     </div> 
@@ -225,7 +225,7 @@ if(request.getMethod()=="GET"){
 
 
                                                         <hr>
-                                                        <p class="text-center">Don`t have an account yet? <a href="registration.jsp">Sign Up</a></p>    
+                                                        <p class="text-center">Don`t have an account yet? <a href="Registration.jsp">Sign Up</a></p>    
                                                         <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
                                                     </form>
                                     </div> 

@@ -10,6 +10,8 @@
 
 <%@include file="../logfrag.jsp" %>
 <%
+    request.setCharacterEncoding("UTF-8");
+    
     int test = 0;
     Test tst;
     try{

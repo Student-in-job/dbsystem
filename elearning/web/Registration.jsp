@@ -14,6 +14,8 @@
 
 <%@include file="/avtorize.jsp"%>
 <%
+    request.setCharacterEncoding("UTF-8");
+    
     if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
     if (request.getMethod() == "GET") {
 %>

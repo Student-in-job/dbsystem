@@ -11,6 +11,8 @@
 
 <%@include file="../logfrag.jsp" %>
 <%
+    request.setCharacterEncoding("UTF-8");
+    
     int program = 0;
     Program pg;
     try{
