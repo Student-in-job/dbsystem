@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="java.io.IOException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="DataBasePak.*"%>
 <%@page import="java.util.Date"%>
@@ -148,8 +149,6 @@
 </html>
 <%
 }   
-
- else
     if (request.getMethod() == "POST") {
 
         SimpleDateFormat format = new SimpleDateFormat();
@@ -162,17 +161,11 @@
         Date birthday = format.parse(request.getParameter("birthday"));
 
         User nuser = new User(mail, password, name, surname, birthday, gender);
-        try {
-            nuser.Register(request.getPart("picture"));
-        } catch (IllegalAction ex) {
-            Log.getOut(ex.getMessage());
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction");
-            return;
-        } catch (SQLException ex) {
-            Log.getOut(ex.getMessage());
-            if (ex.getErrorCode() == 1062) {
-%>
 
+        DataBase db = new DataBase(nuser);
+        try{
+            db.FindUser();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -318,14 +311,17 @@
         <%@include file="footer.jsp" %>
     </body>
 </html>
-<%         return;
-                }
-            } catch (Exception ex) {
-                Log.getOut(ex.getMessage());
-                response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp");
-                return;
-            }
+<%           
+            return;
+        }catch(ObjectNotFind ex){}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
+     
 
-            response.sendRedirect("login.jsp");
+        try {
+            nuser.Register(request.getPart("picture"));
+}       catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getRequestURI()+"?e=password"); return;}
+        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
+     
+        response.sendRedirect("login.jsp");
         }
 %>

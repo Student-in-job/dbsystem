@@ -87,7 +87,6 @@ if(request.getMethod()=="GET"){
 </html>
 <%
 }
-else
     if(request.getMethod()=="POST"){
 
         String mail = request.getParameter("mail");
@@ -166,7 +165,7 @@ else
             if(request.getParameter("remember")!=null){
                 Cookie m = new Cookie("usermail", nuser.getMail()); 
                 m.setMaxAge(3600*24*30);
-                Cookie p = new Cookie("password", nuser.getPassword()); 
+                Cookie p = new Cookie("password", DigestUtils.md2Hex(nuser.getPassword())); 
                 p.setMaxAge(3600*24*30);
                 response.addCookie(m);
                 response.addCookie(p);

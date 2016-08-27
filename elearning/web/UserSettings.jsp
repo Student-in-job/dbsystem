@@ -178,7 +178,7 @@
         
         DataBase db = new DataBase(new User(mail, ""));
         try{
-            db.Find();
+            db.FindUser();
             response.sendRedirect(request.getRequestURI()+"?e=mail");
             return;
         }catch(ObjectNotFind ex){}
