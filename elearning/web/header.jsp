@@ -33,17 +33,29 @@
 	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
 	   	</div>
                 
-	    <div class="col col-3 text-right">
+	    
 <%
 if(user!=null){%>                
-                <div class="user_board ">
-                    <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
-                    <div class="float-right"><a  href="<%=request.getServletContext().getContextPath()%>/login.jsp?logout=ok" >Log out</a></div>
-                    <p><a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp"><%=user.getName()%></a> </p>
-
-                </div>
+               <div class="col col-3 "> 
+                <div class="user_board">
+                    
+                        <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
+                    
+                    <a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp">
+                        <button>
+                        
+                            <%=user.getName()%> &rarr;
+                        
+                        </button>
+                    </a>
+                    <br>
+                    <a  href="<%=request.getServletContext().getContextPath()%>/login.jsp?logout=ok" >Log out</a>
+                    
+                    </div>
+               </div>
 <%}else{%>                
-                <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
+               <div class="col col-3 text-right">
+                   <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
                 <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
 <%}%>            
             </div>
