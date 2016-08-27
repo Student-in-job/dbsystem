@@ -35,31 +35,31 @@
                 
 	    
 <%
-if(user!=null){%>                
-               <div class="col col-3 "> 
-                <div class="user_board">
+if(user!=null){%>  
+<div class="col col-3">
+               <div class="col col-8 offset-3"> 
+                    <div class="user_board">
                     
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
                     
                     <a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp">
                         <button>
-                        
                             <%=user.getName()%> &rarr;
-                        
                         </button>
                     </a>
                     <br>
-                    <a  href="<%=request.getServletContext().getContextPath()%>/login.jsp?logout=ok" >Log out</a>
-                    
+                    <a href="<%=request.getServletContext().getContextPath()%>/login.jsp?logout=ok" >Log out</a>
                     </div>
                </div>
+</div>
+                    
 <%}else{%>                
                <div class="col col-3 text-right">
                    <img src="<%=request.getServletContext().getContextPath()%>/img/login-ico.png"> 
                 <a class="login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
 <%}%>            
             </div>
-</div>
+
 	<div id="login-modal" class="modal-box hide">
 	    <div class="modal">
 	        <span class="close"></span>
@@ -91,7 +91,7 @@ if(user!=null){%>
 	        </div> 
             </div>
 	</div>
-               
+      </div>         
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
     <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
     <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
