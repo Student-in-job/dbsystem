@@ -64,7 +64,7 @@ int n = (p*N)<courses.size()?p+1:0;
         
         <%@include file="header.jsp"%>
         
-        <div class="long-course-block">
+        <div class="course-block">
 	<div class="row around">
 		<div class="col text-center">
 			<h3 class="upper success">Online Courses</h3>
