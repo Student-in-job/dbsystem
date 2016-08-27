@@ -110,7 +110,7 @@ public class Files extends Parent{
     protected boolean SaveFile() throws IOException{
         
         
-        String path = Path + this.getMaterial().getProgramID() + File.pathSeparator;
+        String path = Path + this.getMaterial().getProgramID() + File.separator;
         new File(path).mkdirs();
         path += Name;
         Part.write(path);

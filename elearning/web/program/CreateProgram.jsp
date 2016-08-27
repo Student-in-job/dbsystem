@@ -65,7 +65,6 @@
             }
             else{
                 np = new Program(program);
-                if(user.getID()!=np.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
                 np.Change(name, inventory, typ, level, minlevel, duration, user, img);
                 response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+np.getID()); return;
             }

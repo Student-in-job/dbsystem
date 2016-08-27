@@ -187,11 +187,7 @@ public class DataBase {
                 ErrorMessage += "Unknow type object; ";
             }
         }
-        
-        
-        
-        if(!Done)
-            ErrorMessage += "Can not resave data; ";
+
         
         
     }    
@@ -370,7 +366,7 @@ public class DataBase {
             stmt.setString(1, file.getName());
             stmt.setInt(2, file.getMaterialID());
             stmt.setString(3, file.getFileType());
-            stmt.setString(3, file.getTitle());
+            stmt.setString(4, file.getTitle());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();

@@ -32,6 +32,7 @@ public class Upload extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         
         User user = (User) request.getSession().getAttribute("user");
         if(user==null){response.sendRedirect("../login.jsp"); return;}
@@ -45,7 +46,7 @@ public class Upload extends HttpServlet {
                 try{
                     Files file = new Files(part, title);
                     file.Write(new Material(material), user);
-                    response.sendRedirect("Material.jsp?material="+material);
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+material);
                 }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
                 catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;} 
                 catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 
@@ -57,7 +58,7 @@ public class Upload extends HttpServlet {
                 try{
                     Files file = new Files(name, title);
                     file.Write(new Material(material), user);
-                    response.sendRedirect("Material.jsp?material="+material);
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+material);
                 }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
                 catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;} 
                 catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IOExtension"); return;} 

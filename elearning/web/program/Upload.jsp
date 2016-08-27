@@ -38,7 +38,7 @@
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form id="form1" class="form" action="/elearning/program/Upload" method="post" enctype="multipart/form-data">
+                <form id="form1" class="form" action="Upload" method="post" enctype="multipart/form-data">
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     
                     <div class="form-item">        
@@ -57,7 +57,7 @@
         
    
         
-                <form id="form2" class="form" action="/elearning/program/Upload" method="post">
+                <form id="form2" class="form" action="Upload" method="post">
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     
                     <div class="form-item">        
@@ -92,7 +92,7 @@
                         
                         data:{
                             required:true,
-                            accept: "doc|docx|pdf|ppt|pptx"
+                            accept: "doc|docx|pdf|ppt|pptx|mp4"
                         }                        
                    }
 

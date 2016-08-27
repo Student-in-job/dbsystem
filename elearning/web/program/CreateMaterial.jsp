@@ -70,7 +70,7 @@ if(request.getMethod()=="POST"){
         else{
                 nm = new Material(material);
                 nm.Change(typ, text, name, inventory, day, user);
-                response.sendRedirect("Material.jsp?material="+nm.getID());
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+nm.getID());
         }
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
