@@ -15,16 +15,18 @@ User user = (User) session.getAttribute("user");
 if(user==null) {
     String mail=null, cpassword = null;
     Cookie[] c = request.getCookies();
-    for(int i=0; i<c.length; i++){
-        if(c[i].getName().equals("usermail")){
-            mail = c[i].getValue();
-            for(int j=0; j<c.length; j++){
-                if(c[j].getName().equals("password")){
-                    cpassword = c[j].getValue();
-                    break;
+    if(c!=null){
+        for(int i=0; i<c.length; i++){
+            if(c[i].getName().equals("usermail")){
+                mail = c[i].getValue();
+                for(int j=0; j<c.length; j++){
+                    if(c[j].getName().equals("password")){
+                        cpassword = c[j].getValue();
+                        break;
+                    }
                 }
+                break;
             }
-            break;
         }
     }
     if(mail!=null&&cpassword!=null){

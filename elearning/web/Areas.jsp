@@ -4,7 +4,6 @@
     Author     : ksinn
 --%>
 
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
