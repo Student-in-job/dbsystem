@@ -9,6 +9,7 @@ import DataBasePak.Log;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 public class Test extends Component {
 
     protected int Time;
+    protected int Ball;
     
     @Override
     public int getID(){
@@ -62,7 +64,7 @@ public class Test extends Component {
                     this.Program = new Program(rs.getInt("program"));
                     this.Inventory = rs.getString("test_text");
                     this.Time = rs.getInt("test_time");
-        
+        this.getBallfromDB();
         
         
 
@@ -121,9 +123,10 @@ public class Test extends Component {
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
-                Statement stmt = DataBasePak.db.getConn().createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT distinct (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', accept_test_ball\n" +
-                                            "FROM accept_test where test=2 order by accept_test_ball desc;");
+                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement("SELECT distinct (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', accept_test_ball\n" +
+                    "FROM accept_test where test=? order by accept_test_ball desc;");
+                stmt.setInt(1, ID);
+                ResultSet rs = stmt.executeQuery();
                 while(list.size()<3&&rs.next())
                     try{
                         list.put(new User(rs.getInt("user")), rs.getInt("accept_test_ball"));
@@ -136,11 +139,19 @@ public class Test extends Component {
     }
     
     public int getBall(){
-        int ball=0;
-        ArrayList<TestTask> task = this.getTask();
-        for(int i=0; i<task.size(); i++)
-            ball+=task.get(i).getPoint();
-        return ball;
+        
+        return Ball;
+    }
+
+    private void getBallfromDB() {
+        try{
+                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement("select sum(test_task_ball) from test_task where test=?;");
+                stmt.setInt(1, this.ID);
+                ResultSet rs = stmt.executeQuery();
+                rs.next();
+                Ball = rs.getInt("sum(test_task_ball)");
+                
+        }catch(SQLException ex){Log.getOut(ex.getMessage());}
     }
 
 }
