@@ -103,42 +103,14 @@ public class User extends Parent{
             }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
     }
     
-    public void SendPassword(){
-        String to = "phantomus94@gmail.com";         // sender email 
-        String from = "ksinnd@gmail.com";       // receiver email 
-        String host = "smtp.gmail.com";            // mail server host 
-
-           Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "aspmx.l.google.com"); 
-
-        Session session;
-        session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, "shini-42");
-            }
-        });
-           
-           try { 
-                MimeMessage message = new MimeMessage(session); // email message 
-
-                message.setFrom(new InternetAddress(from)); // setting header fields  
-
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to)); 
-
-                message.setSubject("Test Mail from Java Program"); // subject line 
-
-                // actual mail body   
-                message.setText("You can send mail from Java program by using mail API, but you need" +          
-                                "couple of more JAR files e.g. smtp.jar and activation.jar"); 
-                
-                // Send message 
-                Transport.send(message); 
-               }catch (MessagingException ex){ 
-                   Log.getOut(ex.getMessage()); 
-               } 
-    
+    public void SendPassword() throws Exception{
+        
+        if(this.Logined) throw new IllegalAction();
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.FindUser();
+        rs.next();
+        SendMail Mail = new SendMail();
+        Mail.send("Reset password", "You password is \n"+rs.getString("passwords"), this.mail);
     }
     
     public ArrayList<User> Find(String find) {

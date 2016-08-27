@@ -35,10 +35,13 @@
                 
 	    
 <%
+String main=(request.getServletContext().getContextPath()+"/").equals(
+        request.getRequestURI()
+)?"main-":"";
 if(user!=null){%>  
 <div class="col col-3">
                <div class="col col-8 offset-5"> 
-                    <div class="user_board">
+                    <div class="<%=main%>user_board">
                     
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
                     
@@ -87,7 +90,7 @@ if(user!=null){%>
                                     
 				    <hr>
                                     <p class="text-center">Don`t have an account yet? <a href="<%=request.getServletContext().getContextPath()%>/Registration.jsp">Sign Up</a></p>    
-                                    <p class="text-center"><a href="#" >Lost your password?</a></p>
+                                    <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
 				</form>
 	        </div> 
             </div>

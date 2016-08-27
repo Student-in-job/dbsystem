@@ -7,8 +7,7 @@
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-User user = new User(1);
-user.SendPassword();
+
 %>
 <!doctype html>
 <html lang="en">
