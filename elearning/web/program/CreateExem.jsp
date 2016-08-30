@@ -25,8 +25,8 @@
     
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
-    String name=null, inventory = null;
-    int day=0, test, time=0;
+    String name="Final Exam", inventory = "Required final exam for the program "+pg.getName();
+    int day=pg.getDuration(), test, time=0;
     Test nt;
     test = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
  
@@ -37,9 +37,6 @@ if(request.getMethod()=="GET"){
             nt = new Test(test);
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-        name = nt.getName();
-        day = nt.getDay();
-        inventory = nt.getInventory();
         program = nt.getProgramID();
         time=nt.getTime();
 
@@ -48,9 +45,6 @@ if(request.getMethod()=="GET"){
 }    
 if(request.getMethod()=="POST"){
     
-    name = request.getParameter("name");
-    inventory = request.getParameter("inventory");
-    day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
     
         try{
@@ -103,17 +97,17 @@ if(request.getMethod()=="POST"){
                     
                     <div class="form-item">
                         <label>Name:</label>
-                        <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
+                        <input class="width-100" readonly required type="text" name="name" value="<%=name%>">
                     </div>
                     
                     <div class="form-item">
                         <label>Inventory:</label>
-                        <textarea required name="inventory"><%=inventory==null?"":inventory%></textarea>
+                        <textarea required readonly name="inventory"><%=inventory%></textarea>
                     </div>
                     
                     <div class="form-item">
                         <label>Day:</label>
-                        <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>">
+                        <input class="width-100" readonly required min="1" max="183" type="number" name="day" value="<%=day%>">
                     </div>
                     
                     <div class="form-item">

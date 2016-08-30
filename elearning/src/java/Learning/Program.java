@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import javax.servlet.http.Part;
 
@@ -158,8 +160,13 @@ public class Program extends Parent{
                         }
             } catch(Exception ex){
                     Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-                }
-        
+            }
+        Collections.sort(list, new Comparator<Test>() {
+        @Override
+        public int compare(Test o1, Test o2) {
+                return o1.getDay() - o2.getDay();
+        }
+        });
         return list;
     }
        
@@ -179,6 +186,12 @@ public class Program extends Parent{
                     Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
                 }
         
+        Collections.sort(list, new Comparator<Material>() {
+        @Override
+        public int compare(Material o1, Material o2) {
+                return o1.getDay() - o2.getDay();
+        }
+        });
         return list;
     }  
     
@@ -186,12 +199,14 @@ public class Program extends Parent{
     public void Write(User user, Part part) throws Exception
     {
         if(Level<=MinLevel) throw new InvalidParameter();
-        if(Typ.equals("Seminar") && Duration>7) throw new InvalidParameter();
+        /*if(Typ.equals("Seminar") && Duration>7) throw new InvalidParameter();
         if(Typ.equals("Mini") && (Duration<7)) throw new InvalidParameter();
-        if(Typ.equals("Standart") && Duration<7) throw new InvalidParameter();
+        if(Typ.equals("Standart") && Duration<7) throw new InvalidParameter();*/
         
         Teacher = user;
         this.write();
+        Test exem = new Test("Exem", this.Duration, "Required final exam for the program "+this.getName(), 60);
+        exem.Write(this, user);
         IcoFile file = new IcoFile(part, this);
         file.SaveFile();
     }
@@ -205,6 +220,14 @@ public class Program extends Parent{
         prg.ID = this.ID;
         DataBase db = new DataBase(prg);
         db.ReWrite();
+        Test e;
+        ArrayList<Test> tests = this.getTests();
+        for(int i = tests.size()-1; i>=0; i--)
+            if(tests.get(i).isExem()){
+                e = tests.get(i);
+                e.Change(e.getName(), e.getInventory(), this.Duration, user, e.getTime());
+            }
+        
         if(part!=null){
             IcoFile file = new IcoFile(part, this);
             file.SaveFile();}
@@ -214,7 +237,7 @@ public class Program extends Parent{
     public boolean Publish(User user) throws Exception{
         
         if(Teacher.getID() != user.getID()) throw new IllegalAction();
-        if(this.Correct()!=null) throw new InvalidParameter();
+        if(this.Correct()!=null)  return false;//throw new InvalidParameter();
         this.State = "active";
         DataBase db = new DataBase(this);
         db.ReWrite();
@@ -284,24 +307,22 @@ public class Program extends Parent{
         return this.State;
     }
 
-    private String Correct(){
+    public String Correct(){
         
+        String error="";
         ArrayList<Material> materials = this.getMaterials();
+        if(materials.isEmpty()) error+= "Нет ни одного материала; \n";
         for(int i=0; i<materials.size(); i++){
-            if(materials.get(i).getDocFile().size()<1) return "У лекции "+materials.get(i).getName() + " нет файлов";
+            if(materials.get(i).getDay()>this.getDuration()) error+=  "Лекция "+materials.get(i).getName() + " выходит за временные рамки курса\n";
+            if(materials.get(i).getDocFile().size()<1) error+=  "У лекции "+materials.get(i).getName() + " нет документа\n";
         }
-        if(materials.size()==0) return "Нет ни одного материала; ";
-        if(this.Typ.equals("Seminar")) return null;
-        if((this.Typ.equals("Mini")&&materials.size()<2)||(this.Typ.equals("Standard")&&materials.size()<5)) return "Недостаточно материалов; ";
         ArrayList<Test> tests = this.getTests();
-        if(tests.size()==0) return "Нет ни одного теста; ";
-        if(this.Typ.equals("Mini")) return null;
-        if(tests.size()<materials.size()/2) return "Недостаточно тестов; ";
         for(int i=0; i<tests.size(); i++){
-            if(tests.get(i).getTask().size()<=3)
-                return "Недоастаточно вопросов в тесте "+tests.get(i).getName();
+            if(tests.get(i).getDay()>this.getDuration()) error+=  "Тест "+tests.get(i).getName() + " выходит за временные рамки курса\n";
+            if(tests.get(i).getTask().size()<1)
+                error+=  "Отсутствуют вопросы в тесте "+tests.get(i).getName()+"\n";
             }
-        return null;
+        return error.equals("")?null:error;
         
     }
     

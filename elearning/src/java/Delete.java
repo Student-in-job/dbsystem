@@ -129,30 +129,37 @@ public class Delete extends HttpServlet {
         }
         
         String param=request.getParameter("param"); int value=Integer.parseInt(request.getParameter("value"));
-            try{
+        Parent pg=null;    
+        try{
                 if("program".equals(param)){
 
                     Program p = new Program(value);
+                    pg=p.getTeacher();
                     p.Delete();
                 }
                 if("material".equals(param)){
 
                     Material p = new Material(value);
+                    pg=p.getProgram();
                     p.Delete();
                 }
                 if("test".equals(param)){
 
                     Test p = new Test(value);
+                    if(p.getName().equals("Exem")&&p.getDay()==p.getProgram().getDuration()) throw new IllegalAction();
+                    pg=p.getProgram();
                     p.Delete();
                 }
                 if("testtask".equals(param)){
 
                     TestTask p = new TestTask(value);
+                    pg=p.getTest();
                     p.Delete();
                 }
                 if("files".equals(param)){
 
                     Files p = new Files(value);
+                    pg=p.getMaterial();
                     p.Delete();
                 }
                 if("user".equals(param)){
@@ -164,8 +171,16 @@ public class Delete extends HttpServlet {
             catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
             catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
             catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
-
-        response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
+        
+        if(pg==null) response.sendRedirect(request.getServletContext().getContextPath());
+        switch(pg.getType()){
+            case "program": {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+pg.getID()); return;}
+            case "material": {response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+pg.getID()); return;}
+            case "test": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/Test.jsp?test="+pg.getID()); return;}
+            case "user": {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
+            default: {response.sendRedirect(request.getServletContext().getContextPath()); return;}
+        }
+        
         
     }
 

@@ -49,12 +49,13 @@
         name = request.getParameter("name");
         inventory = request.getParameter("inventory");
         area = Integer.parseInt(request.getParameter("area")==null?"0":request.getParameter("area"));
-        typ = request.getParameter("typ");
+        typ = "Standart";//request.getParameter("typ");
         level = Integer.parseInt(request.getParameter("level")==null?"0":request.getParameter("level"));
         minlevel = Integer.parseInt(request.getParameter("minlevel")==null?"0":request.getParameter("minlevel"));
         duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
         img = request.getPart("picture");
-        
+        if(img.getSize()==0) img=null;
+
         if(minlevel<=level){
         
         try{    
@@ -120,7 +121,7 @@ for(int i=0; i<arealist.size(); i++){
                         <textarea rows="6" required  name="inventory"><%=inventory!=null?inventory:""%></textarea>
                     </div>
                     
-                    <div class="form-item">
+<%--                    <div class="form-item">
                         <label>Type:</label>
                         <select required required name="typ" >
                             <option <%="Seminar".equals(typ)?"selected":""%> value="Seminar">Seminar</option>
@@ -128,7 +129,7 @@ for(int i=0; i<arealist.size(); i++){
                             <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
                         </select>
                     </div> 
-                        
+--%>                        
                     <div class="form-item">
                         <label>Level:</label>
                         <label>Какой уровень будет после прохождения курса</label>
@@ -138,7 +139,7 @@ for(int i=0; i<arealist.size(); i++){
                     <div class="form-item">
                         <label>Min - Levet:</label>
                         <label>Какого уровня курс надо прайти, для зачисления</label>
-                        <input class="width-100" required type="number" min="0" max="2" name="minlevel" value="<%=minlevel!=-1?minlevel:""%>">
+                        <input class="width-100" required type="number" min="0" max="2" name="minlevel" value="<%=minlevel!=-1?minlevel:"0"%>">
                     </div>
                     
                     <div class="form-item">

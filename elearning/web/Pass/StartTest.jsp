@@ -96,7 +96,7 @@
                 </p>
             </div>
 
-            <div class="row centered best-results">
+            <div class="row centered best-results ">
                 <h4 class="col col-12">BEST RESULTS</h4>
 <%
 for(Entry e : test.getStatistic().entrySet()){

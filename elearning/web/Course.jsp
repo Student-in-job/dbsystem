@@ -48,8 +48,30 @@ int program_id = 0;
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/extend/tabs.js"></script>
 
+        <script>  
+        function publish()  
+        {  
+            $.ajax({  
+                url: "<%=request.getServletContext().getContextPath()%>/program/Publishe?program=<%=prog.getID()%>",  
+                cache: false, 
+                error: function(){
+                    document.getElementById('mesagge').style.display = 'block';
+                    $("#mesagge").html("Error");
+                },
+                success: function(data){
+                    if(data!=null){ 
+                        document.getElementById('mesagge').style.display = 'block';
+                        $("#mesagge").html(data); 
+                    } 
+                }  
+            });  
+        } 
+         
+    </script> 
+        
     </head>
     <body>
+        <div id="mesagge" style="display: none;"></div>
         <%@include file="header.jsp" %>
         <div class="row centered">
             <div class="col col-8">
@@ -63,7 +85,7 @@ int program_id = 0;
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=prog.getIco()%>" alt="" class="float-left" style="margin-right: 20px; margin-bottom: 20px;">
                         <p class="middle">
                             Type: Selfstudy <br>
-                            Area: <%=prog.getArea().getName()%><br>
+                            Area: <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=prog.getArea().getID()%>"><%=prog.getArea().getName()%></a><br>
                             Duration: <%=prog.getDuration()%> days<br>
                             Level: <%=prog.getLevel()%><br>
                             Minimal Level: <%=prog.getMinLevel()%><br>
@@ -71,6 +93,8 @@ int program_id = 0;
 <%if(u){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round success">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round success">DELETE</button></a>
+                            <%if(prog.Correct()==null){%><button class="button small round success" onclick="publish()">PUBLISHE</button>
+<%}%>
 <%}%> 
 <%if(c){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round success">START</button></a>
@@ -138,7 +162,7 @@ if(u){%>
 <%if(u){%> 
                         <div>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Test.jsp?test=<%=tests.get(i).getID()%>"><button class="button small round success">UPDATE</button></a>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round primary">DELETE</button></a>
+                           <%if(!tests.get(i).isExem()){%><a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round primary">DELETE</button></a><%}%>
 
                         </div>
 <%}%>                            

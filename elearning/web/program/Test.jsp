@@ -26,7 +26,7 @@
     <body>
         <h1>
             Name: <%=test.getName()%>
-            <a href="EditTest.jsp?test=<%=test.getID()%>">*</a>
+            <a href="CreateTest.jsp?program=<%=test.getProgramID()%>&test=<%=test.getID()%>">*</a>
             <a href="Delete?test=<%=test.getID()%>">-</a>
         </h1>
         <h2>Day: <%=test.getDay()%></h2>
@@ -36,7 +36,7 @@
         <li>
             <p>
                 <%=task.get(i).getQuestion()%> (<%=task.get(i).getPoint()%>)
-                <a href="EditTestTask.jsp?testtask=<%=task.get(i).getID()%>">*</a>
+                <a href="CreateTestTask.jsp?test=<%=test.getID()%>&testtask=<%=task.get(i).getID()%>">*</a>
                 <a href="Delete?testtask=<%=task.get(i).getID()%>">-</a>
             </p>
             <ul>

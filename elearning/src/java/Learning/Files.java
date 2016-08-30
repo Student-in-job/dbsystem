@@ -97,24 +97,34 @@ public class Files extends Parent{
         
         FileType = extractFileExtension(Name).equals("mp4")?"video":"document";
         Material = material;
-        this.write();
-        if(Part!=null){
-            if(!this.SaveFile()) {
-                DataBase db = new DataBase(this);
-                db.Delete();
-            }
+        if(this.SaveFile()) {
+            this.write();
         }
-        
     }
+
     
     protected boolean SaveFile() throws IOException{
         
         
         String path = Path + this.getMaterial().getProgramID() + File.separator;
         new File(path).mkdirs();
-        path += Name;
-        Part.write(path);
-        return new File(path).exists();
+        String testName = Name;
+        while(new File(path+testName).exists())
+           testName = this.NextName();
+        Name = testName;
+        Part.write(path+Name);
+        return new File(path+Name).exists();
+    }
+    
+    int i=1;
+    private String NextName(){
+        
+       String NewName;
+       String n = Name.substring(0, Name.lastIndexOf("."));
+       String e = Name.substring(Name.lastIndexOf("."), Name.length());
+       NewName = n + "_" + String.valueOf(i) + e;
+       i++;
+       return NewName;
     }
     
     static private String extractFileName(Part part) {

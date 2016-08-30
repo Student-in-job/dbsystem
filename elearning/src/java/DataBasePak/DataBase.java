@@ -382,7 +382,7 @@ public class DataBase {
             
             PreparedStatement stmt = Connection.prepareStatement
         ("INSERT INTO test_task (test_task_text, test_task_answer, test_task_v1, test_task_v2, test_task_v3, test_task_v4, test_task_ball, test) " +
-                                            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+                                            " VALUES (?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, task.getQuestion());
             stmt.setString(2, task.getAnswer());
             stmt.setString(3, task.getVariant1());
@@ -405,7 +405,7 @@ public class DataBase {
         Test test = (Test) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO test(test_name, test_day, program, test_text) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+        ("INSERT INTO test(test_name, test_day, program, test_text, test_time) VALUES (?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, test.getName());
             stmt.setInt(2, test.getDay());
             stmt.setInt(3, test.getProgramID());

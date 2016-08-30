@@ -154,7 +154,7 @@ public class AcceptTest  extends Parent{
     }
     
     public Date getEndTime(){
-        return new Date(StartTime.getTime()+Test.getTime()*1000);
+        return new Date(StartTime.getTime()+Test.getTime()*60*1000);
     }
 
     @Override

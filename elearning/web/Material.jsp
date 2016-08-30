@@ -51,6 +51,7 @@ ArrayList<Files> vfile = mat.getVideoFile();
         <div class="row centered">
             <div class="col col-9">
                 <h2><%=mat.getName()%></h2>
+                <h3><a = href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=mat.getProgramID()%>"><%=mat.getProgram().getName()%></a></h3> Day <%=mat.getDay()%>
                 <p>
 <%if(u){%>                    <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=mat.getID()%>&program=<%=mat.getProgramID()%>"><button class="button small round success">UPDATE</button></a>
                     <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=mat.getID()%>"><button class="button small round success">DELETE</button></a>

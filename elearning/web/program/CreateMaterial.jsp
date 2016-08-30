@@ -128,7 +128,7 @@ if(request.getMethod()=="POST"){
                     
                     <div class="form-item">
                         <label>Day</label>
-                        <input class="width-100" name="day" min="1" name="day" value="<%=day!=0?day:""%>" type="text" required>
+                        <input class="width-100" type="number" min="1" name="day" value="<%=day!=0?day:""%>" type="text" required>
                     </div>
                     
                     <div class="form-item">
@@ -137,7 +137,7 @@ if(request.getMethod()=="POST"){
                     </div>
                     
                     <div class="form-item">
-                    <label>Inventory</label>
+                    <label>Text</label>
                     <textarea required name="text" id="input"><%=text!=null?text:""%></textarea>
                     </div>
                     

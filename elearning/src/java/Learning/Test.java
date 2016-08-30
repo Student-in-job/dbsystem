@@ -12,7 +12,6 @@ import DataBasePak.IllegalAction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -123,8 +122,12 @@ public class Test extends Component {
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
-                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement("SELECT distinct (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', accept_test_ball\n" +
-                    "FROM accept_test where test=? order by accept_test_ball desc;");
+                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement(
+                                        "SELECT (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', max(accept_test_ball) as 'accept_test_ball' " +
+                                        "FROM accept_test  " +
+                                        "where test=?  " +
+                                        "group by user " +
+                                        "order by accept_test_ball desc;");
                 stmt.setInt(1, ID);
                 ResultSet rs = stmt.executeQuery();
                 while(list.size()<3&&rs.next())
@@ -152,6 +155,10 @@ public class Test extends Component {
                 Ball = rs.getInt("sum(test_task_ball)");
                 
         }catch(SQLException ex){Log.getOut(ex.getMessage());}
+    }
+
+    public boolean isExem() {
+        return "Exem".equals(Name);
     }
 
 }
