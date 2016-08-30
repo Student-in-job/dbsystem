@@ -339,3 +339,17 @@
 table {
     max-width: 98%;
 }
+
+.p-error {
+    color: #575757;
+    margin-top: 15px;
+}
+
+.p-error h3 {
+    color: #575757;
+}
+
+.bg-blue {
+ background: url(../img/blue_bg.png) no-repeat bottom;
+    padding-bottom: 130px;
+}
