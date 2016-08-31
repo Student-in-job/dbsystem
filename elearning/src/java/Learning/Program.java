@@ -245,7 +245,7 @@ public class Program extends Parent{
     }
     
     public boolean MayAddTest(){
-        return !this.Typ.equals("Seminar");
+        return true;
     }
     
     public boolean MayAddMaterial(){
