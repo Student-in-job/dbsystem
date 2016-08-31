@@ -72,6 +72,7 @@
                         
                             <div id="created_courses" class="courses">
                                 <h3>Created courses</h3>
+<%=created_program.isEmpty()?"<p>Nothing yet</p>":""%>                                
 <%for(int i=0; i<created_program.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=created_program.get(i).getID()%>"><%=created_program.get(i).getName()%></a>
@@ -81,6 +82,7 @@
                             
                             <div id="active_courses" class="courses">
                                 <h3>Active courses</h3>
+<%=activ_program.isEmpty()?"<p>Nothing yet</p>":""%>                                 
 <%for(int i=0; i<activ_program.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
@@ -90,6 +92,7 @@
                             
                             <div id="learn_courses" class="courses">
                                 <h3>Learn courses</h3>
+<%=learning_cours.isEmpty()?"<p>Nothing yet</p>":""%>                                
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
@@ -99,6 +102,7 @@
                             
                             <div id="finished_courses" class="courses">
                                 <h3>Finished courses</h3>
+<%=learned_cours.isEmpty()?"<p>Nothing yet</p>":""%>                                 
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
@@ -110,7 +114,7 @@
                             <h3>Schedule</h3>
                             <table class="striped bordered">   
                                 <tbody>
-                            
+<%=ush.isEmpty()?"<tr><td>Nothing yet</td></tr>":""%>                             
 <%
 Day d;
 Calendar c = new GregorianCalendar();

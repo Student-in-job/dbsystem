@@ -75,6 +75,7 @@
                         
                             <div id="active_courses" class="courses">
                                 <h3>Active courses</h3>
+<%=activ_program.isEmpty()?"<p>Nothing yet</p>":""%>                                 
 <%for(int i=0; i<activ_program.size(); i++) {%>  
                 <p>
                     <a href="program/Program.jsp?program=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
@@ -84,6 +85,7 @@
                             
                             <div id="learn_courses" class="courses">
                                 <h3>Learn courses</h3>
+<%=learning_cours.isEmpty()?"<p>Nothing yet</p>":""%>
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
@@ -93,34 +95,14 @@
                             
                             <div id="finished_courses" class="courses">
                                 <h3>Finished courses</h3>
+<%=learned_cours.isEmpty()?"<p>Nothing yet</p>":""%>  
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
                     <a href="<%=request.getServletContext().getContextPath()%>/program/Program.jsp?program=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
-                        
-                        <div id="schedule" class="courses">
-                            <h3>Расписание</h3>
-<%
-Day d;
-Calendar c = new GregorianCalendar();
-for(int j=0; j<7; j++){
-    c.add(Calendar.DAY_OF_YEAR, 1);
-    d = ush.getDay(c);
-    if(d!=null){
-        for(int i=0; i<d.Size(); i++){              
-            if(d.get(i).getType().equals("test")){%>
-                <p><a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
-            <%}if(d.get(i).getType().equals("material")){%>
-                <p><a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a> - <%=d.get(i).getDateString()%></p>
-            <%}
-        }
-    }
-}
-%>
-                        </div>
-                    
+                           
                 </div>
             </div>
         </div>  

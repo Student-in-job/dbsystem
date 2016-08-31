@@ -56,6 +56,10 @@ public class UserSchedule {
             }
         }
    }
+   
+   public boolean isEmpty(){
+       return List.isEmpty();
+   }
     
     
 }
