@@ -126,8 +126,8 @@ for(int j=0; j<7; j++){
             if(d.get(i).getType().equals("test")){%>
                                     <tr>
                                         <td>
-                                            <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
-                                            <br><%=d.get(i).getProgram().getName()%>
+                                            test: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                            <br><%=d.get(i).getProgram().getName()%>                                           
                                         </td>
                                         <td>
                                             <%=d.get(i).getDateString()%>
@@ -138,7 +138,7 @@ for(int j=0; j<7; j++){
             <%}if(d.get(i).getType().equals("material")){%>
                                     <tr>
                                         <td>
-                                            <a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                            material: <a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
                                             <br><%=d.get(i).getProgram().getName()%>
                                         </td>
                                         <td>

@@ -80,15 +80,15 @@
                     <div class="form-item">
                         <label>Day <%=entry.getKey()%>:</label>
                         <input class="width-100"  required type="date" name="<%=entry.getKey()%>" value="<%=form.format(((Day)entry.getValue()).getDate())%>">
-                        <div>
+                        <ul>
 <%for(int i=0; i<((Day)entry.getValue()).Size(); i++){%>
-                            <p><%=((Day)entry.getValue()).get(i).getName()%></p>
+                            <li><%=((Day)entry.getValue()).get(i).getType()%>: <%=((Day)entry.getValue()).get(i).getName()%></li>
 <%}%>
-                        </div>
+                        </ul>
                     </div>
 <%}%>
                     <div class="form-item">
-                        <button class="button primary width-100 big">Complete Sign Up</button>
+                        <button class="button primary width-100 big">Complete</button>
                     </div>
                 </form>
             </div>
