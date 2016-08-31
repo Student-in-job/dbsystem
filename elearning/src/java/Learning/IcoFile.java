@@ -23,7 +23,8 @@ public class IcoFile{
     protected Parent Owener;
     protected Part Part;
     protected final String Path = db.getRealPath()+db.getFileDir();
-    
+    protected int Xx;
+    protected int Yy;
     
     
 
@@ -45,17 +46,11 @@ public class IcoFile{
         path += Owener.getID()+".png";
         BufferedImage img = ImageIO.read(Part.getInputStream());
         
-        int x, y, X, Y;
-        float k = 266/164;
-        X = img.getWidth();
-        Y = img.getHeight();
-        if(Y>X*k) {x=X; y = (int) (X*k);}
-        else {y = Y; x=(int) (y/k);}
-        img = img.getSubimage( 0, 0, x, y);
+        this.resize(img);
         
-        BufferedImage img_litl = new BufferedImage(266, 164, BufferedImage.TYPE_INT_RGB);
+        BufferedImage img_litl = new BufferedImage(Xx, Yy, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = img_litl.createGraphics();
-        g.drawImage(img, 0, 0, 266, 164, null);
+        g.drawImage(img, 0, 0, Xx, Yy, null);
         g.dispose();
         ImageIO.write(img_litl, "png", new File(path));
         return new File(path).exists();
@@ -83,6 +78,25 @@ public class IcoFile{
         }
         else return "";
     }
-      
+     
+    
+    protected void resize(BufferedImage img){
+        
+        
+        switch(this.Owener.getType()){
+            case "area":{Xx=266; Yy=164; break;}
+            case "user":{Xx=168; Yy=168; break;}
+            case "program":{Xx=266; Yy=193; break;}
+        }
+        float k =  (float) (Xx/Yy);
+        int X = img.getWidth();
+        int Y = img.getHeight();
+        int x,y;
+        
+        if(Y>X/k) {x=X; y = (int) (x/k);}
+        else {y = Y; x=(int) (y*k);}
+        img = img.getSubimage( 0, 0, x, y);
+        
+    }
 
 }

@@ -6,6 +6,7 @@
 package Learning;
 
 import DataBasePak.*;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -129,7 +130,10 @@ public class Area extends Parent{
     }
     
     public String getIco(){
-         return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";;
+        if(new File(db.getRealPath()+path).exists())
+            return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        else return "img/default_area.png";
     } 
 }
 

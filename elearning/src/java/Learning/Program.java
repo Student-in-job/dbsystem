@@ -9,6 +9,7 @@ import DataBasePak.db;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -327,7 +328,10 @@ public class Program extends Parent{
     }
     
     public String getIco(){
-         return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";;
+        if(new File(db.getRealPath()+path).exists())
+            return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        else return "img/default_program.png";
     }    
     
 }

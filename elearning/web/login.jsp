@@ -13,6 +13,7 @@
 
 <%
 String path = (String) session.getAttribute("rederectto");
+session.removeAttribute("rederectto");
 if(path==null) path ="";
 if(request.getParameter("logout")!=null){
     

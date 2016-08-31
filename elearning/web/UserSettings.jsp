@@ -176,14 +176,15 @@
         String gender = request.getParameter("gender");
         Date birthday = format.parse(request.getParameter("birthday"));
         
-        DataBase db = new DataBase(new User(mail, ""));
-        try{
-            db.FindUser();
-            response.sendRedirect(request.getRequestURI()+"?e=mail");
-            return;
-        }catch(ObjectNotFind ex){}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-     
+        if(!user.getMail().equals(mail)){
+            DataBase db = new DataBase(new User(mail, ""));
+            try{
+                db.FindUser();
+                response.sendRedirect(request.getRequestURI()+"?e=mail");
+                return;
+            }catch(ObjectNotFind ex){}
+            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
+        }
 
         try {
             user.Change(request.getParameter("password"), mail, password, name, surname, birthday, gender, request.getPart("picture"));
