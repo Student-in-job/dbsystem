@@ -43,4 +43,6 @@
     color: #fed443;
     border-color: #fed443;
     background: none; }
-  
+  .pagination{
+      margin:-3px 0px 20px 0px; 
+      font-size:14px;}
