@@ -122,7 +122,7 @@ if(request.getMethod()=="POST"){
                     </div>
                     
                     <div class="form-item">
-                        <button class="button primary width-100 big">Complete Sign Up</button>
+                        <button class="button primary width-100 big">Complete</button>
                     </div>
                 </form>
             </div>
@@ -138,7 +138,7 @@ if(request.getMethod()=="POST"){
                         name:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
+                            maxlength: 50,
                         },
                         
                         day:{
@@ -151,7 +151,7 @@ if(request.getMethod()=="POST"){
                         inventory:{
                             required: true,
                             minlength: 20,
-                            maxlength: 500,
+                            maxlength: 1000,
                         },
                         
                         time:{

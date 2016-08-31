@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="form-item">
-                        <button class="button primary width-100 big">Complete Sign Up</button>
+                        <button class="button primary width-100 big">Complete</button>
                     </div>
                 </form>
             </div>

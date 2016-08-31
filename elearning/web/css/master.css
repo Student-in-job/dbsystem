@@ -15,7 +15,7 @@
 }
 .user-block {
 	background: url('../img/user-bg.png') repeat-x bottom;
-	min-height: 720px;
+	min-height: 500px;
         padding-bottom: 140px;
 }
 .footer {
@@ -242,6 +242,7 @@
 
 .test {
     background: url(../img/test_bg.png) no-repeat bottom;
+    min-height: 500px;
     padding-bottom: 130px;
 }
 

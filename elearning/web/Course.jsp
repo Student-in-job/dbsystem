@@ -59,10 +59,10 @@ int program_id = 0;
                     $("#mesagge").html("Error");
                 },
                 success: function(data){
-                    if(data!=null){ 
+                    
                         document.getElementById('mesagge').style.display = 'block';
                         $("#mesagge").html(data); 
-                    } 
+                        
                 }  
             });  
         } 
@@ -93,8 +93,8 @@ int program_id = 0;
 <%if(u){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round primary">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round error">DELETE</button></a>
-                            <%if(prog.Correct()==null){%><button class="button small round success" onclick="publish()">PUBLISHE</button>
-<%}%>
+                            <button class="button small round success" onclick="publish()">PUBLISHE</button>
+
 <%}%> 
 <%if(c){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round error">START</button></a>
@@ -125,7 +125,7 @@ int program_id = 0;
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=materials.get(i).getID()%>"><%=materials.get(i).getName()%></a>. 
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=materials.get(i).getID()%>"><%=materials.get(i).getName()%></a> 
                             </p>
                         </div>
 <%if(u){%>                             
@@ -156,7 +156,7 @@ if(u){%>
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=tests.get(i).getID()%>"><%=tests.get(i).getName()%></a>. 
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=tests.get(i).getID()%>"><%=tests.get(i).getName()%></a>
                             </p>
                         </div>
 <%if(u){%> 

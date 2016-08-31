@@ -32,48 +32,36 @@
                 <img src="img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>WHOOPS!</h3>
-                    <p>We couldn't find the page you were looking for.</p>
 <%
 String er = request.getParameter("e");
+
 if("ObjectNotFind".equals(er)){
 %>
-        <p>Содержимое этой страницы не было найдено</p>
-<%
-    return;
-}
-if("ObjectNotFind".equals(er)){
-%>
-        <p>Содержимое этой страницы не было найдено</p>
-<%
-    return;
-}
-if("ObjectNotFind".equals(er)){
-%>
-        <p>Содержимое этой страницы не было найдено</p>
+        <p>We couldn't find the page you were looking for.</p>
 <%
     return;
 }
 if("IllegalAction".equals(er)){
 %>
-        <p>Вы попыталсь совершить недопустимое действие</p>
+        <p>You have tried to do the impossible.</p>
 <%
     return;
 }
 if("IOExtension".equals(er)){
 %>
-        <p>Невозможно найти фаил</p>
+        <p>The problem with the file.</p>
 <%
     return;
 }
 if("InvalidParameter".equals(er)){
 %>
-        <p>Неверный параметор</p>
+        <p>Invalid Parameter.</p>
 <%
     return;
 }
 if("".equals(er)){
 %>
-        <p>Ошибка на сервере</p>
+        <p>Problems with server.</p>
 <%
     return;
 }

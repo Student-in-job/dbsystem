@@ -29,6 +29,7 @@ public class Delete extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String request_path = request.getRequestURI()+"?"+request.getQueryString();
         User user = (User) request.getSession().getAttribute("user");
         if(user==null) {
             String mail=null, cpassword = null;
@@ -57,9 +58,13 @@ public class Delete extends HttpServlet {
                 if(a){
                     request.getSession().setAttribute("user", user);
                 }
-                else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
+                else {
+                        request.getSession().setAttribute("rederectto", request_path);
+                        response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
             }
-            else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
+            else {
+                    request.getSession().setAttribute("rederectto", request_path);
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
         }
         
         try(PrintWriter out = response.getWriter()){
@@ -134,6 +139,7 @@ public class Delete extends HttpServlet {
                 if("program".equals(param)){
 
                     Program p = new Program(value);
+                    if(user.getID()!=p.getTeacherID()) throw new IllegalAction();
                     pg=p.getTeacher();
                     p.Delete();
                 }
@@ -141,11 +147,13 @@ public class Delete extends HttpServlet {
 
                     Material p = new Material(value);
                     pg=p.getProgram();
+                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     p.Delete();
                 }
                 if("test".equals(param)){
 
                     Test p = new Test(value);
+                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     if(p.getName().equals("Exem")&&p.getDay()==p.getProgram().getDuration()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
@@ -153,18 +161,22 @@ public class Delete extends HttpServlet {
                 if("testtask".equals(param)){
 
                     TestTask p = new TestTask(value);
+                    if(user.getID()!=p.getTest().getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getTest();
                     p.Delete();
                 }
                 if("files".equals(param)){
 
                     Files p = new Files(value);
+                    if(user.getID()!=p.getMaterial().getProgram().getTeacherID()) throw new IllegalAction();
+                    
                     pg=p.getMaterial();
                     p.Delete();
                 }
                 if("user".equals(param)){
 
                     User p = (User) request.getSession().getAttribute("user");
+                    if(user.getID()!=p.getID()) throw new IllegalAction();
                     p.Delete();
                 }
             }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}

@@ -21,7 +21,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Program</title>
+        <title>Upload</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
@@ -42,7 +42,7 @@
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     
                     <div class="form-item">        
-                        <label>Описание</label> 
+                        <label>Title</label> 
                         <input name="title" type="text" >
                     </div>
                     <div class="form-item">        
@@ -51,7 +51,7 @@
                     </div>
                     
                     <div class="form-item">        
-                    	<button class="button primary width-100 big">Complete Sign Up</button>
+                    	<button class="button primary width-100 big">Complete</button>
                     </div> 
                 </form>
         
@@ -61,7 +61,7 @@
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     
                     <div class="form-item">        
-                        <label>Описание</label> 
+                        <label>Title</label> 
                         <input name="title" type="text" >
                     </div>
                     
@@ -71,7 +71,7 @@
                     </div>
                     
                     <div class="form-item">        
-                    	<button class="button primary width-100 big">Complete Sign Up</button>
+                    	<button class="button primary width-100 big">Complete</button>
                     </div> 
                 </form>
             </div>

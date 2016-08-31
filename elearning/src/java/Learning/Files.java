@@ -97,9 +97,11 @@ public class Files extends Parent{
         
         FileType = extractFileExtension(Name).equals("mp4")?"video":"document";
         Material = material;
-        if(this.SaveFile()) {
-            this.write();
+        if(Part!=null){
+            if(this.SaveFile())
+                this.write();
         }
+        else this.write();
     }
 
     

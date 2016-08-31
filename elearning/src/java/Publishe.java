@@ -6,7 +6,6 @@
 
 import DataBasePak.Log;
 import DataBasePak.ObjectNotFind;
-import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import Learning.Program;
 import Learning.User;
@@ -29,9 +28,8 @@ public class Publishe extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String request_path = request.getRequestURI();
-
-    
+        
+            String request_path = request.getRequestURI()+"?"+request.getQueryString();
             User user = (User) request.getSession().getAttribute("user");
             if(user==null) {
                 String mail=null, cpassword = null;
@@ -62,10 +60,14 @@ public class Publishe extends HttpServlet {
                     if(a){
                         request.getSession().setAttribute("user", user);
                     }
-                    else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp?rederectto="+request_path); return;} 
-                }
-                else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp?rederectto="+request_path); return;}
+                    else {
+                        request.getSession().setAttribute("rederectto", request_path);
+                        response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
             }
+            else {
+                    request.getSession().setAttribute("rederectto", request_path);
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
+        }
         PrintWriter out = response.getWriter();
         try {
                 int p = Integer.parseInt(request.getParameter("program"));

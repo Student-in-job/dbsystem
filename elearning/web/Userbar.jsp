@@ -161,7 +161,7 @@ for(int j=0; j<7; j++){
                                 <li>Something</li>
                                 <li>Something</li>
                             </ul>
-                            <button class="button round outline">Create course</button>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp"><button class="button round outline">Create course</button></a>
                         </div>
                 </div>
             </div>

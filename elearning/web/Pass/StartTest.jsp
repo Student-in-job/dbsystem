@@ -111,7 +111,7 @@ for(Entry e : test.getStatistic().entrySet()){
 <%}%>              
             </div>
             <div class="col col-12 test-btn">
-<%if(user!=null){%>
+<%if(user!=null)if(user.getID()!=test.getProgram().getTeacherID()){%>
                 <form method="POST" action="StartTest.jsp">
                 <input type="hidden" name="test" value="<%=tst%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">

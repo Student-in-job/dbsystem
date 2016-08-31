@@ -59,7 +59,8 @@
         <div class=" test">
             <div class="row ">
                 <div class="col col-3 offset-1">
-                    <h3><%=test.getName()%></h3>
+                    <h3><%=test.getName()%> (<%=test.getTime()%> min)</h3>
+                    <h4><a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
                 </div>
                 <div class="col col-1">
                     <a class="test-edit" href="CreateTest.jsp?program=<%=test.getProgramID()%>&test=<%=test.getID()%>">
@@ -77,6 +78,7 @@
                 </div>
             </div>
             <hr>
+<%=task.isEmpty()?"<div class=\"row\"><div class=\"col\"><div class=\"col offset-1\"><p>Nothing yet</p></div></div></div>":""%>              
 <%for (int i = 0; i < task.size(); i++) {%>                         
             <div class="row">
                 <div class="col offset-1">
@@ -103,12 +105,7 @@
 <%}%>            
 
             <div class="col">
-                <a href="CreateTestTask.jsp?testtask=0&test=<%=test.getID()%>">
-                    <button class="button round outline small">
-                        Add test <i class="fa fa-plus" aria-hidden="true"></i>
 
-                    </button>
-                </a>
             </div>
 
         </div>
