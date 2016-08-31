@@ -53,27 +53,27 @@ int n = (p*N)<users.size()?p+1:0;
 		</div>
 	</div>	
 	<div class="row between">
-<%for(int i=(p-1)*N; i<p*N/2&&i<users.size(); i++){%> 
+<%int i;for(i=(p-1)*N; i<p*N-N/2&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
                             <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
-				<h6 class="error">Tutor</h6>
+				
 			</div>
 		</div>		
 <%}%>                                
 	</div>        
 	<div class="row between">
-<%for(int i=(p-1)*N+N/2; i<p*N&&i<users.size(); i++){%> 
+<%for(i=(p-1)*N+N/2; i<p*N&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
                             <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
-				<h6 class="error">Tutor</h6>
+				
 			</div>
 		</div>		
 <%}%>                                

@@ -2,7 +2,7 @@ package Learning;
 
 import DataBasePak.*;  
 import java.io.File;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,18 +17,17 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @author ksinn
  */
 public class User extends Parent{
-    
-    protected int ID;
+
     protected String mail;
     protected String password;
     protected String Name;
     protected String Surname;
-    protected java.util.Date Birthday;
+    protected java.sql.Date Birthday;
     protected String Gender;
     protected boolean Logined;
     protected int Rating;
     protected String Ico;
-    protected java.util.Date DateRegestration;
+    protected java.sql.Date DateRegestration;
     
     @Override
     public int getID(){
@@ -60,7 +59,7 @@ public class User extends Parent{
                             this.Name = rs.getString("user_name");
                             this.Surname = rs.getString("user_surname");
                             this.Gender = rs.getString("gender");
-                            Birthday = new Date(rs.getDate("birthday").getTime());
+                            Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
 
     }

@@ -7,7 +7,7 @@
 <%@page import="java.io.IOException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="DataBasePak.*"%>
-<%@page import="java.util.Date"%>
+<%@page import="java.sql.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -174,7 +174,7 @@
         String mail = request.getParameter("mail");
         String password = request.getParameter("new_password");
         String gender = request.getParameter("gender");
-        Date birthday = format.parse(request.getParameter("birthday"));
+        Date birthday = new Date(format.parse(request.getParameter("birthday")).getTime());
         
         if(!user.getMail().equals(mail)){
             DataBase db = new DataBase(new User(mail, ""));

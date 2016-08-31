@@ -140,7 +140,9 @@ if(request.getMethod()=="GET"){
 
                                                             <input type="password" name="password" class="width-100" required>
                                                         </div>
-
+                                                        <label class="form-item checkbox">
+                                                            <input type="checkbox" name="remember" value="ok"> Remember me
+                                                        </label>
                                                         <div class="form-item">
                                                             <button class="button primary width-100 big">Log in</button>		
                                                         </div>
@@ -219,7 +221,9 @@ if(request.getMethod()=="GET"){
                                                             
                                                             <input type="password" name="password" class="width-100" required>
                                                         </div>
-
+                                                        <label class="form-item checkbox">
+                                                            <input type="checkbox" name="remember" value="ok"> Remember me
+                                                        </label>
                                                         <div class="form-item">
                                                             <button class="button primary width-100 big">Log in</button>		
                                                         </div>

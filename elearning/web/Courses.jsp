@@ -12,6 +12,7 @@
 <% 
 int N=12;  //число записей на странице
 ArrayList<Program> courses;
+String area_name = "";
 
 String find = request.getParameter("find");
 int area_id;
@@ -21,10 +22,15 @@ int area_id;
 
 if(area_id!=0){
     try{
-        if(find!=null)
-            courses = (new Area(area_id)).FindPrograms(find);
-        else 
-            courses = (new Area(area_id)).getPrograms();
+        if(find!=null){
+            Area area = new Area(area_id);
+            area_name = area.getName();
+            courses = area.FindPrograms(find);
+        }else{
+            Area area = new Area(area_id);
+            area_name = area.getName();
+            courses = area.getPrograms();
+        }
     }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}      
 }
@@ -67,7 +73,7 @@ int n = (p*N)<courses.size()?p+1:0;
         <div class="course-block">
 	<div class="row around">
 		<div class="col text-center">
-			<h3 class="upper success">Online Courses</h3>
+			<h3 class="upper success"><%=area_id==0?"Online Courses":area_name%></h3>
 		</div>
 	</div>
 			

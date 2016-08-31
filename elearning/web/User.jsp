@@ -61,11 +61,7 @@
                         Registered on: <%=show_user.getDateRegestration()%><br>
                     </p>
                 </div>
-                <div class="col text-center"> 
-                    <br>
-                    <br>
-                    <a class="button round outline">Settings &rarr;</a>
-                </div>
+                
             </div>
             <div class="row userbar-2 ">
                 <div class="col col-2 offset-1 nav">
