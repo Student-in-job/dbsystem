@@ -91,13 +91,13 @@ int program_id = 0;
                             Minimal Level: <%=prog.getMinLevel()%><br>
                             Teacher: <a href="<%=request.getServletContext().getContextPath()%>/User.jsp?user_id=<%=prog.getTeacher().getID()%>"> <%=prog.getTeacher().getName()%> <%=prog.getTeacher().getSurname()%></a> <br>
 <%if(u){%>                            
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round success">UPDATE</button></a>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round success">DELETE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round primary">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round error">DELETE</button></a>
                             <%if(prog.Correct()==null){%><button class="button small round success" onclick="publish()">PUBLISHE</button>
 <%}%>
 <%}%> 
 <%if(c){%>                            
-                            <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round success">START</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round error">START</button></a>
 <%}%> 
                         </p>
                     </div>
@@ -130,8 +130,8 @@ int program_id = 0;
                         </div>
 <%if(u){%>                             
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=materials.get(i).getID()%>&program=<%=materials.get(i).getProgramID()%>"><button class="button small round success">UPDATE</button></a>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=materials.get(i).getID()%>"><button class="button small round primary">DELETE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=materials.get(i).getID()%>&program=<%=materials.get(i).getProgramID()%>"><button class="button small round primary">UPDATE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=materials.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
                         </div>
 <%}%>                        
                     </div>
@@ -161,8 +161,8 @@ if(u){%>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/Test.jsp?test=<%=tests.get(i).getID()%>"><button class="button small round success">UPDATE</button></a>
-                           <%if(!tests.get(i).isExem()){%><a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round primary">DELETE</button></a><%}%>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Test.jsp?test=<%=tests.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
+                           <%if(!tests.get(i).isExem()){%><a href="<%=request.getServletContext().getContextPath()%>/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round error">DELETE</button></a><%}%>
 
                         </div>
 <%}%>                            
@@ -177,7 +177,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?program=<%=prog.getID()%>"><button class="button small round error">ADD</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        

@@ -64,7 +64,8 @@
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Active courses</a>
                     <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
-                    <a href="#schedule" class="tablink" onclick="openTab(event, 'schedule')">Schedule</a>
+                    <a href="#schedule" class="tablink a-blue" onclick="openTab(event, 'schedule')">Schedule</a>
+                    <a href="#create" class="tablink" onclick="openTab(event, 'create')">Create course</a>
                 </div>
                 <div class="col col-8 border">
                     
@@ -149,6 +150,15 @@ for(int j=0; j<7; j++){
                             </table>
                         </div>
                     
+                        <div id="create" class="courses">
+                            For creating course you need do next steps
+                            <ul>
+                                <li>Something</li>
+                                <li>Something</li>
+                                <li>Something</li>
+                            </ul>
+                            <button class="button round outline">Create course</button>
+                        </div>
                 </div>
             </div>
         </div>  

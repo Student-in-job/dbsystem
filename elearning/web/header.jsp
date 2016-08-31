@@ -95,7 +95,7 @@ if(user!=null){%>
 	        </div> 
             </div>
 	</div>
-      </div>         
+      </div>
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
     <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
     <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>

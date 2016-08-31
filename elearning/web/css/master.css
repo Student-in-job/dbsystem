@@ -171,7 +171,7 @@
 .nav {
     border: 1px solid #c3c3c3;
     padding: 0;
-    max-height: 164px;
+    max-height: 194px;
    }
 
 .nav a {
@@ -384,13 +384,13 @@ ul.pagination li a:hover:not(.active) {
     background-color: #ddd;
 }
 
-.test-edit a{
+a.test-edit{
     text-decoration: none;
     color: #7b7b7b;
     padding-right: 10px;
 }
 
-.test-edit a:hover {
+a.test-edit:hover {
     border-bottom: 1px solid #96b77d;
     color: #83C650;
 }
