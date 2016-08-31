@@ -242,6 +242,7 @@
 
 .test {
     background: url(../img/test_bg.png) no-repeat bottom;
+    padding-bottom: 130px;
 }
 
 .best-results {
@@ -357,7 +358,7 @@ table {
 ul.pagination {
     display: inline-block;
     padding: 0;
-    margin: 0;
+    margin: 5px 24px -10px -8px;
 }
 
 ul.pagination li {display: inline;

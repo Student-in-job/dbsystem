@@ -23,14 +23,14 @@
         <link rel="stylesheet" href="css/master.css">
     </head>
     <body>
-        <%@include file="header.jsp" %>
+        <%@include file="header.jsp"%>
 
-        <div class="row centered">
+        <div class="row centered test">
             <div class="col col-11">
                 <p>time-left: 0:25:10</p>
                 <h4>PASS TEST!</h4>
             </div>
-            <div class="col col-11">
+            <div class="col col-11 pagination">
                 <ul class="pagination">
 
                     <li><a href="#">1</a></li>
@@ -47,27 +47,27 @@
             <div class="col col-11">
                 <p>1.1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod magna aliqua? </p>
 
-                <input type="radio" name="color" value="#0000ff" id="blue">
-                <label for="blue" class="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
+                <input type="radio"  >
+                <label >Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
                 <br>
-                <input type="radio" name="color" value="0000ff" id="blue">
-                <label for="blue" class="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
+                <input type="radio" >
+                <label>Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
                 <br>
-                <input type="radio" name="color" value="0000ff" id="blue">
-                <label for="blue" class="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
+                <input type="radio">
+                <label>Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
                 <br>
-                <input type="radio" name="color" value="0000ff" id="blue">
-                <label for="blue" class="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
+                <input type="radio" >
+                <label>Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
                 <br>
-                <input type="radio" name="color" value="0000ff" id="blue">
-                <label for="blue" class="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
+                <input type="radio">
+                <label>Lorem ipsum dolor sit amet, consectetur adipisicing elit</label>
             </div>
             <div class="col col-11">
                 <button class="button round outline primary">Confirm &rArr;</button>
             </div>
         </div>
 
-        <%@include file="footer.jsp" %>
+        <%@include file="footer.jsp"%>
 
     </body>
 </html>
