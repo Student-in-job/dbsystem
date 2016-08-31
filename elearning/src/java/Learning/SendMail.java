@@ -5,10 +5,13 @@
  */
 package Learning;
 
-import DataBasePak.Log;
 import java.util.Properties;
-
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 /**
@@ -19,7 +22,7 @@ public class SendMail {
 
     private final String username = "OpenSourceUzb@mail.ru";
     private final String password = "paKvitaliY";
-    private Properties props;
+    private final Properties props;
 
     {
         props = new Properties();
@@ -32,6 +35,7 @@ public class SendMail {
 
     public void send(String subject, String text, String toEmail) throws MessagingException{
         Session session = Session.getInstance(props, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }

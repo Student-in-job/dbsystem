@@ -299,7 +299,10 @@ public class User extends Parent{
     public void Register(Part part) throws Exception
     {
         if(!Logined){
-            this.write();
+            if(this.write()){
+                SendMail mail = new SendMail();
+                mail.send("Regestration", "blablabla", this.mail);
+            }
             IcoFile file = new IcoFile(part, this);
             file.SaveFile();
         }

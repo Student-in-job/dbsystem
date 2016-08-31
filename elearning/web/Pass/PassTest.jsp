@@ -14,7 +14,7 @@
     
     AcceptTest accept = (AcceptTest) session.getAttribute("accept");
     if(accept==null){
-        response.sendRedirect("/elearning/UserBar.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
     }
     else{
         int no = Integer.parseInt(request.getParameter("no"));
@@ -26,20 +26,66 @@
 
 
 %>
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script> 
         <title>JSP Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
+        <%@include file="/header.jsp" %>
+
+        <div class="row centered">
+            <div class="col col-11">
+                <p>time-left: <span id="timer"></span></p>
+                <h4>PASS TEST!</h4>
+            </div>
+            <div class="col col-11">
+                <ul class="pagination">
+
+<%for(int i=0; i<accept.getQuantity(); i++){%>            
+                    <li>
+                        <a href="?no=<%=i%>" 
+                        <%if(accept.getAnswer(i)!=null){%> style="background-color: antiquewhite" <%}%>
+                        <%if(i==no){%> class="active" <%}%>
+                        ><%=i+1%>
+                        </a>
+                    </li>
+<%}%>                   
+                </ul>
+                <button class="button small round outline" href="FinishTest.jsp">Finish test</button>
+            </div>
+            <form method="POST" action="PassTest.jsp">    
+                <div class="col col-11">
+                    <p><%=no+1%>. <%=accept.getQuestion(no)%> </p>
+
+                        <input type="hidden" name="no" value="<%=no%>">
+<%
+ArrayList<String> var = accept.getVariants(no);
+for(int i=0; i<var.size(); i++){
+%>                
+                    <input type="radio" name="color" <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> value="<%=var.get(i)%>" id="blue">
+                    <label for="blue" class="blue"><%=var.get(i)%></label>
+                    <br>
+<%}%>          
+                </div>
+                <div class="col col-11">
+                    <input type="submit" class="button round outline primary" value="Confirm &rArr;">
+                </div>
+            </form>            
+        </div>
         
-        
-        <div id="content"></div>  
-      
-    <script>  
+        <script>  
         function show()  
         {  
             $.ajax({  
@@ -55,7 +101,7 @@
                     data = Math.floor(data%3600);
                     var m = Math.floor(data/60);
                     var s = Math.floor(data%60);
-                    $("#content").html(h + ':' + m + ':' + s);  
+                    $("#timer").html(h + ':' + m + ':' + s);  
                 }  
             });  
         } 
@@ -67,34 +113,9 @@
             setInterval('show()',1000);  
         });  
     </script> 
-    
         
-        <h1>Pass Test!</h1>
-        <div>
-<%for(int i=0; i<accept.getQuantity(); i++){%>            
-            <a 
-<%if(accept.getAnswer(i)!=null)
-{%>style="background-color: antiquewhite"<%}%>
-                href="?no=<%=i%>"><%=i+1%></a>
-<%}%>   
-            <a href="FinishTest.jsp">Finish</a>
-        </div>
-        
-        <section>
-            <p><%=no+1%>. <%=accept.getQuestion(no)%></p>
-            <form method="POST" action="PassTest.jsp">
-                <input type="hidden" name="no" value="<%=no%>">
-<%
-ArrayList<String> var = accept.getVariants(no);
-for(int i=0; i<var.size(); i++){
-%>                
-<input <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> type="radio" name="answer" value="<%=var.get(i)%>"><%=var.get(i)%><br>
-<%}%>          
-                <input type="submit">
-            </form>
-            
-        </section>
-        
+        <%@include file="/footer.jsp" %>
+
     </body>
 </html>
-<%}//}%>
+<%}%>
