@@ -383,3 +383,19 @@ ul.pagination li a.active {
 ul.pagination li a:hover:not(.active) {
     background-color: #ddd;
 }
+
+.test-edit a{
+    text-decoration: none;
+    color: #7b7b7b;
+    padding-right: 10px;
+}
+
+.test-edit a:hover {
+    border-bottom: 1px solid #96b77d;
+    color: #83C650;
+}
+
+
+.font-green {
+    color: #83C650;
+}
