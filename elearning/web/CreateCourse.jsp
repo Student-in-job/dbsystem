@@ -27,7 +27,7 @@
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
-        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()!=program)/*&&prog.getCourse()!=null**/){
+        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()!=prog.getTeacherID())/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
         <html>

@@ -45,25 +45,25 @@
     <body>
         <%@include file="/header.jsp" %>
 
-        <div class="row centered">
+        <div class="row centered test">
             <div class="col col-11">
                 <p>time-left: <span id="timer"></span></p>
                 <h4>PASS TEST!</h4>
             </div>
-            <div class="col col-11">
+            <div class="col col-11 pagination">
                 <ul class="pagination">
 
 <%for(int i=0; i<accept.getQuantity(); i++){%>            
                     <li>
                         <a href="?no=<%=i%>" 
-                        <%if(accept.getAnswer(i)!=null){%> style="background-color: antiquewhite" <%}%>
+                        <%if(accept.getAnswer(i)!=null){%> style="background-color: #8bc34a" <%}%>
                         <%if(i==no){%> class="active" <%}%>
                         ><%=i+1%>
                         </a>
                     </li>
 <%}%>                   
                 </ul>
-                <button class="button small round outline" href="FinishTest.jsp">Finish test</button>
+                <a href="FinishTest.jsp"><button class="button small round outline">Finish test</button></a>
             </div>
             <form method="POST" action="PassTest.jsp">    
                 <div class="col col-11">
@@ -74,8 +74,8 @@
 ArrayList<String> var = accept.getVariants(no);
 for(int i=0; i<var.size(); i++){
 %>                
-                    <input type="radio" name="color" <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> value="<%=var.get(i)%>" id="blue">
-                    <label for="blue" class="blue"><%=var.get(i)%></label>
+                    <input type="radio" name="answer" <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> value="<%=var.get(i)%>">
+                    <label><%=var.get(i)%></label>
                     <br>
 <%}%>          
                 </div>

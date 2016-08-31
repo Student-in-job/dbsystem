@@ -8,7 +8,7 @@
 <%@page import="Learning.User"%>
 <%@page import="org.apache.commons.codec.digest.*"%>
 <%
-String request_path = request.getRequestURI();
+String request_path = request.getRequestURI()+"?"+request.getQueryString();
 
     
 User user = (User) session.getAttribute("user");
@@ -41,8 +41,12 @@ if(user==null) {
         if(a){
             session.setAttribute("user", user);
         }
-        else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp?rederectto="+request_path); return;} 
+        else {
+                request.getSession().setAttribute("rederectto", request_path);
+                response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;} 
     }
-    else {response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp?rederectto="+request_path); return;}
+    else {
+            request.getSession().setAttribute("rederectto", request_path);
+            response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp"); return;}
 }
 %>
