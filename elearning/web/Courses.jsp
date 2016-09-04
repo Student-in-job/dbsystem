@@ -56,6 +56,7 @@ int n = (p*N)<courses.size()?p+1:0;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Courses</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
 	
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">

@@ -39,6 +39,7 @@ int program_id = 0;
     <head>
         <meta charset="UTF-8">
         <title>Program</title>
+        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
