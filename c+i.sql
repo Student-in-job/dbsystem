@@ -51,12 +51,12 @@ create table if not exists program (
 create table if not exists material (
   material_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  material_name varchar(100) not null,
+  material_name varchar(50) not null,
   material_day int(3) not null,
   material_type varchar(10) not null,
   material_file text,
   program int(11) not null,
-  material_text text(2000) not null,
+  material_text text(1000) not null,
   material_deleted int(1) not null default 0,
   primary key (material_id),
   constraint fk_material_program1 foreign key (program) references program (program_id) on delete no action on update no action
@@ -181,7 +181,7 @@ create table if not exists schedule_has_task (
 create table if not exists test (
   test_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  test_name varchar(45) not null,
+  test_name varchar(50) not null,
   test_day int(3) not null,
   test_time int(5) not null,
   test_text text not null,
@@ -395,7 +395,7 @@ INSERT INTO course(course_start_date, course_end_date, program, course_public, c
 (now(), now()+interval 5 day, 2, 0, 0);
 
 INSERT INTO user_has_course(user, course, user_has_course_datetime, user_has_course_deleted) VALUES 
-(1, 1, now(), 0);
+(2, 1, now(), 0), (1, 1, now(), 0);
 
 INSERT INTO schedule_has_material(material, course, date_time) VALUES 
 (2, 1, now()+interval 1 day),
