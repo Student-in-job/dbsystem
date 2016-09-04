@@ -6,7 +6,8 @@
 package DataBasePak;
 
 import java.sql.*;
-import java.util.Properties;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 /**
  *
@@ -22,14 +23,17 @@ public class db {
     
     private db() 
     {
-        Properties properties=new Properties();
+        try {
+        /*Properties properties=new Properties();
         properties.setProperty("user","root");
         properties.setProperty("password","qwerty");
         properties.setProperty("useUnicode","true");
         properties.setProperty("characterEncoding","UTF-8"); 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            this.db_conn = DriverManager.getConnection("jdbc:mysql://localhost/elearning", properties); 
+        
+            Class.forName("com.mysql.jdbc.Driver");*/
+            InitialContext initContext= new InitialContext();
+            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
+            this.db_conn = ds.getConnection();//DriverManager.getConnection("jdbc:mysql://localhost/elearning", properties); 
             
             PreparedStatement stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
             ResultSet rs = stmt.executeQuery();
@@ -48,13 +52,18 @@ public class db {
                 this.FileDir = rs.getString("value");
             }
             
-        }catch (ClassNotFoundException ex) {} 
+        }//catch (ClassNotFoundException ex) {} 
         catch (Exception ex) {}
     }
     
     public static Connection getConn()
     {
+        
+        /*InitialContext initContext= new InitialContext();
+        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/dbconnect");
+        return ds.getConnection();*/
         return db_conn;
+
     }
     
     public static String getRealPath()

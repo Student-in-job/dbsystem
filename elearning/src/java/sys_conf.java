@@ -26,7 +26,7 @@ public class sys_conf implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
                     
-        try {
+/*        try {
             
             Connection conn = db.getConn();
             PreparedStatement stmt = null;
@@ -54,7 +54,7 @@ public class sys_conf implements ServletContextListener {
         
         } catch (SQLException ex) {
             Log.getOut(ex.getMessage());
-        }
+        }*/
         
     }
 
