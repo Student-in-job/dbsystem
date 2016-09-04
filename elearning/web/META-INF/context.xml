@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context allowCasualMultipartParsing="true" path="/elearning">
+<Context allowCasualMultipartParsing="true" path="/elearningzz">
 
 <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
