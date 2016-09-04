@@ -58,7 +58,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Course</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">        
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->

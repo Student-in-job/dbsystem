@@ -36,6 +36,7 @@ if(request.getMethod()=="GET"){
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
 	
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
@@ -102,6 +103,7 @@ if(request.getMethod()=="GET"){
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
     <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
 
     <meta charset="utf-8">
@@ -184,7 +186,7 @@ if(request.getMethod()=="GET"){
 <html>
 <head>
     <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
-
+    <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	

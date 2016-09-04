@@ -35,7 +35,7 @@ ArrayList<Files> vfile = mat.getVideoFile();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><%=mat.getName()%> - <%=mat.getProgram().getName()%></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jwplayer/jwplayer.js"></script>
         
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">

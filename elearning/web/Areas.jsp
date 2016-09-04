@@ -26,7 +26,7 @@ int n = (p*8)<areas.size()?p+1:0;
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	
+	<link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
     <!-- Kube CSS -->
