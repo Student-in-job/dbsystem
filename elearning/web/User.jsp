@@ -60,15 +60,19 @@
                         Gender: <%=show_user.getGenderString()%> <br>
                         Registered on: <%=show_user.getDateRegestration()%><br>
                     </p>
+                    <button class="button small round">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        Send message
+                    </button>
                 </div>
                 
             </div>
             <div class="row userbar-2 ">
-                <div class="col col-2 offset-1 nav">
+                <div class="col col-2 offset-1 nav nav-user">
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Active courses</a>
-                    <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
+                    <a href="#learn_courses" class="tablink a-blue" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
-                    <a href="#schedule" class="tablink" onclick="openTab(event, 'schedule')">Schedule</a>
+                    
                 </div>
                 <div class="col col-8 border">
                     
@@ -111,7 +115,7 @@
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
         <script>
-            document.getElementById("schedule").style.display = "block";
+            document.getElementById("learn_courses").style.display = "block";
             
                      function openTab(evt, cityName) {
                           var i, x, tablinks;
