@@ -49,6 +49,7 @@
                 <h4 class="col col-12">YOU RESULTS</h4>                
                 <div class="col">
                     <h3><%=accept.getTest().getName()%></h3>
+                    <h4><a href = "<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
                     <p>
                         <%=accept.getTest().getInventory()%>
                     </p>

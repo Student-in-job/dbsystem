@@ -25,7 +25,7 @@ public class User extends Parent{
     protected java.sql.Date Birthday;
     protected String Gender;
     protected boolean Logined;
-    protected int Rating;
+    protected float Rating;
     protected String Ico;
     protected java.sql.Date DateRegestration;
     
@@ -61,6 +61,17 @@ public class User extends Parent{
                             this.Gender = rs.getString("gender");
                             Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
+        float i = 0;
+        try{
+            PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+            ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
+            stmt.setInt(1, this.ID);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                    i = (rs.getFloat("r"));
+            }
+        }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
+        this.Rating = i;                    
 
     }
     
@@ -77,6 +88,7 @@ public class User extends Parent{
     }
     
     public User(){}
+    
     
     public int getTestMaxResult(Test test){
         int i = -1;
@@ -357,6 +369,17 @@ public class User extends Parent{
                             Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
                             password = rs.getString("passwords");
+                            float i = 0;
+                            try{
+                                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+                                ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
+                                stmt.setInt(1, this.ID);
+                                rs = stmt.executeQuery();
+                                if(rs.next()){
+                                        i = (rs.getFloat("r"));
+                                }
+                            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
+                            this.Rating = i; 
                     return true;
                 }
                 else return false;
@@ -398,7 +421,7 @@ public class User extends Parent{
         return this.Surname;
     }
     
-    public int getRating()
+    public float getRating()
     {
         return this.Rating;
     }

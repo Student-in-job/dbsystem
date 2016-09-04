@@ -31,7 +31,7 @@
         User_courses uhc;
         try{
             cours = user.getActiveCourse(test.getProgramID());
-            if(cours==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+            if(cours==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+test.getProgramID()); return;}
             uhc = user.getHasCours(cours); 
         }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
@@ -91,6 +91,7 @@
         <div class="row centered text-center test">
             <div class="col col-8 ">
                 <h3><%=test.getName()%></h3>
+                <h4><a href = "<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
                 <p>
                     <%=test.getInventory()%>
                 </p>

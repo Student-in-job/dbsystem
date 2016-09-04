@@ -47,6 +47,7 @@
                     <br>
                     <p>
                         Name: <%=user.getName()%> <%=user.getSurname()%> <br>
+                        Rating: <%=user.getRating()%><br>
                         Birthday: <%=user.getBirthday()%><br>
                         Gender: <%=user.getGenderString()%> <br>
                         Registered on: <%=user.getDateRegestration()%><br>

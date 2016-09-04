@@ -56,14 +56,15 @@
                     <br>
                     <p>
                         Name: <%=show_user.getName()%> <%=show_user.getSurname()%> <br>
+                        Rating: <%=show_user.getRating()%><br>
                         Birthday: <%=show_user.getBirthday()%><br>
                         Gender: <%=show_user.getGenderString()%> <br>
                         Registered on: <%=show_user.getDateRegestration()%><br>
                     </p>
-                    <button class="button small round">
+                    <%--<button class="button small round">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
                         Send message
-                    </button>
+                    </button>--%>
                 </div>
                 
             </div>
