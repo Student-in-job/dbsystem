@@ -78,24 +78,47 @@ public class User extends Parent{
     
     public User(){}
     
-    /*public ArrayList<Integer> getTestResult(Test test, Course course){
-        ArrayList<Integer> list = new ArrayList<Integer>();
+    public int getTestMaxResult(Test test){
+        int i = -1;
         try{
             PreparedStatement stmt = db.getConn().prepareStatement
-            ("select accept_test_ball, accept_test_date from accept_test where test=1 and user_has_course=1;");
-            stmt.setInt(1, this.ID);
-            stmt.setInt(2, this.getHasCours(course).getID());
+            ("select max(accept_test_ball) as 'max' "
+                    + " from accept_test where test=? and "
+                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
+            stmt.setInt(2, this.ID);
+            stmt.setInt(1, test.getID());
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 try{
-                    list.add(rs.getInt("accept_test_ball"));
+                    i = (rs.getInt("max"));
                 }catch(Exception ex){}
             }
-                        
-            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
+        }catch(Exception ex)
+        { Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); 
+        return -1;}    
+        
+        return i;
+    }
     
-        return list;
-    }*/
+    public int getTestMinResult(Test test){
+        int i = -1;
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select min(accept_test_ball) as 'min' "
+                    + " from accept_test where test=? and "
+                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
+            stmt.setInt(2, this.ID);
+            stmt.setInt(1, test.getID());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                try{
+                    i = (rs.getInt("min"));
+                }catch(Exception ex){}
+            }            
+            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return -1;}
+    
+        return i;
+    }
     
     public Course getActiveCourse(int program){
         try{
