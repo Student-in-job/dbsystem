@@ -55,6 +55,7 @@ if(request.getMethod()=="POST"){
     answer = request.getParameter("answer");
     day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
+    ball = Integer.parseInt(request.getParameter("ball"));
     
         try{
             if(task==0){

@@ -6,5 +6,15 @@
                username="root" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
                url="jdbc:mysql://localhost:3306/elearning"/>
 
+<Resource name="jdbc/DBtuter" auth="ContainerTuter" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="tuter" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/task"/>
+
+<Resource name="jdbc/DBstudent" auth="ContainerStudent" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="student" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/task"/>
+
 </Context>
 

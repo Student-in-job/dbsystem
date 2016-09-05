@@ -76,7 +76,9 @@
                 <h4><%=task.getAnswer()%></h4>
                 <table>
 <%
-    ResultSet rs = task.getAnswerResult(); 
+    try{
+        ResultSet rs = task.getAnswerResult();
+
 %>
                     <tr>
 <%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
@@ -92,7 +94,9 @@
                     </tr>
 <%}%>                
                 </table>
-                
+<%}catch(Exception ex){ Log.getOut(ex.getMessage());%>
+<p>Error</p>
+<%}%>                
             </div>
 
         </div>

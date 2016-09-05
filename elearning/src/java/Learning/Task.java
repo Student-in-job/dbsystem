@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import javax.naming.NamingException;
 
 /**
  *
@@ -138,18 +139,18 @@ public class Task extends Component {
     
     private Exception CorrectSQLQuery(){
         try{
-            Statement stmt = db.getConn().createStatement();
+            Statement stmt = db.getTuterConn().createStatement();
             stmt.executeQuery(this.Answer);
             return null;
         }catch(Exception ex){return ex;}
         
     }
     
-    public ResultSet getAnswerResult(){
-        try{
-            Statement stmt = db.getConn().createStatement();
+    public ResultSet getAnswerResult() throws SQLException, NamingException{
+        
+            Statement stmt = db.getStudentConn().createStatement();
             return stmt.executeQuery(this.Answer);
-        }catch(Exception ex){return null;}
+        
         
     }
 
