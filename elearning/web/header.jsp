@@ -30,7 +30,7 @@
 		</div>
 	    <div class="col col-3 text-center">
 	    	<a href="<%=request.getServletContext().getContextPath()%>"><div class="item centered logo"></div></a>
-	    	<h5 class="upper primary"><%=request.getServletContext().getInitParameter("SiteName")%></h5>
+                <h5 class="upper primary"><img width="150" src="<%=request.getServletContext().getContextPath()%>/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
 	   	</div>
                 
 	    

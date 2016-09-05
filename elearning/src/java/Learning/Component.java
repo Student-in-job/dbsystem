@@ -18,7 +18,7 @@ public abstract class Component extends Parent{
     protected String Inventory;
     protected int Day;
     protected Program Program;
-    protected Course Course;
+    //protected Course Course;
     
     protected Date Date;
     

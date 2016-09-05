@@ -42,7 +42,7 @@ int n = (p*N)<users.size()?p+1:0;
 
     <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
     <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
-        <title>JSP Page</title>
+        <title>People</title>
     </head>
     <body>
         <%@include file="header.jsp"%>

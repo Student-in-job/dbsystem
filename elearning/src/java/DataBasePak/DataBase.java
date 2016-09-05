@@ -118,6 +118,12 @@ public class DataBase {
                 this.write_accept_test();
                 break;
             }
+            
+            case 11 : {
+                
+                this.write_task();
+                break;
+            }
                         
             default: {
                 
@@ -178,6 +184,12 @@ public class DataBase {
             case 10 : {
                 
                 this.rewrite_accept_test();
+                break;
+            }
+            
+            case 11 : {
+                
+                this.rewrite_task();
                 break;
             }
             
@@ -644,6 +656,40 @@ public class DataBase {
             stmt.setInt(2, accept.getID());
             Done = stmt.executeUpdate() == 1;
             
+    }
+
+    private void write_task() throws SQLException {
+        Task task = (Task) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("INSERT INTO task(task_name, task_day, program, task_text, task_time, task_ball, task_answer, task_type, task_db_index) VALUES (?, ?, ?, ?, ?, ?, '"+task.getAnswer()+"', 'row', 'none');", Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, task.getName());
+            stmt.setInt(2, task.getDay());
+            stmt.setInt(3, task.getProgramID());
+            stmt.setString(4, task.getInventory());
+            stmt.setInt(5, task.getTime());
+            stmt.setInt(6, task.getBall());
+            int n = stmt.executeUpdate();
+            Done = n == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
+    }
+
+    private void rewrite_task() throws SQLException {
+        Task task = (Task) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("UPDATE task set task_name=?, task_day=?, task_text=?, task_time=?, task_ball=?, task_answer=? where task_id=?;");
+            stmt.setString(1, task.getName());
+            stmt.setInt(2, task.getDay());
+            stmt.setString(3, task.getInventory());
+            stmt.setInt(4, task.getTime());
+            stmt.setInt(5, task.getBall());
+            stmt.setString(6, task.getAnswer());
+            stmt.setInt(7, task.getID());
+            int n = stmt.executeUpdate();
+            Done = n == 1;
     }
 
 

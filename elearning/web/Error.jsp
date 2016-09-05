@@ -16,13 +16,13 @@
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
 
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
     </head>
@@ -30,7 +30,7 @@
         <%@include file="/header.jsp" %>
         <div class="row centered bg-blue">
             <div class="col col-3 text-center">
-                <img src="img/ghost.png" alt="error">
+                <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>WHOOPS!</h3>
 <%

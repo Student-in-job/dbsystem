@@ -55,13 +55,13 @@
 	text-decoration: underline;
 }
 .logo {
- height: 39px;
- width: 50px;
+ height: 75px;
+ width: 100px;
  background: url(../img/logo-sm.png) no-repeat;
- background-position: 0 0;
+ background-position: bottom;
 }
 .logo:hover{
- background-position: 0 -40px;
+ background-position: top;
 }
 .row {
 	padding-top: 22px;
