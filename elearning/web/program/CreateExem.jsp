@@ -25,7 +25,7 @@
     
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
-    String name="Final Exam", inventory = "Required final exam for the program "+pg.getName();
+    String name="Exam", inventory = "Required final exam for the program "+pg.getName();
     int day=pg.getDuration(), test, time=0;
     Test nt;
     test = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
@@ -73,7 +73,7 @@ if(request.getMethod()=="POST"){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test</title>
+        <title>Exem</title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
@@ -91,7 +91,7 @@ if(request.getMethod()=="POST"){
             <div class="col col-4">
 
                 <form id="form" class="form" action="CreateTest.jsp" method="POST">
-                    <h3 class="text-centered">Test</h3>
+                    <h3 class="text-centered">Exem</h3>
                     <input type="hidden" name="program" value="<%=program%>"> 
                     <input type="hidden" name="test" value="<%=test%>"> 
                     
@@ -131,8 +131,7 @@ if(request.getMethod()=="POST"){
 
                         name:{
                             required: true,
-                            minlength: 6,
-                            maxlength: 100,
+                            equalTo: "Final Exam",
                         },
                         
                         day:{

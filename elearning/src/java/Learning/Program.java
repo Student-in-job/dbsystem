@@ -206,7 +206,7 @@ public class Program extends Parent{
         
         Teacher = user;
         this.write();
-        Test exem = new Test("Exem", this.Duration, "Required final exam for the program "+this.getName(), 60);
+        Test exem = new Test("Exam", this.Duration, "Required final exam for the program "+this.getName(), 60);
         exem.Write(this, user);
         IcoFile file = new IcoFile(part, this);
         file.SaveFile();

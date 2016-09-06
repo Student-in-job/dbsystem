@@ -63,7 +63,7 @@
                     <h4><a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
                 </div>
                 <div class="col col-1">
-                    <a class="test-edit" href="CreateTest.jsp?program=<%=test.getProgramID()%>&test=<%=test.getID()%>">
+                    <a class="test-edit" href="Create<%=test.getName().equals("Exam")?"Exem":"Test"%>.jsp?program=<%=test.getProgramID()%>&test=<%=test.getID()%>">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
