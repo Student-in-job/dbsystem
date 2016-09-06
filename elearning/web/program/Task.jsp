@@ -94,8 +94,8 @@
                     </tr>
 <%}%>                
                 </table>
-<%}catch(Exception ex){ Log.getOut(ex.getMessage());%>
-<p>Error</p>
+<%}catch(Exception ex){;%>
+<p><%=ex.getMessage()%></p>
 <%}%>                
             </div>
 

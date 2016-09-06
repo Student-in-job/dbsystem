@@ -13,6 +13,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -263,7 +264,10 @@ public class Program extends Parent{
         this.State = "active";
         DataBase db = new DataBase(this);
         db.ReWrite();
-        return db.Done();
+        if(db.Done()){
+            Statement stmt = DataBasePak.db.getConn().createStatement();
+            stmt.execute("revoke all on task.area from 'tuter'@'localhost';");
+        }
     }
     
     public boolean MayAddTest(){

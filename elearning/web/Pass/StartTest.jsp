@@ -42,7 +42,7 @@
         if(accept!=null){response.sendRedirect("PassTest.jsp?no=0"); return;}
             
         Date dt = uhc.getCourse().getSchadule().getDateOf(test);
-        if(dt.after(new Date())){%>
+        if(dt.before(new Date())){%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,7 +53,7 @@
         <h1>Time for this test left!</h1>
     </body>
 </html>
-<%      }
+<% return;     }
         try{
             accept = new AcceptTest(uhc, test);
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
