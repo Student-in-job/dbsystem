@@ -49,7 +49,7 @@ ArrayList<Area> areas = (new Area().getAll());
 				</div>
 			</div>
 		</div>
-		<div class="col col-5"><img src="img/database.png"></div>
+            <div class="col col-5"><img width="85%" src="img/database.png"></div>
 	</div>
 </div>
 

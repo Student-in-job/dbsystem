@@ -170,6 +170,27 @@ public class Program extends Parent{
         });
         return list;
     }
+    
+    public ArrayList<Task> getTasks() {
+        ArrayList<Task> list = new ArrayList<Task>();
+        try{
+            DataBase db = new DataBase(this);
+            ResultSet rs = db.Find("task");
+                        while(rs.next()){
+                            try {list.add(new Task(rs.getInt("task_id")));} 
+                            catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                        }
+            } catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            }
+        Collections.sort(list, new Comparator<Task>() {
+        @Override
+        public int compare(Task o1, Task o2) {
+                return o1.getDay() - o2.getDay();
+        }
+        });
+        return list;
+    }
        
     public ArrayList<Material> getMaterials(){
         ArrayList<Material> list = new ArrayList<Material>();

@@ -106,7 +106,7 @@ public class Task extends Component {
         return Time;
     }
     
-    public HashMap<User, Integer> getStatistic(){
+    /*public HashMap<User, Integer> getStatistic(){
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
@@ -127,7 +127,7 @@ public class Task extends Component {
         
         return list;
             
-    }
+    }*/
     
     public int getBall(){
         
@@ -152,7 +152,7 @@ public class Task extends Component {
             Connection conn = db.getStudentConn();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(this.Answer);
-            conn.close();
+            //conn.close();
             return rs;
             
         
