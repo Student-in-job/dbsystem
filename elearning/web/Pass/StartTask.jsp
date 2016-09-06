@@ -42,7 +42,7 @@
         if(accept!=null){response.sendRedirect("PassTask.jsp"); return;}
             
         Date dt = uhc.getCourse().getSchadule().getDateOf(task);
-        if(dt.after(new Date())){%>
+        if(dt.before(new Date())){%>
 <!DOCTYPE html>
 <html>
     <head>
