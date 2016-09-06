@@ -53,7 +53,7 @@
         <h1>Time for this test left!</h1>
     </body>
 </html>
-<%      }
+<% return;     }
         try{
             accept = new AcceptTest(uhc, test);
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
