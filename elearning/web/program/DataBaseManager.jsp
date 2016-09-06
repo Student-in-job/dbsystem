@@ -11,6 +11,8 @@
 <%
 if(request.getMethod().equals("POST")){
     String query = request.getParameter("query");
+    
+    
     Statement stmt = db.getTuterConn().createStatement();
     try{ 
         stmt.execute(query);

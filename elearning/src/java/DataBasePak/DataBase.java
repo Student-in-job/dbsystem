@@ -124,6 +124,12 @@ public class DataBase {
                 this.write_task();
                 break;
             }
+            
+            case 12 : {
+                
+                this.write_accept_task();
+                break;
+            }
                         
             default: {
                 
@@ -190,6 +196,12 @@ public class DataBase {
             case 11 : {
                 
                 this.rewrite_task();
+                break;
+            }
+            
+            case 12 : {
+                
+                this.rewrite_accept_task();
                 break;
             }
             
@@ -690,6 +702,32 @@ public class DataBase {
             stmt.setInt(7, task.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
+    }
+
+    private void write_accept_task() throws SQLException {
+        
+        AcceptTask accept = (AcceptTask) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into accept_task (accept_task_date, user_has_course, task) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
+        
+            stmt.setInt(1, accept.getUserHasCourse().getID());
+            stmt.setInt(2, accept.getTaskID());
+            Done = stmt.executeUpdate() == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) OnsID = rs.getInt(1);
+    }
+
+    private void rewrite_accept_task() throws SQLException {
+        
+        AcceptTask accept = (AcceptTask) Ons;
+        
+        PreparedStatement stmt = Connection.prepareStatement
+        ("UPDATE accept_task SET accept_task_ball=? WHERE accept_task_id=?;");
+        
+            stmt.setInt(1, accept.isRight()?1:0);
+            stmt.setInt(2, accept.getID());
+            Done = stmt.executeUpdate() == 1;
     }
 
 

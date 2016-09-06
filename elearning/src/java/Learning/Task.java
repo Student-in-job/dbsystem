@@ -11,6 +11,7 @@ import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import DataBasePak.InvalidQuery;
 import DataBasePak.db;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -148,8 +149,12 @@ public class Task extends Component {
     
     public ResultSet getAnswerResult() throws SQLException, NamingException{
         
-            Statement stmt = db.getStudentConn().createStatement();
-            return stmt.executeQuery(this.Answer);
+            Connection conn = db.getStudentConn();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(this.Answer);
+            conn.close();
+            return rs;
+            
         
         
     }

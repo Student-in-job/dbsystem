@@ -1,11 +1,15 @@
 
 import DataBasePak.Log;
-import DataBasePak.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.sql.DataSource;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,7 +32,9 @@ public class sys_conf implements ServletContextListener {
                     
         try {
             
-            Connection conn = db.getConn();
+            InitialContext initContext= new InitialContext();
+            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
+            Connection conn= ds.getConnection();
             PreparedStatement stmt = null;
             
             stmt = conn.prepareStatement("delete from sys_conf where name = 'RealPath';");
@@ -51,9 +57,12 @@ public class sys_conf implements ServletContextListener {
             stmt = conn.prepareStatement("insert into sys_conf(name, value) values ('FileDir', ?);");
             stmt.setString(1, sce.getServletContext().getInitParameter("FileDir"));
             stmt.executeUpdate();
+            conn.close();
         
         } catch (SQLException ex) {
             Log.getOut(ex.getMessage());
+        } catch (NamingException ex) {
+            Logger.getLogger(sys_conf.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
