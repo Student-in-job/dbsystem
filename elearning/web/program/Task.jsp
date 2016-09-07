@@ -81,14 +81,14 @@
 
 %>
                     <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
                         <th><%=rs.getMetaData().getColumnName(i)%></th>
 <%}%>
                     </tr>
 <%
     while(rs.next()){%>
                     <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
                         <td><%=rs.getString(i)%></td>
 <%}%>
                     </tr>

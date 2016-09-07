@@ -267,9 +267,7 @@ public class Program extends Parent{
         if(db.Done()){
             Statement stmt = DataBasePak.db.getConn().createStatement();
             PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
-            String prefex = this.Teacher.mail;
-            prefex.replace('@', '_');
-            prefex+="_"+String.valueOf(this.ID)+"_%";
+            String prefex= String.valueOf(this.ID)+"_%";
             stmt2.setString(1, prefex);
             ResultSet rs=stmt2.executeQuery();
             

@@ -4,6 +4,8 @@
     Author     : ksinn
 --%>
 
+<%@page import="Learning.DBManeger"%>
+<%@page import="Learning.Program"%>
 <%@page import="java.sql.Statement"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>\
 
@@ -12,6 +14,7 @@
 if(request.getMethod().equals("POST")){
     String query = request.getParameter("query");
     
+    DBManeger man = new DBManeger(query, new Program(1));
     
     Statement stmt = db.getTuterConn().createStatement();
     try{ 
