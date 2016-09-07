@@ -161,6 +161,8 @@
 .img-circle {
     border-radius: 50%;
     border: 12px solid #fff;
+    width: 175px;
+    height: 175px;
 }
 
 .userbar-2 {
@@ -405,4 +407,21 @@ a.test-edit:hover {
 
 .font-green {
     color: #83C650;
+}
+
+.box {
+    position: fixed;
+    text-align: center;
+    
+    width: 100%;
+}
+
+.middle-text {
+    border-radius: 8px;
+    background: #7986cb;
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto;
+    width: 60%;
+    color: #fff;
 }
