@@ -266,8 +266,20 @@ public class Program extends Parent{
         db.ReWrite();
         if(db.Done()){
             Statement stmt = DataBasePak.db.getConn().createStatement();
-            stmt.execute("revoke all on task.area from 'tuter'@'localhost';");
+            PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
+            String prefex = this.Teacher.mail;
+            prefex.replace('@', '_');
+            prefex+="_"+String.valueOf(this.ID)+"_%";
+            stmt2.setString(1, prefex);
+            ResultSet rs=stmt2.executeQuery();
+            
+            while(rs.next()){
+                stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
+            }
+            stmt.executeBatch();
+           return true; 
         }
+        else return false;
     }
     
     public boolean MayAddTest(){
