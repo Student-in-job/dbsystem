@@ -84,8 +84,10 @@ create table if not exists task (
   task_text text(2000) not null,
   program int(11) not null,
   task_db_index varchar(45) not null,
-  task_answer varchar(200) not null,
+  task_answer text(500) not null,
   task_ball int(11) not null,
+  task_time int(11) not null,
+  task_deleted int(1) not null default 0,
   primary key (task_id),
   constraint fk_task_program1 foreign key (program) references program (program_id) on delete no action on update no action
 );
@@ -149,14 +151,6 @@ create table if not exists comments (
   primary key (comment_id),
   constraint fk_comment_user1  foreign key (user)  references user (user_id)    on delete no action    on update no action,
   constraint fk_comment_course1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
-
-/*create table if not exists schedules (
-  schedules_id int(11) not null auto_increment,
-  course int(11) not null,
-  schedules_deleted int(1) not null default 0,
-  primary key (schedules_id),
-  constraint fk_schedule_course1  foreign key (course)  references course (course_id)    on delete no action    on update no action);*/
-
 
 create table if not exists schedule_has_material (
   material int(11) not null,
@@ -248,7 +242,11 @@ create table if not exists externe_has_task (
   constraint fk_externe_has_task_externe1  foreign key (externe)  references externe (externe_id)    on delete no action    on update no action,
   constraint fk_externe_has_task_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action);
 
-
+create database task;
+CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
+CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
+grant create, alter, drop, update, delete, select on task.* to 'tuter'@'localhost';
+grant select on task.* to 'student'@'localhost';
 
 
 

@@ -1,3 +1,4 @@
+drop database elearning;
 create schema if not exists elearning default character set utf8 collate utf8_general_ci ;
 use elearning;
 
@@ -83,8 +84,10 @@ create table if not exists task (
   task_text text(2000) not null,
   program int(11) not null,
   task_db_index varchar(45) not null,
-  task_answer varchar(200) not null,
+  task_answer text(500) not null,
   task_ball int(11) not null,
+  task_time int(11) not null,
+  task_deleted int(1) not null default 0,
   primary key (task_id),
   constraint fk_task_program1 foreign key (program) references program (program_id) on delete no action on update no action
 );
@@ -116,13 +119,14 @@ create table if not exists user_has_course (
 );
 
 create table if not exists accept_task (
-  accept_id int(11) not null auto_increment,
+  accept_task_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  accept_datetime datetime not null,
+  accept_task_date datetime not null,
+  accept_task_pass int(1) not null default 0,
   user_has_course int(11) not null,
   task int(11) not null,
-  accept_state varchar(10) not null,
-  primary key (accept_id),
+  accept_task_deleted int(1) default 0,
+  primary key (accept_task_id),
   constraint fk_mark_user_has_course1  foreign key (user_has_course)  references user_has_course (user_has_course_id)    on delete no action    on update no action,
   constraint fk_mark_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action
 );
@@ -172,7 +176,7 @@ create table if not exists schedule_has_task (
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   course int(11) not null,
   date_time datetime not null,
-  schedule_has_tsak_deleted int(1) default 0,
+  schedule_has_task_deleted int(1) default 0,
   primary key (task, course),
   constraint fk_task_has_schedule_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action,
   constraint fk_task_has_schedule_schedule1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
@@ -247,4 +251,8 @@ create table if not exists externe_has_task (
   constraint fk_externe_has_task_externe1  foreign key (externe)  references externe (externe_id)    on delete no action    on update no action,
   constraint fk_externe_has_task_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action);
 
-
+create database task;
+CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
+CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
+grant all on task to 'tuter'@'localhost';
+grant select on task to 'student'@'localhost';
