@@ -84,7 +84,7 @@ int program_id = 0;
 
 
 
-                    <div class="col col-8">
+                    <div class="col">
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=prog.getIco()%>" alt="" class="float-left" style="margin-right: 20px; margin-bottom: 20px;">
                         <p class="middle">
                             Type: Selfstudy <br>
@@ -96,7 +96,7 @@ int program_id = 0;
 <%if(u){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round primary">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round error">DELETE</button></a>
-                            <button class="button small round success" onclick="publish()">PUBLISHE</button>
+                            <button class="button small round warning" style="color: #000;" onclick="publish()">PUBLISHE</button>
 
 <%}%> 
 <%if(c){%>                            
@@ -147,7 +147,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?program=<%=prog.getID()%>"><button class="button small round error">ADD</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        

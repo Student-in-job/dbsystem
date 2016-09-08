@@ -13,8 +13,22 @@
 			<div id="sidenav" class="sidenav">
 	            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	            <div class="row centered">
-	            	<div class="item logo"></div>
-	            </div>
+	            	<img class="logo-round" src="img/logo-round.png">
+                    </div>
+                    
+                    <div class="row centered search-box">
+                        <form method="post" action="" class="form">
+                            <div class="form-item">
+                                <div class="controls">
+                                <input type="text" name="search" placeholder="Search">
+                                <button class="button primary">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
 	            <div class="valign-sidenav">
 		            <div class="row centered">
 		            	<a href="<%=request.getServletContext().getContextPath()%>/about_as.thml"><b>ABOUT US</b></a>
@@ -45,7 +59,7 @@ if(user!=null){%>
                     
                         <img src="<%=request.getServletContext().getContextPath()%>/<%=user.getIco()%>" class="usr-img float-left">
                     
-                    <a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp">
+                        <a href="<%=request.getServletContext().getContextPath()%>/Userbar.jsp" style="text-decoration: none;">
                         <button>
                             <%=user.getName()%> &rarr;
                         </button>

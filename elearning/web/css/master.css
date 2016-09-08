@@ -90,7 +90,7 @@
 	margin-top: 75%;
 }
 .valign-sidenav {
-	padding-top: 100px; /* need to change value after stay new valid logo */
+	padding-top: 0px; /* need to change value after stay new valid logo */
 }
 /* start slide menu */
 .sidenav {
@@ -424,4 +424,14 @@ a.test-edit:hover {
     margin: auto;
     width: 60%;
     color: #fff;
+}
+
+.search-box {
+    padding-top: 75px;
+}
+
+
+
+.logo-round {
+    border-radius: 50%;
 }

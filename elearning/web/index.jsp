@@ -26,10 +26,10 @@ ArrayList<Area> areas = (new Area().getAll());
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="css/kube.min.css">
+        <link rel="stylesheet" href="css/kube.min.css">
 
-    <link rel="stylesheet" href="css/kube-ext.css">
-    <link rel="stylesheet" href="css/master.css">
+        <link rel="stylesheet" href="css/kube-ext.css">
+        <link rel="stylesheet" href="css/master.css">
 </head>
 <body>
 
@@ -43,9 +43,6 @@ ArrayList<Area> areas = (new Area().getAll());
 				<div class="item">
 					<h2 class="upper primary">Database</h2>
 					<h4 class="subheading muted space-both">Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor</h4>
-				</div>
-				<div class="item">
-					<a class="button round outline">Show more &rarr;</a>
 				</div>
 			</div>
 		</div>
