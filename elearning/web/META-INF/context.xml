@@ -4,17 +4,19 @@
 <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
                username="root" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/elearning"/>
+               url="jdbc:mysql://localhost:3306/elearning?useUnicode=true&amp;characterEncoding=UTF-8"
+/>
 
 <Resource name="jdbc/DBtuter" auth="ContainerTuter" type="javax.sql.DataSource"
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
                username="tuter" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/task"/>
+               url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"/>
 
 <Resource name="jdbc/DBstudent" auth="ContainerStudent" type="javax.sql.DataSource"
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
                username="student" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/task"/>
+               url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"
+/>
 
 </Context>
 

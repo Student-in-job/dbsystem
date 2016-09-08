@@ -42,7 +42,7 @@
         if(accept!=null){response.sendRedirect("PassTask.jsp"); return;}
             
         Date dt = uhc.getCourse().getSchadule().getDateOf(task);
-        if(dt.after(new Date())){%>
+        if(dt.before(new Date())){%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,7 +53,7 @@
         <h1>Time for this test left!</h1>
     </body>
 </html>
-<%      }
+<% return;      }
         try{
             accept = new AcceptTask(uhc, task);
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -97,7 +97,7 @@
                 </p>
             </div>
 
-            <div class="row centered best-results ">
+<%--            <div class="row centered best-results ">
                 <h4 class="col col-12">BEST RESULTS</h4>
 <%
 for(Entry e : task.getStatistic().entrySet()){
@@ -110,11 +110,11 @@ for(Entry e : task.getStatistic().entrySet()){
                     <p><%=((User)e.getKey()).getName()%> <%=((User)e.getKey()).getSurname()%></p>
                 </div>
 <%}%>              
-            </div>
+            </div>--%>
             <div class="col col-12 test-btn">
 <%if(user!=null)if(user.getID()!=task.getProgram().getTeacherID()){%>
                 <form method="POST" action="StartTask.jsp">
-                <input type="hidden" name="test" value="<%=ts%>">
+                <input type="hidden" name="task" value="<%=ts%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">
                 </form>
 <%}%>   

@@ -24,12 +24,14 @@
     
     ArrayList<Material> material;
     ArrayList<Test> test;
+    ArrayList<Task> task;
     
     SimpleDateFormat form = new SimpleDateFormat();
     form.applyPattern("yyyy-MM-dd");    
     
     material = course.getProgram().getMaterials();
     test = course.getProgram().getTests();
+    task = course.getProgram().getTasks();
         
         if(request.getMethod().equals("GET")){
             
@@ -49,6 +51,14 @@
                     d = new Day(new Date(course.getDate().getTime()+3600*24*1000*test.get(i).getDay()));
                 d.put(test.get(i));
                 days.put(test.get(i).getDay(), d);
+            }
+            
+            for(int i=0;i<task.size(); i++){
+                d = days.get(task.get(i).getDay());
+                if(d==null)
+                    d = new Day(new Date(course.getDate().getTime()+3600*24*1000*task.get(i).getDay()));
+                d.put(task.get(i));
+                days.put(task.get(i).getDay(), d);
             }
           
 %>
@@ -153,6 +163,9 @@
                 for(int i=0; i<test.size(); i++){
                     test.get(i).setDate(days.get(test.get(i).getDay()));
                 }
+                for(int i=0; i<task.size(); i++){
+                    task.get(i).setDate(days.get(task.get(i).getDay()));
+                }
 
                 /*session.setAttribute("material", material);
                 session.setAttribute("test", test);
@@ -161,16 +174,18 @@
                 ArrayList<Component> comp = new ArrayList<Component>();
                 comp.addAll(material);
                 comp.addAll(test);
+                comp.addAll(task);
                 try{
                     course.Write(d2, user, comp);
-                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=IllegalAction"); return;}
-                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=ObjectNotFind"); return;}
-                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp?e=InvalidParameter"); return;} 
-                catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect("/elearning/Error.jsp"); return;}
+                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
+                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
+                catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
 
                 session.removeAttribute("course");
                 session.removeAttribute("material");
                 session.removeAttribute("test");
+                session.removeAttribute("task");
                 response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
                 return;
 

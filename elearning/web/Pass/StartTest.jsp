@@ -42,7 +42,7 @@
         if(accept!=null){response.sendRedirect("PassTest.jsp?no=0"); return;}
             
         Date dt = uhc.getCourse().getSchadule().getDateOf(test);
-        if(dt.after(new Date())){%>
+        if(dt.before(new Date())){%>
 <!DOCTYPE html>
 <html>
     <head>

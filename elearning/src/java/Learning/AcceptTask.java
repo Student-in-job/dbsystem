@@ -6,6 +6,7 @@
 package Learning;
 
 import DataBasePak.DataBase;
+import DataBasePak.Log;
 import DataBasePak.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,12 +18,10 @@ import javax.naming.NamingException;
  *
  * @author ksinn
  */
-public class AcceptTask extends Parent{
+public class AcceptTask extends Accept{
     
     private Task Task;
-    private User_courses UserHasCourse;
     private int Ball;
-    private Date StartTime;
     private String UserAnswer;
     
     @Override
@@ -54,27 +53,52 @@ public class AcceptTask extends Parent{
     }
     
     public void Final() throws Exception{
-        Ball=0;
         
-        DataBase db = new DataBase(this);
-        db.ReWrite();
+        if(this.isRight()){        
+            DataBase db = new DataBase(this);
+            db.ReWrite();
+        }
         
         
     }
     
-    public void putAnswer(String answer) throws NamingException, SQLException{
+    public void putAnswer(String answer) throws NamingException{
         
-        UserAnswer=answer;
-        ResultSet stud, tut;
             try{
-                Statement stmt = db.getStudentConn().createStatement();
-                stud =  stmt.executeQuery(UserAnswer);
-            } catch(SQLException ex){Ball=0; return;}
+                Ball=0;
+                UserAnswer=answer;
+                ResultSet stud, tut;
+                try{
+                    Statement stmt = db.getStudentConn().createStatement();
+                    stud =  stmt.executeQuery(UserAnswer);
+                } catch(SQLException ex){Ball=0; return;}      
+                
+                tut = Task.getAnswerResult();
+                if(this.Compear(tut, stud))
+                    Ball = Task.getBall();
+                
+            } catch(SQLException ex){Log.getOut(ex.getMessage()); }
             
-            tut = Task.getAnswerResult();
-            if(tut.equals(stud)) 
-                Ball = Task.getBall();      
-            
+    }
+    
+    private boolean Compear(ResultSet r1, ResultSet r2) throws SQLException{
+        
+        for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
+            if(!r1.getMetaData().getColumnName(i).equals(r2.getMetaData().getColumnName(i)))
+                return false;
+        
+        while(r1.next()){
+            r2.next();
+            for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
+            if(!r1.getString(i).equals(r2.getString(i)))
+                return false;
+        }
+        
+        if(r2.next()) return false;
+        
+        return true;
+        
+        
     }
     
     public boolean isRight(){
@@ -91,12 +115,9 @@ public class AcceptTask extends Parent{
         
     }
     
+    @Override
     public int getBall(){
         return Ball;
-    }
-    
-    public User_courses getUserHasCourse(){
-        return UserHasCourse;
     }
     
     public int getTaskID(){
@@ -107,17 +128,8 @@ public class AcceptTask extends Parent{
         return Task;
     }
     
-    public Date getStartTime(){
-        return StartTime;
-    }
-    
+    @Override
     public Date getEndTime(){
         return new Date(StartTime.getTime()+Task.getTime()*60*1000);
-    }
-
-    @Override
-    public boolean MayChange(){
-        return false;
-    }
-    
+    }    
 }

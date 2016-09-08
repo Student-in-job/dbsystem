@@ -5,18 +5,15 @@
  */
 package Learning;
 
-import DataBasePak.Log;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import DataBasePak.InvalidQuery;
 import DataBasePak.db;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import javax.naming.NamingException;
 
 /**
@@ -28,6 +25,7 @@ public class Task extends Component {
     protected int Time;
     protected int Ball;
     protected String Answer;
+    protected String Question;
     
     @Override
     public int getID(){
@@ -72,6 +70,7 @@ public class Task extends Component {
                     this.Time = rs.getInt("task_time");
                     this.Ball = rs.getInt("task_ball");
                     this.Answer = rs.getString("task_answer");
+                    this.Question = rs.getString("task_text");
   }
    
     
@@ -106,7 +105,7 @@ public class Task extends Component {
         return Time;
     }
     
-    public HashMap<User, Integer> getStatistic(){
+    /*public HashMap<User, Integer> getStatistic(){
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
@@ -127,7 +126,7 @@ public class Task extends Component {
         
         return list;
             
-    }
+    }*/
     
     public int getBall(){
         
@@ -136,6 +135,10 @@ public class Task extends Component {
 
     public String getAnswer() {
         return this.Answer;
+    }
+    
+    public String getQuestion() {
+        return this.Question;
     }
     
     private Exception CorrectSQLQuery(){
@@ -152,7 +155,7 @@ public class Task extends Component {
             Connection conn = db.getStudentConn();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(this.Answer);
-            conn.close();
+            //conn.close();
             return rs;
             
         

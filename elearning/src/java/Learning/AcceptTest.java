@@ -17,16 +17,14 @@ import java.util.Random;
  *
  * @author ksinn
  */
-public class AcceptTest  extends Parent{
+public class AcceptTest  extends Accept{
     
     private Test Test;
-    private User_courses UserHasCourse;
     private ArrayList<TestTask> Task;
     private ArrayList<ArrayList<String>> Variant;
     private HashMap<Integer, String> Answer; 
     private int Ball;
     private int Right;
-    private Date StartTime;
     
     @Override
     public int getID(){
@@ -93,6 +91,7 @@ public class AcceptTest  extends Parent{
     }
     
     
+    @Override
     public int getBall(){
         return Ball;
     }
@@ -137,10 +136,6 @@ public class AcceptTest  extends Parent{
         return list;
     }
     
-    public User_courses getUserHasCourse(){
-        return UserHasCourse;
-    }
-    
     public int getTestID(){
         return Test.getID();
     }
@@ -149,17 +144,9 @@ public class AcceptTest  extends Parent{
         return Test;
     }
     
-    public Date getStartTime(){
-        return StartTime;
-    }
-    
+    @Override
     public Date getEndTime(){
         return new Date(StartTime.getTime()+Test.getTime()*60*1000);
-    }
-
-    @Override
-    public boolean MayChange(){
-        return false;
     }
     
 }

@@ -131,7 +131,7 @@ if(request.getMethod()=="POST"){
 
                         name:{
                             required: true,
-                            equalTo: "Final Exam",
+                            
                         },
                         
                         day:{
@@ -150,7 +150,7 @@ if(request.getMethod()=="POST"){
                         time:{
                             required: true,
                             number: true,
-                            min: 3,
+                            min: 5,
                             max: 120,
                         },
                         
