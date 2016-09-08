@@ -17,10 +17,10 @@
                     </div>
                     
                     <div class="row centered search-box">
-                        <form method="post" action="" class="form">
+                        <form method="get" action="<%=request.getServletContext().getContextPath()%>/Courses.jsp" class="form">
                             <div class="form-item">
                                 <div class="controls">
-                                <input type="text" name="search" placeholder="Search">
+                                <input type="text" name="find" placeholder="Search">
                                 <button class="button primary">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
