@@ -31,13 +31,23 @@
 
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/extend/tabs.js"></script>
     </head>
     <body>
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
-
+                
+                <nav class="tabs" data-component="tabs" data-equals="true">
+                    <ul>
+                        <li class="active"><a href="#form1">FORM-1</a></li>
+                        <li><a href="#form2">FORM-2</a></li>
+                    </ul>
+                </nav>
+                <!--Form 1 START-->
                 <form id="form1" class="form" action="Upload" method="post" enctype="multipart/form-data">
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     
@@ -54,9 +64,9 @@
                     	<button class="button primary width-100 big">Complete</button>
                     </div> 
                 </form>
-        
+                <!--Form 1 END-->
    
-        
+               <!--Form 2 START-->
                 <form id="form2" class="form" action="Upload" method="post">
                     <input name="material" type="hidden" value="<%=request.getParameter("material")%>"><br>
                     

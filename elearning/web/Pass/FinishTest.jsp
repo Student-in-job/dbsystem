@@ -45,7 +45,7 @@
         <%@include file="../header.jsp" %>
         
         <div class="row centered text-center test">
-            <div class="col col-8 ">
+            <div class="col col-12 ">
                 <h4 class="col col-12">YOU RESULTS</h4>                
                 <div class="col">
                     <h3><%=accept.getTest().getName()%></h3>
