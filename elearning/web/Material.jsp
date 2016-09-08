@@ -85,7 +85,7 @@ if(!vfile.isEmpty()){
                                             {
                                                 file:"<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>",
                                                 title:"<%=vfile.get(i).getTitle()%>",
-                                                image:"<%=request.getServletContext().getContextPath()%>/img/logo-full.png"
+                                                image:"<%=request.getServletContext().getContextPath()%>/<%=mat.getProgram().getIco()%>"
                                             },
                                             <%}%>
                                         ]
