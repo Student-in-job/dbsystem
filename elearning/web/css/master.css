@@ -418,7 +418,7 @@ a.test-edit:hover {
 
 .middle-text {
     border-radius: 8px;
-    background: #7986cb;
+    background: rgb(243, 66, 72);
     display: inline-block;
     vertical-align: middle;
     margin: auto;

@@ -17,9 +17,9 @@
 	            </div>
 	            <div class="valign-sidenav">
 		            <div class="row centered">
-		            	<a href="#"><b>ABOUT US</b></a>
-		            	<a href="#"><b>MANUAL</b></a>
-		            	<a href="#"><b>COURSES</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/about_as.thml"><b>ABOUT US</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/manual.pdf"><b>MANUAL</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp"><b>COURSES</b></a>
 		            </div>
                         <div class="row centered">
                             <a href="<%=request.getServletContext().getContextPath()%>/Peoples.jsp"><b>PEOPLE</b></a>

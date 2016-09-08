@@ -72,7 +72,9 @@ int program_id = 0;
         
     </head>
     <body>
-        <div id="mesagge" style="display: none;"></div>
+        <div  class="box " >
+            <div id="mesagge" class="middle-text"></div>
+        </div>
         <%@include file="header.jsp" %>
         <div class="row centered">
             <div class="col col-8">

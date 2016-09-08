@@ -54,7 +54,6 @@
         minlevel = Integer.parseInt(request.getParameter("minlevel")==null?"0":request.getParameter("minlevel"));
         duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
         img = request.getPart("picture");
-        if(img.getSize()==0) img=null;
 
         if(minlevel<=level){
         

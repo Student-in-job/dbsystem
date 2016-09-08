@@ -88,7 +88,7 @@ public class IcoFile{
             case "user":{Xx=168; Yy=168; break;}
             case "program":{Xx=266; Yy=193; break;}
         }
-        float k =  (float) (Xx/Yy);
+        float k =  ( (float) Xx/Yy);
         int X = img.getWidth();
         int Y = img.getHeight();
         int x,y;

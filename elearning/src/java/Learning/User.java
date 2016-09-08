@@ -335,7 +335,7 @@ public class User extends Parent{
         us.ID = this.ID;
         DataBase db = new DataBase(us);
         db.ReWrite();
-        if(part!=null){
+        if(part.getSize()!=0){
             IcoFile file = new IcoFile(part, this);
             file.SaveFile();
         }            
@@ -347,7 +347,10 @@ public class User extends Parent{
         if(!Logined){
             if(this.write()){
                 SendMail mail = new SendMail();
-                mail.send("Regestration", "blablabla", this.mail);
+                mail.send("Regestration", "Dear "+this.Name+"!\n"+
+                                            "Thank you for your registration in our system, online education!\n" +
+                                           "Your login: "+this.mail+"\n" +
+                                           "Your password:"+this.mail+"\n", this.mail);
             }
             IcoFile file = new IcoFile(part, this);
             file.SaveFile();
