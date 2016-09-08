@@ -17,10 +17,10 @@
                     </div>
                     
                     <div class="row centered search-box">
-                        <form method="post" action="" class="form">
+                        <form method="get" action="<%=request.getServletContext().getContextPath()%>/Courses.jsp" class="form">
                             <div class="form-item">
                                 <div class="controls">
-                                <input type="text" name="search" placeholder="Search">
+                                <input type="text" name="find" placeholder="Search">
                                 <button class="button primary">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
@@ -31,9 +31,9 @@
                     
 	            <div class="valign-sidenav">
 		            <div class="row centered">
-		            	<a href="#"><b>ABOUT US</b></a>
-		            	<a href="#"><b>MANUAL</b></a>
-		            	<a href="#"><b>COURSES</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/about_as.thml"><b>ABOUT US</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/manual.pdf"><b>MANUAL</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp"><b>COURSES</b></a>
 		            </div>
                         <div class="row centered">
                             <a href="<%=request.getServletContext().getContextPath()%>/Peoples.jsp"><b>PEOPLE</b></a>

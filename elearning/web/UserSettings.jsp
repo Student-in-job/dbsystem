@@ -14,6 +14,7 @@
 
 <%@include file="/logfrag.jsp" %>
 <%
+    request.setCharacterEncoding("UTF-8");
     if (request.getMethod() == "GET") {
         String e = request.getParameter("e");
         
@@ -92,7 +93,7 @@
 
 <%if("password".equals(e)){%>
                     <div class="alert error">
-                        <p style="color: red;">The email address you have entered is already registered</p>
+                        <p style="color: red;">Uncorect password!</p>
                     </div>
 <%}%>
                                         

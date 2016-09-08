@@ -251,7 +251,7 @@ public class Program extends Parent{
                 e.Change(e.getName(), e.getInventory(), this.Duration, user, e.getTime());
             }
         
-        if(part!=null){
+        if(part.getSize()!=0){
             IcoFile file = new IcoFile(part, this);
             file.SaveFile();}
         return db.Done();
@@ -265,7 +265,7 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         db.ReWrite();
         if(db.Done()){
-            Statement stmt = DataBasePak.db.getConn().createStatement();
+            /*Statement stmt = DataBasePak.db.getConn().createStatement();
             PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
             String prefex= String.valueOf(this.ID)+"_%";
             stmt2.setString(1, prefex);
@@ -274,7 +274,7 @@ public class Program extends Parent{
             while(rs.next()){
                 stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
             }
-            stmt.executeBatch();
+            stmt.executeBatch();*/
            return true; 
         }
         else return false;
@@ -347,16 +347,16 @@ public class Program extends Parent{
         
         String error="";
         ArrayList<Material> materials = this.getMaterials();
-        if(materials.isEmpty()) error+= "Нет ни одного материала; \n";
+        if(materials.isEmpty()) error+= "No material;<br>";
         for(int i=0; i<materials.size(); i++){
-            if(materials.get(i).getDay()>this.getDuration()) error+=  "Лекция "+materials.get(i).getName() + " выходит за временные рамки курса\n";
-            if(materials.get(i).getDocFile().size()<1) error+=  "У лекции "+materials.get(i).getName() + " нет документа\n";
+            if(materials.get(i).getDay()>this.getDuration()) error+=  "Incorrect time "+materials.get(i).getName() + " material;<br>";
+            if(materials.get(i).getDocFile().size()<1) error+=  "Material "+materials.get(i).getName() + " does not document;<br>";
         }
         ArrayList<Test> tests = this.getTests();
         for(int i=0; i<tests.size(); i++){
-            if(tests.get(i).getDay()>this.getDuration()) error+=  "Тест "+tests.get(i).getName() + " выходит за временные рамки курса\n";
+            if(tests.get(i).getDay()>this.getDuration()) error+=  "Incorrect time "+tests.get(i).getName() + " test;<br>";
             if(tests.get(i).getTask().size()<1)
-                error+=  "Отсутствуют вопросы в тесте "+tests.get(i).getName()+"\n";
+                error+=  "In the test "+tests.get(i).getName()+" no questions;<br>";
             }
         return error.equals("")?null:error;
         

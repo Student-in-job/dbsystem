@@ -79,6 +79,13 @@ int n = (p*N)<courses.size()?p+1:0;
 	</div>
 			
 	<div class="row between">
+<%if(courses.size()==0){%>  
+<div class="col text-center">
+<div class="item">
+    <p>Nothing yet</p>
+</div>
+</div>
+<%}%>
 <%for(int i=(p-1)*N; i<p*N&&i<courses.size(); i++){%>            
 		<div class="col text-center">		
 			<div class="item">

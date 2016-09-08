@@ -55,7 +55,13 @@ ArrayList<Files> vfile = mat.getVideoFile();
                 <p>
 <%if(u){%>                    <a href="<%=request.getServletContext().getContextPath()%>/program/CreateMaterial.jsp?material=<%=mat.getID()%>&program=<%=mat.getProgramID()%>"><button class="button small round success">UPDATE</button></a>
                     <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?material=<%=mat.getID()%>"><button class="button small round success">DELETE</button></a>
-<%}%>                    <%=mat.getText()%>
+<%}%>                    
+                </p>
+                <p>
+                    <%=mat.getInventory()%>
+                </p>
+                <p>
+                    <%=mat.getText()%>
                 </p>
 <%
 if(!vfile.isEmpty()){
@@ -79,7 +85,7 @@ if(!vfile.isEmpty()){
                                             {
                                                 file:"<%=request.getServletContext().getContextPath()%>/<%=vfile.get(i).getURL()%>",
                                                 title:"<%=vfile.get(i).getTitle()%>",
-                                                image:"<%=request.getServletContext().getContextPath()%>/img/logo-full.png"
+                                                image:"<%=request.getServletContext().getContextPath()%>/<%=mat.getProgram().getIco()%>"
                                             },
                                             <%}%>
                                         ]
