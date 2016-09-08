@@ -150,6 +150,16 @@ for(int j=0; j<7; j++){
                                             <%=d.get(i).getDateString()%>
                                         </td>
                                     </tr>
+            <%}if(d.get(i).getType().equals("task")){%>
+                                    <tr>
+                                        <td>
+                                            task: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                            <br><%=d.get(i).getProgram().getName()%>
+                                        </td>
+                                        <td>
+                                            <%=d.get(i).getDateString()%>
+                                        </td>
+                                    </tr>
             <%}
         }
     }

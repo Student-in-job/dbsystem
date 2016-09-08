@@ -39,9 +39,7 @@ public class Schedule{
                         while(rs.next()){
                             try{
                                 Material mat = new Material(rs.getInt("material"));
-                                SimpleDateFormat format = new SimpleDateFormat();
-                                format.applyPattern("yyyy-MM-dd hh:mm:ss");
-                                mat.setDate(format.parse(rs.getString("date_time")));
+                                mat.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(mat);
                             }
                             catch(Exception ex){ Log.getOut(ex.getMessage());}
@@ -56,9 +54,22 @@ public class Schedule{
                             try{
                                 Test test = new Test(rs.getInt("test"));
                                 SimpleDateFormat format = new SimpleDateFormat();
-                                format.applyPattern("yyyy-MM-dd hh:mm:ss");
-                                test.setDate(format.parse(rs.getString("date_time")));
+                                test.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(test);
+                            }
+                            catch(Exception ex){ Log.getOut(ex.getMessage());}
+                        } 
+        }catch(Exception ex){
+            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+        }
+        
+        try{
+                    rs = db.Find("schedule_has_task");
+                        while(rs.next()){
+                            try{
+                                Task task = new Task(rs.getInt("task"));
+                                task.setDate(new Date(rs.getDate("date_time").getTime()));
+                                List.add(task);
                             }
                             catch(Exception ex){ Log.getOut(ex.getMessage());}
                         } 

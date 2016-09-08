@@ -81,21 +81,21 @@
 
 %>
                     <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
                         <th><%=rs.getMetaData().getColumnName(i)%></th>
 <%}%>
                     </tr>
 <%
     while(rs.next()){%>
                     <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
                         <td><%=rs.getString(i)%></td>
 <%}%>
                     </tr>
 <%}%>                
                 </table>
-<%}catch(Exception ex){ Log.getOut(ex.getMessage());%>
-<p>Error</p>
+<%}catch(Exception ex){;%>
+<p><%=ex.getMessage()%></p>
 <%}%>                
             </div>
 

@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,17 +13,13 @@
 <%
    request.setCharacterEncoding("UTF-8");
     
-    AcceptTest accept = (AcceptTest) session.getAttribute("accept");
+    AcceptTask accept = (AcceptTask) session.getAttribute("accept");
     if(accept==null){
         response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
     }
     else{
-        int no = Integer.parseInt(request.getParameter("no"));
         String answer = request.getParameter("answer");
-        if(answer!=null){
-            accept.putAnswer(no, answer);
-            no++;}
-            if(no>=accept.getQuantity()) no--;
+        accept.putAnswer(answer);
 
 
 %>
@@ -51,40 +48,53 @@
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
-                <ul class="pagination">
-
-<%for(int i=0; i<accept.getQuantity(); i++){%>            
-                    <li>
-                        <a href="?no=<%=i%>" 
-                        <%if(accept.getAnswer(i)!=null){%> style="background-color: #8bc34a" <%}%>
-                        <%if(i==no){%> class="active" <%}%>
-                        ><%=i+1%>
-                        </a>
-                    </li>
-<%}%>                   
-                </ul>
-                <a href="FinishTest.jsp"><button class="button small round outline">Finish test</button></a>
+                <a href="FinishTask.jsp"><button class="button small round outline">Finish test</button></a>
             </div>
-            <form method="POST" action="PassTest.jsp">    
+            <form method="POST" action="">    
                 <div class="col col-11">
-                    <p><%=no+1%>. <%=accept.getQuestion(no)%> </p>
-
-                        <input type="hidden" name="no" value="<%=no%>">
-<%
-ArrayList<String> var = accept.getVariants(no);
-for(int i=0; i<var.size(); i++){
-%>                
-                    <input type="radio" name="answer" <%=var.get(i).equals(accept.getAnswer(no))?"checked":""%> value="<%=var.get(i)%>">
-                    <label><%=var.get(i)%></label>
-                    <br>
-<%}%>          
+                    <p><%=accept.getTask().getQuestion()%> </p>                                 
                 </div>
+                
+                <div class="col col-11">
+                        <textarea rows="6" required  name="answer"><%=accept.getAnswer()!=null?accept.getAnswer():""%></textarea>
+                </div>
+                
                 <div class="col col-11">
                     <input type="submit" class="button round outline primary" value="Confirm &rArr;">
                 </div>
-            </form>            
+            </form>
+                
+            <div>
+                <p class="error"><%=accept.isRight()?"Right result":""%></p>
+<%
+    try{
+        ResultSet rs = accept.getAnswerResult();
+
+%>
+                <table>    
+                    <tr>
+<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+                        <th><%=rs.getMetaData().getColumnName(i)%></th>
+<%}%>
+                    </tr>
+<%
+    while(rs.next()){%>
+                    <tr>
+<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
+                        <td><%=rs.getString(i)%></td>
+<%}%>
+                    </tr>
+<%}%>                
+                </table>
+<%}catch(Exception ex){;%>
+<p class="error"><%=ex.getMessage()%></p>
+<%}%>         
+            </div>    
         </div>
         
+
+        
+        <%@include file="/footer.jsp" %>
         <script>  
         function show()  
         {  
@@ -95,7 +105,7 @@ for(int i=0; i<var.size(); i++){
                     window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
                 },
                 success: function(data){ 
-                    setTimeout(function(){window.location.href = "FinishTest.jsp"}, data);
+                    setTimeout(function(){window.location.href = "FinishTask.jsp"}, data);
                     data = Math.floor(data/1000);
                     var h = Math.floor(data/3600);
                     data = Math.floor(data%3600);
@@ -112,10 +122,7 @@ for(int i=0; i<var.size(); i++){
             show();  
             setInterval('show()',1000);  
         });  
-    </script> 
-        
-        <%@include file="/footer.jsp" %>
-
+    </script>
     </body>
 </html>
 <%}%>

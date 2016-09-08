@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import Learning.AcceptTest;
+import Learning.Accept;
 import java.util.Date;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +33,7 @@ public class timer extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            Date end = ((AcceptTest)request.getSession().getAttribute("accept")).getEndTime();
+            Date end = ((Accept)request.getSession().getAttribute("accept")).getEndTime();
             long t = end.getTime() - (new Date()).getTime();
             if(t<0) t=0;
             out.println(t);

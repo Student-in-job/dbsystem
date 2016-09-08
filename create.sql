@@ -254,5 +254,5 @@ create table if not exists externe_has_task (
 create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
-grant all on task to 'tuter'@'localhost';
+grant alter, select, create, delete, drop, index, update  on task to 'tuter'@'localhost';
 grant select on task to 'student'@'localhost';

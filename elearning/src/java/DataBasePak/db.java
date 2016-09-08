@@ -32,19 +32,19 @@ public class db {
     private db() 
     {
         try {
-        Properties properties=new Properties();
+        /*Properties properties=new Properties();
         properties.setProperty("user","root");
         properties.setProperty("password","qwerty");
         properties.setProperty("useUnicode","true");
         properties.setProperty("characterEncoding","UTF-8"); 
         
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");*/
         
              
-            /*InitialContext initContext;
+            InitialContext initContext;
             initContext = new InitialContext();
-            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");*/
-            this.db_conn = DriverManager.getConnection("jdbc:mysql://localhost/elearning", properties);//ds.getConnection();
+            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
+            this.db_conn = /*DriverManager.getConnection("jdbc:mysql://localhost/elearning", properties);*/ds.getConnection();
             
             PreparedStatement stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
             ResultSet rs = stmt.executeQuery();
