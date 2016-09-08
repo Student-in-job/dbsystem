@@ -121,9 +121,6 @@ for(Entry e : test.getStatistic().entrySet()){
             </div>             
         </div>
         <%@include file="/footer.jsp" %>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
-
-
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.easypiechart.min.js"></script>
         <script>
             $(function () {
