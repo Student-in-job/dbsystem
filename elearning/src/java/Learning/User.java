@@ -348,7 +348,7 @@ public class User extends Parent{
             if(this.write()){
                 SendMail mail = new SendMail();
                 mail.send("Regestration", "Dear "+this.Name+"!\n"+
-                                            "Thank you for your registration in our system, online education!\n" +
+                                           "Thank you for your registration in our system, online education!\n" +
                                            "Your login: "+this.mail+"\n" +
                                            "Your password:"+this.mail+"\n", this.mail);
             }

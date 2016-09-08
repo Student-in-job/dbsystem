@@ -356,7 +356,7 @@ public class Program extends Parent{
         for(int i=0; i<tests.size(); i++){
             if(tests.get(i).getDay()>this.getDuration()) error+=  "Incorrect time "+tests.get(i).getName() + " test;<br>";
             if(tests.get(i).getTask().size()<1)
-                error+=  "In the test "+tests.get(i).getName()+"no questions;<br>";
+                error+=  "In the test "+tests.get(i).getName()+" no questions;<br>";
             }
         return error.equals("")?null:error;
         
