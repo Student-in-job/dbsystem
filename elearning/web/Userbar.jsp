@@ -62,7 +62,7 @@
             <div class="row userbar-2 ">
                 <div class="col col-2 offset-1 nav">
                     <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Created courses</a>
-                    <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Active courses</a>
+                    <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Published courses</a>
                     <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
                     <a href="#schedule" class="tablink a-blue" onclick="openTab(event, 'schedule')">Schedule</a>
@@ -82,7 +82,7 @@
                             </div>
                             
                             <div id="active_courses" class="courses">
-                                <h3>Active courses</h3>
+                                <h3>Published courses</h3>
 <%=activ_program.isEmpty()?"<p>Nothing yet</p>":""%>                                 
 <%for(int i=0; i<activ_program.size(); i++) {%>  
                 <p>

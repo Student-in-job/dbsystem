@@ -43,7 +43,7 @@
     </servlet>
     <servlet>
         <servlet-name>Delete</servlet-name>
-        <servlet-class>Delete</servlet-class>
+        <jsp-file>/Delete.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>Upload</servlet-name>
