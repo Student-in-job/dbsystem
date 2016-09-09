@@ -89,7 +89,7 @@
         <%@include file="../header.jsp" %>
         
         <div class="row centered text-center test">
-            <div class="col col-8 ">
+            <div class="col col-12 ">
                 <h3><%=test.getName()%></h3>
                 <h4><a href = "<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
                 <p>
