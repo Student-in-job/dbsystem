@@ -435,3 +435,8 @@ a.test-edit:hover {
 .logo-round {
     border-radius: 50%;
 }
+
+.delete-img {
+    height: 200px;
+    border-radius: 10px;
+}
