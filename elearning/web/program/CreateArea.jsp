@@ -14,7 +14,7 @@
     request.setCharacterEncoding("UTF-8");
     String name = null;
     
-    if(request.getMethod()=="POST"){
+    if(request.getMethod().equals("POST")){
         
         name = request.getParameter("name");
         try{    

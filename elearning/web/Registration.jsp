@@ -17,7 +17,7 @@
     request.setCharacterEncoding("UTF-8");
     
     if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
-    if (request.getMethod() == "GET") {
+    if (request.getMethod().equals("GET")) {
 %>
 <!DOCTYPE html>
 <html>
@@ -151,7 +151,7 @@
 </html>
 <%
 }   
-    if (request.getMethod() == "POST") {
+    if (request.getMethod().equals("POST")) {
 
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");

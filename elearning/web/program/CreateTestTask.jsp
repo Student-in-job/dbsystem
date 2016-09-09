@@ -29,7 +29,7 @@
     TestTask nt;
     testtask = Integer.parseInt(request.getParameter("testtask")==null?"0":request.getParameter("testtask"));
     
-if(request.getMethod()=="GET"){
+if(request.getMethod().equals("GET")){
     if(0!=testtask){
         
         try{
@@ -48,7 +48,7 @@ if(request.getMethod()=="GET"){
     }
 }    
     
-if(request.getMethod()=="POST"){
+if(request.getMethod().equals("POST")){
     
     
     question=request.getParameter("question");

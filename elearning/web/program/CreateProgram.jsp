@@ -25,7 +25,7 @@
     
     
     
-    if(request.getMethod()=="GET"){
+    if(request.getMethod().equals("GET")){
     
         if(program!=0){
 
@@ -44,7 +44,7 @@
         }
     }
     
-    if(request.getMethod()=="POST"){
+    if(request.getMethod().equals("POST")){
         
         name = request.getParameter("name");
         inventory = request.getParameter("inventory");

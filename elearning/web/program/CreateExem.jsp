@@ -30,7 +30,7 @@
     Test nt;
     test = Integer.parseInt(request.getParameter("test")==null?"0":request.getParameter("test"));
  
-if(request.getMethod()=="GET"){
+if(request.getMethod().equals("GET")){
     if(test!=0){
         
         try{
@@ -43,7 +43,7 @@ if(request.getMethod()=="GET"){
     }
     
 }    
-if(request.getMethod()=="POST"){
+if(request.getMethod().equals("POST")){
     
     time = Integer.parseInt(request.getParameter("time"));
     

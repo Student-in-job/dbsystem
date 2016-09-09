@@ -33,7 +33,7 @@
     Material nm;
     
     
-    if(request.getMethod()=="GET"){
+    if(request.getMethod().equals("GET")){
     if(material!=0){
         
         try{
@@ -49,7 +49,7 @@
     }
     
 }   
-if(request.getMethod()=="POST"){
+if(request.getMethod().equals("POST")){
     
     
     typ = "Lecture";

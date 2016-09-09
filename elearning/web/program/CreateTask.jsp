@@ -30,7 +30,7 @@
     Task nt;
     task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
  
-if(request.getMethod()=="GET"){
+if(request.getMethod().equals("GET")){
     if(task!=0){
         
         try{
@@ -48,7 +48,7 @@ if(request.getMethod()=="GET"){
     }
     
 }    
-if(request.getMethod()=="POST"){
+if(request.getMethod().equals("POST")){
     
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");

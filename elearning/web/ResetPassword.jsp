@@ -11,7 +11,7 @@
 <%
 if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
 
-if(request.getMethod()=="POST"){
+if(request.getMethod().equals("POST")){
     
     User us = new User(request.getParameter("mail"), "");
     try{
@@ -61,7 +61,7 @@ if(request.getMethod()=="POST"){
 <%    
 }
 
-if(request.getMethod()=="GET"){
+if(request.getMethod().equals("GET")){
 %>
 <!DOCTYPE html>
 <html>

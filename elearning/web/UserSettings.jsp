@@ -15,7 +15,7 @@
 <%@include file="/logfrag.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
-    if (request.getMethod() == "GET") {
+    if (request.getMethod().equals("GET")) {
         String e = request.getParameter("e");
         
 %>
@@ -166,7 +166,7 @@
 <%
 }   
 
-    if (request.getMethod() == "POST") {
+    if (request.getMethod().equals("POST")) {
 
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
