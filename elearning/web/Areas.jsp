@@ -53,7 +53,7 @@ int n = (p*8)<areas.size()?p+1:0;
 	</div>
 
 	<div class="row left">
-<%for(int i=(p-1)*8; i<p*8&&i<areas.size(); i++){%>     
+<%for(int i=(p-1)*8; i<p*8-4&&i<areas.size(); i++){%>     
 		<div class="col col-3 text-center">		
 			<div class="item">
                             <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=areas.get(i).getIco()%>"></a>
@@ -64,6 +64,20 @@ int n = (p*8)<areas.size()?p+1:0;
 		</div>
 <%}%>
 	</div>
+        
+	<div class="row left">
+<%for(int i=(p-1)*8+4; i<p*8&&i<areas.size(); i++){%>     
+		<div class="col col-3 text-center">		
+			<div class="item">
+                            <a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=request.getServletContext().getContextPath()%>/<%=areas.get(i).getIco()%>"></a>
+			</div>
+			<div class="area-info centered">
+				<b><%=areas.get(i).getName()%></b>
+			</div>
+		</div>
+<%}%>
+	</div>
+        
 	<div class="row around">
 		<div class="col col-11 text-right"> 
                     <%if(b!=0){%><a href="?page=<%=String.valueOf(b)%>" class="button round outline">&larr;</a><%}%>
