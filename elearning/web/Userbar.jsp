@@ -172,9 +172,10 @@ for(int j=0; j<7; j++){
                         <div id="create" class="courses">
                             For creating course you need do next steps
                             <ul>
-                                <li>Something</li>
-                                <li>Something</li>
-                                <li>Something</li>
+                                <li>Create new program</li>
+                                <li>Create same material ther;</li>
+                                <li>Create  test and Exem;</li>
+                                <li>Publish;</li>
                             </ul>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp"><button class="button round outline">Create course</button></a>
                         </div>
