@@ -42,7 +42,7 @@ ArrayList<Area> areas = (new Area().getAll());
 			<div class="valign-25">			
 				<div class="item">
 					<h2 class="upper primary">Database</h2>
-					<h4 class="subheading muted space-both">Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor</h4>
+					<h4 class="subheading muted space-both">Intellectual. Laconic. Modern.</h4>
 				</div>
 			</div>
 		</div>
