@@ -251,8 +251,13 @@ create table if not exists externe_has_task (
   constraint fk_externe_has_task_externe1  foreign key (externe)  references externe (externe_id)    on delete no action    on update no action,
   constraint fk_externe_has_task_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action);
 
-create database task;
+CREATE EVENT closer_course ON SCHEDULE EVERY 1 DAY 
+DO update user_has_course set user_has_course_complited = now() 
+where (select course_end_date from course where course_id = course) < now()
+and user_has_course_complited is null;
+
+/*create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
 grant alter, select, create, delete, drop, index, update  on task to 'tuter'@'localhost';
-grant select on task to 'student'@'localhost';
+grant select on task to 'student'@'localhost';*/
