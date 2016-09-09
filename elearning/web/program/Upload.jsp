@@ -43,8 +43,8 @@
                 
                 <nav class="tabs" data-component="tabs" data-equals="true">
                     <ul>
-                        <li class="active"><a href="#form1">FORM-1</a></li>
-                        <li><a href="#form2">FORM-2</a></li>
+                        <li class="active"><a href="#form1">Upoad</a></li>
+                        <li><a href="#form2">Select</a></li>
                     </ul>
                 </nav>
                 <!--Form 1 START-->

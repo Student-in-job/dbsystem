@@ -93,7 +93,7 @@
 <%=learning_cours.isEmpty()?"<p>Nothing yet</p>":""%>
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>   (<%=learning_cours.get(i).getDate()%>)
                 </p>                
 <%}%>                                               
                             </div>
@@ -103,7 +103,7 @@
 <%=learned_cours.isEmpty()?"<p>Nothing yet</p>":""%>  
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
-                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>
+                    <a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>  (<%=learned_cours.get(i).getDate()%>)
                 </p>                
 <%}%>                                               
                             </div>

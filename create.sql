@@ -251,10 +251,18 @@ create table if not exists externe_has_task (
   constraint fk_externe_has_task_externe1  foreign key (externe)  references externe (externe_id)    on delete no action    on update no action,
   constraint fk_externe_has_task_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action);
 
+create view test_result as select (select user from user_has_course where user_has_course_id=user_has_course) as 'user',
+test,
+max(accept_test_ball) as 'ball', 
+(select sum(test_task_ball) from test_task where test=accept_test.test and test_task_deleted=0) as 'max' 
+from accept_test 
+group by user, test;
+
 CREATE EVENT closer_course ON SCHEDULE EVERY 1 DAY 
 DO update user_has_course set user_has_course_complited = now() 
 where (select course_end_date from course where course_id = course) < now()
 and user_has_course_complited is null;
+
 
 /*create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
