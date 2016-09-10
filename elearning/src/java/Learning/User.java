@@ -2,11 +2,13 @@ package Learning;
 
 import DataBasePak.*;  
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.mail.MessagingException;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -346,14 +348,19 @@ public class User extends Parent{
     {
         if(!Logined){
             if(this.write()){
-                SendMail mail = new SendMail();
-                mail.send("Regestration", "Dear "+this.Name+"!\n"+
-                                           "Thank you for your registration in our system, online education!\n" +
-                                           "Your login: "+this.mail+"\n" +
-                                           "Your password:"+this.mail+"\n", this.mail);
+                try{
+                    SendMail mail = new SendMail();
+                    mail.send("Regestration", "Dear "+this.Name+"!\n"+
+                                               "Thank you for your registration in our system, online education!\n" +
+                                               "Your login: "+this.mail+"\n" +
+                                               "Your password:"+this.mail+"\n", this.mail);
+                }catch(MessagingException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }     
+                try{
+                    IcoFile file = new IcoFile(part, this);
+                    file.SaveFile();
+                }catch(IOException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); } 
             }
-            IcoFile file = new IcoFile(part, this);
-            file.SaveFile();
+            
         }
         else throw new IllegalAction(); 
     }
