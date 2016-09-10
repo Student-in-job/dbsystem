@@ -17,9 +17,11 @@
         response.addCookie(new Cookie("usermail", null));
         response.addCookie(new Cookie("password", null));
         request.getSession().invalidate();
-        RequestDispatcher view = request.getRequestDispatcher(path);
-        view.forward(request, response);
-        //response.sendRedirect(path);
+%>
+<script>
+    setTimeout(function(){window.location.href = "<%=request.getServletContext().getContextPath()%>";}, 0);
+</script>    
+<%        
         return;
     }    
 %>
@@ -81,7 +83,11 @@
                         response.addCookie(p);
                     }
                     request.getSession().setAttribute("user", nuser);
-                    response.sendRedirect(path);
+%>
+<script>
+    setTimeout(function(){window.location.href = "<%=path%>";}, 0);
+</script>    
+<% 
                     return;
                 }
             }

@@ -117,43 +117,43 @@
                    rules:{ 
 
                         mail:{
-                            email: true,
+                            email: true
                         },
                         
                         password:{
                             required: true,
                             minlength: 6,
-                            maxlength: 45,
+                            maxlength: 45
                         },
                         
                         password_new:{
                             minlength: 6,
-                            maxlength: 45,
+                            maxlength: 45
                         },
                         
                         password_confirm:{
-                            equalTo: "#password",
+                            equalTo: "#password"
                         },
                         
                         surname:{
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         name:{
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         birthday:{
-                            date: true,
+                            date: true
                         },
                         
                         picture:{
-                            accept: "png|jpg|jpeg",
-                        },
+                            accept: "png|jpg|jpeg"
+                        }
                         
-                   },
+                   }
 
                 });
 

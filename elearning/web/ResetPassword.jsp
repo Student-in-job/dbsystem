@@ -112,9 +112,9 @@ if(request.getMethod().equals("GET")){
 
                                                         mail:{
                                                             required: true,
-                                                            email: true,
-                                                        },
-                                                    },
+                                                            email: true
+                                                        }
+                                                    }
 
                                                 });
 

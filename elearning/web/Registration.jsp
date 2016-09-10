@@ -103,43 +103,43 @@
 
                         mail:{
                             required: true,
-                            email: true,
+                            email: true
                         },
                         
                         password:{
                             required: true,
                             minlength: 6,
-                            maxlength: 45,
+                            maxlength: 45
                         },
                         
                         password_confirm:{
                             required: true,
-                            equalTo: "#password",
+                            equalTo: "#password"
                         },
                         
                         surname:{
                             required: true,
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         name:{
                             required: true,
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         birthday:{
                             required: true,
-                            date: true,
+                            date: true
                         },
                         
                         picture:{
                             required: true,
-                            accept: "png|jpg|jpeg",
-                        },
+                            accept: "png|jpg|jpeg"
+                        }
                         
-                   },
+                   }
 
                 });
 
@@ -267,43 +267,43 @@
 
                         mail:{
                             required: true,
-                            email: true,
+                            email: true
                         },
                         
                         password:{
                             required: true,
                             minlength: 6,
-                            maxlength: 45,
+                            maxlength: 45
                         },
                         
                         password_confirm:{
                             required: true,
-                            equalTo: "#password",
+                            equalTo: "#password"
                         },
                         
                         surname:{
                             required: true,
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         name:{
                             required: true,
                             minlength: 1,
-                            maxlength: 32,
+                            maxlength: 32
                         },
                         
                         birthday:{
                             required: true,
-                            date: true,
+                            date: true
                         },
                         
                         picture:{
                             required: true,
-                            accept: "png|jpg|jpeg",
-                        },
+                            accept: "png|jpg|jpeg"
+                        }
                         
-                   },
+                   }
 
                 });
 
