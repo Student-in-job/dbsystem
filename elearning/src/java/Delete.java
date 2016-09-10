@@ -34,12 +34,12 @@ public class Delete extends HttpServlet {
         if(user==null) {
             String mail=null, cpassword = null;
             Cookie[] c = request.getCookies();
-            for(int i=0; i<c.length; i++){
-                if(c[i].getName().equals("usermail")){
-                    mail = c[i].getValue();
-                    for(int j=0; j<c.length; j++){
-                        if(c[j].getName().equals("password")){
-                            cpassword = c[j].getValue();
+            for (Cookie c1 : c) {
+                if (c1.getName().equals("usermail")) {
+                    mail = c1.getValue();
+                    for (Cookie c2 : c) {
+                        if (c2.getName().equals("password")) {
+                            cpassword = c2.getValue();
                             break;
                         }
                     }
@@ -69,10 +69,9 @@ public class Delete extends HttpServlet {
         
         try(PrintWriter out = response.getWriter()){
             
-            String param="";
             
             Enumeration<String> parameterNames = request.getParameterNames();
-            param = parameterNames.nextElement();
+            String param = parameterNames.nextElement();
             
             out.println("<!doctype html>"
                     + "<html>"
@@ -104,12 +103,12 @@ public class Delete extends HttpServlet {
         if(user==null) {
             String mail=null, cpassword = null;
             Cookie[] c = request.getCookies();
-            for(int i=0; i<c.length; i++){
-                if(c[i].getName().equals("usermail")){
-                    mail = c[i].getValue();
-                    for(int j=0; j<c.length; j++){
-                        if(c[j].getName().equals("password")){
-                            cpassword = c[j].getValue();
+            for (Cookie c1 : c) {
+                if (c1.getName().equals("usermail")) {
+                    mail = c1.getValue();
+                    for (Cookie c2 : c) {
+                        if (c2.getName().equals("password")) {
+                            cpassword = c2.getValue();
                             break;
                         }
                     }
