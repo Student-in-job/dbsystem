@@ -190,7 +190,7 @@ if(request.getMethod().equals("POST")){
                         name:{
                             required: true,
                             minlength: 6,
-                            maxlength: 50,
+                            maxlength: 50
                         },
                         
                         day:{
@@ -203,28 +203,28 @@ if(request.getMethod().equals("POST")){
                         inventory:{
                             required: true,
                             minlength: 20,
-                            maxlength: 1000,
+                            maxlength: 1000
                         },
                         
                         answer:{
                             required: true,
                             minlength: 10,
-                            maxlength: 500,
+                            maxlength: 500
                         },
                         
                         time:{
                             required: true,
                             number: true,
                             min: 1,
-                            max: 120,
+                            max: 120
                         },
                                 
                         ball:{
                             required: true,
                             number: true,
                             min: 1,
-                            max: 100,
-                        },        
+                            max: 100
+                        }       
                         
                    }
 

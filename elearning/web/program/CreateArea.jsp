@@ -82,15 +82,15 @@
                         name:{
                             required: true,
                             minlength: 1,
-                            maxlength: 15,
+                            maxlength: 15
                         },
                         
                         picture:{
                             required: true,
-                            accept: "png|jpg|jpeg",
-                        },
+                            accept: "png|jpg|jpeg"
+                        }
                         
-                   },
+                   }
 
                 });
 

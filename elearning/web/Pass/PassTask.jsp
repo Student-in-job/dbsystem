@@ -105,7 +105,7 @@
                     window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
                 },
                 success: function(data){ 
-                    setTimeout(function(){window.location.href = "FinishTask.jsp"}, data);
+                    setTimeout(function(){window.location.href = "FinishTask.jsp";}, data);
                     data = Math.floor(data/1000);
                     var h = Math.floor(data/3600);
                     data = Math.floor(data%3600);

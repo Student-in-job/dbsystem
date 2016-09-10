@@ -130,7 +130,7 @@ if(request.getMethod().equals("POST")){
                    rules:{ 
 
                         name:{
-                            required: true,
+                            required: true
                             
                         },
                         
@@ -144,15 +144,15 @@ if(request.getMethod().equals("POST")){
                         inventory:{
                             required: true,
                             minlength: 20,
-                            maxlength: 500,
+                            maxlength: 500
                         },
                         
                         time:{
                             required: true,
                             number: true,
                             min: 5,
-                            max: 120,
-                        },
+                            max: 120
+                        }
                         
                    }
 

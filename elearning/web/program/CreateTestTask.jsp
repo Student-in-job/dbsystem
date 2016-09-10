@@ -154,45 +154,45 @@ if(request.getMethod().equals("POST")){
                         question:{
                             required: true,
                             minlength: 6,
-                            maxlength: 200,
+                            maxlength: 200
                         },
                         
                         point:{
                             required: true,
                             number: true,
                             min: 1,
-                            max: 100,
+                            max: 100
                         },
                         
                         answer:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
+                            maxlength: 100
                         },
                         
                         v1:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
+                            maxlength: 100
                         },
                         
                         v2:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
+                            maxlength: 100
                         },
                         
                         v3:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
+                            maxlength: 100
                         },
                         
                         v4:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100,
-                        },
+                            maxlength: 100
+                        }
                         
                    }
 

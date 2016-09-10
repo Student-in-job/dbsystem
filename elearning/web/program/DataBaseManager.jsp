@@ -68,7 +68,7 @@ if(request.getMethod().equals("POST")){
 
                         query:{
                             required: true,
-                            minlength: 10,
+                            minlength: 10
                         }                        
                    }
 
