@@ -35,7 +35,7 @@ public class sys_conf implements ServletContextListener {
             InitialContext initContext= new InitialContext();
             DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
             Connection conn= ds.getConnection();
-            PreparedStatement stmt = null;
+            PreparedStatement stmt;
             
             stmt = conn.prepareStatement("delete from sys_conf where name = 'RealPath';");
             stmt.executeUpdate();

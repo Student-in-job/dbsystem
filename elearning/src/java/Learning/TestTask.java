@@ -8,7 +8,6 @@ package Learning;
 import DataBasePak.DataBase;
 import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *

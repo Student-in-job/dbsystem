@@ -43,12 +43,12 @@ public class Upload extends HttpServlet {
             String mail=null, cpassword = null;
             Cookie[] c = request.getCookies();
             if(c!=null){
-                for(int i=0; i<c.length; i++){
-                    if(c[i].getName().equals("usermail")){
-                        mail = c[i].getValue();
-                        for(int j=0; j<c.length; j++){
-                            if(c[j].getName().equals("password")){
-                                cpassword = c[j].getValue();
+                for (Cookie c1 : c) {
+                    if (c1.getName().equals("usermail")) {
+                        mail = c1.getValue();
+                        for (Cookie c2 : c) {
+                            if (c2.getName().equals("password")) {
+                                cpassword = c2.getValue();
                                 break;
                             }
                         }
@@ -85,12 +85,11 @@ public class Upload extends HttpServlet {
                     Files file = new Files(part, title);
                     file.Write(new Material(material), user);
                     response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+material);
-                    return;
-                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;} 
-                catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-                catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;} 
+                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); }
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); } 
+                catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); } 
+                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); } 
+                catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); } 
         }
         else{
             String name = request.getParameter("file");
@@ -98,12 +97,11 @@ public class Upload extends HttpServlet {
                     Files file = new Files(name, title);
                     file.Write(new Material(material), user);
                     response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+material);
-                    return;
-                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;} 
-                catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-                catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;} 
+                }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); }
+                catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); } 
+                catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); } 
+                catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); } 
+                catch (Exception ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); } 
        
         }
         

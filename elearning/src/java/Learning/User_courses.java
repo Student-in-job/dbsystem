@@ -16,7 +16,6 @@ import java.util.Date;
 public class User_courses extends Parent {
     private User user;
     private Course course;
-    private int ID;
     private Date Datetime;
 
     @Override

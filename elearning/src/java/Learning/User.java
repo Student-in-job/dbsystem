@@ -443,7 +443,7 @@ public class User extends Parent{
     
     public String getIco(){
         
-        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";;
+        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         if(new File(db.getRealPath()+path).exists())
             return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_user_"+this.getGender()+".png";

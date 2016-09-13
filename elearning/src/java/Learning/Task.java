@@ -146,7 +146,7 @@ public class Task extends Component {
             Statement stmt = db.getTuterConn().createStatement();
             stmt.executeQuery(this.Answer);
             return null;
-        }catch(Exception ex){return ex;}
+        }catch(NamingException | SQLException ex){return ex;}
         
     }
     

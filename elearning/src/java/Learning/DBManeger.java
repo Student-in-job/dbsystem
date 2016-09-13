@@ -93,21 +93,21 @@ public class DBManeger {
     
     private void executQuery(String query) throws NamingException, SQLException{
         String[] split = Query.split(";");
-            for(int i=0; i<split.length; i++){
-                String sub_query = this.RewriteQuery(split[i]); 
-                Statement stmt = db.getTuterConn().createStatement();
-                try{ 
-                    stmt.executeUpdate(sub_query);
-                }catch(SQLException ex){Message+= ex.getMessage()+"\n";}
-            }
+        for (String split1 : split) {
+            String sub_query = this.RewriteQuery(split1);
+            Statement stmt = db.getTuterConn().createStatement();
+            try{
+                stmt.executeUpdate(sub_query);
+            }catch(SQLException ex){Message+= ex.getMessage()+"\n";}
+        }
     }
 
     private void execut() throws NamingException, SQLException, IOException {
         
         if(Query!=null){
             String[] split = Query.split(";");
-            for(int i=0; i<split.length; i++){
-                String query = this.RewriteQuery(split[i]);
+            for (String split1 : split) {
+                String query = this.RewriteQuery(split1);
                 this.executQuery(query);
             }
         }
