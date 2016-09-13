@@ -91,6 +91,27 @@ public class User extends Parent{
     
     public User(){}
     
+    public int getTaskResult(Task task){
+        int i = -1;
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select max(accept_task_pass) as 'max' "
+                    + " from accept_task where task=? and "
+                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
+            stmt.setInt(2, this.ID);
+            stmt.setInt(1, task.getID());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                try{
+                    i = (rs.getInt("max"));
+                }catch(Exception ex){}
+            }
+        }catch(Exception ex)
+        { Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); 
+        return -1;}    
+        
+        return i;
+    }
     
     public int getTestMaxResult(Test test){
         int i = -1;

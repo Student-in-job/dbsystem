@@ -155,6 +155,7 @@ for(int j=0; j<7; j++){
                                         <td>
                                             task: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
                                             <br><%=d.get(i).getProgram().getName()%>
+                                            <br><%=user.getTaskResult((Task)d.get(i))==1?"pass":"don't pass"%>
                                         </td>
                                         <td>
                                             <%=d.get(i).getDateString()%>
