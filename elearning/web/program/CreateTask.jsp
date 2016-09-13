@@ -12,7 +12,7 @@
 <%@include file="../logfrag.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
-    
+    String message="";
     int program = 0;
     Program pg;
     try{
@@ -74,43 +74,7 @@ if(request.getMethod().equals("POST")){
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
         catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;}
-        catch (InvalidQuery ex) { 
-%>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Error</title>
-        <meta charset="utf-8">
-        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
-        <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
-
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
-    </head>
-    <body>
-        <%@include file="/header.jsp" %>
-        <div class="row centered bg-blue">
-            <div class="col col-3 text-center">
-                <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
-                <div class="p-error">
-                    <h3>WHOOPS!</h3>
-                    <p>Error query string!</p>  
-                    <p class="error"><%=ex.getMessage()%></p>  
-                </div>
-            </div>
-        </div>
-        <%@include file="/footer.jsp" %>
-    </body>
-</html>
-<%            
-            return;}
+        catch (InvalidQuery ex) {message=ex.getMessage();}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         
 
@@ -132,6 +96,9 @@ if(request.getMethod().equals("POST")){
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
+        <div  class="box " >
+            <div id="mesagge" class="middle-text"><%=message%></div>
+        </div>
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">
@@ -158,7 +125,7 @@ if(request.getMethod().equals("POST")){
                     </div>
                     
                     <div class="form-item">
-                        <label>Answer Query:</label>
+                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp">DataBase Manager -></a>
                         <textarea required name="answer"><%=answer==null?"":answer%></textarea>
                     </div>
                     

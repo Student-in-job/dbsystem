@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.Task"%>
 <%@page import="Learning.User"%>
 <%@page import="Learning.Test"%>
 <%@page import="Learning.Material"%>
@@ -31,7 +32,7 @@ int program_id = 0;
     
     ArrayList<Material> materials = prog.getMaterials();
     ArrayList<Test> tests = prog.getTests();
-    
+    ArrayList<Task> tasks = prog.getTasks();
 %>
 
 <!DOCTYPE html>
@@ -120,6 +121,7 @@ int program_id = 0;
                     <ul>
                         <li class="active"><a href="#tab11">MATERIAL</a></li>
                         <li><a href="#tab12">TEST</a></li>
+                        <li><a href="#tab13">TASK</a></li>
                     </ul>
                 </nav>
 
@@ -181,6 +183,37 @@ if(u){%>
                         </div>
                         <div>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTest.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
+                        </div>
+                    </div>
+<%}%>                        
+                </div>
+                <div id="tab13">
+<%for(int i=0; i<tasks.size(); i++){%>                    
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=tasks.get(i).getID()%>"><%=tasks.get(i).getName()%></a>
+                            </p>
+                        </div>
+<%if(u){%> 
+                        <div>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/Task.jsp?task=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
+                           <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?task=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
+
+                        </div>
+<%}%>                            
+                    </div>
+<%}
+if(u){%>                    
+
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Create new task 
+                            </p>
+                        </div>
+                        <div>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTask.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        

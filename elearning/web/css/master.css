@@ -440,3 +440,21 @@ a.test-edit:hover {
     height: 200px;
     border-radius: 150px;
 }
+
+
+.task-table{
+    
+    display: table;
+    width: 80%;
+}
+
+.task-table-row{
+    
+    display: table-row;
+}
+
+.task-table-cell{
+    
+    display: table-cell;
+    width: 40%;
+}

@@ -50,46 +50,54 @@
             <div class="col col-11 pagination">
                 <a href="FinishTask.jsp"><button class="button small round outline">Finish test</button></a>
             </div>
-            <form method="POST" action="">    
-                <div class="col col-11">
-                    <p><%=accept.getTask().getQuestion()%> </p>                                 
-                </div>
-                
-                <div class="col col-11">
-                        <textarea rows="6" required  name="answer"><%=accept.getAnswer()!=null?accept.getAnswer():""%></textarea>
-                </div>
-                
-                <div class="col col-11">
-                    <input type="submit" class="button round outline primary" value="Confirm &rArr;">
-                </div>
-            </form>
-                
-            <div>
-                <p class="error"><%=accept.isRight()?"Right result":""%></p>
-<%
-    try{
-        ResultSet rs = accept.getAnswerResult();
+            
+            
+                <div class="task-table">    
+                    <div class="task-table-row">    
+                        <div class="task-table-cell">
+                                <p><%=accept.getTask().getQuestion()%> </p>                                 
+                        </div>
+                        <div class="task-table-cell">
+                            <p class="error"><%=accept.isRight()?"Right result":accept.getErrorMessage()%></p>
+                        </div>    
+                    </div>
+                    <div class="task-table-row">        
+                        <form class="task-table-cell" method="POST" action="">    
+                            <div class="col col-11">
+                                    <textarea rows="6" required  name="answer"><%=accept.getAnswer()!=null?accept.getAnswer():""%></textarea>
+                            </div>
 
-%>
-                <table>    
-                    <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
-                        <th><%=rs.getMetaData().getColumnName(i)%></th>
-<%}%>
-                    </tr>
-<%
-    while(rs.next()){%>
-                    <tr>
-<%        for(int i=1; i<rs.getMetaData().getColumnCount(); i++){%>
-                        <td><%=rs.getString(i)%></td>
-<%}%>
-                    </tr>
-<%}%>                
-                </table>
-<%}catch(Exception ex){;%>
-<p class="error"><%=ex.getMessage()%></p>
-<%}%>         
-            </div>    
+                            <div class="col col-11">
+                                <input type="submit" class="button round outline primary" value="Confirm &rArr;">
+                            </div>
+                        </form>
+                        <table class="task-table-cell">
+            <%
+                try{
+                    ResultSet rs = accept.getAnswerResult();
+
+            %>
+
+                                <tr>
+            <%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
+                                    <th><%=rs.getMetaData().getColumnName(i)%></th>
+            <%}%>
+                                </tr>
+            <%
+                while(rs.next()){%>
+                                <tr>
+            <%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
+                                    <td><%=rs.getString(i)%></td>
+            <%}%>
+                                </tr>
+            <%}%>                
+
+            <%}catch(Exception ex){}%>  
+                            </table>
+                    </div> 
+                </div>   
+                            
+                            
         </div>
         
 

@@ -8,6 +8,7 @@ package Learning;
 import DataBasePak.DataBase;
 import DataBasePak.Log;
 import DataBasePak.db;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,6 +24,9 @@ public class AcceptTask extends Accept{
     private Task Task;
     private int Ball;
     private String UserAnswer;
+    private SQLException Ex;
+    private String Message;
+    private Connection conn;
     
     @Override
     public int getID(){
@@ -49,7 +53,7 @@ public class AcceptTask extends Accept{
             ID = db.ID();
         }
         else throw new Exception();
-        
+        conn = DataBasePak.db.getStudentConn();
     }
     
     public void Final() throws Exception{
@@ -58,6 +62,7 @@ public class AcceptTask extends Accept{
             DataBase db = new DataBase(this);
             db.ReWrite();
         }
+        conn.close();
         
         
     }
@@ -66,12 +71,13 @@ public class AcceptTask extends Accept{
         
             try{
                 Ball=0;
+                Message = "";
                 UserAnswer=answer;
                 ResultSet stud, tut;
                 try{
-                    Statement stmt = db.getStudentConn().createStatement();
+                    Statement stmt = conn.createStatement();
                     stud =  stmt.executeQuery(UserAnswer);
-                } catch(SQLException ex){Ball=0; return;}      
+                } catch(SQLException ex){Message = ex.getMessage(); Ex = ex; Ball=0; return;}      
                 
                 tut = Task.getAnswerResult();
                 if(this.Compear(tut, stud))
@@ -83,7 +89,7 @@ public class AcceptTask extends Accept{
     
     private boolean Compear(ResultSet r1, ResultSet r2) throws SQLException{
         
-        for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
+        for(int i=1; i<=r1.getMetaData().getColumnCount(); i++)
             if(!r1.getMetaData().getColumnName(i).equals(r2.getMetaData().getColumnName(i)))
                 return false;
         
@@ -109,8 +115,12 @@ public class AcceptTask extends Accept{
         return UserAnswer;
     }
     
+    public String getErrorMessage(){
+        return Message;
+    }
+    
     public ResultSet getAnswerResult() throws SQLException, NamingException{
-        Statement stmt = db.getStudentConn().createStatement();
+        Statement stmt = conn.createStatement();
         return stmt.executeQuery(UserAnswer);
         
     }

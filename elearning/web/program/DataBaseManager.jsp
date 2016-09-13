@@ -7,11 +7,11 @@
 <%@page import="Learning.DBManeger"%>
 <%@page import="Learning.Program"%>
 <%@page import="java.sql.Statement"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>\
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@include file="../logfrag.jsp" %>
 <%
-String message = "";
+String message = " ";
 String query = "";
 if(request.getMethod().equals("POST")){
     query = request.getParameter("query");
@@ -19,7 +19,6 @@ if(request.getMethod().equals("POST")){
         DBManeger man = new DBManeger(query, new Program(1));
         if(man.Complite()) message = "Query complite!";
         else message = man.getException().getMessage();
-        message = man.getMessage();
     }catch(Exception ex){response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
 }
 %>
@@ -27,8 +26,8 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Task</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <title>DBManager</title>
+        <link href="<%=request.getServletContext().getContextPath()%>/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
@@ -39,7 +38,9 @@ if(request.getMethod().equals("POST")){
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
     </head>
     <body>
-        <div><%=message%></div>
+        <div  class="box " >
+            <div id="mesagge" class="middle-text"><%=message%></div>
+        </div>
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">

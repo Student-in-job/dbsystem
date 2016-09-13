@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.Task"%>
 <%@page import="Learning.Files"%>
 <%@page import="Learning.TestTask"%>
 <%@page import="Learning.Test"%>
@@ -39,6 +40,12 @@ if(request.getMethod().equals("GET")){
                 if("test".equals(param)){
 
                     Test p = new Test(id);
+                    name=p.getName();
+                    type=p.getType();
+                }
+                if("task".equals(param)){
+
+                    Task p = new Task(id);
                     name=p.getName();
                     type=p.getType();
                 }
@@ -127,6 +134,13 @@ if(request.getMethod().equals("POST")){
                     Test p = new Test(value);
                     if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     if(p.getName().equals("Exem")&&p.getDay()==p.getProgram().getDuration()) throw new IllegalAction();
+                    pg=p.getProgram();
+                    p.Delete();
+                }
+                if("task".equals(param)){
+
+                    Task p = new Task(value);
+                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
                 }

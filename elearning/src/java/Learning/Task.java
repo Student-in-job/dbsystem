@@ -94,6 +94,8 @@ public class Task extends Component {
         if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
         if(this.getProgram().isPublished()) throw new IllegalAction();
         Task task = new Task(name, day, inventory, answer, time, ball);
+        Exception e = task.CorrectSQLQuery();
+        if(e!=null) throw new InvalidQuery(e);
         task.Program = this.Program;
         task.ID = this.ID;
         DataBase db = new DataBase(task);

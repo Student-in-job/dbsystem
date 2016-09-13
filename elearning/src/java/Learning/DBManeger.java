@@ -33,13 +33,14 @@ public class DBManeger {
     private SQLException Ex;
     
     public DBManeger(String query, Program prog) throws NamingException, SQLException, IOException{
+        Message="";
         Query = query.toLowerCase();
         Prefix = String.valueOf(prog.getID())+"_";
         this.execut();
     }
     
     public DBManeger(Part sqript, Program prog) throws NamingException, SQLException, IOException{
-        
+        Message="";
         Part = sqript;
         Prefix = String.valueOf(prog.getID())+"_";
         this.execut();
@@ -94,11 +95,11 @@ public class DBManeger {
     private void executQuery(String query) throws NamingException, SQLException{
         String[] split = Query.split(";");
         for (String split1 : split) {
-            String sub_query = this.RewriteQuery(split1);
+            String sub_query = split1;//this.RewriteQuery(split1);
             Statement stmt = db.getTuterConn().createStatement();
             try{
                 stmt.executeUpdate(sub_query);
-            }catch(SQLException ex){Message+= ex.getMessage()+"\n";}
+            }catch(SQLException ex){Message+= ex.getMessage()+";<br>";}
         }
     }
 

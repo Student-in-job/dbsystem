@@ -13,6 +13,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -264,16 +265,18 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         db.ReWrite();
         if(db.Done()){
-            /*Statement stmt = DataBasePak.db.getConn().createStatement();
-            PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
-            String prefex= String.valueOf(this.ID)+"_%";
-            stmt2.setString(1, prefex);
-            ResultSet rs=stmt2.executeQuery();
-            
-            while(rs.next()){
-                stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
-            }
-            stmt.executeBatch();*/
+            try{
+                Statement stmt = DataBasePak.db.getConn().createStatement();
+                PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
+                String prefex= String.valueOf(this.ID)+"_%";
+                stmt2.setString(1, prefex);
+                ResultSet rs=stmt2.executeQuery();
+
+                while(rs.next()){
+                    stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
+                }
+                stmt.executeBatch();
+            }catch(SQLException ex){}
            return true; 
         }
         else return false;

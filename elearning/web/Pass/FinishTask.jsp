@@ -29,9 +29,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Task</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
         <!-- Kube CSS -->
@@ -43,21 +43,19 @@
     <body>
         <%@include file="../header.jsp" %>
         
-        <%@include file="../footer.jsp" %>
+        <div class="row centered text-center test">
+            <div class="col col-8 ">
+                <h3><%=accept.getTask().getName()%></h3>
+                <h4><a href = "<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=accept.getTask().getProgram().getID()%>"><%=accept.getTask().getProgram().getName()%></a></h4>
+                <p>
+                    <%=accept.getTask().getInventory()%>
+                </p>
+                <h4>Ball: <%=accept.getBall()%></h4>
+            </div>            
+        </div>
+        <%@include file="/footer.jsp" %>
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
 
 
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.easypiechart.min.js"></script>
-        <script>
-            $(function () {
-                $('.chart').easyPieChart({
-                    easing: 'easeOutBounce',
-                    onStep: function (from, to, percent) {
-                        $(this.el).find('.percent').text(Math.round(percent));
-                    }
-                });
-            });
-        </script>
-
-    </body>
+   </body>
 </html>

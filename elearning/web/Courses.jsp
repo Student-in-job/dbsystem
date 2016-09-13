@@ -96,7 +96,7 @@ int n = (p*N)<courses.size()?p+1:0;
 					<b><%=courses.get(i).getName()%></b>
 				</div>
 				<div class="item">
-					<%=courses.get(i).getInventory().substring(0, 50)+"..."%>
+					<%=courses.get(i).getInventory().length()>50?courses.get(i).getInventory().substring(0, 50)+"...":courses.get(i).getInventory()%>
 				</div>
 				<div class="item">
 					<div class="row">
