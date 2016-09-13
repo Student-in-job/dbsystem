@@ -7,11 +7,9 @@ package DataBasePak;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -64,7 +62,7 @@ public class db {
             }
             
         }//catch (ClassNotFoundException ex) {} 
-        catch (Exception ex) {}
+        catch (NamingException | SQLException ex) {}
     }
     
     public static Connection getConn()

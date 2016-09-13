@@ -25,7 +25,7 @@ public class Log {
         try {
             File log = new File(db.getLogPath());
             log.createNewFile();
-            this.out = new FileWriter(db.getLogPath(), true);
+            Log.out = new FileWriter(db.getLogPath(), true);
             
         } catch (Exception ex) {
             Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);
