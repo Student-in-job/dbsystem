@@ -31,7 +31,7 @@
                     
 	            <div class="valign-sidenav">
 		            <div class="row centered">
-		            	<a href="<%=request.getServletContext().getContextPath()%>/about_as.thml"><b>ABOUT US</b></a>
+		            	<a href="<%=request.getServletContext().getContextPath()%>/about_as.jsp"><b>ABOUT US</b></a>
 		            	<a href="<%=request.getServletContext().getContextPath()%>/manual.pdf"><b>MANUAL</b></a>
 		            	<a href="<%=request.getServletContext().getContextPath()%>/Courses.jsp"><b>COURSES</b></a>
 		            </div>

@@ -38,7 +38,7 @@ int program_id = 0;
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Program</title>
+        <title>Course</title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">

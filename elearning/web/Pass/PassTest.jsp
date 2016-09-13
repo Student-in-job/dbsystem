@@ -30,7 +30,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Test</title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -47,7 +47,7 @@
 
         <div class="row centered test">
             <div class="col col-11">
-                <p>time-left: <span id="timer"></span></p>
+                <p>time: <span id="timer"></span></p>
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
