@@ -91,6 +91,23 @@ if(request.getMethod().equals("POST")){
 
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/tinymce/tinymce.min.js"></script>
+        <script>tinymce.init({
+    selector: '#input',
+    theme: 'modern',
+    width: 800,
+    height: 400,
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ],
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+    
+    });
+    
+    
+        </script>
     </head>
     <body>
         <%@include file="../header.jsp"%>
@@ -161,37 +178,37 @@ if(request.getMethod().equals("POST")){
                             required: true,
                             number: true,
                             min: 1,
-                            max: 100
+                            max: 200
                         },
                         
                         answer:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100
+                            maxlength: 200
                         },
                         
                         v1:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100
+                            maxlength: 200
                         },
                         
                         v2:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100
+                            maxlength: 200
                         },
                         
                         v3:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100
+                            maxlength: 200
                         },
                         
                         v4:{
                             required: true,
                             minlength: 6,
-                            maxlength: 100
+                            maxlength: 200
                         }
                         
                    }

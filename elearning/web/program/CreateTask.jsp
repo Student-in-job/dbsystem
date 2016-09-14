@@ -25,7 +25,7 @@
     
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
-    String name=null, inventory = null, answer=null;
+    String name=null, inventory = null, answer=null, question=null;
     int day=0, task, time=0, ball=0;
     Task nt;
     task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
@@ -44,6 +44,7 @@ if(request.getMethod().equals("GET")){
         answer=nt.getAnswer();
         time=nt.getTime();
         ball=nt.getBall();
+        question=nt.getQuestion();
 
     }
     
@@ -56,18 +57,19 @@ if(request.getMethod().equals("POST")){
     day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
     ball = Integer.parseInt(request.getParameter("ball"));
+    question = request.getParameter("question");
     
         try{
             if(task==0){
 
-                nt = new Task(name, day, inventory, answer, time, ball);
+                nt = new Task(name, day, question, inventory, answer, time, ball);
                 nt.Write(pg , user);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }
             else{
 
                 nt = new Task(task);
-                nt.Change(name, inventory, day, user, time, ball, answer);
+                nt.Change(name, question, inventory, day, user, time, ball, answer);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }   
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -94,6 +96,23 @@ if(request.getMethod().equals("POST")){
 
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/tinymce/tinymce.min.js"></script>
+        <script>tinymce.init({
+    selector: '#input',
+    theme: 'modern',
+    width: 800,
+    height: 400,
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ],
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+    
+    });
+    
+    
+        </script>
     </head>
     <body>
         <div  class="box " >
@@ -122,6 +141,11 @@ if(request.getMethod().equals("POST")){
                     <div class="form-item">
                         <label>Day:</label>
                         <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Question:</label>
+                        <textarea id="input" required name="question"><%=question==null?"":question%></textarea>
                     </div>
                     
                     <div class="form-item">
@@ -177,6 +201,12 @@ if(request.getMethod().equals("POST")){
                             required: true,
                             minlength: 10,
                             maxlength: 500
+                        },
+                                
+                        question:{
+                            required: true,
+                            minlength: 10,
+                            maxlength: 1000
                         },
                         
                         time:{

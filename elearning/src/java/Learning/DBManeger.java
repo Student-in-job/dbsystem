@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Matcher;
@@ -31,12 +32,15 @@ public class DBManeger {
     private String Message;
     private String Prefix;
     private SQLException Ex;
+        private Connection conn;
     
     public DBManeger(String query, Program prog) throws NamingException, SQLException, IOException{
         Message="";
         Query = query.toLowerCase();
         Prefix = String.valueOf(prog.getID())+"_";
+        conn = db.getTuterConn();
         this.execut();
+        conn.close();
     }
     
     public DBManeger(Part sqript, Program prog) throws NamingException, SQLException, IOException{
@@ -44,10 +48,11 @@ public class DBManeger {
         Part = sqript;
         Prefix = String.valueOf(prog.getID())+"_";
         this.execut();
+        conn.close();
     }
 
     public boolean Complite(){
-        return Ex==null;
+        return Message.equals("");
     }
     
     public Exception getException(){
@@ -96,7 +101,7 @@ public class DBManeger {
         String[] split = Query.split(";");
         for (String split1 : split) {
             String sub_query = split1;//this.RewriteQuery(split1);
-            Statement stmt = db.getTuterConn().createStatement();
+            Statement stmt = conn.createStatement();
             try{
                 stmt.executeUpdate(sub_query);
             }catch(SQLException ex){Message+= ex.getMessage()+";<br>";}
@@ -106,11 +111,8 @@ public class DBManeger {
     private void execut() throws NamingException, SQLException, IOException {
         
         if(Query!=null){
-            String[] split = Query.split(";");
-            for (String split1 : split) {
-                String query = this.RewriteQuery(split1);
-                this.executQuery(query);
-            }
+            this.executQuery(Query);
+            
         }
         if(Part!=null){
             String testName = db.getRealPath()+db.getFileDir()+"temp/";

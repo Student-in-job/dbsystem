@@ -62,6 +62,7 @@
                     <h3><%=task.getName()%> (<%=task.getTime()%> min)</h3>
                     <h4><a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=task.getProgram().getID()%>"><%=task.getProgram().getName()%></a></h4>
                     <h4>Ball: <%=task.getBall()%></h4>
+                    <p><%=task.getInventory()%></p>
                 </div>
                 <div class="col col-1">
                     <a class="test-edit" href="CreateTask.jsp?program=<%=task.getProgramID()%>&task=<%=task.getID()%>">
@@ -73,6 +74,7 @@
             <hr>            
 
             <div class="col">
+                <p><%=task.getQuestion()%></p>
                 <h4><%=task.getAnswer()%></h4>
                 <table>
 <%

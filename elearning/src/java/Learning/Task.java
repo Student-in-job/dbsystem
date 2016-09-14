@@ -47,11 +47,12 @@ public class Task extends Component {
         return !this.getProgram().isPublished();
     }
     
-    public Task(String name, int day, String inventory, String answer, int time, int ball){
+    public Task(String name, int day, String question, String inventory, String answer, int time, int ball){
         
         this.Name=name;
         this.Day=day;
-        this.Inventory=inventory;  
+        this.Question=question;  
+        this.Inventory=inventory; 
         Time=time;
         Ball=ball;
         Answer=answer;
@@ -66,7 +67,7 @@ public class Task extends Component {
                     this.Name = rs.getString("task_name");
                     this.Day = rs.getInt("task_day");
                     this.Program = new Program(rs.getInt("program"));
-                    this.Inventory = rs.getString("task_text");
+                    this.Inventory = rs.getString("task_inventory");
                     this.Time = rs.getInt("task_time");
                     this.Ball = rs.getInt("task_ball");
                     this.Answer = rs.getString("task_answer");
@@ -89,11 +90,11 @@ public class Task extends Component {
         return this.write();
     }
     
-    public boolean Change(String name, String inventory, int day, User user, int time, int ball, String answer) throws Exception{
+    public boolean Change(String name, String question, String inventory, int day, User user, int time, int ball, String answer) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
         if(this.getProgram().isPublished()) throw new IllegalAction();
-        Task task = new Task(name, day, inventory, answer, time, ball);
+        Task task = new Task(name, day, question, inventory, answer, time, ball);
         Exception e = task.CorrectSQLQuery();
         if(e!=null) throw new InvalidQuery(e);
         task.Program = this.Program;

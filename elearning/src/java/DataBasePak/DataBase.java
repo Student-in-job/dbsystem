@@ -674,13 +674,14 @@ public class DataBase {
         Task task = (Task) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO task(task_name, task_day, program, task_text, task_time, task_ball, task_answer, task_type, task_db_index) VALUES (?, ?, ?, ?, ?, ?, '"+task.getAnswer()+"', 'row', 'none');", Statement.RETURN_GENERATED_KEYS);
+        ("INSERT INTO task(task_name, task_day, program, task_text, task_time, task_ball, task_answer, task_type, task_db_index, task_inventory) VALUES (?, ?, ?, ?, ?, ?, \""+task.getAnswer()+"\", 'row', 'none', ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, task.getName());
             stmt.setInt(2, task.getDay());
             stmt.setInt(3, task.getProgramID());
-            stmt.setString(4, task.getInventory());
+            stmt.setString(4, task.getQuestion());
             stmt.setInt(5, task.getTime());
             stmt.setInt(6, task.getBall());
+            stmt.setString(7, task.getInventory());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -692,13 +693,13 @@ public class DataBase {
         Task task = (Task) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE task set task_name=?, task_day=?, task_text=?, task_time=?, task_ball=?, task_answer=? where task_id=?;");
+        ("UPDATE task set task_name=?, task_day=?, task_text=?, task_time=?, task_ball=?, task_answer=\""+task.getAnswer()+"\", task_inventory=? where task_id=?;");
             stmt.setString(1, task.getName());
             stmt.setInt(2, task.getDay());
-            stmt.setString(3, task.getInventory());
+            stmt.setString(3, task.getQuestion());
             stmt.setInt(4, task.getTime());
             stmt.setInt(5, task.getBall());
-            stmt.setString(6, task.getAnswer());
+            stmt.setString(6, task.getInventory());
             stmt.setInt(7, task.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
