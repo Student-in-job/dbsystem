@@ -87,9 +87,9 @@
                         <div class="form-item checkboxes">
                             <label><input type="radio"> <%=task.get(i).getAnswer()%></label>
                             <label><input type="radio"> <%=task.get(i).getVariant1()%></label>
-                            <label><input type="radio"> <%=task.get(i).getVariant1()%></label>
-                            <label><input type="radio"> <%=task.get(i).getVariant1()%></label>
-                            <label><input type="radio"> <%=task.get(i).getVariant1()%></label>
+                            <label><input type="radio"> <%=task.get(i).getVariant2()%></label>
+                            <label><input type="radio"> <%=task.get(i).getVariant3()%></label>
+                            <label><input type="radio"> <%=task.get(i).getVariant4()%></label>
                         </div>
                     </form>
                 </div>

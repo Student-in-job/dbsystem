@@ -97,7 +97,7 @@ int program_id = 0;
 <%if(u){%>                            
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round primary">UPDATE</button></a>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?program=<%=prog.getID()%>"><button class="button small round error">DELETE</button></a>
-                            <button class="button small round warning" style="color: #000;" onclick="publish()">PUBLISHE</button>
+                            <button class="button small round warning" style="color: #000;" onclick="publish()">PUBLISH</button>
 
 <%}%> 
 <%if(c){%>                            

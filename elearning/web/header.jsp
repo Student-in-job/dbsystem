@@ -13,7 +13,7 @@
 			<div id="sidenav" class="sidenav">
 	            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	            <div class="row centered">
-	            	<img class="logo-round" src="img/logo-round.png">
+	            	<img class="logo-round" src="<%=request.getServletContext().getContextPath()%>/img/logo-round.png">
                     </div>
                     
                     <div class="row centered search-box">
