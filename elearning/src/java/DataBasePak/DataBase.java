@@ -130,6 +130,12 @@ public class DataBase {
                 this.write_accept_task();
                 break;
             }
+            
+            case 13 : {
+                
+                this.write_task_list();
+                break;
+            }
                         
             default: {
                 
@@ -202,6 +208,12 @@ public class DataBase {
             case 12 : {
                 
                 this.rewrite_accept_task();
+                break;
+            }
+            
+            case 13 : {
+                
+                this.rewrite_task_list();
                 break;
             }
             
@@ -674,14 +686,13 @@ public class DataBase {
         Task task = (Task) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO task(task_name, task_day, program, task_text, task_time, task_ball, task_answer, task_type, task_db_index, task_inventory) VALUES (?, ?, ?, ?, ?, ?, \""+task.getAnswer()+"\", 'row', 'none', ?);", Statement.RETURN_GENERATED_KEYS);
+        ("INSERT INTO task(task_name, task_list, task_text, task_time, task_ball, task_answer, task_type, task_inventory) VALUES (?, ?, ?, ?, ?, \""+task.getAnswer()+"\", 'row', ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, task.getName());
-            stmt.setInt(2, task.getDay());
-            stmt.setInt(3, task.getProgramID());
-            stmt.setString(4, task.getQuestion());
-            stmt.setInt(5, task.getTime());
-            stmt.setInt(6, task.getBall());
-            stmt.setString(7, task.getInventory());
+            stmt.setInt(2, task.getTaskListID());
+            stmt.setString(3, task.getQuestion());
+            stmt.setInt(4, task.getTime());
+            stmt.setInt(5, task.getBall());
+            stmt.setString(6, task.getInventory());
             int n = stmt.executeUpdate();
             Done = n == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -693,14 +704,13 @@ public class DataBase {
         Task task = (Task) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE task set task_name=?, task_day=?, task_text=?, task_time=?, task_ball=?, task_answer=\""+task.getAnswer()+"\", task_inventory=? where task_id=?;");
+        ("UPDATE task set task_name=?, task_text=?, task_time=?, task_ball=?, task_answer=\""+task.getAnswer()+"\", task_inventory=? where task_id=?;");
             stmt.setString(1, task.getName());
-            stmt.setInt(2, task.getDay());
-            stmt.setString(3, task.getQuestion());
-            stmt.setInt(4, task.getTime());
-            stmt.setInt(5, task.getBall());
-            stmt.setString(6, task.getInventory());
-            stmt.setInt(7, task.getID());
+            stmt.setString(2, task.getQuestion());
+            stmt.setInt(3, task.getTime());
+            stmt.setInt(4, task.getBall());
+            stmt.setString(5, task.getInventory());
+            stmt.setInt(6, task.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;
     }
@@ -729,6 +739,37 @@ public class DataBase {
             stmt.setInt(1, accept.isRight()?1:0);
             stmt.setInt(2, accept.getID());
             Done = stmt.executeUpdate() == 1;
+    }
+
+    private void write_task_list() throws SQLException {
+        
+        TaskList list = (TaskList) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("INSERT INTO test(task_list_name, task_list_day, program, task_list_text) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, list.getName());
+            stmt.setInt(2, list.getDay());
+            stmt.setInt(3, list.getProgramID());
+            stmt.setString(4, list.getInventory());
+            int n = stmt.executeUpdate();
+            Done = n == 1;
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()) 
+                OnsID = rs.getInt(1);
+    }
+
+    private void rewrite_task_list() throws SQLException {
+        
+        TaskList list = (TaskList) Ons;
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("UPDATE task_list set task_list_name=?, task_list_day=?, task_list_text=?, task_list_time=? where task_list_id=?;");
+            stmt.setString(1, list.getName());
+            stmt.setInt(2, list.getDay());
+            stmt.setString(3, list.getInventory());
+            stmt.setInt(4, list.getID());
+            int n = stmt.executeUpdate();
+            Done = n == 1;
     }
 
 

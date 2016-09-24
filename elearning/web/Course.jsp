@@ -4,7 +4,7 @@
     Author     : javlonboy
 --%>
 
-<%@page import="Learning.Task"%>
+<%@page import="Learning.TaskList"%>
 <%@page import="Learning.User"%>
 <%@page import="Learning.Test"%>
 <%@page import="Learning.Material"%>
@@ -32,7 +32,7 @@ int program_id = 0;
     
     ArrayList<Material> materials = prog.getMaterials();
     ArrayList<Test> tests = prog.getTests();
-    ArrayList<Task> tasks = prog.getTasks();
+    ArrayList<TaskList> tasks = prog.getTasks();
 %>
 
 <!DOCTYPE html>
@@ -197,8 +197,8 @@ if(u){%>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/Task.jsp?task=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
-                           <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?task=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/TaskList.jsp?task_list=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
+                           <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?task_list=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
 
                         </div>
 <%}%>                            
@@ -213,7 +213,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTask.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/CreateTaskList.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        

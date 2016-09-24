@@ -172,21 +172,21 @@ public class Program extends Parent{
         return list;
     }
     
-    public ArrayList<Task> getTasks() {
-        ArrayList<Task> list = new ArrayList<Task>();
+    public ArrayList<TaskList> getTasks() {
+        ArrayList<TaskList> list = new ArrayList<TaskList>();
         try{
             DataBase db = new DataBase(this);
-            ResultSet rs = db.Find("task");
+            ResultSet rs = db.Find("task_list");
                         while(rs.next()){
-                            try {list.add(new Task(rs.getInt("task_id")));} 
+                            try {list.add(new TaskList(rs.getInt("task_list_id")));} 
                             catch (SQLException ex) {Log.getOut(ex.getMessage());}
                         }
             } catch(Exception ex){
                     Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
             }
-        Collections.sort(list, new Comparator<Task>() {
+        Collections.sort(list, new Comparator<TaskList>() {
         @Override
-        public int compare(Task o1, Task o2) {
+        public int compare(TaskList o1, TaskList o2) {
                 return o1.getDay() - o2.getDay();
         }
         });

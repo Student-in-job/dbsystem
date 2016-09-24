@@ -14,9 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +30,7 @@ public class DBManeger {
     private String Prefix;
     private File file;
     
-    public DBManeger(String query, Program prog) throws NamingException, SQLException, IOException{
+    public DBManeger(String query, Program prog) throws NamingException, IOException{
         Message="";
         
         String testName = db.getRealPath()+db.getFileDir()+"temp/sq";
@@ -49,7 +46,7 @@ public class DBManeger {
         this.execut();
     }
     
-    public DBManeger(Part sqript, Program prog) throws NamingException, SQLException, IOException{
+    public DBManeger(Part sqript, Program prog) throws NamingException, IOException{
         String testName = db.getRealPath()+db.getFileDir()+"temp/";
         int i=0;
         File file;
@@ -61,10 +58,6 @@ public class DBManeger {
         
         this.execut();
         
-    }
-
-    public boolean Complite(){
-        return Message.equals("");
     }
     
     public String getMessage(){
@@ -97,6 +90,22 @@ public class DBManeger {
             replacequery = replacequery.replaceAll(" "+key, " "+names.get(key));
         }
         
+        
+        /*names = new HashMap<String, String>();
+        p = Pattern.compile("update[ ]+(low_priority)?(ignore)?[ ]*+[a-z|0-9|_|$]+[ ]", Pattern.CASE_INSENSITIVE);
+        matcher = p.matcher(query);
+        while(matcher.find()){
+            String update = matcher.group();
+            Pattern pp = Pattern.compile("[a-z|0-9|_|$]+[ ]$", Pattern.CASE_INSENSITIVE);
+            Matcher m = pp.matcher(update);
+            if(m.find())
+                names.put(m.group(), Prefix.concat(m.group()));
+        }
+        for(String key : names.keySet()){
+            replacequery = replacequery.replaceAll(" "+key, " "+names.get(key));
+        }      */  
+        
+        
         FileWriter fileWriter = new FileWriter(file.getPath());
         fileWriter.write(replacequery);
         fileWriter.flush();
@@ -105,25 +114,36 @@ public class DBManeger {
     }
     
     private void executFile() throws IOException{
-        String[] cmd = new String[]{"mysql",
-        "task",
-        "--user=" + "tutor",
-        "--password=" + "qwerty",
-        "-e",
-        "\"source " + file.getPath() + "\""
+        String[] cmd = new String[]{
+            "mysql",
+            "task",
+            "--user=" + "tuter",
+            "--password=" + "qwerty",
+            "-e",
+            "source " + file.getPath()
         };
         Process proc = Runtime.getRuntime().exec(cmd);
         InputStream inputstream = proc.getInputStream();
         InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
         BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
         String line;
+       
         while ((line = bufferedreader.readLine()) != null) {
             Message+=line+"<br>\n";
         }
+        inputstream = proc.getErrorStream();
+        inputstreamreader = new InputStreamReader(inputstream);
+        bufferedreader = new BufferedReader(inputstreamreader);
+        
+        while ((line = bufferedreader.readLine()) != null) {
+            Message+=line+"<br>\n";
+        }
+        Message = Message.replaceAll(db.getRealPath(), "");
+        
+        
     }
 
-    private void execut() throws NamingException, SQLException, IOException {
-        
+    private void execut() throws NamingException, IOException {
         
         this.RewriteQuery();
         this.executFile();  
@@ -139,6 +159,9 @@ public class DBManeger {
         norm_string = norm_string.replaceAll("\t", " ");
         norm_string = norm_string.replaceAll("\r", " ");
         norm_string = norm_string.replaceAll("\f", " ");
+        
+        norm_string = norm_string.replaceAll("\\(", " ( ");
+        norm_string = norm_string.replaceAll("\\)", " ) ");
         
         return norm_string;
     }

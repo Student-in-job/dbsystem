@@ -18,8 +18,7 @@ if(request.getMethod().equals("POST")){
     query = request.getParameter("query");
     try{
         DBManeger man = new DBManeger(query, new Program(1));
-        if(man.Complite()) message = "Query complite!";
-        else message = man.getMessage();
+        message = man.getMessage();
     }catch(Exception ex){response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
 }
 %>

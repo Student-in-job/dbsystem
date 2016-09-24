@@ -1,6 +1,6 @@
 <%-- 
-    Document   : CreateTask
-    Created on : 05.09.2016, 11:17:11
+    Document   : CreateTaskList
+    Created on : 24.09.2016, 16:06:35
     Author     : ksinn
 --%>
 
@@ -12,38 +12,35 @@
 <%@include file="../logfrag.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
-    String message="";
-    int list = 0;
-    TaskList pg;
+    
+    int program = 0;
+    Program pg;
     try{
-        list = Integer.parseInt(request.getParameter("task_list"));
-        pg = new TaskList(list);
+        program = Integer.parseInt(request.getParameter("program"));
+        pg = new Program(program);
         
     }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
     catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
-    if(user.getID()!=pg.getProgram().getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+    if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
-    String name=null, inventory = null, answer=null, question=null;
-    int task, time=0, ball=0;
-    Task nt;
-    task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
+    String name=null, inventory = null;
+    int day=0, list;
+    TaskList nt;
+    list = Integer.parseInt(request.getParameter("task_list")==null?"0":request.getParameter("task_list"));
  
 if(request.getMethod().equals("GET")){
-    if(task!=0){
+    if(list!=0){
         
         try{
-            nt = new Task(task);
+            nt = new TaskList(list);
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         name = nt.getName();
+        day = nt.getDay();
         inventory = nt.getInventory();
-        list = nt.getTaskListID();
-        answer=nt.getAnswer();
-        time=nt.getTime();
-        ball=nt.getBall();
-        question=nt.getQuestion();
+        program = nt.getProgramID();
 
     }
     
@@ -52,29 +49,25 @@ if(request.getMethod().equals("POST")){
     
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    answer = request.getParameter("answer");
-    time = Integer.parseInt(request.getParameter("time"));
-    ball = Integer.parseInt(request.getParameter("ball"));
-    question = request.getParameter("question");
+    day = Integer.parseInt(request.getParameter("day"));
     
         try{
-            if(task==0){
+            if(list==0){
 
-                nt = new Task(name, question, inventory, answer, time, ball);
+                nt = new TaskList(name, day, inventory);
                 nt.Write(pg , user);
-                response.sendRedirect("Task.jsp?task="+nt.getID()); return;
+                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }
             else{
 
-                nt = new Task(task);
-                nt.Change(name, question, inventory, user, time, ball, answer);
-                response.sendRedirect("Task.jsp?task="+nt.getID()); return;
+                nt = new TaskList(list);
+                nt.Change(name, inventory, day, user);
+                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }   
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;}
-        catch (InvalidQuery ex) {message=ex.getMessage();}
+        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         
 
@@ -84,7 +77,7 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Task</title>
+        <title>Test</title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
@@ -94,37 +87,17 @@ if(request.getMethod().equals("POST")){
 
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
-        <script src="<%=request.getServletContext().getContextPath()%>/js/tinymce/tinymce.min.js"></script>
-        <script>tinymce.init({
-    selector: '#input',
-    theme: 'modern',
-    width: 800,
-    height: 400,
-    plugins: [
-      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-      'save table contextmenu directionality emoticons template paste textcolor'
-    ],
-    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
-    
-    });
-    
-    
-        </script>
     </head>
     <body>
-        <div  class="box " >
-            <div id="mesagge" class="middle-text"><%=message%></div>
-        </div>
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form id="form" class="form" action="" method="POST">
-                    <h3 class="text-centered">Task</h3>
-                    <input type="hidden" name="program" value="<%=list%>"> 
-                    <input type="hidden" name="test" value="<%=task%>"> 
+                <form id="form" class="form" action="CreateTest.jsp" method="POST">
+                    <h3 class="text-centered">Test</h3>
+                    <input type="hidden" name="program" value="<%=program%>"> 
+                    <input type="hidden" name="test" value="<%=list%>"> 
                     
                     <div class="form-item">
                         <label>Name:</label>
@@ -137,24 +110,8 @@ if(request.getMethod().equals("POST")){
                     </div>
                     
                     <div class="form-item">
-                        <label>Question:</label>
-                        <textarea id="input" required name="question"><%=question==null?"":question%></textarea>
-                    </div>
-                    
-                    <div class="form-item">
-                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp">DataBase Manager -></a>
-                        <textarea required name="answer"><%=answer==null?"":answer%></textarea>
-                    </div>
-                    
-                    <div class="form-item">
-                        <label>Time(in minuts):</label>
-                        <input class="width-100" required min="1" type="number" name="time" value="<%=time!=0?time:""%>">
-                    </div>
-                    
-                    
-                    <div class="form-item">
-                        <label>Ball:</label>
-                        <input class="width-100" required min="1" type="number" name="ball" value="<%=ball!=0?ball:""%>">
+                        <label>Day:</label>
+                        <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>">
                     </div>
                     
                     <div class="form-item">
@@ -177,21 +134,16 @@ if(request.getMethod().equals("POST")){
                             maxlength: 50
                         },
                         
+                        day:{
+                            required: true,
+                            number: true,
+                            min: 1,
+                            max: <%=pg.getDuration()%>
+                        },
+                            
                         inventory:{
                             required: true,
                             minlength: 20,
-                            maxlength: 1000
-                        },
-                        
-                        answer:{
-                            required: true,
-                            minlength: 10,
-                            maxlength: 500
-                        },
-                                
-                        question:{
-                            required: true,
-                            minlength: 10,
                             maxlength: 1000
                         },
                         
@@ -200,14 +152,7 @@ if(request.getMethod().equals("POST")){
                             number: true,
                             min: 1,
                             max: 120
-                        },
-                                
-                        ball:{
-                            required: true,
-                            number: true,
-                            min: 1,
-                            max: 100
-                        }       
+                        }
                         
                    }
 

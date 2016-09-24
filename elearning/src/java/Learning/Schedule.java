@@ -67,7 +67,7 @@ public class Schedule{
                     rs = db.Find("schedule_has_task");
                         while(rs.next()){
                             try{
-                                Task task = new Task(rs.getInt("task"));
+                                TaskList task = new TaskList(rs.getInt("task"));
                                 task.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(task);
                             }
