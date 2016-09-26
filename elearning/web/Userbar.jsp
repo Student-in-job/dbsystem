@@ -150,10 +150,10 @@ for(int j=0; j<7; j++){
                                             <%=d.get(i).getDateString()%>
                                         </td>
                                     </tr>
-            <%}if(d.get(i).getType().equals("task")){%>
+            <%}if(d.get(i).getType().equals("task_list")){%>
                                     <tr>
                                         <td>
-                                            task: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
+                                            task list: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?tasklist=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
                                             <br><%=d.get(i).getProgram().getName()%>
                                             <br><%=/*user.getTaskResult((Task)d.get(i))==1?"pass":*/"don't pass"%>
                                         </td>

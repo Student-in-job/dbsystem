@@ -192,13 +192,13 @@ if(u){%>
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=tasks.get(i).getID()%>"><%=tasks.get(i).getName()%></a>
+                                <a href = "<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?tasklist=<%=tasks.get(i).getID()%>"><%=tasks.get(i).getName()%></a>
                             </p>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="<%=request.getServletContext().getContextPath()%>/program/TaskList.jsp?task_list=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
-                           <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?task_list=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/TaskList.jsp?tasklist=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
+                           <a href="<%=request.getServletContext().getContextPath()%>/program/Delete?tasklist=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
 
                         </div>
 <%}%>                            

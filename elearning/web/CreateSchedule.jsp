@@ -24,7 +24,7 @@
     
     ArrayList<Material> material;
     ArrayList<Test> test;
-    ArrayList<Task> task;
+    ArrayList<TaskList> task;
     
     SimpleDateFormat form = new SimpleDateFormat();
     form.applyPattern("yyyy-MM-dd");    

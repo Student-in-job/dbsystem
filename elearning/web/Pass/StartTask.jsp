@@ -8,17 +8,17 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="Learning.User_courses"%>
-<%@page import="Learning.Task"%>
+<%@page import="Learning.TaskList"%>
 <%@page import="Learning.Course"%>
 <%@page import="Learning.AcceptTask"%>
 
 <%@include file="/avtorize.jsp"%>
 <%  
     int ts;
-    Task task;
+    TaskList task;
         try{
-            ts = Integer.parseInt(request.getParameter("task"));
-            task = new Task(ts);
+            ts = Integer.parseInt(request.getParameter("tasklist"));
+            task = new TaskList(ts);
         }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}

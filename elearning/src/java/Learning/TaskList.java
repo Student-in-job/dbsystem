@@ -21,6 +21,7 @@ import java.util.HashMap;
  public class TaskList  extends Component {
 
     protected int Ball; 
+    protected int time;
     
     @Override
     public int getID(){
@@ -149,6 +150,23 @@ import java.util.HashMap;
                 
         }catch(SQLException ex){Log.getOut(ex.getMessage());}
     }
+    
+    public int getTime(){
+        
+        return Ball;
+    }
+
+    private void getTimefromDB() {
+        try{
+                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement("select sum(task_ball) from task where task_list=?;");
+                stmt.setInt(1, this.ID);
+                ResultSet rs = stmt.executeQuery();
+                rs.next();
+                Ball = rs.getInt("sum(task_ball)");
+                
+        }catch(SQLException ex){Log.getOut(ex.getMessage());}
+    }
+    
 
 }
 

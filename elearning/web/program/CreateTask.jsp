@@ -16,7 +16,7 @@
     int list = 0;
     TaskList pg;
     try{
-        list = Integer.parseInt(request.getParameter("task_list"));
+        list = Integer.parseInt(request.getParameter("tasklist"));
         pg = new TaskList(list);
         
     }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}

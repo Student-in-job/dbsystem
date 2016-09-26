@@ -94,7 +94,7 @@
                     </form>
                 </div>
                 <div class="col">
-                    <a class="test-edit" href="Delete?testtask=<%=task.get(i).getID()%>">
+                    <a class="test-edit" href="<%=request.getServletContext().getContextPath()%>/Delete.jsp?testtask=<%=task.get(i).getID()%>">
                         <i class="fa fa-trash font-green"></i> Delete
                     </a> 
                     <a class="test-edit" href="CreateTestTask.jsp?test=<%=test.getID()%>&testtask=<%=task.get(i).getID()%>">

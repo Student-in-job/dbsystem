@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="Learning.TaskList"%>
 <%@page import="Learning.Task"%>
 <%@page import="Learning.Files"%>
 <%@page import="Learning.TestTask"%>
@@ -48,6 +49,12 @@ if(request.getMethod().equals("GET")){
                     Task p = new Task(id);
                     name=p.getName();
                     type=p.getType();
+                }
+                if("tasklist".equals(param)){
+
+                    TaskList p = new TaskList(id);
+                    name=p.getName();
+                    type="task list";
                 }
                 if("testtask".equals(param)){
 
@@ -140,6 +147,13 @@ if(request.getMethod().equals("POST")){
                 if("task".equals(param)){
 
                     Task p = new Task(value);
+                    if(user.getID()!=p.getTaskList().getProgram().getTeacherID()) throw new IllegalAction();
+                    pg=p.getTaskList();
+                    p.Delete();
+                }
+                if("tasklist".equals(param)){
+
+                    TaskList p = new TaskList(value);
                     if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
@@ -174,6 +188,7 @@ if(request.getMethod().equals("POST")){
         switch(pg.getType()){
             case "program": {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+pg.getID()); return;}
             case "material": {response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+pg.getID()); return;}
+            case "task_list": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/TaskList.jsp?tasklist="+pg.getID()); return;}
             case "test": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/Test.jsp?test="+pg.getID()); return;}
             case "user": {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
             default: {response.sendRedirect(request.getServletContext().getContextPath()); return;}

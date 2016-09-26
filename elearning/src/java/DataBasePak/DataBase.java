@@ -746,7 +746,7 @@ public class DataBase {
         TaskList list = (TaskList) Ons;
         
             PreparedStatement stmt = Connection.prepareStatement
-        ("INSERT INTO test(task_list_name, task_list_day, program, task_list_text) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+        ("INSERT INTO task_list(task_list_name, task_list_day, program, task_list_text) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, list.getName());
             stmt.setInt(2, list.getDay());
             stmt.setInt(3, list.getProgramID());

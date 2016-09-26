@@ -7,12 +7,14 @@ package Learning;
 
 import DataBasePak.DataBase;
 import DataBasePak.Log;
-import DataBasePak.db;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.NamingException;
 
 /**
@@ -21,12 +23,16 @@ import javax.naming.NamingException;
  */
 public class AcceptTask extends Accept{
     
-    private Task Task;
+    private TaskList TaskList;
+    private ArrayList<Task> Tasks; 
+    private HashMap<Integer, Boolean> Result;
+    protected int lowTask;
     private int Ball;
     private String UserAnswer;
     private SQLException Ex;
     private String Message;
     private Connection conn;
+    private Date StartTime;
     
     @Override
     public int getID(){
@@ -43,10 +49,17 @@ public class AcceptTask extends Accept{
         return "accept_task";
     }
     
-    public AcceptTask(User_courses user_course, Task task) throws Exception{
-        this.Task = task;
+    public AcceptTask(User_courses user_course, TaskList tasklist) throws Exception{
+        this.TaskList = tasklist;
         this.UserHasCourse = user_course;
-        StartTime=new Date();
+        this.Result = new HashMap<Integer, Boolean>();
+        Tasks = this.TaskList.getTask();
+        for(int i=0; i<Tasks.size(); i++){
+            Result.put(Tasks.get(i).getID(), false);
+        }
+        lowTask = 0;
+        StartTime = new Date();
+                
         DataBase db = new DataBase(this);
         db.Write();
         if(db.Done()) {
@@ -56,8 +69,27 @@ public class AcceptTask extends Accept{
         conn = DataBasePak.db.getStudentConn();
     }
     
+    public boolean Next(){
+        if(lowTask+1>=Tasks.size())
+            return false;
+        else{
+            lowTask++;
+            this.Ex = null;
+            this.Message="";
+            this.StartTime = new Date();
+            this.UserAnswer = "";
+                        
+            return true;
+        }
+        
+    }
+    
     public void Final() throws Exception{
         
+        Ball=0;
+        for(Map.Entry<Integer, Boolean> entry : Result.entrySet()){
+            Ball+= entry.getValue()?Tasks.get(entry.getKey()).getBall():0;
+        }
         if(this.isRight()){        
             DataBase db = new DataBase(this);
             db.ReWrite();
@@ -70,18 +102,18 @@ public class AcceptTask extends Accept{
     public void putAnswer(String answer) throws NamingException{
         
             try{
-                Ball=0;
+                Result.put(Tasks.get(lowTask).getID(), false);
                 Message = "";
                 UserAnswer=answer;
                 ResultSet stud, tut;
                 try{
                     Statement stmt = conn.createStatement();
                     stud =  stmt.executeQuery(UserAnswer);
-                } catch(SQLException ex){Message = ex.getMessage(); Ex = ex; Ball=0; return;}      
+                } catch(SQLException ex){Message = ex.getMessage(); Ex = ex; return;}      
                 
-                tut = Task.getAnswerResult();
+                tut = Tasks.get(lowTask).getAnswerResult();
                 if(this.Compear(tut, stud))
-                    Ball = Task.getBall();
+                    Result.put(Tasks.get(lowTask).getID(), true);
                 
             } catch(SQLException ex){Log.getOut(ex.getMessage()); }
             
@@ -108,7 +140,7 @@ public class AcceptTask extends Accept{
     }
     
     public boolean isRight(){
-       return Ball>0;
+       return Result.get(Tasks.get(lowTask).getID());
     }
     
     public String getAnswer(){
@@ -131,15 +163,15 @@ public class AcceptTask extends Accept{
     }
     
     public int getTaskID(){
-        return Task.getID();
+        return Tasks.get(lowTask).getID();
     }
     
     public Learning.Task getTask(){
-        return Task;
+        return Tasks.get(lowTask);
     }
     
     @Override
     public Date getEndTime(){
-        return new Date(StartTime.getTime()+Task.getTime()*60*1000);
+        return new Date(StartTime.getTime()+Tasks.get(lowTask).getTime()*60*1000);
     }    
 }

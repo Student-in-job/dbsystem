@@ -9,7 +9,6 @@ import DataBasePak.DataBase;
 import DataBasePak.IllegalAction;
 import DataBasePak.InvalidQuery;
 import DataBasePak.db;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -152,10 +151,8 @@ public class Task extends Parent{
     
     public ResultSet getAnswerResult() throws SQLException, NamingException{
         
-            Connection conn = db.getStudentConn();
-            Statement stmt = conn.createStatement();
+            Statement stmt = db.getTuterConn().createStatement();
             ResultSet rs = stmt.executeQuery(this.Answer);
-            //conn.close();
             return rs;
             
         

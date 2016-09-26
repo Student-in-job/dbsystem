@@ -14,7 +14,7 @@
 <%    Task task;
     try {
         task = new Task(Integer.parseInt(request.getParameter("task")));
-        if (task.getProgram().getTeacherID() != user.getID()) {
+        if (task.getTaskList().getProgram().getTeacherID() != user.getID()) {
             throw new IllegalAction();
         }
     } catch (IllegalAction ex) {
@@ -60,12 +60,12 @@
             <div class="row ">
                 <div class="col col-3 offset-1">
                     <h3><%=task.getName()%> (<%=task.getTime()%> min)</h3>
-                    <h4><a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=task.getProgram().getID()%>"><%=task.getProgram().getName()%></a></h4>
+                    <h4><a href="<%=request.getServletContext().getContextPath()%>/program/TaskList.jsp?tasklist=<%=task.getTaskList().getID()%>"><%=task.getTaskList().getName()%></a></h4>
                     <h4>Ball: <%=task.getBall()%></h4>
                     <p><%=task.getInventory()%></p>
                 </div>
                 <div class="col col-1">
-                    <a class="test-edit" href="CreateTask.jsp?program=<%=task.getProgramID()%>&task=<%=task.getID()%>">
+                    <a class="test-edit" href="CreateTask.jsp?program=<%=task.getTaskList().getProgramID()%>&task=<%=task.getID()%>">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
