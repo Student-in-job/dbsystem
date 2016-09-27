@@ -46,7 +46,7 @@ public class AcceptTask extends Accept{
     
     @Override
     public String getType(){
-        return "accept_task";
+        return "accept_task_list";
     }
     
     public AcceptTask(User_courses user_course, TaskList tasklist) throws Exception{
@@ -81,6 +81,12 @@ public class AcceptTask extends Accept{
                         
             return true;
         }
+        
+    }
+    
+    public boolean NextExists(){
+        return lowTask<Tasks.size();
+        
         
     }
     
@@ -169,6 +175,23 @@ public class AcceptTask extends Accept{
     public Learning.Task getTask(){
         return Tasks.get(lowTask);
     }
+    
+    public int getTaskListID(){
+        return TaskList.getID();
+    }
+    
+    public Learning.TaskList getTaskList(){
+        return TaskList;
+    }
+    
+    public ArrayList<Task> getTasks(){
+        return Tasks;
+    }
+    
+    public HashMap<Integer, Boolean> getResult(){
+        return Result;
+    }
+   
     
     @Override
     public Date getEndTime(){

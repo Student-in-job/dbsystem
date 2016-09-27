@@ -137,7 +137,7 @@ for(Entry e : task.getStatistic().entrySet()){
             <div class="col col-12 test-btn">
 <%if(user!=null)if(user.getID()!=task.getProgram().getTeacherID()){%>
                 <form method="POST" action="StartTask.jsp">
-                <input type="hidden" name="task" value="<%=ts%>">
+                <input type="hidden" name="tasklist" value="<%=ts%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">
                 </form>
 <%}%>   

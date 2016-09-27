@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 /**
  *
  * @author ksinn
@@ -127,7 +128,7 @@ public class DataBase {
             
             case 12 : {
                 
-                this.write_accept_task();
+                this.write_accept_task_list();
                 break;
             }
             
@@ -207,7 +208,7 @@ public class DataBase {
             
             case 12 : {
                 
-                this.rewrite_accept_task();
+                this.rewrite_accept_task_list();
                 break;
             }
             
@@ -715,30 +716,42 @@ public class DataBase {
             Done = n == 1;
     }
 
-    private void write_accept_task() throws SQLException {
+    private void write_accept_task_list() throws SQLException {
         
         AcceptTask accept = (AcceptTask) Ons;
         
         PreparedStatement stmt = Connection.prepareStatement
-        ("insert into accept_task (accept_task_date, user_has_course, task) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
-        
+        ("insert into accept_task_list (accept_task_list_date, user_has_course, task_list) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, accept.getUserHasCourse().getID());
-            stmt.setInt(2, accept.getTaskID());
+            stmt.setInt(2, accept.getTaskListID());
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);
+            
+        stmt = Connection.prepareStatement
+        ("insert into accept_task (accept_task_list, task) VALUES (?, ?);");
+        for(int i=0; i<accept.getTasks().size(); i++){
+            stmt.setInt(1, OnsID);
+            stmt.setInt(2, accept.getTasks().get(i).getID());
+            stmt.addBatch();
+        }
+            stmt.executeBatch();
+            
     }
 
-    private void rewrite_accept_task() throws SQLException {
+    private void rewrite_accept_task_list() throws SQLException {
         
         AcceptTask accept = (AcceptTask) Ons;
         
         PreparedStatement stmt = Connection.prepareStatement
-        ("UPDATE accept_task SET accept_task_pass=? WHERE accept_task_id=?;");
-        
-            stmt.setInt(1, accept.isRight()?1:0);
-            stmt.setInt(2, accept.getID());
-            Done = stmt.executeUpdate() == 1;
+                ("update accept_task set accept_task_pass = ? where task=? and accept_task_list=?");
+        for(int i=0; i<accept.getTasks().size(); i++){
+            stmt.setInt(1, accept.getResult().get(accept.getTasks().get(i).getID())?1:0);
+            stmt.setInt(2, accept.getTasks().get(i).getID());
+            stmt.setInt(3, accept.getID());
+            stmt.addBatch();
+        }
+            stmt.executeBatch();
     }
 
     private void write_task_list() throws SQLException {
