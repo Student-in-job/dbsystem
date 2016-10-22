@@ -57,6 +57,10 @@
         <servlet-name>timer</servlet-name>
         <servlet-class>timer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NextTask</servlet-name>
+        <servlet-class>NextTask</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -76,6 +80,10 @@
     <servlet-mapping>
         <servlet-name>timer</servlet-name>
         <url-pattern>/timer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NextTask</servlet-name>
+        <url-pattern>/Pass/NextTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

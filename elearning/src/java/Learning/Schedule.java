@@ -64,10 +64,10 @@ public class Schedule{
         }
         
         try{
-                    rs = db.Find("schedule_has_task_list");
+                    rs = db.Find("schedule_has_task");
                         while(rs.next()){
                             try{
-                                TaskList task = new TaskList(rs.getInt("task_list"));
+                                Task task = new Task(rs.getInt("task"));
                                 task.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(task);
                             }

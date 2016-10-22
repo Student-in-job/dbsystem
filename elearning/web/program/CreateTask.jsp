@@ -13,20 +13,20 @@
 <%
     request.setCharacterEncoding("UTF-8");
     String message="";
-    int list = 0;
-    TaskList pg;
+    int program = 0;
+    Program pg;
     try{
-        list = Integer.parseInt(request.getParameter("tasklist"));
-        pg = new TaskList(list);
+        program = Integer.parseInt(request.getParameter("program"));
+        pg = new Program(program);
         
     }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
     catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
-    if(user.getID()!=pg.getProgram().getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+    if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
     String name=null, inventory = null, answer=null, question=null;
-    int task, time=0, ball=0;
+    int day=0, task, time=0, ball=0;
     Task nt;
     task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
  
@@ -38,8 +38,9 @@ if(request.getMethod().equals("GET")){
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         name = nt.getName();
+        day = nt.getDay();
         inventory = nt.getInventory();
-        list = nt.getTaskListID();
+        program = nt.getProgramID();
         answer=nt.getAnswer();
         time=nt.getTime();
         ball=nt.getBall();
@@ -53,6 +54,7 @@ if(request.getMethod().equals("POST")){
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
     answer = request.getParameter("answer");
+    day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
     ball = Integer.parseInt(request.getParameter("ball"));
     question = request.getParameter("question");
@@ -60,14 +62,14 @@ if(request.getMethod().equals("POST")){
         try{
             if(task==0){
 
-                nt = new Task(name, question, inventory, answer, time, ball);
+                nt = new Task(name, day, question, inventory, answer, time, ball);
                 nt.Write(pg , user);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }
             else{
 
                 nt = new Task(task);
-                nt.Change(name, question, inventory, user, time, ball, answer);
+                nt.Change(name, question, inventory, day, user, time, ball, answer);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }   
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -123,7 +125,7 @@ if(request.getMethod().equals("POST")){
 
                 <form id="form" class="form" action="" method="POST">
                     <h3 class="text-centered">Task</h3>
-                    <input type="hidden" name="program" value="<%=list%>"> 
+                    <input type="hidden" name="program" value="<%=program%>"> 
                     <input type="hidden" name="test" value="<%=task%>"> 
                     
                     <div class="form-item">
@@ -137,12 +139,17 @@ if(request.getMethod().equals("POST")){
                     </div>
                     
                     <div class="form-item">
+                        <label>Day:</label>
+                        <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>">
+                    </div>
+                    
+                    <div class="form-item">
                         <label>Question:</label>
                         <textarea id="input" required name="question"><%=question==null?"":question%></textarea>
                     </div>
                     
                     <div class="form-item">
-                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp">DataBase Manager -></a>
+                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp?program=<%=program%>">DataBase Manager -></a>
                         <textarea required name="answer"><%=answer==null?"":answer%></textarea>
                     </div>
                     
@@ -177,6 +184,13 @@ if(request.getMethod().equals("POST")){
                             maxlength: 50
                         },
                         
+                        day:{
+                            required: true,
+                            number: true,
+                            min: 1,
+                            max: <%=pg.getDuration()%>
+                        },
+                            
                         inventory:{
                             required: true,
                             minlength: 20,

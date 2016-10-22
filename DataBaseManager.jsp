@@ -14,21 +14,12 @@
 request.setCharacterEncoding("UTF-8");
 String message = " ";
 String query = "";
-int program;
-Program pg;
-    try{
-        program = Integer.parseInt(request.getParameter("program"));
-        pg = new Program(program);
-        
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
 if(request.getMethod().equals("POST")){
     query = request.getParameter("query");
     try{
-        DBManeger man = new DBManeger(query, pg);
-        message = man.getMessage();
+        DBManeger man = new DBManeger(query, new Program(1));
+        if(man.Complite()) message = "Query complite!";
+        else message = man.getMessage();
     }catch(Exception ex){response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
 }
 %>
@@ -57,7 +48,7 @@ if(request.getMethod().equals("POST")){
             <div class="col col-4">
 
                 <form id="form" class="form" action="" method="POST">
-                    <input type="hidden" name="program" value="<%=program%>">
+                    
                     <div class="form-item">
                         <label>SQL Query:</label>
                         <textarea required name="query"><%=query%></textarea>

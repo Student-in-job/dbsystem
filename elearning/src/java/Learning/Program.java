@@ -13,7 +13,6 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -172,21 +171,21 @@ public class Program extends Parent{
         return list;
     }
     
-    public ArrayList<TaskList> getTasks() {
-        ArrayList<TaskList> list = new ArrayList<TaskList>();
+    public ArrayList<Task> getTasks() {
+        ArrayList<Task> list = new ArrayList<Task>();
         try{
             DataBase db = new DataBase(this);
-            ResultSet rs = db.Find("task_list");
+            ResultSet rs = db.Find("task");
                         while(rs.next()){
-                            try {list.add(new TaskList(rs.getInt("task_list_id")));} 
+                            try {list.add(new Task(rs.getInt("task_id")));} 
                             catch (SQLException ex) {Log.getOut(ex.getMessage());}
                         }
             } catch(Exception ex){
                     Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
             }
-        Collections.sort(list, new Comparator<TaskList>() {
+        Collections.sort(list, new Comparator<Task>() {
         @Override
-        public int compare(TaskList o1, TaskList o2) {
+        public int compare(Task o1, Task o2) {
                 return o1.getDay() - o2.getDay();
         }
         });
@@ -265,18 +264,16 @@ public class Program extends Parent{
         DataBase db = new DataBase(this);
         db.ReWrite();
         if(db.Done()){
-            try{
-                Statement stmt = DataBasePak.db.getConn().createStatement();
-                PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
-                String prefex= String.valueOf(this.ID)+"_%";
-                stmt2.setString(1, prefex);
-                ResultSet rs=stmt2.executeQuery();
-
-                while(rs.next()){
-                    stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
-                }
-                stmt.executeBatch();
-            }catch(SQLException ex){}
+            /*Statement stmt = DataBasePak.db.getConn().createStatement();
+            PreparedStatement stmt2 = DataBasePak.db.getConn().prepareStatement("SHOW tables from task like ?;");
+            String prefex= String.valueOf(this.ID)+"_%";
+            stmt2.setString(1, prefex);
+            ResultSet rs=stmt2.executeQuery();
+            
+            while(rs.next()){
+                stmt.addBatch("revoke all on task."+rs.getString(1)+" from 'tuter'@'localhost';");
+            }
+            stmt.executeBatch();*/
            return true; 
         }
         else return false;

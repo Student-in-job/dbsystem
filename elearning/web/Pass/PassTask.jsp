@@ -18,9 +18,9 @@
         response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
     }
     else{
-        if(request.getParameter("next") != null) accept.Next();
-        String answer = request.getParameter("answer");
-        accept.putAnswer(answer);
+            String answer = request.getParameter("answer");
+            accept.putAnswer(answer);
+        }
 
 
 %>
@@ -49,11 +49,7 @@
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
-<%if(accept.NextExists()){%>                
-                <a href="PassTask.jsp?next=ok"><button class="button small round outline">Next task</button></a>
-<%}else{%>
                 <a href="FinishTask.jsp"><button class="button small round outline">Finish task</button></a>
-<%}%>
             </div>
             
             
@@ -138,4 +134,3 @@
     </script>
     </body>
 </html>
-<%}%>

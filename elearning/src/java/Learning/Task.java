@@ -6,9 +6,11 @@
 package Learning;
 
 import DataBasePak.DataBase;
+import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import DataBasePak.InvalidQuery;
 import DataBasePak.db;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,15 +20,12 @@ import javax.naming.NamingException;
  *
  * @author ksinn
  */
-public class Task extends Parent{
+public class Task extends Component {
 
     protected int Time;
     protected int Ball;
     protected String Answer;
     protected String Question;
-    protected String Name;
-    protected String Inventory;
-    protected TaskList TaskList;
     
     @Override
     public int getID(){
@@ -45,12 +44,13 @@ public class Task extends Parent{
     
     @Override
     public boolean MayChange(){
-        return !this.getTaskList().getProgram().isPublished();
+        return !this.getProgram().isPublished();
     }
     
-    public Task(String name, String question, String inventory, String answer, int time, int ball){
+    public Task(String name, int day, String question, String inventory, String answer, int time, int ball){
         
         this.Name=name;
+        this.Day=day;
         this.Question=question;  
         this.Inventory=inventory; 
         Time=time;
@@ -65,7 +65,8 @@ public class Task extends Parent{
         ResultSet rs = db.Find();
                     rs.next();
                     this.Name = rs.getString("task_name");
-                    this.TaskList = new TaskList(rs.getInt("task_list"));
+                    this.Day = rs.getInt("task_day");
+                    this.Program = new Program(rs.getInt("program"));
                     this.Inventory = rs.getString("task_inventory");
                     this.Time = rs.getInt("task_time");
                     this.Ball = rs.getInt("task_ball");
@@ -74,26 +75,29 @@ public class Task extends Parent{
   }
    
     
-    public boolean Write(TaskList list, User user) throws Exception{
+    @Override
+    public boolean Write(Program program, User user) throws Exception{
         
-        if(user.getID()!=list.getProgram().getTeacherID()) throw new IllegalAction();
-        if(!list.getProgram().MayChange()) throw new IllegalAction();
+        if(user.getID()!=program.getTeacherID()) throw new IllegalAction();
+        if(!program.MayChange()) throw new IllegalAction();
         
+        if(!program.MayAddTest()) throw new IllegalAction();
+        if(Day>program.getDuration()) throw new InvalidParameter();
         Exception e = this.CorrectSQLQuery();
         if(e!=null) throw new InvalidQuery(e);
         
-        TaskList = list;
+        Program = program;
         return this.write();
     }
     
-    public boolean Change(String name, String question, String inventory, User user, int time, int ball, String answer) throws Exception{
+    public boolean Change(String name, String question, String inventory, int day, User user, int time, int ball, String answer) throws Exception{
         
-        if(this.getTaskList().getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
-        if(this.getTaskList().getProgram().isPublished()) throw new IllegalAction();
-        Task task = new Task(name, question, inventory, answer, time, ball);
+        if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
+        if(this.getProgram().isPublished()) throw new IllegalAction();
+        Task task = new Task(name, day, question, inventory, answer, time, ball);
         Exception e = task.CorrectSQLQuery();
         if(e!=null) throw new InvalidQuery(e);
-        task.TaskList = this.TaskList;
+        task.Program = this.Program;
         task.ID = this.ID;
         DataBase db = new DataBase(task);
         db.ReWrite();
@@ -151,33 +155,14 @@ public class Task extends Parent{
     
     public ResultSet getAnswerResult() throws SQLException, NamingException{
         
-            Statement stmt = db.getTuterConn().createStatement();
+            Connection conn = db.getStudentConn();
+            Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(this.Answer);
+            //conn.close();
             return rs;
             
         
         
     }
-    
-    public int getTaskListID(){
-    
-        return this.TaskList.getID();
-    } 
-    
-    public TaskList getTaskList(){
-    
-        return this.TaskList;
-    } 
-    
-    public String getName(){
-    
-    return this.Name;
-    }
-    
-    public String getInventory(){
-    
-    return this.Inventory;
-    }
 
 }
-

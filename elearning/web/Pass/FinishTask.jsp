@@ -51,6 +51,7 @@
                     <%=accept.getTask().getInventory()%>
                 </p>
                 <h4>Ball: <%=accept.getBall()%></h4>
+                <a href="NextTask">Next</a>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>

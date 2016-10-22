@@ -75,35 +75,21 @@ create table if not exists files (
 
 );
 
-create table if not exists task_list (
-  task_list_id int(11) not null auto_increment,
-  addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  task_list_name varchar(50) not null,
-  task_list_day int(3) not null,
-  task_list_text text not null,
-  program int(11) not null,
-  task_list_deleted int(1) not null default 0,
-  primary key (task_list_id),
-  constraint fk_task_list_program1  foreign key (program)  references program (program_id)    on delete no action    on update no action);
-
-
 create table if not exists task (
-  task_list int(11) not null,
   task_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   task_name varchar(45) not null,
-  #task_day int(3) not null,
+  task_day int(3) not null,
   task_type varchar(10) not null,
   task_text text(2000) not null,
-  #program int(11) not null,
-  #task_db_index varchar(45) not null,
+  program int(11) not null,
+  task_db_index varchar(45) not null,
   task_answer text(500) not null,
   task_ball int(11) not null,
   task_time int(11) not null,
   task_deleted int(1) not null default 0,
-  task_inventory text(1000) not null,
   primary key (task_id),
-  constraint fk_task_task_list1 foreign key (task_list) references task_list (task_list_id) on delete no action on update no action
+  constraint fk_task_program1 foreign key (program) references program (program_id) on delete no action on update no action
 );
 
 create table if not exists course (
@@ -132,28 +118,17 @@ create table if not exists user_has_course (
   constraint fk_user_has_course_course1 foreign key (course) references course (course_id) on delete no action on update no action
 );
 
-create table if not exists accept_task_list (
-  accept_task_list_id int(11) not null auto_increment,
+create table if not exists accept_task (
+  accept_task_id int(11) not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  accept_task_list_date datetime not null,
-  user_has_course int(11) not null,
-  task_list int(11) not null,
-  accept_task_list_deleted int(1) default 0,
-  primary key (accept_task_list_id),
-  constraint fk_mark_user_has_course1  foreign key (user_has_course)  references user_has_course (user_has_course_id)    on delete no action    on update no action,
-  constraint fk_mark_task_list1  foreign key (task_list)  references task_list (task_list_id)    on delete no action    on update no action
-);
-
-create table if not exists accept_task(
-  addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  accept_task_list int(11) not null,
-  task int(11) not null,
+  accept_task_date datetime not null,
   accept_task_pass int(1) not null default 0,
+  user_has_course int(11) not null,
+  task int(11) not null,
   accept_task_deleted int(1) default 0,
-  unique(accept_task_list, task),
-  constraint fk_mark_accept_task_list2  foreign key (accept_task_list)  references accept_task_list (accept_task_list_id)    on delete no action    on update no action,
-  constraint fk_mark_task2  foreign key (task)  references task (task_id)    on delete no action    on update no action
-
+  primary key (accept_task_id),
+  constraint fk_mark_user_has_course1  foreign key (user_has_course)  references user_has_course (user_has_course_id)    on delete no action    on update no action,
+  constraint fk_mark_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action
 );
 
 create table if not exists externe (
@@ -178,6 +153,13 @@ create table if not exists comments (
   constraint fk_comment_user1  foreign key (user)  references user (user_id)    on delete no action    on update no action,
   constraint fk_comment_course1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
 
+/*create table if not exists schedules (
+  schedules_id int(11) not null auto_increment,
+  course int(11) not null,
+  schedules_deleted int(1) not null default 0,
+  primary key (schedules_id),
+  constraint fk_schedule_course1  foreign key (course)  references course (course_id)    on delete no action    on update no action);*/
+
 
 create table if not exists schedule_has_material (
   material int(11) not null,
@@ -189,15 +171,15 @@ create table if not exists schedule_has_material (
   constraint fk_material_has_schedule_material1  foreign key (material)  references material (material_id)    on delete no action    on update no action,
   constraint fk_material_has_schedule_schedule1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
 
-create table if not exists schedule_has_task_list (
-  task_list int(11) not null,
+create table if not exists schedule_has_task (
+  task int(11) not null,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   course int(11) not null,
   date_time datetime not null,
-  schedule_has_task_list_deleted int(1) default 0,
-  primary key (task_list, course),
-  constraint fk_task_has_schedule_task_list1  foreign key (task_list)  references task_list (task_list_id)    on delete no action    on update no action,
-  constraint fk_task_list_has_schedule_schedule1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
+  schedule_has_task_deleted int(1) default 0,
+  primary key (task, course),
+  constraint fk_task_has_schedule_task1  foreign key (task)  references task (task_id)    on delete no action    on update no action,
+  constraint fk_task_has_schedule_schedule1  foreign key (course)  references course (course_id)    on delete no action    on update no action);
 
 create table if not exists test (
   test_id int(11) not null auto_increment,

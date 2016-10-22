@@ -8,17 +8,17 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="Learning.User_courses"%>
-<%@page import="Learning.TaskList"%>
+<%@page import="Learning.Task"%>
 <%@page import="Learning.Course"%>
 <%@page import="Learning.AcceptTask"%>
 
 <%@include file="/avtorize.jsp"%>
 <%  
     int ts;
-    TaskList task;
+    Task task;
         try{
-            ts = Integer.parseInt(request.getParameter("tasklist"));
-            task = new TaskList(ts);
+            ts = Integer.parseInt(request.getParameter("task"));
+            task = new Task(ts);
         }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
         catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
@@ -137,7 +137,7 @@ for(Entry e : task.getStatistic().entrySet()){
             <div class="col col-12 test-btn">
 <%if(user!=null)if(user.getID()!=task.getProgram().getTeacherID()){%>
                 <form method="POST" action="StartTask.jsp">
-                <input type="hidden" name="tasklist" value="<%=ts%>">
+                <input type="hidden" name="task" value="<%=ts%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">
                 </form>
 <%}%>   
