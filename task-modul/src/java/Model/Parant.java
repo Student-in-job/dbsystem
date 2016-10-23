@@ -22,7 +22,12 @@ import javax.sql.DataSource;
  *
  * @author ksinn
  */
-public abstract class Parant {
+public abstract class Parant extends DBConnect{
+    
+    @Override
+    protected String getDataSourseName(){
+        return "DB";
+    }
     
     protected int _id;
     protected boolean _from_db;
@@ -171,16 +176,6 @@ public abstract class Parant {
             Log.Write(ex.getLocalizedMessage());
             throw ex;
         }
-    }
-    
-    
-        
-    
-    private Connection getConnection() throws NamingException, SQLException{
-        InitialContext initContext;
-        initContext = new InitialContext();
-        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
-        return ds.getConnection();
     }
     
     private String generateQueryString(Set<Map.Entry<String, Object>> params, String mod){
