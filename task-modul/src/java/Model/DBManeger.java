@@ -34,7 +34,7 @@ public class DBManeger extends DBConnect{
     
     public DBManeger(String query, TaskGroup group) throws Exception{
         
-        Prefix = String.valueOf(group.getID())+"_";
+        this.Prefix = String.valueOf(group.getID())+"_";
         
         this.GenerateUniqName();
         this.file.createNewFile();
@@ -53,23 +53,23 @@ public class DBManeger extends DBConnect{
     
     public DBManeger(Part sqript, TaskGroup group) throws Exception{
         
-        Prefix = String.valueOf(group.getID())+"_";
+        this.Prefix = String.valueOf(group.getID())+"_";
         
         this.GenerateUniqName();
-        sqript.write(file.getName());
+        sqript.write(this.file.getName());
         
         this.execut();
         
     }
     
     public String getMessage(){
-        return Message;
+        return this.Message;
     }
     
     private void RewriteQuery() throws Exception {
         
-        FileReader fileReader = new FileReader(file.getPath());
-        char[] buffer = new char[(int)file.length()];
+        FileReader fileReader = new FileReader(this.file.getPath());
+        char[] buffer = new char[(int)this.file.length()];
         fileReader.read(buffer);
         String query =  this.Normalize(new String(buffer));
         
@@ -84,7 +84,7 @@ public class DBManeger extends DBConnect{
             Pattern pp = Pattern.compile("[a-z|0-9|_|$]+[(| ]$", Pattern.CASE_INSENSITIVE);
             Matcher m = pp.matcher(create);
             if(m.find())
-                names.put(m.group(), Prefix.concat(m.group()));
+                names.put(m.group(), this.Prefix.concat(m.group()));
         }
         String replacequery = query;
         for(String key : names.keySet()){
@@ -121,7 +121,7 @@ public class DBManeger extends DBConnect{
             "--user=" + "tuter",
             "--password=" + "qwerty",
             "-e",
-            "source " + file.getPath()
+            "source " + this.file.getPath()
         };
         Process proc = Runtime.getRuntime().exec(cmd);
         InputStream inputstream = proc.getInputStream();
@@ -130,17 +130,18 @@ public class DBManeger extends DBConnect{
         String line;
        
         while ((line = bufferedreader.readLine()) != null) {
-            Message+=line+"<br>\n";
+            this.Message+=line+"<br>\n";
         }
         inputstream = proc.getErrorStream();
         inputstreamreader = new InputStreamReader(inputstream);
         bufferedreader = new BufferedReader(inputstreamreader);
         
         while ((line = bufferedreader.readLine()) != null) {
-            Message+=line+"<br>\n";
+            this.Message+=line+"<br>\n";
         }
         this.Message = this.Message.replaceAll(file.getPath(), "script.sql");
-    
+        if(this.Message.isEmpty()) 
+            this.Message = "Query complite";
     }
 
     private void execut() throws Exception {
@@ -148,7 +149,7 @@ public class DBManeger extends DBConnect{
         this.Message = "";
         this.RewriteQuery();
         this.executFile();  
-        file.delete();
+        this.file.delete();
     
     }
     
@@ -162,6 +163,7 @@ public class DBManeger extends DBConnect{
         
         norm_string = norm_string.replaceAll("\\(", " ( ");
         norm_string = norm_string.replaceAll("\\)", " ) ");
+        norm_string = norm_string.replaceAll(";", " ; ");
         
         return norm_string;
     }

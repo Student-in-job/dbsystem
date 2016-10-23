@@ -45,7 +45,7 @@ public class DataBaseManager extends HttpServlet {
             return;
         }
         
-        request.setAttribute("messsage", message);
+        request.setAttribute("message", message);
         request.setAttribute("query", query);
             
         request.getRequestDispatcher("DataBaseManager.jsp").forward(request, response);
