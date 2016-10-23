@@ -28,7 +28,7 @@ public abstract class Parant {
     protected boolean _from_db;
     
     abstract protected HashMap<String, Object> _getParams();
-    abstract protected void _setParams(HashMap<String, Object> Params);
+    abstract protected void _setParams(HashMap<String, Object> Params) throws Exception;
     abstract protected String _getTableName();
     abstract protected boolean _isCorrect();
     
@@ -36,7 +36,7 @@ public abstract class Parant {
         return this._id;
     }
     
-    protected boolean _read() throws NamingException, SQLException{
+    protected boolean _read() throws Exception{
         
         try{
             String query_string = this.generateQueryString(null, "select");
@@ -78,6 +78,10 @@ public abstract class Parant {
 
             int i=1;
             for(Map.Entry<String, Object> param : params){
+                /*if(param.getValue() == null){
+                    i++;
+                    continue;
+                }*/
                 if(param.getValue() instanceof Integer){
                     stmt.setInt(i, (int) param.getValue());
                     i++;
@@ -93,7 +97,6 @@ public abstract class Parant {
                     i++;
                     continue;
                 }
-                i++;
             }
 
             int result = stmt.executeUpdate();
@@ -113,6 +116,7 @@ public abstract class Parant {
     }
     
     protected boolean _update() throws NamingException, SQLException{
+        if(this._id==0) return false;
         if(!this._isCorrect()) return false;
         try{
             Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
@@ -138,7 +142,6 @@ public abstract class Parant {
                     i++;
                     continue;
                 }
-                i++;
             }
             stmt.setInt(i, this._id);
 
@@ -154,6 +157,7 @@ public abstract class Parant {
     }
     
     protected boolean _delete() throws NamingException, SQLException{
+        if(this._id==0) return false;
         try{
             String query_string = this.generateQueryString(null, "delete");
 
@@ -207,7 +211,7 @@ public abstract class Parant {
         query = query.substring(0, query.length()-1);
         query+=" ) VALUE (";
         for(Map.Entry<String, Object> param : params){
-            query+=" ?,";
+            query+=param.getValue() == null?" DEFAULT,":" ?,";
         }
         query = query.substring(0, query.length()-1);
         query+=" );";
@@ -218,7 +222,7 @@ public abstract class Parant {
     private String generateUpdateQuery(Set<Map.Entry<String, Object>> params) {
         String query=" UPDATE "+this._getTableName()+" SET ";
         for(Map.Entry<String, Object> param : params){
-            query+=" "+param.getKey()+" = ?,";
+            query+=" "+param.getKey()+" = "+(param.getValue() == null?"DEFAULT,":"?,");
         }
         query = query.substring(0, query.length()-1);
         query+=" WHERE id = ?";
@@ -228,7 +232,8 @@ public abstract class Parant {
     }
 
     private String generateDeleteQuery() {
-        String query=" DELETE FROM "+this._getTableName();
+        String query=" UPDATE "+this._getTableName();
+        query+=" SET deleted = 1 ";
         query+=" WHERE id = ?";
         query+=";";
         

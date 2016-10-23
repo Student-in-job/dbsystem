@@ -5,15 +5,8 @@
 --%>
 
 <%@page import="Model.Log"%>
-<%@page import="Model.Task"%>
+<%@page import="Model.TaskGroup"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-
-    Task task = new Task();
-    task.getById(1);
-    request.setAttribute("task", task);
-    
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,9 +15,17 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <p>Question: ${task.question}</p>
-        <p>Ansver: ${task.answer}</p>
-        <p>Ball: ${task.ball}</p>
-        <p>Time: ${task.time}</p>
+<%--        <p>Question: ${test.question}</p>
+        <p>Ansver: ${test.answer}</p>
+        <p>Ball: ${test.ball}</p>
+        <p>Time: ${test.time}</p>--%>
+        
+        <p>Name: ${test.name}</p>
+        <p>Public: ${test.publish}</p>
+        <p>Active: ${test.active}</p>
+        <p>Owner: ${test.owner}</p>
+        
+        
+        
     </body>
 </html>

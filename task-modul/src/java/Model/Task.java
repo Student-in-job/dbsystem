@@ -5,9 +5,7 @@
  */
 package Model;
 
-import java.sql.SQLException;
 import java.util.HashMap;
-import javax.naming.NamingException;
 
 /**
  *
@@ -15,6 +13,8 @@ import javax.naming.NamingException;
  */
 public class Task extends Parant{
 
+    protected int group_id;
+    protected TaskGroup Group;
     protected String Answer;
     protected String Question;
     protected int Time;
@@ -27,15 +27,18 @@ public class Task extends Parant{
         list.put("group_id", this.Ball);
         list.put("question", this.Question);
         list.put("answer", this.Answer);
+        list.put("group_id", this.group_id);
         return list;
     }
     
     @Override
-    protected void _setParams(HashMap<String, Object> list) {
+    protected void _setParams(HashMap<String, Object> list)  throws Exception {
         
         this.Ball = (int) list.get("group_id");
         this.Question = (String) list.get("question");
         this.Answer = (String) list.get("answer");
+        this.group_id = (int) list.get("group_id");
+        this.Group = new TaskGroup(this.group_id);
     }
     
     @Override
@@ -45,24 +48,35 @@ public class Task extends Parant{
     
     @Override
     protected boolean _isCorrect() {
-        return true;
+        return this.Ball>0 
+                && (!this.Question.isEmpty()) 
+                && (!this.Answer.isEmpty()) 
+                && !this.Group.isActive();
     }
     
     public Task(){
         this._from_db = false;
-        /*this.Ball = 1;
-        this.Question = "qwerty?";
-        this.Answer = "qwerty!";
-        this._write();
-        this.Question = "1qwerty?";
-        this.Answer = "1qwerty!";
-        this._update();
-        this._delete();*/
     }
     
     public Task(int id) throws Exception{
         this._from_db = false;
         this.getById(id);
+    }
+    
+    public boolean Write(int user_id) throws Exception{
+        if(this.Group.getOwner() != user_id) return false;
+        return this._write();
+    }
+    
+    public boolean Update(int user_id) throws Exception{
+        if(this.Group.getOwner() != user_id) return false;
+        if(this._from_db) return true;
+        return this._update();
+    }
+    
+    public boolean Delete(int user_id) throws Exception{
+        if(this.Group.getOwner() != user_id) return false;
+        return this._delete();
     }
     
     public void getById(int id) throws Exception{
@@ -71,22 +85,22 @@ public class Task extends Parant{
     }
     
     public void setAnswer(String answer){
-        this._from_db = true;
+        this._from_db = false;
         this.Answer = answer;
     }
     
     public void setQuestion(String question){
-        this._from_db = true;
+        this._from_db = false;
         this.Question = question;
     }
     
     public void setTime(int time){
-        this._from_db = true;
+        this._from_db = false;
         this.Time = time;
     }
     
     public void setBall(int ball){
-        this._from_db = true;
+        this._from_db = false;
         this.Ball = ball;
     }
     
