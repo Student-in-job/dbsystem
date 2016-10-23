@@ -20,6 +20,7 @@ abstract public class DBConnect {
     abstract protected String getDataSourseName();
     
     protected Connection getConnection() throws NamingException, SQLException{
+        
         InitialContext initContext;
         initContext = new InitialContext();
         DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/"+ this.getDataSourseName());

@@ -17,16 +17,17 @@ import javax.sql.DataSource;
 public class Log {
     private static Log logs = new Log();
     private static FileWriter out;
-    private Connection db_conn;
     
     private Log() 
     {
         try {
-            File log = new File("/home/ksinn/task_modul.txt");
+            InitialContext initialContext = new InitialContext();
+            String path = (String) initialContext.lookup("java:/comp/env/path/log");
+            
+            File log = new File(path + "/task_modul.txt");
             if(!log.exists())
                 log.createNewFile();
-            Log.out = new FileWriter("/home/ksinn/task_modul.txt", true);
-            
+            Log.out = new FileWriter(path+"/task_modul.txt", true);
         } catch (Exception ex) {
         }
         finally{
