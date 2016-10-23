@@ -64,6 +64,13 @@ public class Task extends Parant{
     }
     
     public boolean Write(int user_id) throws Exception{
+        this.Group = new TaskGroup();
+        this.Group.Write(user_id);
+        return this._write();
+    }
+    
+    public boolean Write(int user_id, int group) throws Exception{
+        this.Group = new TaskGroup(group);
         if(this.Group.getOwner() != user_id) return false;
         return this._write();
     }
@@ -102,6 +109,10 @@ public class Task extends Parant{
     public void setBall(int ball){
         this._from_db = false;
         this.Ball = ball;
+    }
+    
+    public TaskGroup getGroup(){
+        return Group;
     }
     
     public int getBall(){
