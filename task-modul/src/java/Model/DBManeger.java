@@ -7,7 +7,6 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.naming.NamingException;
 import javax.servlet.http.Part;
 
 /**
@@ -35,30 +33,30 @@ public class DBManeger extends DBConnect{
     private File file;
     
     public DBManeger(String query, TaskGroup group) throws Exception{
-        Message="";
         
-        String testName = db.getRealPath()+db.getFileDir()+"temp/sq";
-        int i=0;
-        while((file = new File(testName+String.valueOf(i))).exists())
-                i++;
-        FileWriter fileWriter = new FileWriter(file.getPath());
-        fileWriter.write(query);
-        fileWriter.flush();
-        fileWriter.close();
+        Prefix = String.valueOf(group.getID())+"_";
         
-        Prefix = String.valueOf(prog.getID())+"_";
-        this.execut();
+        this.GenerateUniqName();
+        this.file.createNewFile();
+        try{
+            FileWriter fileWriter = new FileWriter(file.getPath());
+            fileWriter.write(query);
+            fileWriter.flush();
+            fileWriter.close();
+
+            this.execut();
+        } catch(Exception ex){
+            Log.Write(ex.getLocalizedMessage());
+            throw ex;
+        }
     }
     
-    public DBManeger(Part sqript, Program prog) throws NamingException, IOException{
-        String testName = db.getRealPath()+db.getFileDir()+"temp/";
-        int i=0;
-        File file;
-        while((file = new File(testName+String.valueOf(i))).exists())
-            i++;
-        sqript.write(file.getName());
+    public DBManeger(Part sqript, TaskGroup group) throws Exception{
         
-        Prefix = String.valueOf(prog.getID())+"_";
+        Prefix = String.valueOf(group.getID())+"_";
+        
+        this.GenerateUniqName();
+        sqript.write(file.getName());
         
         this.execut();
         
@@ -68,8 +66,7 @@ public class DBManeger extends DBConnect{
         return Message;
     }
     
-
-    private void RewriteQuery() throws FileNotFoundException, IOException {
+    private void RewriteQuery() throws Exception {
         
         FileReader fileReader = new FileReader(file.getPath());
         char[] buffer = new char[(int)file.length()];
@@ -142,21 +139,20 @@ public class DBManeger extends DBConnect{
         while ((line = bufferedreader.readLine()) != null) {
             Message+=line+"<br>\n";
         }
-        Message = Message.replaceAll(db.getRealPath(), "");
-        
-        
+        this.Message = this.Message.replaceAll(file.getPath(), "script.sql");
+    
     }
 
-    private void execut() throws NamingException, IOException {
+    private void execut() throws Exception {
         
+        this.Message = "";
         this.RewriteQuery();
         this.executFile();  
         file.delete();
     
     }
     
-    
-    String Normalize(String str){
+    private String Normalize(String str){
         String norm_string;
         norm_string = str.toLowerCase();
         norm_string = norm_string.replaceAll("\n", " ");
@@ -168,6 +164,13 @@ public class DBManeger extends DBConnect{
         norm_string = norm_string.replaceAll("\\)", " ) ");
         
         return norm_string;
+    }
+    
+    private void GenerateUniqName(){
+        String testName = InitParams.RealPath +"/tmp/task_modul/sql";
+        int i=0;
+        while((this.file = new File(testName+String.valueOf(i))).exists())
+                i++;
     }
     
 }

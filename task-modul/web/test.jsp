@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="Model.InitParams"%>
 <%@page import="Model.Log"%>
 <%@page import="Model.TaskGroup"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,6 +25,7 @@
         <p>Public: ${test.publish}</p>
         <p>Active: ${test.active}</p>
         <p>Owner: ${test.owner}</p>
+        <p>${pageContext.request.contextPath}</p>
         
         
         

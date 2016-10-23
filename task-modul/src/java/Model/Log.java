@@ -21,13 +21,12 @@ public class Log {
     private Log() 
     {
         try {
-            InitialContext initialContext = new InitialContext();
-            String path = (String) initialContext.lookup("java:/comp/env/path/log");
+            String path = InitParams.LogPath;
             
-            File log = new File(path + "/task_modul.txt");
+            File log = new File(path);
             if(!log.exists())
                 log.createNewFile();
-            Log.out = new FileWriter(path+"/task_modul.txt", true);
+            Log.out = new FileWriter(path, true);
         } catch (Exception ex) {
         }
         finally{

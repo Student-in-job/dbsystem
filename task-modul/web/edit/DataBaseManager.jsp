@@ -4,63 +4,38 @@
     Author     : ksinn
 --%>
 
-<%@page import="Learning.DBManeger"%>
-<%@page import="Learning.Program"%>
-<%@page import="java.sql.Statement"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="../logfrag.jsp" %>
-<%
-request.setCharacterEncoding("UTF-8");
-String message = " ";
-String query = "";
-int program;
-Program pg;
-    try{
-        program = Integer.parseInt(request.getParameter("program"));
-        pg = new Program(program);
-        
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
-if(request.getMethod().equals("POST")){
-    query = request.getParameter("query");
-    try{
-        DBManeger man = new DBManeger(query, pg);
-        message = man.getMessage();
-    }catch(Exception ex){response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-}
-%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DBManager</title>
-        <link href="<%=request.getServletContext().getContextPath()%>/img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <div  class="box " >
-            <div id="mesagge" class="middle-text"><%=message%></div>
+            <div id="mesagge" class="middle-text">${message}</div>
         </div>
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form id="form" class="form" action="" method="POST">
-                    <input type="hidden" name="program" value="<%=program%>">
+                <form id="form" class="form" action="DataBaseManager" method="POST">
+                    <input type="hidden" name="group" value="${param["group"]}">
                     <div class="form-item">
                         <label>SQL Query:</label>
-                        <textarea required name="query"><%=query%></textarea>
+                        <textarea required name="query">${query}</textarea>
                     </div>
                     
                     <div class="form-item">
@@ -69,7 +44,7 @@ if(request.getMethod().equals("POST")){
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script> 
         <script>
             $(document).ready(function(){
 
@@ -91,3 +66,4 @@ if(request.getMethod().equals("POST")){
         <%@include file="../footer.jsp" %>
     </body>
 </html>
+
