@@ -28,11 +28,11 @@
     </listener>
     <servlet>
         <servlet-name>DataBaseManager</servlet-name>
-        <servlet-class>controllEdit.DataBaseManager</servlet-class>
+        <servlet-class>controll.DataBaseManager</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateTask</servlet-name>
-        <servlet-class>controllEdit.CreateTask</servlet-class>
+        <servlet-class>controll.CreateTask</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TaskGroup</servlet-name>
@@ -40,15 +40,15 @@
     </servlet>
     <servlet>
         <servlet-name>Group</servlet-name>
-        <servlet-class>controllOwner.Group</servlet-class>
+        <servlet-class>controll.RenderAdminGroup</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Task</servlet-name>
-        <servlet-class>controllOwner.Task</servlet-class>
+        <servlet-class>controll.RenderAdminTask</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditTask</servlet-name>
-        <servlet-class>controllEdit.EditTask</servlet-class>
+        <servlet-class>controll.EditTask</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>

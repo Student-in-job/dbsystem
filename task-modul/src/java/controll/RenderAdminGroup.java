@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllOwner;
+package controll;
 
+import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,34 +16,38 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Task extends HttpServlet {
+public class RenderAdminGroup extends HttpServlet {
 
-    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int task;
-        Model.Task new_task = new Model.Task();
+        
+        int group;
+        TaskGroup task_group = new TaskGroup();
         try{
-            task = Integer.parseInt(request.getParameter("task"));
-            new_task.getById(task);
+            group = Integer.parseInt(request.getParameter("group"));
+            task_group.getById(group);
         } catch (Exception ex){
             response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
             return;
         }
         
-        request.setAttribute("task", new_task);
-        request.getRequestDispatcher("Task.jsp").forward(request, response);
-        
+        request.setAttribute("group", task_group);
+        request.getRequestDispatcher("Group.jsp").forward(request, response);
     }
 
+    
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        
     }
 
+   
+    
     @Override
     public String getServletInfo() {
         return "Short description";

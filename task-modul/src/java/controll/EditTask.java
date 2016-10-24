@@ -1,4 +1,4 @@
-package controllEdit;
+package controll;
 
 import Model.Log;
 import Model.Task;

@@ -6,6 +6,7 @@
 package Model;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -19,6 +20,7 @@ public class TaskGroup extends Parant{
     private boolean Active;
     private boolean Public;
     private String Name;
+    private ArrayList<Task> Tasks;
 
     @Override
     protected HashMap<String, Object> _getParams() {
@@ -59,12 +61,27 @@ public class TaskGroup extends Parant{
     
     public void getById(int id) throws Exception{
         this._id = id;
-        this._read();
+        this._select();
+        this.Tasks = new ArrayList<Task>();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("group_id", this._id);
+        Task task = new Task();
+        ArrayList<HashMap<String, Object>> Params = task.getObjectsParam(param);
+        for(int i=0; i<Params.size(); i++){
+            task = new Task();
+            task.getFromParam(Params.get(i));
+            this.Tasks.add(task);
+        }
+        
+    }
+    
+    public ArrayList<HashMap<String, Object>> Groups(HashMap<String, Object> params) throws Exception{
+        return this._parameterSelect(params);
     }
     
     public boolean Write(int user_id) throws Exception{
         this.Owner = user_id;
-        return this._write();
+        return this._insert();
     }
     
     public boolean Update(int user_id) throws Exception{
@@ -76,6 +93,10 @@ public class TaskGroup extends Parant{
     public boolean Delete(int user_id) throws Exception{
         if(this.Owner != user_id) return false;
         return this._delete();
+    }
+    
+    public ArrayList<Task> getTasks(){
+        return this.Tasks;
     }
     
     public int getOwner(){

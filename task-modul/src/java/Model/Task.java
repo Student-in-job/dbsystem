@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,6 +19,7 @@ public class Task extends Parant{
     protected String Question;
     protected int Time;
     protected int Ball;
+    protected int GroupId;
     
     
     @Override
@@ -26,7 +28,7 @@ public class Task extends Parant{
         list.put("group_id", this.Ball);
         list.put("question", this.Question);
         list.put("answer", this.Answer);
-        list.put("group_id", this.Group.getId());
+        list.put("group_id", this.GroupId);
         return list;
     }
     
@@ -36,7 +38,7 @@ public class Task extends Parant{
         this.Ball = (int) list.get("group_id");
         this.Question = (String) list.get("question");
         this.Answer = (String) list.get("answer");
-        this.Group = new TaskGroup((int) list.get("group_id"));
+        this.GroupId = (int) list.get("group_id");
     }
     
     @Override
@@ -63,7 +65,7 @@ public class Task extends Parant{
     
     public boolean Write(int user_id) throws Exception{
         if(this.Group.getOwner() != user_id) return false;
-        return this._write();
+        return this._insert();
     }
     
     public boolean Update(int user_id) throws Exception{
@@ -79,7 +81,8 @@ public class Task extends Parant{
     
     public void getById(int id) throws Exception{
         this._id = id;
-        this._read();
+        this._select();
+        this.Group = new TaskGroup(this.GroupId);
     }
     
     public void setGroup(int group) throws Exception{
