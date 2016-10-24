@@ -62,7 +62,7 @@ public class EditTask extends HttpServlet {
             res = new_task.Update(1);
 
             if(res){
-                response.sendRedirect("Task.jsp?task="+new_task.getId()); 
+                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
                 return;
             } else {
                 request.setAttribute("task", new_task);
