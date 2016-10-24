@@ -96,13 +96,13 @@
                         
                         time:{
                             number: true,
-                            min: 1,
+                            min: 0,
                             max: 120
                         },
                                 
                         ball:{
                             number: true,
-                            min: 1,
+                            min: 0,
                             max: 100
                         }       
                         

@@ -5,7 +5,6 @@
  */
 package Model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,17 +24,19 @@ public class Task extends Parant{
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("group_id", this.Ball);
+        list.put("ball", this.Ball);
+        list.put("times", this.Time);
         list.put("question", this.Question);
         list.put("answer", this.Answer);
-        list.put("group_id", this.GroupId);
+        list.put("group_id", this.Group.getId());
         return list;
     }
     
     @Override
     protected void _setParams(HashMap<String, Object> list)  throws Exception {
         
-        this.Ball = (int) list.get("group_id");
+        this.Ball = (int) list.get("ball");
+        this.Time = (int) list.get("times");
         this.Question = (String) list.get("question");
         this.Answer = (String) list.get("answer");
         this.GroupId = (int) list.get("group_id");

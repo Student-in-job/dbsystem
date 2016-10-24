@@ -29,6 +29,7 @@
             <div class="row ">
                 <div class="col col-3 offset-1">
                     <h3>${group.name}</h3>
+                    <h4>Public: ${group.publish}</h4>
                     <h4>Active: ${group.active}</h4>
                 </div>
                 <div class="col col-1">

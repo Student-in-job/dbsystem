@@ -50,6 +50,14 @@
         <servlet-name>EditTask</servlet-name>
         <servlet-class>controll.EditTask</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateGroup</servlet-name>
+        <servlet-class>controll.CreateGroup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditGroup</servlet-name>
+        <servlet-class>controll.EditGroup</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/edit/DataBaseManager</url-pattern>
@@ -73,6 +81,14 @@
     <servlet-mapping>
         <servlet-name>EditTask</servlet-name>
         <url-pattern>/edit/EditTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateGroup</servlet-name>
+        <url-pattern>/edit/CreateGroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditGroup</servlet-name>
+        <url-pattern>/edit/EditGroup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
