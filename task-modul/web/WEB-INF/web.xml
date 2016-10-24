@@ -30,9 +30,49 @@
         <servlet-name>DataBaseManager</servlet-name>
         <servlet-class>controllEdit.DataBaseManager</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateTask</servlet-name>
+        <servlet-class>controllEdit.CreateTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskGroup</servlet-name>
+        <servlet-class>controllEdit.Group</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Group</servlet-name>
+        <servlet-class>controllOwner.Group</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Task</servlet-name>
+        <servlet-class>controllOwner.Task</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditTask</servlet-name>
+        <servlet-class>controllEdit.EditTask</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/edit/DataBaseManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateTask</servlet-name>
+        <url-pattern>/edit/CreateTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskGroup</servlet-name>
+        <url-pattern>/edit/TaskGroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Group</servlet-name>
+        <url-pattern>/owner/Group</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Task</servlet-name>
+        <url-pattern>/owner/Task</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditTask</servlet-name>
+        <url-pattern>/edit/EditTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -14,9 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 /**
  *
@@ -37,7 +35,7 @@ public abstract class Parant extends DBConnect{
     abstract protected String _getTableName();
     abstract protected boolean _isCorrect();
     
-    public int getID(){
+    public int getId(){
         return this._id;
     }
     

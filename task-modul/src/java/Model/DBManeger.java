@@ -34,7 +34,7 @@ public class DBManeger extends DBConnect{
     
     public DBManeger(String query, TaskGroup group) throws Exception{
         
-        this.Prefix = String.valueOf(group.getID())+"_";
+        this.Prefix = String.valueOf(group.getId())+"_";
         
         this.GenerateUniqName();
         this.file.createNewFile();
@@ -53,7 +53,7 @@ public class DBManeger extends DBConnect{
     
     public DBManeger(Part sqript, TaskGroup group) throws Exception{
         
-        this.Prefix = String.valueOf(group.getID())+"_";
+        this.Prefix = String.valueOf(group.getId())+"_";
         
         this.GenerateUniqName();
         sqript.write(this.file.getName());

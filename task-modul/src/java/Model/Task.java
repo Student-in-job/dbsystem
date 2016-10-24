@@ -13,7 +13,6 @@ import java.util.HashMap;
  */
 public class Task extends Parant{
 
-    protected int group_id;
     protected TaskGroup Group;
     protected String Answer;
     protected String Question;
@@ -27,7 +26,7 @@ public class Task extends Parant{
         list.put("group_id", this.Ball);
         list.put("question", this.Question);
         list.put("answer", this.Answer);
-        list.put("group_id", this.group_id);
+        list.put("group_id", this.Group.getId());
         return list;
     }
     
@@ -37,8 +36,7 @@ public class Task extends Parant{
         this.Ball = (int) list.get("group_id");
         this.Question = (String) list.get("question");
         this.Answer = (String) list.get("answer");
-        this.group_id = (int) list.get("group_id");
-        this.Group = new TaskGroup(this.group_id);
+        this.Group = new TaskGroup((int) list.get("group_id"));
     }
     
     @Override
@@ -64,13 +62,6 @@ public class Task extends Parant{
     }
     
     public boolean Write(int user_id) throws Exception{
-        this.Group = new TaskGroup();
-        this.Group.Write(user_id);
-        return this._write();
-    }
-    
-    public boolean Write(int user_id, int group) throws Exception{
-        this.Group = new TaskGroup(group);
         if(this.Group.getOwner() != user_id) return false;
         return this._write();
     }
@@ -89,6 +80,10 @@ public class Task extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._read();
+    }
+    
+    public void setGroup(int group) throws Exception{
+        this.Group = new TaskGroup(group);
     }
     
     public void setAnswer(String answer){
@@ -112,7 +107,7 @@ public class Task extends Parant{
     }
     
     public TaskGroup getGroup(){
-        return Group;
+        return this.Group;
     }
     
     public int getBall(){
