@@ -25,7 +25,7 @@
         <p>Public: ${test.publish}</p>
         <p>Active: ${test.active}</p>
         <p>Owner: ${test.owner}</p>
-        <p>${pageContext.request.contextPath}</p>
+        <p>${user_id}</p>
         
         
         

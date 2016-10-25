@@ -1,6 +1,7 @@
 package controll;
 
 import Model.Log;
+import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -58,7 +59,6 @@ public class CreateTask extends HttpServlet {
             return;
         }
         
-        
         new_task.setAnswer(request.getParameter("answer"));
         new_task.setQuestion(request.getParameter("question"));
         try{
@@ -69,15 +69,26 @@ public class CreateTask extends HttpServlet {
             new_task.setBall(Integer.parseInt(request.getParameter("ball")));
         } catch(Exception ex) {
         }
+        
         boolean res;
         try{
-            res = new_task.Write(1);
+            
+            StudentConnect cheker = new StudentConnect();
+            boolean good_query = cheker.exequtQuery(new_task.getAnswer());
+            if(good_query){
+                res = new_task.Write(1);
 
-            if(res){
-                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
-                return;
+                if(res){
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                    return;
+                } else {
+                    request.setAttribute("task", new_task);
+                    request.getRequestDispatcher("Task.jsp").forward(request, response);
+                    return;
+                }
             } else {
                 request.setAttribute("task", new_task);
+                request.setAttribute("error", "Error code: "+cheker.gerException().getErrorCode()+ ". " + cheker.gerException().getMessage());
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
             }

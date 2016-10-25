@@ -49,8 +49,9 @@ public class Task extends Parant{
     
     @Override
     protected boolean _isCorrect() {
-        return this.Ball>0 
-                && (!this.Question.isEmpty()) 
+        if(this.Ball == 0) this.Ball = 1;
+        if(this.Time == 0) this.Time = 5;
+        return  (!this.Question.isEmpty()) 
                 && (!this.Answer.isEmpty()) 
                 && !this.Group.isActive();
     }
@@ -131,30 +132,7 @@ public class Task extends Parant{
     }
     
     
-    
-    /*public Task(String name, int day, String question, String inventory, String answer, int time, int ball){
-        
-        this.Name=name;
-        this.Day=day;
-        this.Question=question;  
-        this.Inventory=inventory; 
-        Time=time;
-        Ball=ball;
-        Answer=answer;
-    }
-    
-    public int getBall(){
-        return Ball;
-    }
-
-    public String getAnswer() {
-        return this.Answer;
-    }
-    
-    public String getQuestion() {
-        return this.Question;
-    }
-    
+   /* 
     private Exception CorrectSQLQuery(){
         try{
             Statement stmt = db.getTuterConn().createStatement();
@@ -171,7 +149,7 @@ public class Task extends Parant{
             ResultSet rs = stmt.executeQuery(this.Answer);
             //conn.close();
             return rs;
-    }*/
-
+    }
+*/
 
 }

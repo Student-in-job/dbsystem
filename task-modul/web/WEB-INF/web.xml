@@ -22,10 +22,6 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>ContainerStudent</res-auth>
     </resource-ref>
-    <listener>
-        <description>ServletContextListener</description>
-        <listener-class>ServletListener</listener-class>
-    </listener>
     <servlet>
         <servlet-name>DataBaseManager</servlet-name>
         <servlet-class>controll.DataBaseManager</servlet-class>

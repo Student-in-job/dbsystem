@@ -5,6 +5,7 @@
  */
 package controll;
 
+import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -25,15 +26,22 @@ public class RenderAdminTask extends HttpServlet {
             throws ServletException, IOException {
         int task;
         Task new_task = new Task();
+        StudentConnect conn = new StudentConnect();
         try{
             task = Integer.parseInt(request.getParameter("task"));
             new_task.getById(task);
+            conn.exequtQuery(new_task.getAnswer());
+                    
+            
         } catch (Exception ex){
             response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
             return;
         }
         
+        
+        
         request.setAttribute("task", new_task);
+        request.setAttribute("rs", conn.getResultArray());
         request.getRequestDispatcher("Task.jsp").forward(request, response);
         
     }

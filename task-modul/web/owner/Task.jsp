@@ -4,6 +4,7 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -43,27 +44,15 @@
             <div class="col">
                 <p>${task.question}</p>
                 <b>${task.answer}</b>
-<%--                <table>
-<%
-    try{
-        ResultSet rs = task.getAnswerResult();
-
-%>
+               <table>
+                   <c:forEach val="row" items="${rs}">
                     <tr>
-<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
-                        <th><%=rs.getMetaData().getColumnName(i)%></th>
-<%}%>
-                    </tr>
-<%
-    while(rs.next()){%>
-                    <tr>
-<%        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){%>
-                        <td><%=rs.getString(i)%></td>
-<%}%>
-                    </tr>
-<%}%>                
-                </table>
---%>               
+                        <c:forEach val="cell" items="${row}">
+                        <td>${cell}</td>
+                        </c:foreach>
+                    </tr> 
+                    </c:foreach>
+                </table>              
             </div>
 
         </div>

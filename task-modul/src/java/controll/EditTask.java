@@ -1,6 +1,7 @@
 package controll;
 
 import Model.Log;
+import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -59,16 +60,26 @@ public class EditTask extends HttpServlet {
         }
         boolean res;
         try{
-            res = new_task.Update(1);
+            StudentConnect cheker = new StudentConnect();
+            boolean good_query = cheker.exequtQuery(new_task.getAnswer());
+            if(good_query){
+                res = new_task.Update(1);
 
-            if(res){
-                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
-                return;
+                if(res){
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                    return;
+                } else {
+                    request.setAttribute("task", new_task);
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                    return;
+                } 
             } else {
                 request.setAttribute("task", new_task);
-                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                request.setAttribute("error", "Error code: "+cheker.gerException().getErrorCode()+ ". " + cheker.gerException().getMessage());
+                request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
             }
+                
         } catch(Exception ex){
             Log.Write(ex.getLocalizedMessage());
             response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 

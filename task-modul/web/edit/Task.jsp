@@ -37,6 +37,7 @@
         </script>-->
     </head>
     <body>
+        ${error}
         <%@include file="../header.jsp"%>
 
         <div class="row centered registration">
@@ -53,7 +54,7 @@
                     </div>
                     
                     <div class="form-item">
-                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp?program=${task.group}">DataBase Manager -></a>
+                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp?group=${task.group.id}">DataBase Manager -></a>
                         <textarea required name="answer">${task.answer}</textarea>
                     </div>
                     
