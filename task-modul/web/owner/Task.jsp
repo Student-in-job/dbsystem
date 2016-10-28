@@ -4,9 +4,8 @@
     Author     : ksinn
 --%>
 
-<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,13 +44,13 @@
                 <p>${task.question}</p>
                 <b>${task.answer}</b>
                <table>
-                   <c:forEach val="row" items="${rs}">
+                   <c:forEach var="row" items="${rs}">
                     <tr>
-                        <c:forEach val="cell" items="${row}">
+                        <c:forEach var="cell" items="${row}">
                         <td>${cell}</td>
-                        </c:foreach>
+                        </c:forEach>
                     </tr> 
-                    </c:foreach>
+                    </c:forEach>
                 </table>              
             </div>
 

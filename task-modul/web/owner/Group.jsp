@@ -4,8 +4,8 @@
     Author     : ksinn
 --%>
 
-<%@page import="Model.Task"%>
-<%@page import="Model.TaskGroup"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -47,10 +47,8 @@
                 </div>
             </div>
             <hr>
-<%
-TaskGroup group = (TaskGroup) request.getAttribute("group");
-if(group.getTasks().isEmpty()){
-%>            
+            <c:if test="${tasks.isEmpty==null}">
+            
             <div class="row">
                 <div class="col">
                     <div class="col offset-1">
@@ -58,12 +56,8 @@ if(group.getTasks().isEmpty()){
                     </div>
                 </div>
             </div> 
-<%
-}
-for (int i = 0; i < group.getTasks().size(); i++) {
-    Task task = group.getTasks().get(i);
-    request.setAttribute("task", task);
-%>                         
+            </c:if>
+            <c:forEach var="task" items="${tasks}">
             <div class="row">
                 <div class="col offset-1">
                     <p>${task.question} (${task.ball} )</p>
@@ -80,9 +74,7 @@ for (int i = 0; i < group.getTasks().size(); i++) {
                     </a>
                 </div>
             </div>
-<%
-} 
-%>            
+            </c:forEach>
             <div class="col">
 
             </div>

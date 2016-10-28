@@ -34,6 +34,7 @@ public class RenderAdminGroup extends HttpServlet {
         }
         
         request.setAttribute("group", task_group);
+        request.setAttribute("tasks", task_group.getTasks());
         request.getRequestDispatcher("Group.jsp").forward(request, response);
     }
 

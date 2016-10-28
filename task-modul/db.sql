@@ -26,4 +26,23 @@ primary key (id),
 constraint fk_task_group foreign key (group_id) references task_group(id)
 );
 
+create table if not exists works (
+id int not null auto_increment,
+user_id int not null,
+group_id int not null,
+times TIMESTAMP not null,
+mods varchar(5) not null,
+count int not null,
+primary key (id),
+constraint fk_work_group foreign key (group_id) references task_group(id)
+);
+
+create table if not exists task_result(
+work_id int not null,
+task int not null,
+result int not null,
+constraint fk_task_result foreign key (task) references task(id),
+constraint fk_work_result foreign key (work_id) references works(id)
+);
+
 insert into task_group(owner_id) values (1);
