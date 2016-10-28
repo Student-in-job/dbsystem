@@ -2,13 +2,8 @@ package Model;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
 /**
  *

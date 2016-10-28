@@ -41,8 +41,7 @@ public class DataBaseManager extends HttpServlet {
             DBManeger man = new DBManeger(query, new TaskGroup(Integer.parseInt(request.getParameter("group"))));
             message = man.getMessage();
         }catch(Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         request.setAttribute("message", message);

@@ -53,9 +53,7 @@ public class CreateGroup extends HttpServlet {
                 return;
             }
         } catch(Exception ex){
-            Log.Write(ex.getLocalizedMessage());
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
     }
 

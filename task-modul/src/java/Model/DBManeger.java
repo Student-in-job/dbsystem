@@ -38,17 +38,14 @@ public class DBManeger extends DBConnect{
         
         this.GenerateUniqName();
         this.file.createNewFile();
-        try{
+        
             FileWriter fileWriter = new FileWriter(file.getPath());
             fileWriter.write(query);
             fileWriter.flush();
             fileWriter.close();
 
             this.execut();
-        } catch(Exception ex){
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
+        
     }
     
     public DBManeger(Part sqript, TaskGroup group) throws Exception{

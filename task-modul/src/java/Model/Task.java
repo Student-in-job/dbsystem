@@ -53,6 +53,7 @@ public class Task extends Parant{
         if(this.Time == 0) this.Time = 5;
         return  (!this.Question.isEmpty()) 
                 && (!this.Answer.isEmpty()) 
+                && (this.Group._from_db) 
                 && !this.Group.isActive();
     }
     
@@ -89,6 +90,7 @@ public class Task extends Parant{
     
     public void setGroup(int group) throws Exception{
         this.Group = new TaskGroup(group);
+        if(!this._from_db) throw new Exception();
     }
     
     public void setAnswer(String answer){

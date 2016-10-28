@@ -22,6 +22,10 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>ContainerStudent</res-auth>
     </resource-ref>
+    <error-page>
+    <error-code>500</error-code>
+    <location>/Error.jsp</location>
+    </error-page>
     <servlet>
         <servlet-name>DataBaseManager</servlet-name>
         <servlet-class>controll.DataBaseManager</servlet-class>

@@ -34,8 +34,7 @@ public class RenderAdminTask extends HttpServlet {
                     
             
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         

@@ -1,6 +1,5 @@
 package controll;
 
-import Model.Log;
 import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
@@ -21,15 +20,13 @@ public class CreateTask extends HttpServlet {
         try{
             group = Integer.parseInt(request.getParameter("group"));
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         Task new_task = new Task();
         try {
             new_task.setGroup(group);
         } catch (Exception ex) {
-            response.sendRedirect("CreateGroup"); 
-            return;
+            throw new ServletException(ex);
         }
         
         request.setAttribute("task", new_task);
@@ -46,8 +43,7 @@ public class CreateTask extends HttpServlet {
         try{
             group = Integer.parseInt(request.getParameter("group"));
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         Task new_task = new Task();
@@ -55,8 +51,7 @@ public class CreateTask extends HttpServlet {
         try {
             new_task.setGroup(group);
         } catch (Exception ex) {
-            response.sendRedirect("CreateGroup"); 
-            return;
+            throw new ServletException(ex);
         }
         
         new_task.setAnswer(request.getParameter("answer"));
@@ -93,9 +88,7 @@ public class CreateTask extends HttpServlet {
                 return;
             }
         } catch(Exception ex){
-            Log.Write(ex.getLocalizedMessage());
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
 
     }

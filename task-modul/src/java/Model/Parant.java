@@ -52,7 +52,7 @@ public abstract class Parant extends DBConnect{
     
     protected boolean _select() throws Exception{
         
-        try{
+
             String query_string = this.generateQueryString(null, "select");
 
             Connection conn = this.getConnection();
@@ -73,10 +73,6 @@ public abstract class Parant extends DBConnect{
                 return false;
             }
             
-        } catch(NamingException | SQLException ex) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
         
     }
     
@@ -84,7 +80,7 @@ public abstract class Parant extends DBConnect{
     protected boolean _insert() throws NamingException, SQLException{
         
         if(!this._isCorrect()) return false;
-        try{
+
             Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
             String query_string = this.generateQueryString(params, "insert");
 
@@ -124,16 +120,12 @@ public abstract class Parant extends DBConnect{
             }
             conn.close();
             return result == 1;
-        } catch(NamingException | SQLException ex) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
+
     }
     
     protected boolean _update() throws NamingException, SQLException{
         if(this._id==0) return false;
         if(!this._isCorrect()) return false;
-        try{
             Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
             String query_string = this.generateQueryString(params, "update");
 
@@ -165,15 +157,11 @@ public abstract class Parant extends DBConnect{
             if(result==1) 
                 this._from_db = true;
             return result == 1;
-        } catch(NamingException | SQLException ex) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
+
     }
     
     protected boolean _delete() throws NamingException, SQLException{
         if(this._id==0) return false;
-        try{
             String query_string = this.generateQueryString(null, "delete");
 
             Connection conn = this.getConnection();
@@ -182,10 +170,7 @@ public abstract class Parant extends DBConnect{
             int result = stmt.executeUpdate();
             conn.close();
             return result == 1;
-        } catch(NamingException | SQLException ex) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
+
     }
     
     protected ArrayList<HashMap<String, Object>> _parameterSelect(HashMap<String, Object> Params) throws Exception{
@@ -193,7 +178,6 @@ public abstract class Parant extends DBConnect{
         ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
         
         Set<Map.Entry<String, Object>> params = Params.entrySet();
-        try{
             String query_string = this.generateQueryString(params, "select");
 
             Connection conn = this.getConnection();
@@ -227,10 +211,6 @@ public abstract class Parant extends DBConnect{
             }
             conn.close();
             
-        } catch(NamingException | SQLException ex) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
         return list;
         
     }

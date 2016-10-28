@@ -33,7 +33,6 @@ public class StudentConnect extends DBConnect{
     public boolean exequtQuery(String query) throws Exception{
         boolean res=false;
         
-        try {
             this.conn = this.getConnection();
             this.stmt = conn.createStatement();
             try{
@@ -43,10 +42,6 @@ public class StudentConnect extends DBConnect{
                 this.ex = e;
                 res = false;
             }
-        } catch (Exception e) {
-            Log.Write(ex.getLocalizedMessage());
-            throw ex;
-        }
         
         return res;
     }

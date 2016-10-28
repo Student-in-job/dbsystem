@@ -29,8 +29,7 @@ public class RenderAdminGroup extends HttpServlet {
             group = Integer.parseInt(request.getParameter("group"));
             task_group.getById(group);
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         request.setAttribute("group", task_group);

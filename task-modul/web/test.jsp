@@ -7,7 +7,7 @@
 <%@page import="Model.InitParams"%>
 <%@page import="Model.Log"%>
 <%@page import="Model.TaskGroup"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>

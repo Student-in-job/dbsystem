@@ -30,8 +30,7 @@ public class EditGroup extends HttpServlet {
             group = Integer.parseInt(request.getParameter("group"));
             new_group.getById(group);
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         request.setAttribute("group", new_group);
@@ -52,8 +51,7 @@ public class EditGroup extends HttpServlet {
             group = Integer.parseInt(request.getParameter("group"));
             new_group.getById(group);
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         new_group.setName(request.getParameter("name"));
@@ -72,9 +70,7 @@ public class EditGroup extends HttpServlet {
                 return;
             }
         } catch(Exception ex){
-            Log.Write(ex.getLocalizedMessage());
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
     }
 

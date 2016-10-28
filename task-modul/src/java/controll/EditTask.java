@@ -23,8 +23,7 @@ public class EditTask extends HttpServlet {
             task = Integer.parseInt(request.getParameter("task"));
             new_task.getById(task);
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         request.setAttribute("task", new_task);
@@ -43,8 +42,7 @@ public class EditTask extends HttpServlet {
             task = Integer.parseInt(request.getParameter("task"));
             new_task.getById(task);
         } catch (Exception ex){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
         
         
@@ -81,9 +79,7 @@ public class EditTask extends HttpServlet {
             }
                 
         } catch(Exception ex){
-            Log.Write(ex.getLocalizedMessage());
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); 
-            return;
+            throw new ServletException(ex);
         }
 
     }
