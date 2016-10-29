@@ -28,13 +28,15 @@ constraint fk_task_group foreign key (group_id) references task_group(id)
 
 create table if not exists works (
 id int not null auto_increment,
+WORK_KEY varchar(64) not null,
 user_id int not null,
 group_id int not null,
 times TIMESTAMP not null,
 mods varchar(5) not null,
 count int not null,
 primary key (id),
-constraint fk_work_group foreign key (group_id) references task_group(id)
+constraint fk_work_group foreign key (group_id) references task_group(id),
+unique(WORK_KEY)
 );
 
 create table if not exists task_result(
@@ -46,3 +48,4 @@ constraint fk_work_result foreign key (work_id) references works(id)
 );
 
 insert into task_group(owner_id) values (1);
+insert into task(group_id,question,answer) value (1, 'qwerty?', 'select * from 1_task');

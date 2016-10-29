@@ -84,7 +84,7 @@ public class StudentConnect extends DBConnect{
         return list;
     }
     
-    public SQLException gerException(){
+    public SQLException getException(){
         return this.ex;
     }
     

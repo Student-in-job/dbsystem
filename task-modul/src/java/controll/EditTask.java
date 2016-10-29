@@ -73,7 +73,7 @@ public class EditTask extends HttpServlet {
                 } 
             } else {
                 request.setAttribute("task", new_task);
-                request.setAttribute("error", "Error code: "+cheker.gerException().getErrorCode()+ ". " + cheker.gerException().getMessage());
+                request.setAttribute("error", "Error code: "+cheker.getException().getErrorCode()+ ". " + cheker.getException().getMessage());
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
             }

@@ -5,7 +5,7 @@
  */
 package controll;
 
-import Model.Log;
+
 import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
