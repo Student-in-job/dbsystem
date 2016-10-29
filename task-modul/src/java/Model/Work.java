@@ -8,8 +8,6 @@ package Model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -24,7 +22,6 @@ public class Work extends Parant{
         list.put("user_id", this.UserId);
         list.put("times", this.Time);
         list.put("group_id", this.GroupId);
-        list.put("mods", this.Mods);
         list.put("count", this.Count);
         list.put("WORK_KEY", this.WORK_KEY);
         list.put("live_time", this.LiveTime);
@@ -36,7 +33,6 @@ public class Work extends Parant{
         this.UserId = (int) list.get("user_id");
         this.Time = (Date) list.get("times");
         this.GroupId = (int) list.get("group_id");
-        this.Mods = (String) list.get("mods");
         this.Count = (int) list.get("count");
         this.WORK_KEY = (String) list.get("WORK_KEY");
         this.LiveTime = (int) list.get("live_time");
@@ -52,7 +48,7 @@ public class Work extends Parant{
         return UserId != 0
                 && GroupId != 0
                 && Count != 0
-                && Mods != null
+                && LiveTime != 0
                 && Group._from_db;                
     }
     
@@ -61,7 +57,6 @@ public class Work extends Parant{
     protected int GroupId;
     protected TaskGroup Group;
     protected Date Time;
-    protected String Mods;
     protected int Count;
     protected int LiveTime;
     protected ArrayList<Accept> Accepts;
@@ -81,7 +76,7 @@ public class Work extends Parant{
         return this._insert();
     }  
     
-    private Accept _next(){
+    public Accept Next(){
         if(this.Accepts.size() == this.Count) return null;
         ArrayList<Task> list = this._generatTaskList();
         if(this.Accepts.size() == list.size()) return null;
@@ -106,6 +101,7 @@ public class Work extends Parant{
         this._id = id;
         this._select();
         this.Group = new TaskGroup(this.GroupId);
+        this.Accepts = new ArrayList<Accept>();
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("work_id", this._id);
         Accept accept = new Accept();
@@ -135,11 +131,6 @@ public class Work extends Parant{
         this.Time = data;
     }
     
-    public void setMods(String data){
-        this._from_db = false;
-        this.Mods = data;
-    }
-    
     public void setCount(int data){
         this._from_db = false;
         this.Count = data;
@@ -161,8 +152,8 @@ public class Work extends Parant{
         return this.Time;
     }
     
-    public String getMods(){
-        return this.Mods;
+    public int getLiveTime(){
+        return this.LiveTime;
     }
     
     public int getCount(){
@@ -174,12 +165,9 @@ public class Work extends Parant{
         
         Random gen = new Random(this._id);
         
-        if(this.Count == 0) 
-            list =  this.Group.getTasks();
-        else
-            for(int i=0; i<this.Count; i++){
-                list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
-            }
+        for(int i=0; i<this.Count; i++){
+            list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
+        }
  
         Task b;
         int j, k;

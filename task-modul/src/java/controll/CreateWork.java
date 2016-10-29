@@ -31,17 +31,16 @@ public class CreateWork extends HttpServlet {
             int user_id = 123;
             int group_id = 1;
             Date times = new Date();
-            String mods = "rand";
-            int count = 0;
+            int count = 1;
             
             Work work = new Work();
             work.setCount(count);
             work.setGroup(group_id);
-            work.setMods(mods);
             work.setTime(times);
             work.setUser(user_id);
             if(work.Write(WORK_KEY)){
-                response.sendRedirect("NextTask?work_id="+work.getId());
+                request.getSession().setAttribute("work_id", work.getId());
+                response.sendRedirect("NextTask");
             } else {
                 throw new Exception();
             }

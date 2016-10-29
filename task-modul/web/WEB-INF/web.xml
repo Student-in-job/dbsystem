@@ -67,7 +67,7 @@
         <servlet-class>controll.CheckTask</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NextAccept</servlet-name>
+        <servlet-name>NextTask</servlet-name>
         <servlet-class>controll.NextTask</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -111,8 +111,8 @@
         <url-pattern>/pass/DoTask</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NextAccept</servlet-name>
-        <url-pattern>/pass/NextAccept</url-pattern>
+        <servlet-name>NextTask</servlet-name>
+        <url-pattern>/pass/NextTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -14,13 +14,13 @@
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <%@include file="/header.jsp" %>
@@ -38,14 +38,14 @@
                 <div class="task-table">    
                     <div class="task-table-row">    
                         <div class="task-table-cell">
-                                <p>${task.question}</p>                                 
+                            <p>${task.question}</p>                                 
                         </div>
                         <div class="task-table-cell">
                             
                         </div>    
                     </div>
                     <div class="task-table-row">        
-                        <form class="task-table-cell" method="POST" action="">    
+                        <form class="task-table-cell" method="POST" action="CheckTask">    
                             <div class="col col-11">
                                     <textarea rows="6" required  name="answer">${answer}</textarea>
                             </div>
@@ -72,33 +72,6 @@
 
         
         <%@include file="/footer.jsp" %>
-        <script>  
-        function show()  
-        {  
-            $.ajax({  
-                url: "<%=request.getServletContext().getContextPath()%>/timer",  
-                cache: false, 
-                error: function(){
-                    window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
-                },
-                success: function(data){ 
-                    setTimeout(function(){window.location.href = "FinishTask.jsp";}, data);
-                    data = Math.floor(data/1000);
-                    var h = Math.floor(data/3600);
-                    data = Math.floor(data%3600);
-                    var m = Math.floor(data/60);
-                    var s = Math.floor(data%60);
-                    $("#timer").html(h + ':' + m + ':' + s);  
-                }  
-            });  
-        } 
-        
-        
-      
-        $(document).ready(function(){  
-            show();  
-            setInterval('show()',1000);  
-        });  
-    </script>
+
     </body>
 </html>
