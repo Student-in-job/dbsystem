@@ -89,6 +89,7 @@ public class Task extends Parant{
     }
     
     public void setGroup(int group) throws Exception{
+        this._from_db = false;
         this.GroupId = group;
         this.Group = new TaskGroup(group);
         if(!this.Group._from_db) throw new Exception();
