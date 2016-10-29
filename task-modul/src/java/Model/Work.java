@@ -27,6 +27,7 @@ public class Work extends Parant{
         list.put("mods", this.Mods);
         list.put("count", this.Count);
         list.put("WORK_KEY", this.WORK_KEY);
+        list.put("live_time", this.LiveTime);
         return list;
     }
 
@@ -38,6 +39,7 @@ public class Work extends Parant{
         this.Mods = (String) list.get("mods");
         this.Count = (int) list.get("count");
         this.WORK_KEY = (String) list.get("WORK_KEY");
+        this.LiveTime = (int) list.get("live_time");
     }
 
     @Override
@@ -49,6 +51,7 @@ public class Work extends Parant{
     protected boolean _isCorrect() {
         return UserId != 0
                 && GroupId != 0
+                && Count != 0
                 && Mods != null
                 && Group._from_db;                
     }
@@ -59,8 +62,9 @@ public class Work extends Parant{
     protected TaskGroup Group;
     protected Date Time;
     protected String Mods;
-    protected int Count; //0~all
-    protected Queue<Accept> Accepts;
+    protected int Count;
+    protected int LiveTime;
+    protected ArrayList<Accept> Accepts;
     
     public Work(){
         this._from_db = false;
@@ -73,77 +77,45 @@ public class Work extends Parant{
     
     public boolean Write(String WORK_KEY) throws Exception{
         this.WORK_KEY = WORK_KEY;
+        this.LiveTime = this._calculateLiveTime(this._generatTaskList());
         return this._insert();
-    }
+    }  
     
-    public boolean Start() throws Exception{
-        if(!this._from_db) throw new Exception();
-        ArrayList<Task> tasks = this._generatTaskList();
-        this.Accepts = new PriorityQueue<Accept>();
-        
-        Accept accept;
-        for(int i=0; i<tasks.size(); i++){
-            accept = new Accept();
-            accept.setTask(tasks.get(i));
-            accept.setWork(this);
-            this.Accepts.add(accept);
-        }
-        
-        if(this.Accepts.size() == this.Count || this.Count == 0){
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-    
-    public Accept getAccept(){
-        if(this.Accepts.peek().Result==1){
-            this._next();
-        }
-        return this.Accepts.peek();
-    }
-    
-    private void _next(){
-        this.Accepts.poll();
-    } 
-    
-    private ArrayList<Task> _generatTaskList(){
-        ArrayList<Task> list = new ArrayList<Task>();
-        Random gen = new Random();
-        if(this.Count == 0) 
-            list =  this.Group.getTasks();
-        else
-            switch(this.Mods){
-                case "rand":{
-                    for(int i=0; i<this.Count; i++){
-                        list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
-                    }
-                    break;
-                }
-                default:{
-                    for(int i=0; i<this.Count; i++){
-                        list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
-                    }
-                    break;
-                }
+    private Accept _next(){
+        if(this.Accepts.size() == this.Count) return null;
+        ArrayList<Task> list = this._generatTaskList();
+        if(this.Accepts.size() == list.size()) return null;
+        int ch;
+        for(int j=0; j<list.size(); j++){
+            ch=0;
+            for(int i=0; i<this.Accepts.size(); i++){
+                if(this.Accepts.get(i).getTask().getId()==list.get(j).getId())
+                    ch++;
             }
-        Task b;
-        int j, k;
-        for(int i=0; i<list.size(); i++){
-            j = gen.nextInt(list.size());
-            k = gen.nextInt(list.size());
-            b=list.get(k);
-            list.set(k, list.get(j));
-            list.set(j, b);
+            if(ch==0){
+                Accept accept = new Accept();
+                accept.setTask(list.get(j));
+                accept.setWork(this);
+                return accept;
+            }
         }
-        return list;
-    }
+        return null;
+    } 
     
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
         this.Group = new TaskGroup(this.GroupId);
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("work_id", this._id);
+        Accept accept = new Accept();
+        ArrayList<HashMap<String, Object>> Params = accept.getObjectsParam(param);
+        for(int i=0; i<Params.size(); i++){
+            accept = new Accept();
+            accept.getFromParam(Params.get(i));
+            this.Accepts.add(accept);
+        }
+        
     }
     
     public void setGroup(int group) throws Exception{
@@ -177,6 +149,10 @@ public class Work extends Parant{
         return this.Group;
     }
     
+    public String getKey(){
+        return this.WORK_KEY;
+    }
+    
     public int getUser(){
         return this.UserId;
     }
@@ -193,6 +169,36 @@ public class Work extends Parant{
         return this.Count;
     }
     
+    private ArrayList<Task> _generatTaskList(){
+        ArrayList<Task> list = new ArrayList<Task>();
+        
+        Random gen = new Random(this._id);
+        
+        if(this.Count == 0) 
+            list =  this.Group.getTasks();
+        else
+            for(int i=0; i<this.Count; i++){
+                list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
+            }
+ 
+        Task b;
+        int j, k;
+        for(int i=0; i<list.size(); i++){
+            j = gen.nextInt(list.size());
+            k = gen.nextInt(list.size());
+            b=list.get(k);
+            list.set(k, list.get(j));
+            list.set(j, b);
+        }
+        return list;
+    }
     
+    private int _calculateLiveTime(ArrayList<Task> list){
+        int time=0;
+        for(int i=0; i<list.size(); i++){
+            time+=list.get(i).getTime()*60+60;
+        }
+        return time;
+    }
     
 }

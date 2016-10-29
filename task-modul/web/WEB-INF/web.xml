@@ -64,7 +64,11 @@
     </servlet>
     <servlet>
         <servlet-name>DoTask</servlet-name>
-        <servlet-class>controll.DoTask</servlet-class>
+        <servlet-class>controll.CheckTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NextAccept</servlet-name>
+        <servlet-class>controll.NextTask</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
@@ -105,6 +109,10 @@
     <servlet-mapping>
         <servlet-name>DoTask</servlet-name>
         <url-pattern>/pass/DoTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NextAccept</servlet-name>
+        <url-pattern>/pass/NextAccept</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

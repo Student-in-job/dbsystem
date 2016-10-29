@@ -32,6 +32,7 @@ WORK_KEY varchar(64) not null,
 user_id int not null,
 group_id int not null,
 times TIMESTAMP not null,
+time_live int not null,
 mods varchar(5) not null,
 count int not null,
 primary key (id),
@@ -43,9 +44,11 @@ create table if not exists task_result(
 work_id int not null,
 task int not null,
 result int not null,
+times timestamp DEFAULT CURRENT_TIMESTAMP,
 constraint fk_task_result foreign key (task) references task(id),
 constraint fk_work_result foreign key (work_id) references works(id)
 );
 
 insert into task_group(owner_id) values (1);
 insert into task(group_id,question,answer) value (1, 'qwerty?', 'select * from 1_task');
+insert into works(WORK_KEY, user_id, group_id, times, , mods, count);

@@ -41,12 +41,7 @@ public class CreateWork extends HttpServlet {
             work.setTime(times);
             work.setUser(user_id);
             if(work.Write(WORK_KEY)){
-                if(work.Start()){
-                    request.getSession().setAttribute("work", work);
-                    response.sendRedirect("DoTask");
-                } else {
-                    throw new Exception();
-                }
+                response.sendRedirect("NextTask?work_id="+work.getId());
             } else {
                 throw new Exception();
             }
