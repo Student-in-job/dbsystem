@@ -47,7 +47,7 @@
                 </div>
             </div>
             <hr>
-            <c:if test="${tasks.isEmpty==null}">
+<%--            <c:if test="${tasks.isEmpty==null}">
             
             <div class="row">
                 <div class="col">
@@ -57,6 +57,7 @@
                 </div>
             </div> 
             </c:if>
+--%>
             <c:forEach var="task" items="${tasks}">
             <div class="row">
                 <div class="col offset-1">

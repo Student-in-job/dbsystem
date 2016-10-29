@@ -28,7 +28,7 @@ public class Task extends Parant{
         list.put("times", this.Time);
         list.put("question", this.Question);
         list.put("answer", this.Answer);
-        list.put("group_id", this.Group.getId());
+        list.put("group_id", this.GroupId);
         return list;
     }
     
@@ -89,8 +89,9 @@ public class Task extends Parant{
     }
     
     public void setGroup(int group) throws Exception{
+        this.GroupId = group;
         this.Group = new TaskGroup(group);
-        if(!this._from_db) throw new Exception();
+        if(!this.Group._from_db) throw new Exception();
     }
     
     public void setAnswer(String answer){
