@@ -4,8 +4,11 @@
     Author     : ksinn
 --%>
 
+<%@page import="Model.Log"%>
 <%@page isErrorPage="true" contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+Log.Write(pageContext.getException().getLocalizedMessage());
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,40 +34,7 @@
                 <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>WHOOPS!</h3>
-<%
-String er = request.getParameter("e");
-
-if("ObjectNotFind".equals(er)){
-%>
-        <p>We couldn't find the page you were looking for.</p>
-<%
-    return;
-}
-if("IllegalAction".equals(er)){
-%>
-        <p>You have tried to do the impossible.</p>
-<%
-    return;
-}
-if("IOExtension".equals(er)){
-%>
-        <p>The problem with the file.</p>
-<%
-    return;
-}
-if("InvalidParameter".equals(er)){
-%>
-        <p>Invalid Parameter.</p>
-<%
-    return;
-}
-if("".equals(er)){
-%>
-        <p>Problems with server.</p>
-<%
-    return;
-}
-%>                    
+                    <p>${pageContext.exception}</p>
                 </div>
             </div>
         </div>

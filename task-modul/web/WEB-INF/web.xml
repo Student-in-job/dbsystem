@@ -23,7 +23,7 @@
         <res-auth>ContainerStudent</res-auth>
     </resource-ref>
     <error-page>
-    <error-code>500</error-code>
+    <exception-type>java.lang.Throwable</exception-type>
     <location>/Error.jsp</location>
     </error-page>
     <servlet>
