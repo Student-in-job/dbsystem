@@ -37,7 +37,6 @@ public class Work extends Parant{
         this.WORK_KEY = (String) list.get("WORK_KEY");
         this.LiveTime = (int) list.get("live_time");
         this.Accepts = new ArrayList<Accept>();
-        this.Group = new TaskGroup(this.GroupId);
     }
 
     @Override
@@ -104,7 +103,16 @@ public class Work extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
+        this.ReadTaskGroup();
+        this.ReadAcceptsFromDB();
+        
+    }
+    
+    public void ReadTaskGroup() throws Exception{
         this.Group = new TaskGroup(this.GroupId);
+    }
+    
+    public void ReadAcceptsFromDB() throws Exception{
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("work_id", this._id);
         Accept accept = new Accept();
@@ -114,7 +122,6 @@ public class Work extends Parant{
             accept.getFromParam(Params.get(i));
             this.Accepts.add(accept);
         }
-        
     }
     
     public void setGroup(int group) throws Exception{

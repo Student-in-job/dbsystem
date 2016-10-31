@@ -63,6 +63,11 @@ public class TaskGroup extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
+        this.ReadTasksFromBd();
+        
+    }
+    
+    public void ReadTasksFromBd() throws Exception{
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("group_id", this._id);
         Task task = new Task();
@@ -72,7 +77,6 @@ public class TaskGroup extends Parant{
             task.getFromParam(Params.get(i));
             this.Tasks.add(task);
         }
-        
     }
     
     public ArrayList<HashMap<String, Object>> Groups(HashMap<String, Object> params) throws Exception{

@@ -45,7 +45,7 @@
                         </div>    
                     </div>
                     <div class="task-table-row">        
-                        <form class="task-table-cell" method="POST" action="CheckTask">    
+                        <form class="task-table-cell" method="POST" action="Check">    
                             <div class="col col-11">
                                     <textarea rows="6" required  name="answer">${answer}</textarea>
                             </div>

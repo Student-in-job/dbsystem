@@ -63,7 +63,7 @@
         <servlet-class>controll.CreateWork</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DoTask</servlet-name>
+        <servlet-name>CheckTask</servlet-name>
         <servlet-class>controll.CheckTask</servlet-class>
     </servlet>
     <servlet>
@@ -111,8 +111,8 @@
         <url-pattern>/pass/Start</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DoTask</servlet-name>
-        <url-pattern>/pass/DoTask</url-pattern>
+        <servlet-name>CheckTask</servlet-name>
+        <url-pattern>/pass/Check</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NextTask</servlet-name>

@@ -68,12 +68,12 @@ public class Accept extends Parant{
         StudentConnect conn_tut = new StudentConnect();
         ResultSet stud, tut;
         
-        if(conn_stud.exequtQuery(answer)){
+        if(!conn_stud.exequtQuery(answer)){
             this.Ex = conn_stud.getException();
         }
         this.ResultArray = conn_stud.getResultArray();
         
-        if(conn_tut.exequtQuery(this.Task.getAnswer())){
+        if(!conn_tut.exequtQuery(this.Task.getAnswer())){
             throw conn_stud.getException();
         }
         
@@ -91,6 +91,8 @@ public class Accept extends Parant{
     
     private boolean Compear(ResultSet r1, ResultSet r2) throws SQLException{
         
+        r1.beforeFirst();
+        r2.beforeFirst();
         for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
             if(!r1.getMetaData().getColumnName(i).equals(r2.getMetaData().getColumnName(i)))
                 return false;

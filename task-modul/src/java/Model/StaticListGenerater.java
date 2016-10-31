@@ -12,9 +12,9 @@ import java.util.Random;
  *
  * @author ksinn
  */
-public class StaticListGenerater implements ListGenerater{
+public class StaticListGenerater /*implements ListGenerater*/{
     
-    this.private ArrayList<Task> list;
+    /*private ArrayList<Task> list;
     
     @Override
     public void Create(Work work) {
@@ -48,5 +48,10 @@ public class StaticListGenerater implements ListGenerater{
         
         
     }
+
+    @Override
+    public Task Next() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
     
 }

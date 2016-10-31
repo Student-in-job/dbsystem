@@ -85,6 +85,10 @@ public class Task extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
+        this.ReadGroupFromDB();
+    }
+    
+    public void ReadGroupFromDB() throws Exception{
         this.Group = new TaskGroup(this.GroupId);
     }
     

@@ -15,16 +15,23 @@ public class CheckTask extends HttpServlet {
         try{
             String answer = request.getParameter("answer");
             Accept accept = (Accept) request.getSession().getAttribute("accept");
-            if(accept.putAnswer(answer)){
-                if(accept.getResult()==1){
-                    response.sendRedirect("NextTask");
-                } else {
-                    request.setAttribute("rs", accept.getResultArray());
-                }
+            if(accept==null){
+                response.sendRedirect("NextTask");
+                return;
             } else {
-                request.setAttribute("error", accept.getException().getMessage());
+                if(accept.putAnswer(answer)){
+                    if(accept.getResult()==1){
+                        accept.Write();
+                        response.sendRedirect("NextTask");
+                        return;
+                    } else {
+                        request.setAttribute("rs", accept.getResultArray());
+                    }
+                } else {
+                    request.setAttribute("error", accept.getException().getMessage());
+                }
+                request.setAttribute("task", accept.getTask());
             }
-            request.setAttribute("task", accept.getTask());
         } catch(Exception ex){
             throw new ServletException(ex);
                 }

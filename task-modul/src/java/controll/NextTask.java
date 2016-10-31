@@ -27,10 +27,12 @@ public class NextTask extends HttpServlet {
                 HashMap<String, Object> param = new HashMap<String, Object>();
                 param.put("user_id", user_id);
                 ArrayList<HashMap<String, Object>> Params = work.getObjectsParam(param);
-                for(int i=0; i<Params.size(); i++){
+                for(int i=Params.size()-1; i>=0; i--){
                     work = new Work();
                     work.getFromParam(Params.get(i));
                     if(work.getTime().getTime()+work.getLiveTime() > new Date().getTime()){
+                        work.ReadAcceptsFromDB();
+                        work.ReadTaskGroup();
                         break;
                     }
                 }

@@ -41,10 +41,10 @@ unique(WORK_KEY)
 
 create table if not exists task_result(
 work_id int not null,
-task int not null,
+task_id int not null,
 result int not null,
 times timestamp DEFAULT CURRENT_TIMESTAMP,
-constraint fk_task_result foreign key (task) references task(id),
+constraint fk_task_result foreign key (task_id) references task(id),
 constraint fk_work_result foreign key (work_id) references works(id)
 );
 
