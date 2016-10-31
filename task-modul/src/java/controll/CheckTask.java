@@ -12,18 +12,22 @@ public class CheckTask extends HttpServlet {
 
     private void Proc(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String answer = request.getParameter("answer");
-        Accept accept = (Accept) request.getSession().getAttribute("accept");
-        if(accept.putAnswer(answer)){
-            if(accept.getResult()==1){
-                response.sendRedirect("NextTask");
+        try{
+            String answer = request.getParameter("answer");
+            Accept accept = (Accept) request.getSession().getAttribute("accept");
+            if(accept.putAnswer(answer)){
+                if(accept.getResult()==1){
+                    response.sendRedirect("NextTask");
+                } else {
+                    request.setAttribute("rs", accept.getResultArray());
+                }
             } else {
-                request.setAttribute("rs", accept.getResultArray());
+                request.setAttribute("error", accept.getException().getMessage());
             }
-        } else {
-            request.setAttribute("error", accept.getException().getMessage());
-        }
-        request.setAttribute("task", accept.getTask());
+            request.setAttribute("task", accept.getTask());
+        } catch(Exception ex){
+            throw new ServletException(ex);
+                }
             
         
     }

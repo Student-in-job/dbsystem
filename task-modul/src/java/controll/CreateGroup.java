@@ -33,6 +33,8 @@ public class CreateGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        
         request.setCharacterEncoding("UTF-8");
         
         TaskGroup new_group = new TaskGroup();
@@ -42,7 +44,7 @@ public class CreateGroup extends HttpServlet {
         
         boolean res;
         try{
-            res = new_group.Write(1);
+            res = new_group.Write(user_id);
 
             if(res){
                 response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 

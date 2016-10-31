@@ -25,14 +25,15 @@ public class CreateWork extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        int user_id = (int) request.getSession().getAttribute("user_id");
         try {
             //обращение за данными
             String WORK_KEY = request.getParameter("work_key");
-            int user_id = 123;
+            
             int group_id = 1;
             Date times = new Date();
             int count = 1;
-            
             Work work = new Work();
             work.setCount(count);
             work.setGroup(group_id);

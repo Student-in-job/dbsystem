@@ -38,6 +38,7 @@ public class TaskGroup extends Parant{
         this.Public = (int) list.get("public") == 1;
         this.Active = (int) list.get("active") == 1;
         this.Name = (String) list.get("group_name");
+        this.Tasks = new ArrayList<Task>();
     }
 
     @Override
@@ -62,7 +63,6 @@ public class TaskGroup extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
-        this.Tasks = new ArrayList<Task>();
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("group_id", this._id);
         Task task = new Task();

@@ -20,7 +20,7 @@ addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 question text(2000) not null,
 answer text(1000) not null,
 ball int not null default 1,
-times int not null default 5,
+times int not null default 3,
 deleted int not null default 0,
 primary key (id),
 constraint fk_task_group foreign key (group_id) references task_group(id)
@@ -49,5 +49,5 @@ constraint fk_work_result foreign key (work_id) references works(id)
 );
 
 insert into task_group(owner_id) values (1);
-insert into task(group_id,question,answer) value (1, 'qwerty?', 'select * from 1_task');
-insert into works(WORK_KEY, user_id, group_id, times, count, live_time) value ('cdsv4sd4v6df4v6', 1, 1, now(), 1, 5*60);
+insert into task(group_id,question,answer) values (1, 'qwerty1?', 'select * from 1_task'), (1, 'qwerty2?', 'select * from 1_task'), (1, 'qwerty3?', 'select * from 1_task');
+insert into works(WORK_KEY, user_id, group_id, times, count, live_time) value ('cdsv4sd4v6df4v6', 1, 1, now(), 3, 10*60);

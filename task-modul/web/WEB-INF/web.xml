@@ -70,6 +70,10 @@
         <servlet-name>NextTask</servlet-name>
         <servlet-class>controll.NextTask</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>auth</servlet-name>
+        <servlet-class>auth</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/edit/DataBaseManager</url-pattern>
@@ -113,6 +117,10 @@
     <servlet-mapping>
         <servlet-name>NextTask</servlet-name>
         <url-pattern>/pass/NextTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auth</servlet-name>
+        <url-pattern>/auth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

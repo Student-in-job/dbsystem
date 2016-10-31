@@ -36,8 +36,8 @@ public class CreateTask extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                
-        request.setCharacterEncoding("UTF-8");
+        
+        int user_id = (int) request.getSession().getAttribute("user_id");
         
         int group;
         try{
@@ -71,7 +71,7 @@ public class CreateTask extends HttpServlet {
             StudentConnect cheker = new StudentConnect();
             boolean good_query = cheker.exequtQuery(new_task.getAnswer());
             if(good_query){
-                res = new_task.Write(1);
+                res = new_task.Write(user_id);
 
                 if(res){
                     response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 

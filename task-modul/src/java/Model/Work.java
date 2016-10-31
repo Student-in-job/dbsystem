@@ -36,6 +36,8 @@ public class Work extends Parant{
         this.Count = (int) list.get("count");
         this.WORK_KEY = (String) list.get("WORK_KEY");
         this.LiveTime = (int) list.get("live_time");
+        this.Accepts = new ArrayList<Accept>();
+        this.Group = new TaskGroup(this.GroupId);
     }
 
     @Override
@@ -84,8 +86,10 @@ public class Work extends Parant{
         for(int j=0; j<list.size(); j++){
             ch=0;
             for(int i=0; i<this.Accepts.size(); i++){
-                if(this.Accepts.get(i).getTask().getId()==list.get(j).getId())
+                if(this.Accepts.get(i).getTask().getId()==list.get(j).getId()) {
                     ch++;
+                    break;
+                }
             }
             if(ch==0){
                 Accept accept = new Accept();
@@ -101,7 +105,6 @@ public class Work extends Parant{
         this._id = id;
         this._select();
         this.Group = new TaskGroup(this.GroupId);
-        this.Accepts = new ArrayList<Accept>();
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("work_id", this._id);
         Accept accept = new Accept();
@@ -164,19 +167,22 @@ public class Work extends Parant{
         ArrayList<Task> list = new ArrayList<Task>();
         
         Random gen = new Random(this._id);
+        int[] id_list = new int[this.Count];
         
         for(int i=0; i<this.Count; i++){
-            list.add(this.Group.getTasks().get(gen.nextInt(this.Group.getTasks().size())));
-        }
- 
-        Task b;
-        int j, k;
-        for(int i=0; i<list.size(); i++){
-            j = gen.nextInt(list.size());
-            k = gen.nextInt(list.size());
-            b=list.get(k);
-            list.set(k, list.get(j));
-            list.set(j, b);
+            int N=-1, c;
+            do{
+                c=0;
+                N = gen.nextInt(this.Group.getTasks().size());
+                for(int n=0; n<i; n++){
+                    if(id_list[n]==N){
+                        c++;
+                        break;
+                    }
+                }
+            } while (c!=0);
+            id_list[i]=N;
+            list.add(this.Group.getTasks().get(N));
         }
         return list;
     }

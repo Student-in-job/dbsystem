@@ -20,10 +20,10 @@ public class NextTask extends HttpServlet {
         try{
             
             Work work = new Work();
-            int user_id = 1;
+            int user_id = (int) request.getSession().getAttribute("user_id");
             
-            int work_id = (Integer) request.getSession().getAttribute("work_id");
-            if(work_id==0){
+            Integer work_id = (Integer) request.getSession().getAttribute("work_id");
+            if(work_id==null){
                 HashMap<String, Object> param = new HashMap<String, Object>();
                 param.put("user_id", user_id);
                 ArrayList<HashMap<String, Object>> Params = work.getObjectsParam(param);
