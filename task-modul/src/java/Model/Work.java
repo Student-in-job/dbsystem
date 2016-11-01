@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Work extends Parant{
         list.put("times", this.Time);
         list.put("group_id", this.GroupId);
         list.put("count", this.Count);
-        list.put("WORK_KEY", this.WORK_KEY);
+        list.put("WORK_KEY", this.WORK_KEY.toString());
         list.put("live_time", this.LiveTime);
         return list;
     }
@@ -34,7 +35,7 @@ public class Work extends Parant{
         this.Time = (Date) list.get("times");
         this.GroupId = (int) list.get("group_id");
         this.Count = (int) list.get("count");
-        this.WORK_KEY = (String) list.get("WORK_KEY");
+        this.WORK_KEY = UUID.fromString((String) list.get("WORK_KEY"));
         this.LiveTime = (int) list.get("live_time");
         this.Accepts = new ArrayList<Accept>();
     }
@@ -53,7 +54,7 @@ public class Work extends Parant{
                 && Group._from_db;                
     }
     
-    protected String WORK_KEY;
+    protected UUID WORK_KEY;
     protected int UserId;
     protected int GroupId;
     protected TaskGroup Group;
@@ -71,7 +72,7 @@ public class Work extends Parant{
         this.getById(id);
     }
     
-    public boolean Write(String WORK_KEY) throws Exception{
+    public boolean Write(UUID WORK_KEY) throws Exception{
         this.WORK_KEY = WORK_KEY;
         this.LiveTime = this._calculateLiveTime(this._generatTaskList());
         return this._insert();
@@ -157,7 +158,7 @@ public class Work extends Parant{
         return this.Group;
     }
     
-    public String getKey(){
+    public UUID getKey(){
         return this.WORK_KEY;
     }
     

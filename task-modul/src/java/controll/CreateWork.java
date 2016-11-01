@@ -3,6 +3,7 @@ package controll;
 import Model.Work;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,7 @@ public class CreateWork extends HttpServlet {
             work.setGroup(group_id);
             work.setTime(times);
             work.setUser(user_id);
-            if(work.Write(WORK_KEY)){
+            if(work.Write(UUID.fromString(WORK_KEY))){
                 request.getSession().setAttribute("work_id", work.getId());
                 response.sendRedirect("NextTask");
             } else {
