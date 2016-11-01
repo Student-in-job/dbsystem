@@ -4,26 +4,8 @@
     Author     : ksinn
 --%>
 
-<%@page import="java.util.Map.Entry"%>
-<%@page import="DataBasePak.*"%>
-<%@page import="Learning.*"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
 
-<%@include file="/avtorize.jsp"%>
-<%
-   
-        AcceptTask accept = (AcceptTask) session.getAttribute("accept");
-        if(accept==null){
-            response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
-            return;
-        }
-        try{
-            accept.Final();
-            session.removeAttribute("accept"); 
-        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-  
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,30 +14,24 @@
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <%@include file="../header.jsp" %>
         
         <div class="row centered text-center test">
             <div class="col col-8 ">
-                <h3><%=accept.getTask().getName()%></h3>
-                <h4><a href = "<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=accept.getTask().getProgram().getID()%>"><%=accept.getTask().getProgram().getName()%></a></h4>
-                <p>
-                    <%=accept.getTask().getInventory()%>
-                </p>
-                <h4>Ball: <%=accept.getBall()%></h4>
-                <a href="NextTask">Next</a>
+                <h1>You compleat</h1>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 
 
    </body>
