@@ -120,6 +120,7 @@ public class Work extends Parant{
         for(int i=0; i<Params.size(); i++){
             accept = new Accept();
             accept.getFromParam(Params.get(i));
+            accept.ReadTaskFromDB();
             this.Accepts.add(accept);
         }
     }

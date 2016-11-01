@@ -40,14 +40,16 @@ unique(WORK_KEY)
 );
 
 create table if not exists task_result(
+id int not null auto_increment,
 work_id int not null,
 task_id int not null,
 result int not null,
 times timestamp DEFAULT CURRENT_TIMESTAMP,
+primary key (id),
 constraint fk_task_result foreign key (task_id) references task(id),
 constraint fk_work_result foreign key (work_id) references works(id)
 );
 
 insert into task_group(owner_id) values (1);
 insert into task(group_id,question,answer) values (1, 'qwerty1?', 'select * from 1_task'), (1, 'qwerty2?', 'select * from 1_task'), (1, 'qwerty3?', 'select * from 1_task');
-insert into works(WORK_KEY, user_id, group_id, times, count, live_time) value ('cdsv4sd4v6df4v6', 1, 1, now(), 3, 10*60);
+insert into works(WORK_KEY, user_id, group_id, times, count, live_time) value ('cdsv4sd4v6df4v6', 1, 1, now(), 3, 100*60);

@@ -4,7 +4,9 @@
     Author     : ksinn
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -23,6 +25,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
+        ${error}
         <%@include file="/header.jsp" %>
 
         <div class="row centered test">

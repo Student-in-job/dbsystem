@@ -28,7 +28,7 @@ public class Accept extends Parant{
     @Override
     protected void _setParams(HashMap<String, Object> list) throws Exception {
         this.WorkId = (int) list.get("work_id");
-        this.TaskId = (int) list.get("task");
+        this.TaskId = (int) list.get("task_id");
         this.Result = (int) list.get("result");
     }
 
@@ -70,36 +70,39 @@ public class Accept extends Parant{
         
         if(!conn_stud.exequtQuery(answer)){
             this.Ex = conn_stud.getException();
-        }
-        this.ResultArray = conn_stud.getResultArray();
-        
-        if(!conn_tut.exequtQuery(this.Task.getAnswer())){
-            throw conn_stud.getException();
-        }
-        
-        tut = conn_tut.getResultSet();
-        stud = conn_stud.getResultSet();
-        
-        try{
-            this.Result = this.Compear(tut, stud)?1:0;
-        } catch(Exception ex){
-            this.Ex = ex;
             return false;
+        } else {
+            this.ResultArray = conn_stud.getResultArray();
+            if(!conn_tut.exequtQuery(this.Task.getAnswer())){
+                throw conn_stud.getException();
+            }
+
+            tut = conn_tut.getResultSet();
+            stud = conn_stud.getResultSet();
+
+            try{
+                this.Result = this.Compear(tut, stud)?1:0;
+            } catch(Exception ex){
+                this.Ex = ex;
+                return false;
+            }
+            return true;
         }
-        return true;
+        
+        
     }
     
     private boolean Compear(ResultSet r1, ResultSet r2) throws SQLException{
         
         r1.beforeFirst();
         r2.beforeFirst();
-        for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
+        for(int i=1; i<=r1.getMetaData().getColumnCount(); i++)
             if(!r1.getMetaData().getColumnName(i).equals(r2.getMetaData().getColumnName(i)))
                 return false;
         
         while(r1.next()){
             r2.next();
-            for(int i=1; i<r1.getMetaData().getColumnCount(); i++)
+            for(int i=1; i<=r1.getMetaData().getColumnCount(); i++)
             if(!r1.getString(i).equals(r2.getString(i)))
                 return false;
         }
@@ -112,7 +115,15 @@ public class Accept extends Parant{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
+        this.ReadTaskFromDB();
+        this.ReadWorkFromDB();
+    }
+    
+    public void ReadTaskFromDB() throws Exception{
         this.Task = new Task(this.TaskId);
+    }
+    
+    public void ReadWorkFromDB() throws Exception{
         this.Work = new Work(this.WorkId);
     }
     
