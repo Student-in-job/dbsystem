@@ -77,8 +77,13 @@ public class Work extends Parant{
         return this._insert();
     }  
     
-    public Accept Next(){
+    public Accept Next() throws Exception{
         if(this.Accepts.size() == this.Count) return null;
+        if(!this.Accepts.isEmpty()){
+            if(this.Accepts.get(this.Accepts.size()-1).getLeftTime()>0){
+                return this.Accepts.get(this.Accepts.size()-1);
+            }
+        }
         ArrayList<Task> list = this._generatTaskList();
         if(this.Accepts.size() == list.size()) return null;
         int ch;
@@ -94,6 +99,7 @@ public class Work extends Parant{
                 Accept accept = new Accept();
                 accept.setTask(list.get(j));
                 accept.setWork(this);
+                accept.Write();
                 return accept;
             }
         }

@@ -78,6 +78,10 @@
         <servlet-name>FinishWork</servlet-name>
         <servlet-class>controll.FinishWork</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Timer</servlet-name>
+        <servlet-class>controll.Timer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/edit/DataBaseManager</url-pattern>
@@ -129,6 +133,10 @@
     <servlet-mapping>
         <servlet-name>FinishWork</servlet-name>
         <url-pattern>/pass/FinishWork</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Timer</servlet-name>
+        <url-pattern>/pass/Timer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

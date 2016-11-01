@@ -19,20 +19,27 @@ public class CheckTask extends HttpServlet {
                 response.sendRedirect("NextTask");
                 return;
             } else {
-                if(accept.putAnswer(answer)){
-                    if(accept.getResult()==1){
-                        accept.Write();
-                        response.sendRedirect("NextTask");
-                        return;
-                    } else {
-                        request.setAttribute("rs", accept.getResultArray());
-                    }
+                
+                if(accept.getLeftTime()<0){
+                    accept.Write();
+                    response.sendRedirect("NextTask");
+                    return;
                 } else {
-                    request.setAttribute("error", accept.getException().getMessage());
+                    if(accept.putAnswer(answer)){
+                        if(accept.getResult()==1){
+                            accept.Write();
+                            response.sendRedirect("NextTask");
+                            return;
+                        } else {
+                            request.setAttribute("rs", accept.getResultArray());
+                        }
+                    } else {
+                        request.setAttribute("error", accept.getException().getMessage());
+                    }
+                    request.setAttribute("answer", answer);
+                    request.setAttribute("task", accept.getTask());
+                    request.getRequestDispatcher("DoTask.jsp").forward(request, response);
                 }
-                request.setAttribute("answer", answer);
-                request.setAttribute("task", accept.getTask());
-                request.getRequestDispatcher("DoTask.jsp").forward(request, response);
             }
         } catch(Exception ex){
             throw new ServletException(ex);

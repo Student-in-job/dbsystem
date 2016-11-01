@@ -8,6 +8,7 @@ package Model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -22,6 +23,9 @@ public class Accept extends Parant{
         list.put("work_id", this.Work.getId());
         list.put("result", this.Result);
         list.put("task_id", this.Task.getId());
+        list.put("times", this.Time);
+        list.put("total_time", this.TotalTime);
+       
         return list;
     }
 
@@ -30,6 +34,8 @@ public class Accept extends Parant{
         this.WorkId = (int) list.get("work_id");
         this.TaskId = (int) list.get("task_id");
         this.Result = (int) list.get("result");
+        this.Time = (Date) list.get("times");
+        this.TotalTime = (int) list.get("total_time");
     }
 
     @Override
@@ -45,6 +51,8 @@ public class Accept extends Parant{
     protected int WorkId;
     protected int TaskId;
     protected int Result;
+    protected Date Time;
+    protected int TotalTime;
     protected Work Work;
     protected Task Task;
     protected Exception Ex;
@@ -52,6 +60,8 @@ public class Accept extends Parant{
 
     public Accept(){
         this._from_db = false;
+        this.Time = new Date();
+        
     }
     
     public Accept(int id) throws Exception{
@@ -81,11 +91,15 @@ public class Accept extends Parant{
             stud = conn_stud.getResultSet();
 
             try{
-                this.Result = this.Compear(tut, stud)?1:0;
+                if(this.Compear(tut, stud)){
+                    this.Result = 1;
+                    this.TotalTime = (int) ((new Date()).getTime() - this.Time.getTime());
+                }
             } catch(Exception ex){
                 this.Ex = ex;
                 return false;
             }
+            
             return true;
         }
         
@@ -157,6 +171,12 @@ public class Accept extends Parant{
     
     public ArrayList getResultArray(){
         return this.ResultArray;
+    }
+
+    public int getLeftTime() {
+        return (int) (this.Task.getTime()*1000*60
+                - new Date().getTime()
+                + this.Time.getTime());
     }
         
     

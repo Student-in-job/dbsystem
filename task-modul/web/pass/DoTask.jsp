@@ -34,7 +34,7 @@
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
-                <a href="FinishTask.jsp"><button class="button small round outline">Finish task</button></a>
+                <a href="NextTask"><button class="button small round outline">Finish task</button></a>
             </div>
             
             
@@ -72,7 +72,36 @@
                             
         </div>
         
-
+        <script>  
+        function show()  
+        {  
+            $.ajax({  
+                url: "Timer",  
+                cache: false, 
+                error: function(){
+                    window.location.href = "${pageContext.request.contextPath}/Error.jsp";
+                },
+                success: function(data){ 
+                    setTimeout(function(){
+                        //отправить данные формы;
+                    }, data);
+                    data = Math.floor(data/1000);
+                    var h = Math.floor(data/3600);
+                    data = Math.floor(data%3600);
+                    var m = Math.floor(data/60);
+                    var s = Math.floor(data%60);
+                    $("#timer").html(h + ':' + m + ':' + s);  
+                }  
+            });  
+        } 
+        
+        
+      
+        $(document).ready(function(){  
+            show();  
+            setInterval('show()',1000);  
+        });  
+    </script> 
         
         <%@include file="/footer.jsp" %>
 
