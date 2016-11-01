@@ -22,6 +22,10 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <context-param>
+        <param-name>Task-modul</param-name>
+        <param-value>localhost:8084/task-modul</param-value>
+    </context-param>
+    <context-param>
         <param-name>LogPath</param-name>
         <param-value>/home/ksinn/Log.txt</param-value>
     </context-param>

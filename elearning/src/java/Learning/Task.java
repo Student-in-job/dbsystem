@@ -8,13 +8,7 @@ package Learning;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
-import DataBasePak.InvalidQuery;
-import DataBasePak.db;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.naming.NamingException;
 
 /**
  *
@@ -22,10 +16,11 @@ import javax.naming.NamingException;
  */
 public class Task extends Component {
 
+    protected int Period;
     protected int Time;
-    protected int Ball;
-    protected String Answer;
-    protected String Question;
+    protected int StartTime;
+    protected int Group;
+    protected int Count;
     
     @Override
     public int getID(){
@@ -47,15 +42,16 @@ public class Task extends Component {
         return !this.getProgram().isPublished();
     }
     
-    public Task(String name, int day, String question, String inventory, String answer, int time, int ball){
+    public Task(String name, String inventory, int day, int period, int time, int starttime, int group, int count){
         
         this.Name=name;
-        this.Day=day;
-        this.Question=question;  
+        this.Day=day; 
         this.Inventory=inventory; 
         Time=time;
-        Ball=ball;
-        Answer=answer;
+        Period = period;
+        StartTime = starttime;
+        Group = group;
+        Count = count;
     }
     
     
@@ -66,12 +62,13 @@ public class Task extends Component {
                     rs.next();
                     this.Name = rs.getString("task_name");
                     this.Day = rs.getInt("task_day");
+                    this.Period = rs.getInt("task_period");
                     this.Program = new Program(rs.getInt("program"));
-                    this.Inventory = rs.getString("task_inventory");
+                    this.Inventory = rs.getString("task_text");
                     this.Time = rs.getInt("task_time");
-                    this.Ball = rs.getInt("task_ball");
-                    this.Answer = rs.getString("task_answer");
-                    this.Question = rs.getString("task_text");
+                    this.StartTime = rs.getInt("task_starttime");
+                    this.Group = rs.getInt("task_group");
+                    this.Count = rs.getInt("task_count");
   }
    
     
@@ -81,22 +78,17 @@ public class Task extends Component {
         if(user.getID()!=program.getTeacherID()) throw new IllegalAction();
         if(!program.MayChange()) throw new IllegalAction();
         
-        if(!program.MayAddTest()) throw new IllegalAction();
-        if(Day>program.getDuration()) throw new InvalidParameter();
-        Exception e = this.CorrectSQLQuery();
-        if(e!=null) throw new InvalidQuery(e);
+        if(Day+Period>program.getDuration()) throw new InvalidParameter();
         
         Program = program;
         return this.write();
     }
     
-    public boolean Change(String name, String question, String inventory, int day, User user, int time, int ball, String answer) throws Exception{
+    public boolean Change(User user, String name, String inventory, int day, int period, int time, int starttime, int group, int count) throws Exception{
         
         if(this.getProgram().getTeacherID() != user.getID()) throw new IllegalAction();
         if(this.getProgram().isPublished()) throw new IllegalAction();
-        Task task = new Task(name, day, question, inventory, answer, time, ball);
-        Exception e = task.CorrectSQLQuery();
-        if(e!=null) throw new InvalidQuery(e);
+        Task task = new Task(name, inventory, day, period, time, starttime, group, count);
         task.Program = this.Program;
         task.ID = this.ID;
         DataBase db = new DataBase(task);
@@ -108,61 +100,22 @@ public class Task extends Component {
         return Time;
     }
     
-    /*public HashMap<User, Integer> getStatistic(){
-        
-        HashMap<User, Integer> list = new HashMap<User, Integer>();   
-        try{
-                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement(
-                                        "SELECT (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', max(accept_test_ball) as 'accept_test_ball' " +
-                                        "FROM accept_test  " +
-                                        "where test=?  " +
-                                        "group by user " +
-                                        "order by accept_test_ball desc;");
-                stmt.setInt(1, ID);
-                ResultSet rs = stmt.executeQuery();
-                while(list.size()<3&&rs.next())
-                    try{
-                        list.put(new User(rs.getInt("user")), rs.getInt("accept_test_ball"));
-                    }catch(Exception ex){}
-                
-        }catch(SQLException ex){Log.getOut(ex.getMessage());}
-        
-        return list;
-            
-    }*/
+    public int getStartTime(){
+        return StartTime;
+    }
     
-    public int getBall(){
+    public int getPeriod(){
         
-        return Ball;
+        return Period;
+    }
+    
+    public int getCount(){
+        return Count;
+    }
+    
+    public int getGroup(){
+        return Group;
     }
 
-    public String getAnswer() {
-        return this.Answer;
-    }
-    
-    public String getQuestion() {
-        return this.Question;
-    }
-    
-    private Exception CorrectSQLQuery(){
-        try{
-            Statement stmt = db.getTuterConn().createStatement();
-            stmt.executeQuery(this.Answer);
-            return null;
-        }catch(NamingException | SQLException ex){return ex;}
-        
-    }
-    
-    public ResultSet getAnswerResult() throws SQLException, NamingException{
-        
-            Connection conn = db.getStudentConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(this.Answer);
-            //conn.close();
-            return rs;
-            
-        
-        
-    }
 
 }

@@ -25,14 +25,13 @@
     
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
-    String name=null, inventory = null, answer=null, question=null;
-    int day=0, task, time=0, ball=0;
+    int task=0, group=0, count=0, time=0, starttime=0, period=0, day = 0;
+    String name=null, inventory=null;
     Task nt;
     task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
  
 if(request.getMethod().equals("GET")){
     if(task!=0){
-        
         try{
             nt = new Task(task);
         }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
@@ -41,10 +40,10 @@ if(request.getMethod().equals("GET")){
         day = nt.getDay();
         inventory = nt.getInventory();
         program = nt.getProgramID();
-        answer=nt.getAnswer();
         time=nt.getTime();
-        ball=nt.getBall();
-        question=nt.getQuestion();
+        starttime=nt.getStartTime();
+        period=nt.getPeriod();
+        group = nt.getGroup();
 
     }
     
@@ -53,23 +52,24 @@ if(request.getMethod().equals("POST")){
     
     name = request.getParameter("name");
     inventory = request.getParameter("inventory");
-    answer = request.getParameter("answer");
     day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
-    ball = Integer.parseInt(request.getParameter("ball"));
-    question = request.getParameter("question");
+    starttime = Integer.parseInt(request.getParameter("starttime"));
+    group = Integer.parseInt(request.getParameter("group"));
+    count = Integer.parseInt(request.getParameter("count"));
+    period = Integer.parseInt(request.getParameter("period"));
     
         try{
             if(task==0){
 
-                nt = new Task(name, day, question, inventory, answer, time, ball);
+                nt = new Task(name, inventory, day, period, time, starttime, group, count);
                 nt.Write(pg , user);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }
             else{
 
                 nt = new Task(task);
-                nt.Change(name, question, inventory, day, user, time, ball, answer);
+                nt.Change(user, name, inventory, day, period, time, starttime, group, count);
                 response.sendRedirect("Task.jsp?task="+nt.getID()); return;
             }   
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
@@ -97,22 +97,7 @@ if(request.getMethod().equals("POST")){
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
         <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
         <script src="<%=request.getServletContext().getContextPath()%>/js/tinymce/tinymce.min.js"></script>
-        <script>tinymce.init({
-    selector: '#input',
-    theme: 'modern',
-    width: 800,
-    height: 400,
-    plugins: [
-      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-      'save table contextmenu directionality emoticons template paste textcolor'
-    ],
-    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
-    
-    });
-    
-    
-        </script>
+        
     </head>
     <body>
         <div  class="box " >
@@ -129,6 +114,16 @@ if(request.getMethod().equals("POST")){
                     <input type="hidden" name="test" value="<%=task%>"> 
                     
                     <div class="form-item">
+                        <label>Group ID:</label>
+                        <input class="width-100" required type="number" name="group" value="<%=day!=0?day:""%>">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Count:</label>
+                        <input class="width-100" required  type="number" name="count" value="<%=day!=0?day:""%>">
+                    </div>
+                    
+                    <div class="form-item">
                         <label>Name:</label>
                         <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
                     </div>
@@ -140,28 +135,22 @@ if(request.getMethod().equals("POST")){
                     
                     <div class="form-item">
                         <label>Day:</label>
-                        <input class="width-100" required min="1" max="183" type="number" name="day" value="<%=day!=0?day:""%>">
+                        <input class="width-100" required type="number" name="day" value="<%=day!=0?day:""%>">
                     </div>
                     
                     <div class="form-item">
-                        <label>Question:</label>
-                        <textarea id="input" required name="question"><%=question==null?"":question%></textarea>
+                        <label>Period:</label>
+                        <input class="width-100" required type="number" name="period" value="<%=period!=0?period:""%>">
                     </div>
                     
                     <div class="form-item">
-                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp?program=<%=program%>">DataBase Manager -></a>
-                        <textarea required name="answer"><%=answer==null?"":answer%></textarea>
+                        <label>Start Time(hour):</label>
+                        <input class="width-100" required type="number" name="starttime" value="<%=starttime!=0?starttime:""%>">
                     </div>
                     
                     <div class="form-item">
                         <label>Time(in minuts):</label>
-                        <input class="width-100" required min="1" type="number" name="time" value="<%=time!=0?time:""%>">
-                    </div>
-                    
-                    
-                    <div class="form-item">
-                        <label>Ball:</label>
-                        <input class="width-100" required min="1" type="number" name="ball" value="<%=ball!=0?ball:""%>">
+                        <input class="width-100" required type="number" name="time" value="<%=time!=0?time:""%>">
                     </div>
                     
                     <div class="form-item">
@@ -187,9 +176,14 @@ if(request.getMethod().equals("POST")){
                         day:{
                             required: true,
                             number: true,
-                            min: 1,
-                            max: <%=pg.getDuration()%>
+                            min: 1
                         },
+                                
+                        period:{
+                            required: true,
+                            number: true,
+                            min: 1
+                        },        
                             
                         inventory:{
                             required: true,
@@ -197,16 +191,11 @@ if(request.getMethod().equals("POST")){
                             maxlength: 1000
                         },
                         
-                        answer:{
+                        starttime:{
                             required: true,
-                            minlength: 10,
-                            maxlength: 500
-                        },
-                                
-                        question:{
-                            required: true,
-                            minlength: 10,
-                            maxlength: 1000
+                            number: true,
+                            min: 0,
+                            max: 12
                         },
                         
                         time:{
@@ -216,12 +205,17 @@ if(request.getMethod().equals("POST")){
                             max: 120
                         },
                                 
-                        ball:{
+                        group:{
                             required: true,
                             number: true,
-                            min: 1,
-                            max: 100
-                        }       
+                            min: 1
+                        },
+                        
+                        count:{
+                            required: true,
+                            number: true,
+                            min: 1
+                        } 
                         
                    }
 
