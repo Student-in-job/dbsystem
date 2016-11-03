@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="col col-11">
-                                <input type="submit" class="button round outline primary" value="Confirm &rArr;">
+                                <input id="submit" type="submit" class="button round outline primary" value="Confirm &rArr;">
                             </div>
                         </form>
                         <table class="task-table-cell">
@@ -83,7 +83,8 @@
                 },
                 success: function(data){ 
                     setTimeout(function(){
-                        //отправить данные формы;
+                        var elem = $('submit');
+                        elem.parentNode.removeChild(elem);
                     }, data);
                     data = Math.floor(data/1000);
                     var h = Math.floor(data/3600);
