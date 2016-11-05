@@ -23,8 +23,8 @@ public class WorkJWT extends JWT{
         return this.getJSON(iss);
     }
     
-    public boolean getData(String text, Work work) throws JSONException{
-        if(this.setText(text)){
+    public boolean getData(String text, Work work, String iss) throws JSONException{
+        if(this.setText(text, iss)){
             this.putDataJSON(work);
             return true;
         } else {

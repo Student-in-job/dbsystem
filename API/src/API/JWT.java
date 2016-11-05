@@ -34,7 +34,7 @@ abstract public class JWT {
         return res;
     }
     
-    protected boolean setText(String text) throws JSONException{
+    protected boolean setText(String text, String iss) throws JSONException{
         
         String p1, p2, p3;
         int i1=text.indexOf("}.{", 0);
@@ -46,8 +46,11 @@ abstract public class JWT {
         JSONObject json1 = new JSONObject(p1);
         JSONObject json2 = new JSONObject(p2);;
         if(HmacUtils.hmacSha256Hex(AppInf.HMACSHA256Key, json2.toString()).equals(p3)){
-            this.setDataJSON(json2);
-            return true;
+            if(iss.equals(json2.getString("iss"))){
+                this.setDataJSON(json2);
+                return true; 
+            } else 
+                return false;
         } else {
             return false;
         }

@@ -7,13 +7,11 @@ import API.WorkJWT;
 import API.WorkSWT;
 import Model.Work;
 import java.io.IOException;
-import java.util.Date;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 
 public class CreateWork extends HttpServlet {
@@ -37,11 +35,11 @@ public class CreateWork extends HttpServlet {
             int user_id = Integer.parseInt(request.getParameter("id"));
             try {
                 String WORK_KEY = request.getParameter("work_key");
-                HTTPClient client = new HTTPClient(AppInf.main+"/api/work_data", "work_key="+request.getParameter("work_key"), "GET");
+                HTTPClient client = new HTTPClient(request.getParameter("Issuer")+"/api/work_data", "work_key="+request.getParameter("work_key"), "GET");
                 client.sendRequest();
                 
                 WorkJWT tok = new WorkJWT();
-                tok.getData(client.getRequestText(), work);
+                tok.getData(client.getRequestText(), work, AppInf.main);
                 
                 if(UUID.fromString(WORK_KEY).equals(work.getKey())){
                     if(work.Write()){
@@ -56,7 +54,7 @@ public class CreateWork extends HttpServlet {
             }
         
         } else {
-            
+            throw new ServletException();
         }
         //request.setAttribute("WORK_KEY", request.getParameter("work_key"));
         //request.getRequestDispatcher("StartWork.jsp").forward(request, response);
