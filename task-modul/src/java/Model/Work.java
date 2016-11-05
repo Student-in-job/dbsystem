@@ -15,7 +15,7 @@ import java.util.UUID;
  *
  * @author ksinn
  */
-public class Work extends Parant{
+public class Work extends Parant implements API.Work{
 
     @Override
     protected HashMap<String, Object> _getParams() {
@@ -60,7 +60,7 @@ public class Work extends Parant{
     protected TaskGroup Group;
     protected Date Time;
     protected int Count;
-    protected int LiveTime;
+    protected long LiveTime;
     protected ArrayList<Accept> Accepts;
     
     public Work(){
@@ -72,9 +72,7 @@ public class Work extends Parant{
         this.getById(id);
     }
     
-    public boolean Write(UUID WORK_KEY) throws Exception{
-        this.WORK_KEY = WORK_KEY;
-        this.LiveTime = this._calculateLiveTime(this._generatTaskList());
+    public boolean Write() throws Exception{
         return this._insert();
     }  
     
@@ -132,6 +130,7 @@ public class Work extends Parant{
         }
     }
     
+    @Override
     public void setGroup(int group) throws Exception{
         this._from_db = false;
         this.GroupId = group;
@@ -154,26 +153,40 @@ public class Work extends Parant{
         this.Count = data;
     }
     
-    public TaskGroup getGroup() throws Exception{
+    @Override
+    public int getGroup(){
+        return this.Group.getId();
+    }
+    
+    public TaskGroup getGroupObj() throws Exception{
         return this.Group;
     }
+    
     
     public UUID getKey(){
         return this.WORK_KEY;
     }
     
+    @Override
     public int getUser(){
         return this.UserId;
     }
     
-    public Date getTime(){
+    @Override
+    public long getTime(){
+        return this.Time.getTime();
+    }
+    
+    public Date getTimeObj(){
         return this.Time;
     }
     
-    public int getLiveTime(){
+    @Override
+    public long getLiveTime(){
         return this.LiveTime;
     }
     
+    @Override
     public int getCount(){
         return this.Count;
     }
@@ -208,6 +221,27 @@ public class Work extends Parant{
             time+=list.get(i).getTime()*60+60;
         }
         return time;
+    }
+
+    @Override
+    public String getWorkKey() {
+        return this.WORK_KEY.toString();
+    }
+
+    @Override
+    public void setWorkKey(String data) {
+        this.WORK_KEY = UUID.fromString(data);
+    }
+
+    @Override
+    public void setTime(long data) {
+        this.Time = new Date(data);
+    }
+
+    @Override
+    public void setLiveTime(long data) {
+        
+        this.LiveTime=data;
     }
     
 }

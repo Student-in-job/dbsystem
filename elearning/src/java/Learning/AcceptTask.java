@@ -6,6 +6,7 @@
 package Learning;
 
 import DataBasePak.DataBase;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
  *
  * @author ksinn
  */
-public class AcceptTask  extends Parent{
+public class AcceptTask  extends Parent implements API.Work{
     
     private Date StartTime;
     private User_courses UserHasCourse;
@@ -50,6 +51,19 @@ public class AcceptTask  extends Parent{
         
     }
     
+    public AcceptTask(UUID key) throws Exception{
+        WORK_KEY = key;
+        DataBase db = new DataBase(this);
+        ResultSet rs = db.FindWork();
+        rs.next();
+        this.ID=rs.getInt("accept_task_id");
+        this.StartTime=rs.getDate("accept_task_date");
+        this.UserHasCourse = new User_courses(rs.getInt("user_has_course"));
+        this.Task= new Task(rs.getInt("task"));
+        this.Ball=rs.getInt("accept_task_ball");
+        
+    }        
+    
     public User_courses getUserHasCourse(){
         return this.UserHasCourse;
     }
@@ -65,14 +79,70 @@ public class AcceptTask  extends Parent{
     public Task getTask(){
         return Task;
     }
-    
-    public String getKey(){
-        return WORK_KEY.toString();
-    }
 
     @Override
     public boolean MayChange() {
         return false;
+    }
+
+    @Override
+    public String getWorkKey() {
+        return WORK_KEY.toString();
+    }
+
+    @Override
+    public int getUser() {
+        return UserHasCourse.getUser_id();
+    }
+
+    @Override
+    public long getTime() {
+        return StartTime.getTime();
+    }
+
+    @Override
+    public int getGroup() {
+        return Task.Group;
+    }
+
+    @Override
+    public int getCount() {
+        return Task.Count;
+    }
+
+    @Override
+    public long getLiveTime() {
+        return Task.Time-StartTime.getTime();
+    }
+
+    @Override
+    public void setWorkKey(String data) {
+        WORK_KEY=UUID.fromString(data);
+    }
+
+    @Override
+    public void setUser(int data) {
+        
+    }
+
+    @Override
+    public void setTime(long data) {
+        
+    }
+
+    @Override
+    public void setGroup(int data) {
+        
+    }
+
+    @Override
+    public void setCount(int data) {
+        
+    }
+
+    @Override
+    public void setLiveTime(long data) {
+        
     }
     
 }

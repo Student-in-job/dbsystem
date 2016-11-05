@@ -11,6 +11,7 @@ package API;
  * @author ksinn
  */
 public class AppInf {
-    public static String Name =  "elearning.uz";
+    public static String main =  "http://localhost:8084/elearningzz";
+    public static String task =  "http://localhost:8084/task-modul";
     public static String HMACSHA256Key =  "elearning-main_12345";
 }

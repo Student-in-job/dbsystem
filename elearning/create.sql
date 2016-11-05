@@ -22,6 +22,12 @@ create table if not exists user (
   unique (user_mail)
 );
 
+create table if not exists auth(
+  user varchar(256) not null,
+  addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  mods varchar(1) not null  
+);
+
 create table if not exists area (
   area_id int(11) not null auto_increment,
   area_name varchar(20) not null,

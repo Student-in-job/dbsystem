@@ -225,6 +225,11 @@ public class User extends Parent{
         this.mail = mail;
         this.password = password;
     }
+    
+    public User(String mail){
+        Logined = false;
+        this.mail = mail;
+    }
 
     public User_courses getHasCours(Course course) throws Exception{
       
@@ -414,6 +419,39 @@ public class User extends Parent{
                     return true;
                 }
                 else return false;
+    }
+    
+    public boolean AuthorizeGoogle(){
+        
+        try{    
+        DataBase db = new DataBase(this);
+                ResultSet rs = db.FindUser(); 
+                rs.next();
+                            Logined = true;
+                            this.ID =  rs.getInt("user_id");
+                            this.Name = rs.getString("user_name");
+                            this.Surname = rs.getString("user_surname");
+                            this.Gender = rs.getString("gender");
+                            Birthday = rs.getDate("birthday");
+                            this.DateRegestration = rs.getDate("addDate");
+                            
+                            db.write_auth("i");
+                            
+                            float i = 0;
+                            try{
+                                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+                                ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
+                                stmt.setInt(1, this.ID);
+                                rs = stmt.executeQuery();
+                                if(rs.next()){
+                                        i = (rs.getFloat("r"));
+                                }
+                            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
+                            this.Rating = i; 
+                            return true;
+        } catch (Exception ex){
+            return false;
+        }
     }
     
     public String getMail() {

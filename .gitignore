@@ -4,3 +4,6 @@ elearning/dist
 task-modul/build
 task-modul/nbproject
 task-modul/disttask
+API/nbproject
+API/build
+API/dist

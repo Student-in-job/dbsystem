@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author ksinn
  */
-public class AuthToken extends SimpleWebToken{
+public class AuthToken extends SWT{
     
     private int id;
 

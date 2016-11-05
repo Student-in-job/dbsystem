@@ -65,6 +65,14 @@
         <servlet-name>NextTask</servlet-name>
         <servlet-class>NextTask</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>auth</servlet-name>
+        <servlet-class>auth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>work_data</servlet-name>
+        <servlet-class>api.work_data</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -88,6 +96,14 @@
     <servlet-mapping>
         <servlet-name>NextTask</servlet-name>
         <url-pattern>/Pass/NextTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auth</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>work_data</servlet-name>
+        <url-pattern>/api/work_data</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

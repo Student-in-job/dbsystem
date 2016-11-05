@@ -132,6 +132,7 @@ public class DataBase {
             }
             
             
+            
                         
             default: {
                 
@@ -721,7 +722,7 @@ public class DataBase {
         
             stmt.setInt(1, accept.getUserHasCourse().getID());
             stmt.setInt(2, accept.getTaskID());
-            stmt.setString(3, accept.getKey());
+            stmt.setString(3, accept.getWorkKey());
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) OnsID = rs.getInt(1);
@@ -738,6 +739,37 @@ public class DataBase {
             stmt.setInt(2, accept.getID());
             Done = stmt.executeUpdate() == 1;
     }
+
+    public void write_auth(String m) throws SQLException {
+    
+        User user = (User) Ons;
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into auth (user, mods)  values (?, ?);");
+            stmt.setString(1, user.getMail());
+            stmt.setString(2, m);
+            stmt.executeUpdate();
+            Done = true;
+        
+    }
+
+    public ResultSet FindWork() throws Exception {
+        if(!"accept_task".equals(Type)){
+            throw new IllegalAction();
+        }
+        
+            PreparedStatement stmt = Connection.prepareStatement
+        ("select * from accept_task where accept_task_key = ? and accept_task_deleted=0;");
+            stmt.setString(1, ((AcceptTask) Ons).getWorkKey());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                Done=true;
+                return rs;
+            }
+            else throw new ObjectNotFind();
+    }
+    
+
 
  
 }

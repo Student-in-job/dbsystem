@@ -7,7 +7,19 @@
 <%@page import="DataBasePak.Log"%>
 <%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
+String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
+String redirect_uri = request.getServletContext().getContextPath()+"/auth";
+String response_type = "code";
+String scope = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
+String auth_url = "https://accounts.google.com/o/oauth2/auth?" 
+        + "client_id=" + client_id 
+        + "&redirect_uri=" +  redirect_uri
+        + "&response_type=" + response_type
+        + "&scope=" + scope;
+%>
 <div class="row around">
 		<div class="col col-3">
 			<div id="sidenav" class="sidenav">
@@ -83,7 +95,8 @@ if(user!=null){%>
 	        <span class="close"></span>
 	        <div class="modal-header">Sign in</div>
 	        <div class="modal-body">
-				<form method="post" action="<%=request.getServletContext().getContextPath()%>/login.jsp" class="form">
+                    <a href="<%=auth_url%>">Sign in whith Google</a>
+				<%--<form method="post" action="<%=request.getServletContext().getContextPath()%>/login.jsp" class="form">
 				    <div class="form-item">
 				        <label>Email <span class="req">*</span></label>
 				        
@@ -105,7 +118,7 @@ if(user!=null){%>
 				    <hr>
                                     <p class="text-center">Don`t have an account yet? <a href="<%=request.getServletContext().getContextPath()%>/Registration.jsp">Sign Up</a></p>    
                                     <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
-				</form>
+				</form>--%>
 	        </div> 
             </div>
 	</div>

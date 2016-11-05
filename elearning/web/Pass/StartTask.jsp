@@ -4,6 +4,8 @@
     Author     : javlonboy
 --%>
 
+<%@page import="API.AppInf"%>
+<%@page import="API.WorkSWT"%>
 <%@page import="Learning.AcceptTask"%>
 <%@page import="Learning.Task"%>
 <%@page import="java.util.Map.Entry"%>
@@ -76,8 +78,16 @@
 </html>
 <% return;     }
         AcceptTask accept;
+        WorkSWT wt;
         try{
             accept = new AcceptTask(uhc, task);
+            wt = new WorkSWT();
+            wt.setID(user.getID());
+            wt.setIssuer(AppInf.main);
+            wt.setKey(accept.getWorkKey());
+            wt.setExpiresOn(new Date().getTime() + 5*60*1000);
+            wt.setAudience(AppInf.task+"/pass/Start");
+            
         }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
 %>
 <!DOCTYPE html>
@@ -104,7 +114,7 @@
             <div class="col col-3 text-center">
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
-                    <p><a href="<%=request.getServletContext().getInitParameter("Task-modul")%>/pass/Start?work_key=<%=accept.getKey()%>">Go to link for start</a></p>
+                    <p><a href="<%=request.getServletContext().getInitParameter("Task-modul")%>/pass/Start?<%=wt.getURLParam()%>">Go to link for start</a></p>
                 </div>
             </div>
         </div>
