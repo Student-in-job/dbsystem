@@ -18,9 +18,9 @@ public class WorkJWT extends JWT{
     JSONObject Data;
     
 
-    public JSONObject getJson(Work work) throws JSONException{
+    public String getJson(Work work, String iss) throws JSONException{
         this.putDataJSON(work);
-        return this.getJSON();
+        return this.getJSON(iss);
     }
     
     public boolean getData(String text, Work work) throws JSONException{
@@ -45,7 +45,7 @@ public class WorkJWT extends JWT{
         
     }
 
-    protected void getData(Work work) throws JSONException {
+    protected void getData(Work work) throws JSONException, Exception {
         work.setCount(Data.getInt("count"));
         work.setUser(Data.getInt("user_id"));
         work.setTime(Data.getInt("time"));
