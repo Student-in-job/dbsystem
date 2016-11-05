@@ -35,10 +35,10 @@ public class auth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            
-           /* String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
+            /*User user = null;
+            String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
-            String redirect_uri = "http://localhost:8080/auth";
+            String redirect_uri = "http://localhost:8084/elearningzz/auth";
             String grant_type = "authorization_code";
             String code = request.getParameter("code");
             
@@ -58,7 +58,7 @@ public class auth extends HttpServlet {
                 JSONObject user_data = client1.getRequestJSON();
                 String mail = user_data.getString("mail");
                 mail="ksinnD@gmail.com";
-                User user = new User(mail);
+                user = new User(mail);
                 if(user.AuthorizeGoogle())
                     request.getSession().setAttribute("user", user);
             } catch (JSONException ex) {
