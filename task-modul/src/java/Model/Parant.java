@@ -108,6 +108,11 @@ public abstract class Parant extends DBConnect{
                     i++;
                     continue;
                 }
+                if(param.getValue() instanceof Long){
+                    stmt.setLong(i, ((Long) param.getValue()));
+                    i++;
+                    continue;
+                }
             }
 
             int result = stmt.executeUpdate();
@@ -286,8 +291,8 @@ public abstract class Parant extends DBConnect{
         else{
             query+=" WHERE ";
             for(Map.Entry<String, Object> param : params)
-                query+=" "+param.getKey()+" = ?,";
-            query = query.substring(0, query.length()-1);
+                query+=" "+param.getKey()+" = ? and";
+            query = query.substring(0, query.length()-3);
         }
         query+=";";
         
