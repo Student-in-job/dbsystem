@@ -238,6 +238,23 @@ public class DataBase {
             else throw new ObjectNotFind();
         
     }
+    
+    public ResultSet FindAliveAccept(Task task, User_courses uhc) throws Exception {
+        
+        
+        
+            PreparedStatement stmt = Connection.prepareStatement("select * from accept_task where user_has_course = ? and task = ? and Date(addDate)=Date(now()) and accept_task_deleted=0;");
+            stmt.setInt(1, uhc.getID());
+            stmt.setInt(2, task.getID());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                Done=true;
+                return rs;
+            }
+            else throw new ObjectNotFind();
+        
+    }
 
     public ResultSet Find() throws Exception{
         

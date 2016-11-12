@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 import javax.mail.MessagingException;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -51,6 +52,32 @@ public class User extends Parent{
         return true;
     }
      
+    public AcceptTask getAliveAcceptTask(Task task) throws Exception{
+        Course cours; 
+        User_courses uhc;
+        AcceptTask accept = null;
+
+            cours = this.getActiveCourse(task.getProgramID());
+            if(cours==null) 
+                return null;
+            uhc = this.getHasCours(cours); 
+        
+        DataBase db = new DataBase(this);
+        try{
+            ResultSet rs = db.FindAliveAccept(task, uhc);
+            rs.next();
+            accept = new AcceptTask(UUID.fromString(rs.getString("accept_task_key")));
+        } catch(ObjectNotFind ex){
+            if(task.canStart()){
+                accept = new AcceptTask(uhc, task);
+            }
+        }
+        
+        return accept;
+            
+        
+    }
+    
     public User(int id) throws Exception{
         
         this.ID=id;    

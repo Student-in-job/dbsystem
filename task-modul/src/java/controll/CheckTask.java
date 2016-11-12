@@ -20,7 +20,7 @@ public class CheckTask extends HttpServlet {
                 return;
             } else {
                 
-                if(accept.getLeftTime()<0){
+                if(accept.getLeftTime()>0){
                     accept.Write();
                     response.sendRedirect("NextTask");
                     return;

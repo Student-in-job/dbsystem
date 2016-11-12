@@ -56,7 +56,7 @@ public class Course extends Parent {
                     this.Public = rs.getInt("course_public")==1;
                     this.Program = new Program(rs.getInt("program"));
 
-        this.Schedule = new Schedule(this);
+        //this.Schedule = new Schedule(this);
     }
     
     public Course(Date date, Program program){

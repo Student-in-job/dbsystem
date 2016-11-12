@@ -57,7 +57,7 @@ public class AcceptTask  extends Parent implements API.Work{
         ResultSet rs = db.FindWork();
         rs.next();
         this.ID=rs.getInt("accept_task_id");
-        this.StartTime=rs.getDate("accept_task_date");
+        this.StartTime=new Date(rs.getTimestamp("accept_task_date").getTime());
         this.UserHasCourse = new User_courses(rs.getInt("user_has_course"));
         this.Task= new Task(rs.getInt("task"));
         this.Ball=rs.getInt("accept_task_ball");
@@ -112,7 +112,7 @@ public class AcceptTask  extends Parent implements API.Work{
 
     @Override
     public long getLiveTime() {
-        return Task.Time-StartTime.getTime();
+        return Task.Time*60*1000;
     }
 
     @Override
