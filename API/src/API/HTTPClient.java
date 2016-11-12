@@ -41,8 +41,8 @@ public class HTTPClient {
               connection.setRequestProperty("Content-Type", 
                    "application/x-www-form-urlencoded");
 
-              connection.setRequestProperty("Content-Length", "" + 
-                       Integer.toString(Param.getBytes().length));
+              if(this.Param!=null)
+                  connection.setRequestProperty("Content-Length", "" + Integer.toString(Param.getBytes().length));
               connection.setRequestProperty("Content-Language", "en-US");  
 
               connection.setUseCaches (false);
@@ -50,11 +50,13 @@ public class HTTPClient {
               connection.setDoOutput(true);
 
               //Send request
-              DataOutputStream wr = new DataOutputStream (
-                          connection.getOutputStream ());
-              wr.writeBytes (Param);
-              wr.flush ();
-              wr.close ();
+              if(this.Param!=null){
+                DataOutputStream wr = new DataOutputStream (
+                            connection.getOutputStream ());
+                wr.writeBytes (Param);
+                wr.flush ();
+                wr.close ();
+              }
 
               //Get Response	
               InputStream is = connection.getInputStream();

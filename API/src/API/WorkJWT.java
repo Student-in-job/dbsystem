@@ -23,9 +23,9 @@ public class WorkJWT extends JWT{
         return this.getJSON(iss);
     }
     
-    public boolean getData(String text, Work work, String iss) throws JSONException{
+    public boolean getData(String text, Work work, String iss) throws JSONException, Exception{
         if(this.setText(text, iss)){
-            this.putDataJSON(work);
+            this.getData(work);
             return true;
         } else {
             return false;
@@ -34,12 +34,12 @@ public class WorkJWT extends JWT{
     
     protected void putDataJSON(Work work) throws JSONException{
         JSONObject json = new JSONObject();
-        json.append("user_id", work.getUser());
-        json.append("time", work.getTime());
-        json.append("group", work.getGroup());
-        json.append("count", work.getCount());
-        json.append("livetime", work.getLiveTime());
-        json.append("work_key", work.getWorkKey());
+        json.put("user_id", work.getUser());
+        json.put("time", work.getTime());
+        json.put("group", work.getGroup());
+        json.put("count", work.getCount());
+        json.put("livetime", work.getLiveTime());
+        json.put("work_key", work.getWorkKey());
         
         Data = json;
         
@@ -48,7 +48,7 @@ public class WorkJWT extends JWT{
     protected void getData(Work work) throws JSONException, Exception {
         work.setCount(Data.getInt("count"));
         work.setUser(Data.getInt("user_id"));
-        work.setTime(Data.getInt("time"));
+        work.setTime(Data.getLong("time"));
         work.setGroup(Data.getInt("group"));
         work.setLiveTime(Data.getInt("livetime"));
         work.setWorkKey(Data.getString("work_key"));

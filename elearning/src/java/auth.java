@@ -53,11 +53,10 @@ public class auth extends HttpServlet {
             client.sendRequest();
             try {
                 JSONObject requestJSON = client.getRequestJSON();
-                HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo", "access_token="+requestJSON.getString("access_token"), "GET");
-                client.sendRequest();
+                HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
+                client1.sendRequest();
                 JSONObject user_data = client1.getRequestJSON();
-                String mail = user_data.getString("mail");
-                mail="ksinnD@gmail.com";
+                String mail = user_data.getString("email");
                 user = new User(mail);
                 if(user.AuthorizeGoogle())
                     request.getSession().setAttribute("user", user);
@@ -65,10 +64,10 @@ public class auth extends HttpServlet {
                 Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
             }*/
             
-            String mail="ksinn1@mail.ru";
+            String mail="ksinnD@gmail.com";
                 User user = new User(mail);
                 if(user.AuthorizeGoogle())
-                    request.getSession().setAttribute("user", user);    
+                    request.getSession().setAttribute("user", user);   
             response.sendRedirect("/elearningzz");
         
         

@@ -10,6 +10,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
  *
  * @author ksinn
@@ -23,13 +24,13 @@ abstract public class JWT {
     protected String getJSON(String iss) throws JSONException{
         String res;
         JSONObject json1 = new JSONObject();
-        json1.append("alg", "HS256");
-        json1.append("typ", "JWT");
+        json1.put("alg", "HS256");
+        json1.put("typ", "JWT");
         res = json1.toString() + ".";
         JSONObject json2 = this.getDataJSON();
-        json2.append("iss", iss);
+        json2.put("iss", iss);
         res += json2.toString() + ".";
-        res += HmacUtils.hmacSha256Hex(AppInf.HMACSHA256Key, json2.toString());
+        res += HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, json2.toString());
         
         return res;
     }
@@ -41,11 +42,11 @@ abstract public class JWT {
         int i2=text.indexOf("}.", i1+3);
         p1 = text.substring(0, i1+1);
         p2 = text.substring(i1+2, i2+1);
-        p3 = text.substring(i2+2);
+        p3 = text.substring(i2+2, text.length()-1);
         
         JSONObject json1 = new JSONObject(p1);
-        JSONObject json2 = new JSONObject(p2);;
-        if(HmacUtils.hmacSha256Hex(AppInf.HMACSHA256Key, json2.toString()).equals(p3)){
+        JSONObject json2 = new JSONObject(p2);
+        if(HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, json2.toString()).equals(p3)){
             if(iss.equals(json2.getString("iss"))){
                 this.setDataJSON(json2);
                 return true; 

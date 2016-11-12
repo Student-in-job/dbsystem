@@ -101,7 +101,7 @@ int program_id = 0;
 
 <%}%> 
 <%if(c){%>                            
-                            <a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round error">START</button></a>
+                            <%--<a href="<%=request.getServletContext().getContextPath()%>/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round error">START</button></a>--%>
 <%}%> 
                         </p>
                     </div>

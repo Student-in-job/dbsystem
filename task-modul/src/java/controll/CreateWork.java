@@ -7,7 +7,6 @@ import API.WorkJWT;
 import API.WorkSWT;
 import Model.Work;
 import java.io.IOException;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,37 +23,41 @@ public class CreateWork extends HttpServlet {
         
         Work work = new Work();
         WorkSWT wt = new WorkSWT();
-        wt.setID(Integer.parseInt(request.getParameter("id")));
-        wt.setKey(request.getParameter("work_key"));
-        wt.setAudience(request.getParameter("Audience"));
-        wt.setExpiresOn(Integer.parseInt(request.getParameter("ExpiresOn")));
-        wt.setIssuer(request.getParameter("Issuer"));
-        wt.setSign(request.getParameter("HMACSHA256"));
-        if(wt.CheckSign()){
-            request.getSession().setAttribute("user_id", Integer.parseInt(request.getParameter("id")));
-            int user_id = Integer.parseInt(request.getParameter("id"));
+        if(wt.getDataFromRequest(request.getParameterMap(), work)){
+            int user_id = work.getUser();
+            request.getSession().setAttribute("user_id", user_id);
             try {
-                String WORK_KEY = request.getParameter("work_key");
-                HTTPClient client = new HTTPClient(request.getParameter("Issuer")+"/api/work_data", "work_key="+request.getParameter("work_key"), "GET");
-                client.sendRequest();
                 
-                WorkJWT tok = new WorkJWT();
-                tok.getData(client.getRequestText(), work, AppInf.main);
-                
-                if(UUID.fromString(WORK_KEY).equals(work.getKey())){
-                    if(work.Write()){
-                        request.getSession().setAttribute("work_id", work.getId());
-                        response.sendRedirect("NextTask");
+                if(work.isExistKey()){
+                    request.getSession().setAttribute("work_id", work.getId());
+                    response.sendRedirect("NextTask");
+                } else {
+                    String WORK_KEY = request.getParameter("work_key");
+                    HTTPClient client = new HTTPClient(request.getParameter("Issuer")+"/api/work_data", "work_key="+request.getParameter("work_key"), "POST");
+                    client.sendRequest();
+
+                    WorkJWT tok = new WorkJWT();
+                    if(tok.getData(client.getRequestText(), work, AppInf.main)){
+
+                        if(user_id == work.getUser()){
+                            if(work.Write()){
+                                request.getSession().setAttribute("work_id", work.getId());
+                                response.sendRedirect("NextTask");
+                            } else {
+                                throw new Exception();
+                            }
+                        }
                     } else {
-                        throw new Exception();
+                        throw new ServletException("You are not owner this work");
                     }
                 }
+                
             } catch (Exception ex) {
                 throw new ServletException(ex);
             }
         
         } else {
-            throw new ServletException();
+            throw new ServletException("Uncorect link");
         }
         //request.setAttribute("WORK_KEY", request.getParameter("work_key"));
         //request.getRequestDispatcher("StartWork.jsp").forward(request, response);

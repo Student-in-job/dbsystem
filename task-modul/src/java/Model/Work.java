@@ -36,7 +36,7 @@ public class Work extends Parant implements API.Work{
         this.GroupId = (int) list.get("group_id");
         this.Count = (int) list.get("count");
         this.WORK_KEY = UUID.fromString((String) list.get("WORK_KEY"));
-        this.LiveTime = (int) list.get("live_time");
+        this.LiveTime = (long) list.get("live_time");
         this.Accepts = new ArrayList<Accept>();
     }
 
@@ -75,6 +75,20 @@ public class Work extends Parant implements API.Work{
     public boolean Write() throws Exception{
         return this._insert();
     }  
+    
+    public boolean isExistKey() throws Exception{
+        HashMap<String, Object> param = new HashMap<String, Object>();
+                param.put("WORK_KEY", this.WORK_KEY.toString());
+                ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
+                if(Params.isEmpty()) {
+                    return false;
+                } else {
+                    this.getFromParam(Params.get(0));
+                    this.ReadAcceptsFromDB();
+                    this.ReadTaskGroup();
+                    return true;
+                }
+    }
     
     public Accept Next() throws Exception{
         if(this.Accepts.size() == this.Count) return null;

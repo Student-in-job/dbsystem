@@ -16,7 +16,6 @@
     ArrayList<Course> learned_cours = user.getLearnedCourses();
     ArrayList<Program> activ_program = user.getActivePrograms();
     ArrayList<Program> created_program = user.getCreatedPrograms();
-    UserSchedule ush = user.getMySchedule();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +64,7 @@
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Published courses</a>
                     <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
-                    <a href="#schedule" class="tablink a-blue" onclick="openTab(event, 'schedule')">Schedule</a>
+<%--                    <a href="#schedule" class="tablink a-blue" onclick="openTab(event, 'schedule')">Schedule</a> --%>
                     <a href="#create" class="tablink" onclick="openTab(event, 'create')">Create course</a>
                 </div>
                 <div class="col col-8 border">
@@ -111,7 +110,7 @@
 <%}%>                                               
                             </div>
                         
-                        <div id="schedule" class="courses">
+<%--                        <div id="schedule" class="courses">
                             <h3>Schedule</h3>
                             <table class="striped bordered">   
                                 <tbody>
@@ -167,7 +166,7 @@ for(int j=0; j<7; j++){
 %>
                                 </tbody>
                             </table>
-                        </div>
+                        </div>--%>
                     
                         <div id="create" class="courses">
                             For creating course you need do next steps

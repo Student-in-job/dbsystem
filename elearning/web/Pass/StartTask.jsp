@@ -15,85 +15,68 @@
 <%@page import="Learning.Test"%>
 <%@page import="Learning.Course"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
+
 <%@include file="/avtorize.jsp"%>
 <%  
     int tst;
     Task task;
-        try{
             tst = Integer.parseInt(request.getParameter("task"));
             task = new Task(tst);
-        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-
+        
     if(request.getMethod().equals("POST")){
         
         if(user==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+        AcceptTask accept = user.getAliveAcceptTask(task); 
+        if(accept!=null) {
+            WorkSWT wt = new WorkSWT();
+            wt.putData(accept, AppInf.main, AppInf.task+"/pass/Start", new Date().getTime() + 5*60*1000);
+                
+
             
-        Course cours; 
-        User_courses uhc;
-        try{
-            cours = user.getActiveCourse(task.getProgramID());
-            if(cours==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+task.getProgramID()); return;}
-            uhc = user.getHasCours(cours); 
-        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-
-        
-       Date dt = uhc.getCourse().getSchadule().getDateOf(task);
-        if(dt.before(new Date())){%>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Error</title>
-        <meta charset="utf-8">
-        <link href="<%=request.getServletContext().getContextPath()%>/img/favicon.png" rel="shortcut icon" type="image/x-icon">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <!-- Kube CSS -->
-        <link rel="stylesheet" href="css/kube.min.css">
-
-        <link rel="stylesheet" href="css/kube-ext.css">
-        <link rel="stylesheet" href="css/master.css">
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
-    </head>
-    <body>
-        <%@include file="/header.jsp" %>
-        <div class="row centered bg-blue">
-            <div class="col col-3 text-center">
-                <img src="img/ghost.png" alt="error">
-                <div class="p-error">
-                    <h3>WHOOPS!</h3>
-                    <p>You can not start this task!</p>
-                    <p>Time for this task laft!</p>
-                </div>
-            </div>
-        </div>
-        <%@include file="/footer.jsp" %>
-    </body>
-</html>
-<% return;     }
-        AcceptTask accept;
-        WorkSWT wt;
-        try{
-            accept = new AcceptTask(uhc, task);
-            wt = new WorkSWT();
-            wt.setID(user.getID());
-            wt.setIssuer(AppInf.main);
-            wt.setKey(accept.getWorkKey());
-            wt.setExpiresOn(new Date().getTime() + 5*60*1000);
-            wt.setAudience(AppInf.task+"/pass/Start");
-            
-        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Rederect</title>
+        <meta charset="utf-8">
+        <link href="<%=request.getServletContext().getContextPath()%>/img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
+        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
+        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
+    </head>
+    <script> 
+        
+     window.location.href = "<%=AppInf.task%>/pass/Start?<%=wt.getURLParam()%>";   
+    
+    </script>
+    <body>
+<%--        <%@include file="/header.jsp" %>
+        <div class="row centered bg-blue">
+            <div class="col col-3 text-center">
+                <div class="p-error">
+                    <p><a href="<%=AppInf.task%>/pass/Start?<%=wt.getURLParam()%>">Go to link for start</a></p>
+                </div>
+            </div>
+        </div>
+        <%@include file="/footer.jsp" %>--%>
+    </body>     
+</html>
+<%
+     } else {
+%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Error</title>
         <meta charset="utf-8">
         <link href="<%=request.getServletContext().getContextPath()%>/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,7 +97,7 @@
             <div class="col col-3 text-center">
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
-                    <p><a href="<%=request.getServletContext().getInitParameter("Task-modul")%>/pass/Start?<%=wt.getURLParam()%>">Go to link for start</a></p>
+                    <p>You cant start</p>
                 </div>
             </div>
         </div>
@@ -122,12 +105,11 @@
     </body>
 </html>
 <%
-                    
+        }               
     }
 
     if(request.getMethod().equals("GET")){
 %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>

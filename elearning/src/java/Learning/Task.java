@@ -70,6 +70,10 @@ public class Task extends Component {
                     this.Group = rs.getInt("task_group");
                     this.Count = rs.getInt("task_count");
   }
+    
+    public boolean canStart(){
+        return true;
+    }
    
     
     @Override

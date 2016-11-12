@@ -45,7 +45,16 @@ public class work_data extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        try {
+            UUID key = UUID.fromString(request.getParameter("work_key"));
+            AcceptTask accept = new AcceptTask(key);
+            WorkJWT wt = new WorkJWT();
+            String res = wt.getJson(accept, AppInf.main);
+            PrintWriter out = response.getWriter();
+            out.write(res);
+        } catch (Exception ex) {
+            throw new ServletException(ex);
+        }
     }
 
 

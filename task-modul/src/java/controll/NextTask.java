@@ -26,6 +26,7 @@ public class NextTask extends HttpServlet {
             if(work_id==null){
                 HashMap<String, Object> param = new HashMap<String, Object>();
                 param.put("user_id", user_id);
+                param.put("Date(times)", "Date(now())");
                 ArrayList<HashMap<String, Object>> Params = work.getObjectsParam(param);
                 for(int i=Params.size()-1; i>=0; i--){
                     work = new Work();
@@ -52,7 +53,6 @@ public class NextTask extends HttpServlet {
             request.getRequestDispatcher("DoTask.jsp").forward(request, response);
             } else {
                 response.sendRedirect("Start");
-                return;
             }
         } catch(Exception ex){
             throw new ServletException(ex);
