@@ -257,5 +257,20 @@ public class Work extends Parant implements API.Work{
         
         this.LiveTime=data;
     }
+
+    @Override
+    public int getResult() {
+        int max=0, res=0;
+        for(int i=0; i<this.Accepts.size(); i++){
+            res+=Accepts.get(i).Result;
+            max+=Accepts.get(i).Task.Ball;
+        }
+        return res;
+    }
+
+    @Override
+    public void setResult(int data) {
+    
+    }
     
 }

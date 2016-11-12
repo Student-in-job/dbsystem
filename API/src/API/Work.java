@@ -17,6 +17,7 @@ public interface Work extends Parent{
     public int getGroup();
     public int getCount();
     public long getLiveTime();
+    public int getResult();
     
     public void setWorkKey(String data);
     public void setUser(int data);
@@ -24,4 +25,5 @@ public interface Work extends Parent{
     public void setGroup(int data) throws Exception;
     public void setCount(int data);
     public void setLiveTime(long data);
+    public void setResult(int data);
 }

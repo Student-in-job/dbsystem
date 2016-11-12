@@ -21,6 +21,10 @@ public class AcceptTask  extends Parent implements API.Work{
     private Task Task;
     private int Ball;
     private UUID WORK_KEY;
+
+    public AcceptTask() {
+        
+    }
     
     @Override
     public int getID(){
@@ -51,8 +55,7 @@ public class AcceptTask  extends Parent implements API.Work{
         
     }
     
-    public AcceptTask(UUID key) throws Exception{
-        WORK_KEY = key;
+    public void getByKey() throws Exception{
         DataBase db = new DataBase(this);
         ResultSet rs = db.FindWork();
         rs.next();
@@ -143,6 +146,22 @@ public class AcceptTask  extends Parent implements API.Work{
     @Override
     public void setLiveTime(long data) {
         
+    }
+
+    @Override
+    public int getResult() {
+       return this.Ball;
+    }
+
+    @Override
+    public void setResult(int data) {
+        this.Ball = data;
+    }
+
+    public void putMark(int parseInt) throws Exception {
+        this.Ball = parseInt;
+        DataBase db = new DataBase(this);
+        db.ReWrite();
     }
     
 }

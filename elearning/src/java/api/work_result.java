@@ -5,8 +5,12 @@
  */
 package api;
 
+import API.MarkSWT;
+import Learning.AcceptTask;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +44,20 @@ public class work_result extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        AcceptTask accept = new AcceptTask();
+        MarkSWT wt = new MarkSWT();
+        if(wt.getDataFromRequest(request.getParameterMap(), accept)){
+            try {
+                accept.getByKey();
+                accept.putMark(Integer.parseInt(request.getParameter("result")));        
+                        
+            } catch (Exception ex) {
+                Logger.getLogger(work_result.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        response.getWriter().println("1");
     }
 
 

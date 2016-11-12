@@ -66,7 +66,9 @@ public class User extends Parent{
         try{
             ResultSet rs = db.FindAliveAccept(task, uhc);
             rs.next();
-            accept = new AcceptTask(UUID.fromString(rs.getString("accept_task_key")));
+            accept = new AcceptTask();
+            accept.setWorkKey(rs.getString("accept_task_key"));
+            accept.getByKey();
         } catch(ObjectNotFind ex){
             if(task.canStart()){
                 accept = new AcceptTask(uhc, task);

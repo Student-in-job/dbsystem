@@ -10,7 +10,6 @@ import API.WorkJWT;
 import Learning.AcceptTask;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +27,10 @@ public class work_data extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            UUID key = UUID.fromString(request.getParameter("work_key"));
-            AcceptTask accept = new AcceptTask(key);
+            AcceptTask accept = new AcceptTask();
+            accept = new AcceptTask();
+            accept.setWorkKey(request.getParameter("work_key"));
+            accept.getByKey();
             WorkJWT wt = new WorkJWT();
             String res = wt.getJson(accept, AppInf.main);
             PrintWriter out = response.getWriter();
@@ -46,8 +47,10 @@ public class work_data extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            UUID key = UUID.fromString(request.getParameter("work_key"));
-            AcceptTask accept = new AcceptTask(key);
+            AcceptTask accept = new AcceptTask();
+            accept = new AcceptTask();
+            accept.setWorkKey(request.getParameter("work_key"));
+            accept.getByKey();
             WorkJWT wt = new WorkJWT();
             String res = wt.getJson(accept, AppInf.main);
             PrintWriter out = response.getWriter();
