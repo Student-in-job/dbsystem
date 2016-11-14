@@ -20,21 +20,20 @@ public class CheckTask extends HttpServlet {
                 return;
             } else {
                 
-                if(accept.getLeftTime()>0){
-                    accept.Write();
+                if(accept.getLeftTime()<0){
                     response.sendRedirect("NextTask");
                     return;
                 } else {
                     if(accept.putAnswer(answer)){
                         if(accept.getResult()==1){
-                            accept.Write();
+                            accept.Update();
                             response.sendRedirect("NextTask");
                             return;
                         } else {
                             request.setAttribute("rs", accept.getResultArray());
                         }
                     } else {
-                        request.setAttribute("error", accept.getException().getMessage());
+                        request.setAttribute("error", "Error query!");
                     }
                     request.setAttribute("answer", answer);
                     request.setAttribute("task", accept.getTask());

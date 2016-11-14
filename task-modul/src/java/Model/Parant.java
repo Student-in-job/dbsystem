@@ -150,7 +150,7 @@ public abstract class Parant extends DBConnect{
                     continue;
                 }
                 if(param.getValue() instanceof Date){
-                    stmt.setDate(i, (java.sql.Date) (Date) param.getValue());
+                    stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
                     i++;
                     continue;
                 }

@@ -20,7 +20,7 @@ public class Accept extends Parant{
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("work_id", this.Work.getId());
+        list.put("work_id", this.WorkId);
         list.put("result", this.Result);
         list.put("task_id", this.Task.getId());
         list.put("times", this.Time);
@@ -71,6 +71,10 @@ public class Accept extends Parant{
     
     public boolean Write() throws Exception{
         return this._insert();
+    }
+    
+    public boolean Update() throws Exception{
+        return this._update();
     }
     
     public boolean putAnswer(String answer) throws Exception{

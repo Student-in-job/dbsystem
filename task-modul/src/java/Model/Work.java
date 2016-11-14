@@ -91,9 +91,11 @@ public class Work extends Parant implements API.Work{
     }
     
     public Accept Next() throws Exception{
-        if(this.Accepts.size() == this.Count) return null;
+        if(this.Accepts.size() == this.Count) 
+            return null;
         if(!this.Accepts.isEmpty()){
-            if(this.Accepts.get(this.Accepts.size()-1).getLeftTime()>0){
+            if(this.Accepts.get(this.Accepts.size()-1).getLeftTime()>0
+                    &&this.Accepts.get(this.Accepts.size()-1).Result==0){
                 return this.Accepts.get(this.Accepts.size()-1);
             }
         }
