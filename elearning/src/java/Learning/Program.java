@@ -91,6 +91,42 @@ public class Program extends Parent{
         this.State = "created";
     }
     
+    public ArrayList<ArrayList<String>> getUserMark(){
+        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+        
+        try{
+            PreparedStatement stmt = db.getConn().prepareStatement
+            ("select \n" +
+            "(select user_surname from user where user_id=user) as 'surname', \n" +
+            "(select user_name from user where user_id=user) as 'name',\n" +
+            "(select task_name from task where task_id=task) as 'task',\n" +
+            "max(accept_task_ball) as 'right',\n" +
+            "(select task_count from task where task_id=task) as 'all'\n" +
+            "from user_has_course join accept_task on user_has_course_id=user_has_course\n" +
+            "where course in (select course_id from course where program=?)\n" +
+            "group by task, user_has_course");
+            stmt.setInt(1, this.ID);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<String> buf = new ArrayList<String>();
+                    for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+                        buf.add(rs.getMetaData().getColumnName(i));
+                    }
+                    res.add(buf);
+
+                    while(rs.next()){
+                        buf = new ArrayList<String>();
+                        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+                            buf.add(rs.getString(i));
+                        }
+                        res.add(buf);
+                    }
+                }catch(Exception ex){
+                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                }
+        
+        return res;
+    }
+    
     public ArrayList<Program> Find(String find) {
         ArrayList<Program> list = new ArrayList<Program>();
         try{

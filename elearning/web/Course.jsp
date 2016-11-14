@@ -13,9 +13,11 @@
 <%@page import="Learning.Program"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@include file="avtorize.jsp"%>
 <%
-boolean u = false, c=true;
+boolean u = false, c=true, r=false;
 
 int program_id = 0;
     Program prog;
@@ -28,7 +30,9 @@ int program_id = 0;
     catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
     
     if(user!=null) {u = !prog.isPublished()&&user.getID()==prog.getTeacherID();
-                    c = prog.isPublished()&&user.getID()!=prog.getTeacherID();}
+                    c = prog.isPublished()&&user.getID()!=prog.getTeacherID();
+                    r = prog.isPublished()&&user.getID()==prog.getTeacherID();
+                    }
     
     ArrayList<Material> materials = prog.getMaterials();
     ArrayList<Test> tests = prog.getTests();
@@ -122,6 +126,7 @@ int program_id = 0;
                         <li class="active"><a href="#tab11">MATERIAL</a></li>
                         <li><a href="#tab12">TEST</a></li>
                         <li><a href="#tab13">TASK</a></li>
+<%if(r){%>                        <li><a href="#result">RESULT</a></li><%}%>
                     </ul>
                 </nav>
 
@@ -217,6 +222,23 @@ if(u){%>
                         </div>
                     </div>
 <%}%>                        
+                </div>
+                <div id="result">
+<%if(r){
+pageContext.setAttribute("rs", prog.getUserMark());
+%>
+                    <table>
+                        <c:forEach var="row" items="${rs}">
+                         <tr>
+                             <c:forEach var="cell" items="${row}">
+                             <td>${cell}</td>
+                             </c:forEach>
+                         </tr> 
+                         </c:forEach>
+                    </table>                
+                    
+<%}%>                        
+
                 </div>
             </div>
         </div>
