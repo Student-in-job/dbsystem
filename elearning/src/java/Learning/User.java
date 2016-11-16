@@ -482,6 +482,17 @@ public class User extends Parent{
         }
     }
     
+    public boolean LogOut(){
+        
+        try{    
+        DataBase db = new DataBase(this);
+               db.write_auth("o");
+               return true;
+        } catch (Exception ex){
+            return false;
+        }
+    }
+    
     public String getMail() {
         
         return mail;
