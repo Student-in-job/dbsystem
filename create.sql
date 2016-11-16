@@ -22,6 +22,14 @@ create table if not exists user (
   unique (user_mail)
 );
 
+create table if not exists users_key (
+	secret_key varchar(256) not null,
+	user int(11),
+	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	constraint fk_key_user  foreign key (user) references user (user_id) on delete no action on update no action,
+	unique(user)	
+);
+
 create table if not exists area (
   area_id int(11) not null auto_increment,
   area_name varchar(20) not null,

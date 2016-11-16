@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import auth.*;
 /**
  *
  * @author ksinn
@@ -35,7 +35,7 @@ public class auth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            /*User user = null;
+            User user = null;
             String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
             String redirect_uri = "http://localhost:8084/elearningzz/auth";
@@ -59,15 +59,23 @@ public class auth extends HttpServlet {
                 String mail = user_data.getString("email");
                 user = new User(mail);
                 if(user.AuthorizeGoogle())
-                    request.getSession().setAttribute("user", user);
+                    request.getSession().setAttribute("1s_user", user);
+                    if(GoogleAuthenticator.getSecretKey(user.getID())!=null){
+                        response.sendRedirect("auth.jsp");
+                        return;
+                    } else {
+                        response.sendRedirect("SetUp.jsp");
+                        return;
+                    }
+                        
             } catch (JSONException ex) {
                 Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
             
-            String mail="ksinnD@gmail.com";
+            /*String mail="ksinnD@gmail.com";
                 User user = new User(mail);
                 if(user.AuthorizeGoogle())
-                    request.getSession().setAttribute("user", user);   
+                    request.getSession().setAttribute("user", user); */  
             response.sendRedirect("/elearningzz");
         
         
