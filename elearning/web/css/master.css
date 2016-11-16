@@ -54,6 +54,21 @@
 	cursor: pointer;
 	text-decoration: underline;
 }
+
+.login-favicons {
+    height: 50px;
+    border: 0;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    
+}
+
+.login-favicons:hover {
+
+    -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0%);
+}
+
 .logo {
  height: 75px;
  width: 100px;

@@ -95,7 +95,8 @@ if(user!=null){%>
 	        <span class="close"></span>
 	        <div class="modal-header">Sign in</div>
 	        <div class="modal-body">
-                    <a href="<%=auth_url%>">Sign in whith Google</a>
+                    
+                    <a href="<%=auth_url%>"><img class="login-favicons" src="<%=request.getServletContext().getContextPath()%>/img/google-favicon.svg"></a>
 				<%--<form method="post" action="<%=request.getServletContext().getContextPath()%>/login.jsp" class="form">
 				    <div class="form-item">
 				        <label>Email <span class="req">*</span></label>

@@ -61,7 +61,7 @@ public class auth extends HttpServlet {
                 if(user.AuthorizeGoogle())
                     request.getSession().setAttribute("1s_user", user);
                     if(GoogleAuthenticator.getSecretKey(user.getID())!=null){
-                        response.sendRedirect("auth.jsp");
+                        response.sendRedirect("authKey.jsp");
                         return;
                     } else {
                         response.sendRedirect("SetUp.jsp");
