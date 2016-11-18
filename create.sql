@@ -290,8 +290,9 @@ where (select course_end_date from course where course_id = course) < now()
 and user_has_course_complited is null;
 
 
-/*create database task;
+create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
-grant alter, select, create, delete, drop, index, update  on task to 'tuter'@'localhost';
-grant select on task to 'student'@'localhost';*/
+grant alter, select, create, delete, drop, index, update, insert  on task to 'tuter'@'localhost';
+grant alter, select, CREATE, delete, update, insert on task to 'student'@'localhost';
+flush privileges;

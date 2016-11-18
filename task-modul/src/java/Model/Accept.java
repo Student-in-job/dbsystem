@@ -78,6 +78,12 @@ public class Accept extends Parant{
     }
     
     public boolean putAnswer(String answer) throws Exception{
+        
+        if(answer.toLowerCase().indexOf("alter")!=-1){
+            return false;
+        }
+        
+        
         StudentConnect conn_stud = new StudentConnect();
         StudentConnect conn_tut = new StudentConnect();
         ResultSet stud, tut;

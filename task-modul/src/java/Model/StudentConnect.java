@@ -5,12 +5,13 @@
  */
 package Model;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -34,8 +35,26 @@ public class StudentConnect extends DBConnect{
     public boolean exequtQuery(String query) throws Exception{
         boolean res=false;
         
-            this.conn = this.getConnection();
-            this.stmt = conn.createStatement();
+        query = query.toLowerCase();
+        
+        Pattern p = Pattern.compile("[(update)|(insert)|(delete)]", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = p.matcher(query);
+        
+        this.conn = this.getConnection();
+        this.stmt = conn.createStatement();
+            
+        if(matcher.find()){
+            String name="";
+            try{
+                name = this.createTempTable(query);
+            } catch(SQLException e) {
+                this.ex = e;
+                res = false;
+            }
+            stmt.execute(query);
+            query = "select * from "+name+";";
+        }  
+            
             try{
                 this.rs = stmt.executeQuery(query);
                 res = true;
@@ -87,6 +106,31 @@ public class StudentConnect extends DBConnect{
     
     public SQLException getException(){
         return this.ex;
+    }
+
+    private String createTempTable(String query) throws SQLException {
+    
+        boolean i=true;
+        String name="";
+        Pattern p = Pattern.compile("(update)|(delete[ ]+from)|(insert[ ]+into)[ ]+[a-z|0-9|_|$]+", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = p.matcher(query);
+        if(matcher.find()){
+            String dml_query = matcher.group();
+            Pattern pp = Pattern.compile("[a-z|0-9|_|$]+$", Pattern.CASE_INSENSITIVE);
+            Matcher m = pp.matcher(dml_query);
+            
+            if(m.find()){
+                name = m.group();
+                Statement stmt = this.conn.createStatement();
+                stmt.execute("create temporary table "+name+"$"+" like "+name+";");
+                stmt.execute("insert into "+name+"$"+" select * from "+name+";");
+                stmt.execute("alter table "+name+"$"+" rename "+name+";");
+            }
+            
+        }
+        
+    return name;
+    
     }
     
     

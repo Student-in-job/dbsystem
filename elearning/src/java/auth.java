@@ -75,7 +75,8 @@ public class auth extends HttpServlet {
             /*String mail="ksinnD@gmail.com";
                 User user = new User(mail);
                 if(user.AuthorizeGoogle())
-                    request.getSession().setAttribute("user", user); */  
+                    request.getSession().setAttribute("user", user); 
+             */   
             response.sendRedirect("/elearningzz");
         
         

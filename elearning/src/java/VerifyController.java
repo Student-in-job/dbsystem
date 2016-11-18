@@ -41,6 +41,9 @@ public class VerifyController extends HttpServlet {
  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
   User user = (User) request.getSession().getAttribute("1s_user");
+  if(user==null){
+      response.sendRedirect("/elearningzz");
+  }
      
   String codestr = request.getParameter("code");
   long code = Long.parseLong(codestr);
