@@ -30,8 +30,10 @@ public class Main extends HttpServlet {
         int user_id = (int) request.getSession().getAttribute("user_id");
         if(user_id!=0){
             User user = new User();
-            user.setId(user_id);
+            user.setId(user_id);            
+            user.getUserData();
             ArrayList<TaskGroup> group =user.getGroup();
+            request.setAttribute("user", user);
             request.setAttribute("group_list", group);
         } 
         request.getRequestDispatcher("/Main.jsp").forward(request, response);

@@ -82,6 +82,10 @@
         <servlet-class>api.work_data</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>user_data</servlet-name>
+        <servlet-class>api.user_data</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>work_result</servlet-name>
         <servlet-class>api.work_result</servlet-class>
     </servlet>
@@ -116,6 +120,10 @@
     <servlet-mapping>
         <servlet-name>work_data</servlet-name>
         <url-pattern>/api/work_data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>user_data</servlet-name>
+        <url-pattern>/api/user_data</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>work_result</servlet-name>

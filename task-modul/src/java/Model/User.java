@@ -5,6 +5,9 @@
  */
 package Model;
 
+import API.AppInf;
+import API.HTTPClient;
+import API.UserJWT;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +17,11 @@ import java.util.HashMap;
  */
 public class User implements API.User{
     int Id;
-
+    String Mail;
+    String Name;
+    String Surname;
+    
+    
     @Override
     public int getId() {
         return this.Id;
@@ -47,6 +54,52 @@ public class User implements API.User{
         
         return list;
         
+    }
+    
+    public boolean getUserData(){
+        if(Id==0)
+            return false;
+        try {
+            UserJWT wt = new UserJWT();
+            HTTPClient client = new HTTPClient(AppInf.main+"/api/user_data", "id="+String.valueOf(this.Id), "POST");
+            client.sendRequest();
+            if(wt.getData(client.getRequestText(), this, AppInf.main)){
+                return true;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public String getMail() {
+        return this.Mail;
+    }
+
+    @Override
+    public String getName() {
+        return this.Name;
+    }
+
+    @Override
+    public String getSurname() {
+        return this.Surname;
+    }
+
+    @Override
+    public void setMail(String data) {
+        this.Mail = data;
+    }
+
+    @Override
+    public void setName(String data) {
+        this.Name = data;
+    }
+
+    @Override
+    public void setSurname(String data) {
+        this.Surname = data;
     }
     
     

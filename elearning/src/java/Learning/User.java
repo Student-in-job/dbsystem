@@ -86,6 +86,7 @@ public class User extends Parent implements API.User{
                 ResultSet rs = db.Find(); 
                 rs.next();
                             Logined = false;
+                            this.mail = rs.getString("user_mail");
                             this.Name = rs.getString("user_name");
                             this.Surname = rs.getString("user_surname");
                             this.Gender = rs.getString("gender");
@@ -493,6 +494,7 @@ public class User extends Parent implements API.User{
         }
     }
     
+    @Override
     public String getMail() {
         
         return mail;
@@ -555,5 +557,17 @@ public class User extends Parent implements API.User{
     @Override
     public void setId(int data) {
         
+    }
+
+    @Override
+    public void setMail(String data) {
+    }
+
+    @Override
+    public void setName(String data) {
+    }
+
+    @Override
+    public void setSurname(String data) {
     }
 }
