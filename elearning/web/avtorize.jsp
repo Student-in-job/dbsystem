@@ -9,7 +9,7 @@
 <%@page import="org.apache.commons.codec.digest.*"%>
 <%
 User user = (User) session.getAttribute("user");
-if(user==null) {
+/*if(user==null) {
     String mail=null, cpassword = null;
     Cookie []c = request.getCookies();
     if(c!=null){
@@ -42,5 +42,5 @@ if(user==null) {
             user = null;
         }
     }
-}
+}*/
 %>

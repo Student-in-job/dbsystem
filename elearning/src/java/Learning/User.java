@@ -18,7 +18,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  * @author ksinn
  */
-public class User extends Parent{
+public class User extends Parent implements API.User{
 
     protected String mail;
     protected String password;
@@ -546,4 +546,14 @@ public class User extends Parent{
             return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_user_"+this.getGender()+".png";
     } 
+
+    @Override
+    public int getId() {
+        return this.ID;
+    }
+
+    @Override
+    public void setId(int data) {
+        
+    }
 }

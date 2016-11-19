@@ -1,0 +1,26 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Model;
+
+/**
+ *
+ * @author ksinn
+ */
+public class User implements API.User{
+    int Id;
+
+    @Override
+    public int getId() {
+        return this.Id;
+    }
+
+    @Override
+    public void setId(int data) {
+        this.Id = data;
+    }
+    
+    
+}

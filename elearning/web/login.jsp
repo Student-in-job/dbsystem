@@ -14,8 +14,8 @@
     session.removeAttribute("rederectto");
     if(path==null) path ="";
     if(request.getParameter("logout")!=null){
-        response.addCookie(new Cookie("usermail", null));
-        response.addCookie(new Cookie("password", null));
+        //response.addCookie(new Cookie("usermail", null));
+        //response.addCookie(new Cookie("password", null));
         request.getSession().invalidate();
 %>
 <script>
@@ -25,6 +25,7 @@
         return;
     }    
 %>
+<%--
 <%@include file="/avtorize.jsp"%>
 
 <!DOCTYPE html>
@@ -129,3 +130,4 @@
         <%@include file="/footer.jsp" %>
     </body>
 </html>
+--%>

@@ -5,6 +5,7 @@
  */
 
 
+import API.AppInf;
 import API.HTTPClient;
 import Learning.User;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class auth extends HttpServlet {
             User user = null;
             String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
-            String redirect_uri = "http://localhost:8084/elearningzz/auth";
+            String redirect_uri = AppInf.main+"/auth";
             String grant_type = "authorization_code";
             String code = request.getParameter("code");
             
