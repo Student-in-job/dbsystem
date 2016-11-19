@@ -62,7 +62,7 @@
                 <div class="col col-2 offset-1 nav">
                     <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Created courses</a>
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Published courses</a>
-                    <a href="#learn_courses" class="tablink" onclick="openTab(event, 'learn_courses')">Current courses</a>
+                    <a href="#learn_courses" class="tablink  a-blue" onclick="openTab(event, 'learn_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
 <%--                    <a href="#schedule" class="tablink a-blue" onclick="openTab(event, 'schedule')">Schedule</a> --%>
                     <a href="#create" class="tablink" onclick="openTab(event, 'create')">Create course</a>
@@ -186,7 +186,7 @@ for(int j=0; j<7; j++){
         <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
         <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
         <script>
-            document.getElementById("schedule").style.display = "block";
+            document.getElementById("learn_courses").style.display = "block";
             
                      function openTab(evt, cityName) {
                           var i, x, tablinks;

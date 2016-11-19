@@ -86,6 +86,10 @@
         <servlet-name>Auth</servlet-name>
         <servlet-class>controll.Auth</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Main</servlet-name>
+        <servlet-class>controll.Main</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/edit/DataBaseManager</url-pattern>
@@ -145,6 +149,10 @@
     <servlet-mapping>
         <servlet-name>Auth</servlet-name>
         <url-pattern>/Auth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Main</servlet-name>
+        <url-pattern>/main</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -5,9 +5,10 @@
  */
 package controll;
 
-import API.UserSWT;
+import Model.TaskGroup;
 import Model.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,32 +18,30 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Auth extends HttpServlet {
+public class Main extends HttpServlet {
 
-   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-    }
+    
 
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = new User();
-        UserSWT wt = new UserSWT();
-        if(wt.getDataFromRequest(request.getParameterMap(), user)){
-            request.getSession().setAttribute("user_id", user.getId());
-        }
-        response.sendRedirect(request.getContextPath()+"/main");
+
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            User user = new User();
+            user.setId(user_id);
+            ArrayList<TaskGroup> group =user.getGroup();
+            request.setAttribute("group_list", group);
+        } 
+        request.getRequestDispatcher("/Main.jsp").forward(request, response);
     }
 
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
    

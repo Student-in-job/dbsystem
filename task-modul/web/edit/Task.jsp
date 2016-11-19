@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
         <script src="${pageContext.request.contextPath}/js/tinymce/tinymce.min.js"></script>
-        <!--<script>tinymce.init({
+        <script>tinymce.init({
             selector: '#input',
             theme: 'modern',
             width: 800,
@@ -34,7 +34,7 @@
             toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
 
             });
-        </script>-->
+        </script>
     </head>
     <body>
         ${error}

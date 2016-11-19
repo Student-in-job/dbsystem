@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="Model.Log"%>
-<%@page isErrorPage="true" contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 Log.Write(pageContext.getException().getLocalizedMessage());
 %>

@@ -36,7 +36,7 @@ public class auth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            User user = null;
+            /*User user = null;
             String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
             String redirect_uri = AppInf.main+"/auth";
@@ -73,11 +73,11 @@ public class auth extends HttpServlet {
                 Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            /*String mail="ksinnD@gmail.com";
+            */String mail="ksinnD@gmail.com";
                 User user = new User(mail);
                 if(user.AuthorizeGoogle())
                     request.getSession().setAttribute("user", user); 
-             */   
+               
             response.sendRedirect("/elearningzz");
         
         

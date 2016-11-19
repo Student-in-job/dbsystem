@@ -5,6 +5,9 @@
  */
 package Model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author ksinn
@@ -20,6 +23,30 @@ public class User implements API.User{
     @Override
     public void setId(int data) {
         this.Id = data;
+    }
+    
+    public ArrayList<TaskGroup> getGroup() {
+        
+        ArrayList<TaskGroup> list = new ArrayList<TaskGroup>();
+        if(Id==0)
+            return null;
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("owner_id", this.Id);
+            TaskGroup group = new TaskGroup();
+            ArrayList<HashMap<String, Object>> Params = group.getObjectsParam(param);
+            for(int i=0; i<Params.size(); i++){
+                group = new TaskGroup();
+                group.getFromParam(Params.get(i));
+                group.ReadTasksFromBd();
+                list.add(group); 
+            }
+        } catch (Exception ex) {
+            
+        }
+        
+        return list;
+        
     }
     
     
