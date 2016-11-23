@@ -36,7 +36,7 @@ public class auth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            /*User user = null;
+            User user = null;
             String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
             String redirect_uri = AppInf.main+"/auth";
@@ -50,35 +50,41 @@ public class auth extends HttpServlet {
                     +"&grant_type="+grant_type
                     +"&code="+code;
             
-            HTTPClient client = new HTTPClient(url, param, "POST");
-            client.sendRequest();
-            try {
-                JSONObject requestJSON = client.getRequestJSON();
-                HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
-                client1.sendRequest();
-                JSONObject user_data = client1.getRequestJSON();
-                String mail = user_data.getString("email");
+            //HTTPClient client = new HTTPClient(url, param, "POST");
+            //client.sendRequest();
+            //try {
+                //SONObject requestJSON = client.getRequestJSON();
+                //HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
+                //client1.sendRequest();
+                //JSONObject user_data = client1.getRequestJSON();
+                String mail = "ksinnd@gmail.com";//user_data.getString("email");
                 user = new User(mail);
-                if(user.AuthorizeGoogle())
+                if(user.AuthorizeGoogle()){
                     request.getSession().setAttribute("1s_user", user);
-                    if(GoogleAuthenticator.getSecretKey(user.getID())!=null){
+                    Secret key = SecondFactor.get2factor(user.getID());
+                    if(key!=null){
+                        if(key.Type.equals("phone")){
+                            SMSAuthenticator sms = new SMSAuthenticator();
+                            sms.sendSMS(user.getID(), key.Secret);
+                        }
                         response.sendRedirect("authKey.jsp");
                         return;
                     } else {
-                        response.sendRedirect("SetUp.jsp");
+                        response.sendRedirect("SetUp2factor.jsp");
                         return;
                     }
+                }
                         
-            } catch (JSONException ex) {
-                Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //} catch (JSONException ex) {
+            //    Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
+            //}
             
-            */String mail="ksinnD@gmail.com";
+            /*String mail="ksinnD@gmail.com";
                 User user = new User(mail);
                 if(user.AuthorizeGoogle())
-                    request.getSession().setAttribute("user", user); 
+                    request.getSession().setAttribute("user", user); */
                
-            response.sendRedirect("/elearningzz");
+            response.sendRedirect(request.getContextPath());
         
         
     }

@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>SetUp Key</title>
+        <title>SetUp Phone</title>
         <meta charset="utf-8">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,16 @@
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3></h3>
-                    <a href="SetUpController" target="_blank">get QRcode</a> and login agane!
+                    <form class="form" action="SetUpPhone" method="post">
+                    <div class="form-item">
+                        <label>Phone</label>
+                        <input type="text" name="phone" required >
+                    </div>
+
+                    <div class="form-item">
+                        <button class="button primary width-100 big">Sign Up</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>

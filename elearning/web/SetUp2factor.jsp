@@ -32,17 +32,11 @@
             <div class="col col-3 text-center">
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
-                    <h3></h3>
-                    <form class="form" action="VerifyController" method="post">
-                    <div class="form-item">
-                        <label>Code</label>
-                        <input type="number" name="code" required >
-                    </div>
-
-                    <div class="form-item">
-                        <button class="button primary width-100 big">Sign Up</button>
-                    </div>
-                    </form>
+                    <h3>Warning! You can not input data agane!</h3>
+                    <p>
+                        <a href="SetUpController" target="_blank">get QRcode</a> or <a href="SetUpPhone.jsp"> set up you phone</a>  and login agane!
+                    </p>
+                    
                 </div>
             </div>
         </div>

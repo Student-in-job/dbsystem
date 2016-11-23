@@ -15,18 +15,19 @@ import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
 
 import auth.GoogleAuthenticator;
+import auth.Secret;
 
 /**
  * Servlet implementation class SetUpController
  */
 @WebServlet("/SetUpController")
-public class SetUpController extends HttpServlet {
+public class SetUpGoogle extends HttpServlet {
  private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SetUpController() {
+    public SetUpGoogle() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,12 +54,13 @@ public class SetUpController extends HttpServlet {
     return;
  }
   
-  String secretKey = GoogleAuthenticator.generateSecretKey();
+  String secretKey = GoogleAuthenticator.generateSecretKey(user.getID());
   
-  //request.getSession().setAttribute( "secretKey", secretKey );
+  Secret key = new Secret();
+  key.Secret = secretKey;
+  key.Type = "key";
   
-  GoogleAuthenticator.putSecretKey(user.getID(), secretKey);
-  
+  GoogleAuthenticator.put2factor(user.getID(), key);
   String s = "otpauth://totp/"+user.getMail()+"?secret="+secretKey;
 
   ByteArrayOutputStream outs = QRCode.from(s).to(ImageType.PNG).stream();

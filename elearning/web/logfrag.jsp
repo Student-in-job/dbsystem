@@ -52,7 +52,7 @@ if(user==null) {
 
 User user = (User) session.getAttribute("user");
 if(user==null) {
-    response.sendRedirect(request.getServletContext().getContextPath()+"/login.jsp");
+    response.sendRedirect(request.getServletContext().getContextPath());
 }
 
 %>

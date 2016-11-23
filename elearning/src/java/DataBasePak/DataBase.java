@@ -358,7 +358,7 @@ public class DataBase {
         
             PreparedStatement stmt = Connection.prepareStatement
         ("insert into user (user_mail, passwords, user_name, user_surname, birthday, gender)  values (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, user.getMail());
+            stmt.setString(1, user.getMail().toLowerCase());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getName());
             stmt.setString(4, user.getSurname());
@@ -579,7 +579,7 @@ public class DataBase {
             stmt.setString(3, user.getSurname());
             stmt.setDate(4, new Date(user.getBirthday().getTime()));
             stmt.setString(5, user.getGender());
-            stmt.setString(6, user.getMail());
+            stmt.setString(6, user.getMail().toLowerCase());
             stmt.setInt(7, user.getID());
             int n = stmt.executeUpdate();
             Done = n == 1;

@@ -9,3 +9,5 @@ API/build
 API/dist
 /rsa-sign/nbproject/private/
 /rsa-sign/build/
+/el_gamal/nbproject/private/
+/el_gamal/build/

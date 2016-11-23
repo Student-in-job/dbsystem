@@ -23,11 +23,29 @@ create table if not exists user (
 );
 
 create table if not exists users_key (
-	secret_key varchar(256) not null,
+	secret_key varchar(15) not null,
+	secret_type varchar(5) not null,
 	user int(11),
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_key_user  foreign key (user) references user (user_id) on delete no action on update no action,
-	unique(user)	
+	unique(user),
+	unique(secret_key)
+);
+
+create table if not exists sms_code (
+	sms_code int not null,
+	user int(11),
+	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	constraint fk_sms_user  foreign key (user) references user (user_id) on delete no action on update no action,
+	unique(user)
+);
+
+create table if not exists auth (
+	user varchar(45) not null,
+	mods char not null,
+	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	constraint fk_auth_user  foreign key (user) references user (user_mail) on delete no action on update no action
+	
 );
 
 create table if not exists area (
@@ -288,6 +306,7 @@ CREATE EVENT closer_course ON SCHEDULE EVERY 1 DAY
 DO update user_has_course set user_has_course_complited = now() 
 where (select course_end_date from course where course_id = course) < now()
 and user_has_course_complited is null;
+
 
 
 create database task;

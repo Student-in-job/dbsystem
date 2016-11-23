@@ -89,6 +89,10 @@
         <servlet-name>work_result</servlet-name>
         <servlet-class>api.work_result</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>smsgetway</servlet-name>
+        <servlet-class>auth.smsgetway</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -128,6 +132,10 @@
     <servlet-mapping>
         <servlet-name>work_result</servlet-name>
         <url-pattern>/api/work_result</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>smsgetway</servlet-name>
+        <url-pattern>/smsgetway</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

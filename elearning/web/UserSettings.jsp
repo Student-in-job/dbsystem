@@ -48,11 +48,11 @@
                         <p style="color: red;">The email address you have entered is already registered</p>
                     </div>
 <%}%>
-                    <div class="form-item">
+<!--                    <div class="form-item">
                         <label>Email</label>
                         <input class="width-100" type="email" name="mail" value="<%=user.getMail()%>">
                     </div>
-                    
+-->                    
                     <div class="form-item">
                         <label>New Password</label>
                         <input class="width-100" name="password_new" type="password" id="password">
@@ -116,9 +116,7 @@
 
                    rules:{ 
 
-                        mail:{
-                            email: true
-                        },
+                       
                         
                         password:{
                             required: true,
@@ -172,12 +170,12 @@
         format.applyPattern("yyyy-MM-dd");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        String mail = request.getParameter("mail");
+        //String mail = request.getParameter("mail");
         String password = request.getParameter("new_password");
         String gender = request.getParameter("gender");
         Date birthday = new Date(format.parse(request.getParameter("birthday")).getTime());
         
-        if(!user.getMail().equals(mail)){
+        /*if(!user.getMail().equals(mail)){
             DataBase db = new DataBase(new User(mail, ""));
             try{
                 db.FindUser();
@@ -185,10 +183,10 @@
                 return;
             }catch(ObjectNotFind ex){}
             catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-        }
+        }*/
 
         try {
-            user.Change(request.getParameter("password"), mail, password, name, surname, birthday, gender, request.getPart("picture"));
+            user.Change(request.getParameter("password"), user.getMail(), password, name, surname, birthday, gender, request.getPart("picture"));
             session.removeAttribute("user");
         }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getRequestURI()+"?e=password"); return;}
         catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}

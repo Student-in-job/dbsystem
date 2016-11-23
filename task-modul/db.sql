@@ -51,6 +51,6 @@ constraint fk_task_result foreign key (task_id) references task(id),
 constraint fk_work_result foreign key (work_id) references works(id)
 );
 
-insert into task_group(owner_id) values (1);
+/*ask_group(owner_id) values (1);
 insert into task(group_id,question,answer, times) values (1, 'qwerty1?', 'select * from 1_task', 1), (1, 'qwerty2?', 'select * from 1_task', 5), (1, 'qwerty3?', 'select * from 1_task', 2);
 insert into works(WORK_KEY, user_id, group_id, times, count, live_time) value ('cdsv4sd4v6df4v6', 1, 1, now(), 3, 100*60);
