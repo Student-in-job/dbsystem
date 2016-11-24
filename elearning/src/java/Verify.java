@@ -1,7 +1,6 @@
 
 import Learning.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +12,7 @@ import auth.GoogleAuthenticator;
 import auth.SMSAuthenticator;
 import auth.SecondFactor;
 import auth.Secret;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class VerifyController
@@ -43,11 +43,12 @@ public class Verify extends HttpServlet {
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        long t = System.currentTimeMillis();
-        
-        User user = (User) request.getSession().getAttribute("1s_user");
+     try {
+         long t = System.currentTimeMillis();
+         
+         User user = (User) request.getSession().getAttribute("1s_user");
          if(user==null){
-             response.sendRedirect("/elearningzz");
+             response.sendRedirect(request.getContextPath());
              return;
          }
          
@@ -77,14 +78,16 @@ public class Verify extends HttpServlet {
          }
          
          if(r){
-             request.getSession().setMaxInactiveInterval(300);
              request.getSession().removeAttribute("1s_user");
              request.getSession().setAttribute("user", user);
-             response.sendRedirect("/elearningzz");
+             response.sendRedirect(request.getContextPath());
          }else{
              request.getSession().removeAttribute("1s_user");
-             response.sendRedirect("/elearningzz");
+             response.sendRedirect(request.getContextPath());
          }  
+     } catch (SQLException ex) {
+         throw new ServletException(ex);
+     }
      
   
  }

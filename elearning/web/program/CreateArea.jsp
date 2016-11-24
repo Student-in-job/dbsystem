@@ -16,19 +16,13 @@
     
     if(request.getMethod().equals("POST")){
         
-        name = request.getParameter("name");
-        try{    
+        name = request.getParameter("name");    
                 Area na = new Area(name);
                 na.Write(user, request.getPart("picture"));
                 response.sendRedirect(request.getServletContext().getContextPath()+"/Courses.jsp?area_id="+na.getID()); return;
 
             
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-}    
+        }    
 %>
 <!DOCTYPE html>
 <html>

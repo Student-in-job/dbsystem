@@ -21,7 +21,7 @@ int area_id;
     }catch(Exception ex){area_id=0;}
 
 if(area_id!=0){
-    try{
+
         if(find!=null){
             Area area = new Area(area_id);
             area_name = area.getName();
@@ -31,8 +31,6 @@ if(area_id!=0){
             area_name = area.getName();
             courses = area.getPrograms();
         }
-    }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}      
 }
 else{
     if(find!=null)

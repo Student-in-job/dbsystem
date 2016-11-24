@@ -21,14 +21,9 @@ boolean u = false, c=true, r=false;
 
 int program_id = 0;
     Program prog;
-    try{
         program_id = Integer.parseInt(request.getParameter("course_id"));
         prog = new Program(program_id);
         
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
     if(user!=null) {u = !prog.isPublished()&&user.getID()==prog.getTeacherID();
                     c = prog.isPublished()&&user.getID()!=prog.getTeacherID();
                     r = prog.isPublished()&&user.getID()==prog.getTeacherID();

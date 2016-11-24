@@ -23,7 +23,7 @@ create table if not exists user (
 );
 
 create table if not exists users_key (
-	secret_key varchar(15) not null,
+	secret_key varchar(16) not null,
 	secret_type varchar(5) not null,
 	user int(11),
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -308,7 +308,7 @@ where (select course_end_date from course where course_id = course) < now()
 and user_has_course_complited is null;
 
 
-
+drop database task;
 create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';

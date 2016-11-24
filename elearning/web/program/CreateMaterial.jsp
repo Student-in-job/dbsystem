@@ -17,14 +17,11 @@
     
     int program = 0;
     Program pg;
-    try{
+
         program = Integer.parseInt(request.getParameter("program"));
         pg = new Program(program);
         
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
+       
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
             
     
@@ -36,10 +33,9 @@
     if(request.getMethod().equals("GET")){
     if(material!=0){
         
-        try{
+
             nm = new Material(material);
-        }catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-            
+             
         typ = nm.getTyp();
         text = nm.getText();
         name = nm.getName();
@@ -60,7 +56,7 @@ if(request.getMethod().equals("POST")){
     
     
         
-    try{    
+    
         if(material==0){
 
                 nm = new Material(typ, text, name, inventory, day);    
@@ -72,11 +68,7 @@ if(request.getMethod().equals("POST")){
                 nm.Change(typ, text, name, inventory, day, user);
                 response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+nm.getID());
         }
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-}    
+        }    
 %>    
 <!DOCTYPE html>
 <html>

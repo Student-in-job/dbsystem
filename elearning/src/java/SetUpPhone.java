@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import auth.SMSAuthenticator;
 import auth.Secret;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class SetUpController
@@ -34,7 +35,7 @@ public class SetUpPhone extends HttpServlet {
   */
  @Override
  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   this.doPost(request, response);
+     
  }
 
  /**
@@ -43,29 +44,33 @@ public class SetUpPhone extends HttpServlet {
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  
- User user = (User) request.getSession().getAttribute("1s_user");
- request.getSession().removeAttribute("1s_user");
- 
- if(user==null){
-    response.sendRedirect(request.getServletContext().getContextPath());
-    return;
- }
-  
-  String phone = request.getParameter("phone");
-  
-  Secret key = new Secret();
-  key.Secret = phone;
-  key.Type = "phone";
-  
-  
-  SMSAuthenticator.put2factor(user.getID(), key);
-  
-  String param = "phone="+phone+"&text=this phone saved in system";
-              
-   HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
-   client.sendRequest();
-  
-  response.sendRedirect(request.getContextPath());
+     try {
+         User user = (User) request.getSession().getAttribute("1s_user");
+         request.getSession().removeAttribute("1s_user");
+         
+         if(user==null){
+             response.sendRedirect(request.getServletContext().getContextPath());
+             return;
+         }
+         
+         String phone = request.getParameter("phone");
+         
+         Secret key = new Secret();
+         key.Secret = phone;
+         key.Type = "phone";
+         
+         
+         SMSAuthenticator.put2factor(user.getID(), key);
+         
+         String param = "phone="+phone+"&text=this phone saved in system";
+         
+         HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
+         client.sendRequest();
+         
+         response.sendRedirect(request.getContextPath());
+     } catch (SQLException ex) {
+         throw new ServletException(ex);
+     }
 
  }
 

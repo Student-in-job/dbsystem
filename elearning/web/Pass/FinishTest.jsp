@@ -18,12 +18,10 @@
             response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp");
             return;
         }
-        try{
+
             accept.Final();
             session.removeAttribute("accept"); 
-        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-  
+        
 %>
 <!DOCTYPE html>
 <html>

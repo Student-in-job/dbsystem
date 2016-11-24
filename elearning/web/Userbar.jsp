@@ -4,6 +4,7 @@
     Author     : javlonboy
 --%>
 
+<%@page import="API.AppInf"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="Learning.*"%>
@@ -109,64 +110,6 @@
                 </p>                
 <%}%>                                               
                             </div>
-                        
-<%--                        <div id="schedule" class="courses">
-                            <h3>Schedule</h3>
-                            <table class="striped bordered">   
-                                <tbody>
-<%=ush.isEmpty()?"<tr><td>Nothing yet</td></tr>":""%>                             
-<%
-Day d;
-Calendar c = new GregorianCalendar();
-for(int j=0; j<7; j++){
-    c.add(Calendar.DAY_OF_YEAR, 1);
-    d = ush.getDay(c);
-    if(d!=null){
-        for(int i=0; i<d.Size(); i++){              
-            if(d.get(i).getType().equals("test")){
-                int r = user.getTestMaxResult((Test)d.get(i));
-                int l = user.getTestMinResult((Test)d.get(i));
-%>
-                                    <tr>
-                                        <td>
-                                            test: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTest.jsp?test=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
-                                            <br><%=d.get(i).getProgram().getName()%> 
-                                            <br> max ball: <%=r==-1?"none":r%>; min ball: <%=l==-1?"none":l%>;
-                                        </td>
-                                        <td>
-                                            <%=d.get(i).getDateString()%>
-                                        </td>
-                                    </tr>
-                                
-                    
-            <%}if(d.get(i).getType().equals("material")){%>
-                                    <tr>
-                                        <td>
-                                            material: <a href="<%=request.getServletContext().getContextPath()%>/Material.jsp?material_id=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
-                                            <br><%=d.get(i).getProgram().getName()%>
-                                        </td>
-                                        <td>
-                                            <%=d.get(i).getDateString()%>
-                                        </td>
-                                    </tr>
-            <%}if(d.get(i).getType().equals("task")){%>
-                                    <tr>
-                                        <td>
-                                            task: <a href="<%=request.getServletContext().getContextPath()%>/Pass/StartTask.jsp?task=<%=d.get(i).getID()%>"><%=d.get(i).getName()%></a>
-                                            <br><%=d.get(i).getProgram().getName()%>
-                                        </td>
-                                        <td>
-                                            <%=d.get(i).getDateString()%>
-                                        </td>
-                                    </tr>
-            <%}
-        }
-    }
-}
-%>
-                                </tbody>
-                            </table>
-                        </div>--%>
                     
                         <div id="create" class="courses">
                             For creating course you need do next steps
@@ -177,6 +120,7 @@ for(int j=0; j<7; j++){
                                 <li>Publish;</li>
                             </ul>
                             <a href="<%=request.getServletContext().getContextPath()%>/program/CreateProgram.jsp"><button class="button round outline">Create course</button></a>
+                            <a href="<%=request.getServletContext().getContextPath()%>/program/RederectTask.jsp"><button class="button round outline">Create task</button></a>
                         </div>
                 </div>
             </div>

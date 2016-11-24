@@ -33,7 +33,7 @@
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3></h3>
-                    <form class="form" action="SetUpPhone" method="post">
+                    <form if="form" class="form" action="SetUpPhone" method="post">
                     <div class="form-item">
                         <label>Phone</label>
                         <input type="text" name="phone" required >
@@ -46,6 +46,27 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+        <script>
+            $(document).ready(function(){
+
+                $("#form").validate({
+
+                   rules:{ 
+
+                       
+                        
+                        password:{
+                            required: true
+                        }
+                        
+                   }
+
+                });
+
+
+            }); //end of ready
+        </script>
         <%@include file="/footer.jsp" %>
     </body>
 </html>

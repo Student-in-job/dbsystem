@@ -36,6 +36,7 @@ public class auth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        try{    
             User user = null;
             String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
             String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
@@ -85,6 +86,9 @@ public class auth extends HttpServlet {
                     request.getSession().setAttribute("user", user); */
                
             response.sendRedirect(request.getContextPath());
+        } catch (Exception ex){
+            throw new ServletException(ex);
+        }
         
         
     }

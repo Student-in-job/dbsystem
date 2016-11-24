@@ -4,7 +4,6 @@
     Author     : javlonboy
 --%>
 
-<%@page import="Learning.TaskList"%>
 <%@page import="Learning.Task"%>
 <%@page import="Learning.Files"%>
 <%@page import="Learning.TestTask"%>
@@ -24,7 +23,6 @@ if(request.getMethod().equals("GET")){
             Enumeration<String> parameterNames = request.getParameterNames();
             param = parameterNames.nextElement();
             int id = Integer.parseInt(request.getParameter(param));
-            try{
                 if("program".equals(param)){
 
                     Program p = new Program(id);
@@ -50,12 +48,6 @@ if(request.getMethod().equals("GET")){
                     name=p.getName();
                     type=p.getType();
                 }
-                if("tasklist".equals(param)){
-
-                    TaskList p = new TaskList(id);
-                    name=p.getName();
-                    type="task list";
-                }
                 if("testtask".equals(param)){
 
                     TestTask p = new TestTask(id);
@@ -74,10 +66,7 @@ if(request.getMethod().equals("GET")){
                     name=p.getName();
                     type=p.getType();
                 }
-            }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-            catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-        
+                   
 
 %>
 <!DOCTYPE html>
@@ -121,7 +110,6 @@ if(request.getMethod().equals("POST")){
     
     String param=request.getParameter("param"); int value=Integer.parseInt(request.getParameter("value"));
         Parent pg=null;    
-        try{
                 if("program".equals(param)){
 
                     Program p = new Program(value);
@@ -147,13 +135,6 @@ if(request.getMethod().equals("POST")){
                 if("task".equals(param)){
 
                     Task p = new Task(value);
-                    if(user.getID()!=p.getTaskList().getProgram().getTeacherID()) throw new IllegalAction();
-                    pg=p.getTaskList();
-                    p.Delete();
-                }
-                if("tasklist".equals(param)){
-
-                    TaskList p = new TaskList(value);
                     if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
@@ -179,11 +160,7 @@ if(request.getMethod().equals("POST")){
                     if(user.getID()!=p.getID()) throw new IllegalAction();
                     p.Delete();
                 }
-            }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-            catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-            catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-        
+
         if(pg==null) response.sendRedirect(request.getServletContext().getContextPath());
         switch(pg.getType()){
             case "program": {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+pg.getID()); return;}

@@ -97,7 +97,9 @@ if(user!=null){%>
 	        <div class="modal-body">
                     
                     <a href="<%=auth_url%>"><img class="login-favicons" src="<%=request.getServletContext().getContextPath()%>/img/google-favicon.svg"></a>
-				<%--<form method="post" action="<%=request.getServletContext().getContextPath()%>/login.jsp" class="form">
+                    <a href="<%=request.getServletContext().getContextPath()%>/auth"><img class="login-favicons" src="<%=request.getServletContext().getContextPath()%>/img/google-favicon.svg"></a>
+			
+                    <%--<form method="post" action="<%=request.getServletContext().getContextPath()%>/login.jsp" class="form">
 				    <div class="form-item">
 				        <label>Email <span class="req">*</span></label>
 				        

@@ -15,14 +15,11 @@
     
     int program = 0;
     Program pg;
-    try{
+
         program = Integer.parseInt(request.getParameter("program"));
         pg = new Program(program);
         
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
+       
     if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
     String name=null, inventory = null;
@@ -33,11 +30,9 @@
 if(request.getMethod().equals("GET")){
     if(test!=0){
         
-        try{
+
             nt = new Test(test);
-        }catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-        name = nt.getName();
+              name = nt.getName();
         day = nt.getDay();
         inventory = nt.getInventory();
         program = nt.getProgramID();
@@ -53,7 +48,7 @@ if(request.getMethod().equals("POST")){
     day = Integer.parseInt(request.getParameter("day"));
     time = Integer.parseInt(request.getParameter("time"));
     
-        try{
+
             if(test==0){
 
                 nt = new Test(name, day, inventory, time);
@@ -66,13 +61,7 @@ if(request.getMethod().equals("POST")){
                 nt.Change(name, inventory, day, user, time);
                 response.sendRedirect("Test.jsp?test="+nt.getID()); return;
             }   
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
         
-
 }
 %>
 <!DOCTYPE html>

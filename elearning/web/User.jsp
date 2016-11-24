@@ -14,14 +14,10 @@
 <% 
     int user_id = 0;
     User show_user;
-    try{
+
         user_id = Integer.parseInt(request.getParameter("user_id"));
         show_user = new User(user_id);
         
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
     ArrayList<Course> learning_cours = show_user.getLearningCourses();
     ArrayList<Course> learned_cours = show_user.getLearnedCourses();
     ArrayList<Program> activ_program = show_user.getActivePrograms();

@@ -16,28 +16,21 @@
 <%  
     int tst;
     Test test;
-        try{
+
             tst = Integer.parseInt(request.getParameter("test"));
             test = new Test(tst);
-        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-
+      
     if(request.getMethod().equals("POST")){
         
         if(user==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
             
         Course cours; 
         User_courses uhc;
-        try{
+ 
             cours = user.getActiveCourse(test.getProgramID());
             if(cours==null) {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+test.getProgramID()); return;}
             uhc = user.getHasCours(cours); 
-        }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-
-        
+              
         AcceptTest accept = (AcceptTest) session.getAttribute("accept");
         if(accept!=null){response.sendRedirect("PassTest.jsp?no=0"); return;}
             
@@ -77,13 +70,9 @@
     </body>
 </html>
 <% return;     }
-        try{
-            accept = new AcceptTest(uhc, test);
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
 
+            accept = new AcceptTest(uhc, test);
+       
                     session.setAttribute("accept", accept);
                     response.sendRedirect("PassTest.jsp?no=0");
                     return;

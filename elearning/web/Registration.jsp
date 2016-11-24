@@ -31,7 +31,7 @@
          format.applyPattern("yyyy-MM-dd");
          name = request.getParameter("name");
          surname = request.getParameter("surname");
-         mail = request.getParameter("mail");
+         mail = request.getParameter("mail").toLowerCase();
          password = request.getParameter("password");
          gender = request.getParameter("gender");
          birthday = new Date(format.parse(request.getParameter("birthday")).getTime());
@@ -44,14 +44,11 @@
             response.sendRedirect(request.getRequestURI()+"?unmail="+mail);
             return;
         }catch(ObjectNotFind ex){}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-     
+        
 
-        try {
+        
             nuser.Register(request.getPart("picture"));
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getRequestURI()+"?e=password"); return;}
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-     
+        
         response.sendRedirect("login.jsp");
         return;
         }

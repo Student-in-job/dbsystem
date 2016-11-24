@@ -19,12 +19,9 @@
         
     int program;
     Program prog;
-    try{
+
         program= Integer.parseInt(request.getParameter("program"));
         prog = new Program(program);
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
      
         
         if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()!=prog.getTeacherID())/*&&prog.getCourse()!=null**/){

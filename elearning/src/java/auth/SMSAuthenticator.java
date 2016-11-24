@@ -11,6 +11,7 @@ import API.HTTPClient;
 import DataBasePak.db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import org.apache.commons.codec.binary.Base32;
 
@@ -23,12 +24,12 @@ public class SMSAuthenticator  extends SecondFactor{
     final static int lifetime = 60;
   
   
-    public boolean check_code(int user, long code, long time){
+    public boolean check_code(int user, long code, long time) throws SQLException{
         long saved_code = get_saved_code(user, time);
         return code==saved_code;
     }
     
-    public boolean sendSMS(int user, String phone){
+    public boolean sendSMS(int user, String phone) throws SQLException{
       
       this.setWindowSize(5);
       long num_code = this.get_code(user, System.currentTimeMillis());
@@ -76,21 +77,17 @@ public class SMSAuthenticator  extends SecondFactor{
  }
     
   
-  static public boolean put_code(int user, long code){
-     try{
+  static public boolean put_code(int user, long code) throws SQLException{
             PreparedStatement stmt = db.getConn().prepareStatement("replace into sms_code (user, sms_code) values (?, ?);");
             stmt.setInt(1, user);
             stmt.setLong(2, code);
             stmt.executeUpdate();
             return true;
             
-     }catch(Exception ex){
-        return false;
-     }
+
   }
   
-  static public long get_saved_code(int user, long time){
-     try{
+  static public long get_saved_code(int user, long time) throws SQLException{
             PreparedStatement stmt = db.getConn().prepareStatement("select * from sms_code where user=? and addDate + interval ? second > ?;");
             stmt.setInt(1, user);
             stmt.setInt(2, lifetime);
@@ -102,9 +99,6 @@ public class SMSAuthenticator  extends SecondFactor{
                 return -1;
             }
             
-     }catch(Exception ex){
-        return -1;
-     }
   }
   
 }

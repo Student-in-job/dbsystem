@@ -14,12 +14,8 @@ if(user!=null) {response.sendRedirect(request.getServletContext().getContextPath
 if(request.getMethod().equals("POST")){
     
     User us = new User(request.getParameter("mail"), "");
-    try{
+
         us.SendPassword();
-    }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch (MessagingException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=MesaggingException"); return;} 
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
 %>
 <!DOCTYPE html>
 <html>

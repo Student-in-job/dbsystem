@@ -11,28 +11,11 @@
 
 <%@include file="/logfrag.jsp"%>
 <%    Test test;
-    try {
+
         test = new Test(Integer.parseInt(request.getParameter("test")));
         if (test.getProgram().getTeacherID() != user.getID()) {
             throw new IllegalAction();
         }
-    } catch (IllegalAction ex) {
-        Log.getOut(ex.getMessage());
-        response.sendRedirect(request.getServletContext().getContextPath() + "/Error.jsp?e=IllegalAction");
-        return;
-    } catch (ObjectNotFind ex) {
-        Log.getOut(ex.getMessage());
-        response.sendRedirect(request.getServletContext().getContextPath() + "/Error.jsp?e=ObjectNotFind");
-        return;
-    } catch (InvalidParameter ex) {
-        Log.getOut(ex.getMessage());
-        response.sendRedirect(request.getServletContext().getContextPath() + "/Error.jsp?e=InvalidParameter");
-        return;
-    } catch (Exception ex) {
-        Log.getOut(ex.getMessage());
-        response.sendRedirect(request.getServletContext().getContextPath() + "/Error.jsp");
-        return;
-    }
 
     ArrayList<TestTask> task = test.getTask();
 %>

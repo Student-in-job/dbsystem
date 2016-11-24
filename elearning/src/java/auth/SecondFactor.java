@@ -66,8 +66,8 @@ public class SecondFactor {
   return (int) truncatedHash;
  }
     
-    static public Secret get2factor(int user){
-     try {
+    static public Secret get2factor(int user) throws SQLException{
+
          Secret key = new Secret();
          PreparedStatement stmt = db.getConn().prepareStatement("select * from users_key where user=?;");
          stmt.setInt(1, user);
@@ -78,13 +78,10 @@ public class SecondFactor {
          } else
              key = null;
          return key;
-     } catch (SQLException ex) {
-         return null;
-     }
     }
     
-    static public boolean put2factor(int user, Secret key){
-     try{
+    static public boolean put2factor(int user, Secret key) throws SQLException{
+ 
             PreparedStatement stmt = db.getConn().prepareStatement("insert into users_key (user, secret_key, secret_type) values (?, ?, ?);");
             stmt.setInt(1, user);
             stmt.setString(2, key.Secret);
@@ -92,9 +89,7 @@ public class SecondFactor {
             stmt.executeUpdate();
             return true;
             
-     }catch(Exception ex){
-        return false;
-     }
+     
  }
     
     public static String generateSecretKey(int id) {

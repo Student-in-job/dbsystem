@@ -14,14 +14,11 @@
     
     int test = 0;
     Test tst;
-    try{
+
         test = Integer.parseInt(request.getParameter("test"));
         tst = new Test(test);
         
-    }catch(NumberFormatException ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidRequest"); return;}
-    catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-    catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}
-    
+      
     if(user.getID()!=tst.getProgram().getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}       
     
     String question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
@@ -58,7 +55,7 @@ if(request.getMethod().equals("POST")){
     v3=request.getParameter("v3");
     v4=request.getParameter("v4");
     point = Integer.parseInt(request.getParameter("point"));
-            try{
+
                 if(0==testtask){
 
                     nt = new TestTask(question, answer, v1, v2, v3, v4, point);
@@ -71,11 +68,7 @@ if(request.getMethod().equals("POST")){
                     nt.Change(question, answer, v1, v2, v3, v4, point, user);
                     response.sendRedirect("Test.jsp?test="+tst.getID());
                 }
-            }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-            catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-            catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-            catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-    }
+            }
 %>
 <!DOCTYPE html>
 <html>

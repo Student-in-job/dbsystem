@@ -16,6 +16,7 @@ import net.glxn.qrgen.image.ImageType;
 
 import auth.GoogleAuthenticator;
 import auth.Secret;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class SetUpController
@@ -46,34 +47,38 @@ public class SetUpGoogle extends HttpServlet {
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  
- User user = (User) request.getSession().getAttribute("1s_user");
- request.getSession().removeAttribute("1s_user");
- 
- if(user==null){
-    response.sendRedirect(request.getServletContext().getContextPath());
-    return;
- }
-  
-  String secretKey = GoogleAuthenticator.generateSecretKey(user.getID());
-  
-  Secret key = new Secret();
-  key.Secret = secretKey;
-  key.Type = "key";
-  
-  GoogleAuthenticator.put2factor(user.getID(), key);
-  String s = "otpauth://totp/"+user.getMail()+"?secret="+secretKey;
-
-  ByteArrayOutputStream outs = QRCode.from(s).to(ImageType.PNG).stream();
-
-  response.setContentType("image/png");
-  response.setContentLength(outs.size());
-  
-  OutputStream outStream = response.getOutputStream();
-  
-  outStream.write(outs.toByteArray());
-  
-  outStream.flush();
-  outStream.close();
+     try {
+         User user = (User) request.getSession().getAttribute("1s_user");
+         request.getSession().removeAttribute("1s_user");
+         
+         if(user==null){
+             response.sendRedirect(request.getServletContext().getContextPath());
+             return;
+         }
+         
+         String secretKey = GoogleAuthenticator.generateSecretKey(user.getID());
+         
+         Secret key = new Secret();
+         key.Secret = secretKey;
+         key.Type = "key";
+         
+         GoogleAuthenticator.put2factor(user.getID(), key);
+         String s = "otpauth://totp/"+user.getMail()+"?secret="+secretKey;
+         
+         ByteArrayOutputStream outs = QRCode.from(s).to(ImageType.PNG).stream();
+         
+         response.setContentType("image/png");
+         response.setContentLength(outs.size());
+         
+         OutputStream outStream = response.getOutputStream();
+         
+         outStream.write(outs.toByteArray());
+         
+         outStream.flush();
+         outStream.close();
+     } catch (SQLException ex) {
+         throw new ServletException(ex);
+     }
 
  }
 
