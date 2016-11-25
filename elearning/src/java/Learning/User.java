@@ -403,14 +403,14 @@ public class User extends Parent implements API.User{
     {
         if(!Logined){
             if(this.write()){
-                try{
+                /*try{
                     SendMail mail = new SendMail();
                     mail.send("Regestration", "Dear "+this.Name+"!\n"+
                                                "Thank you for your registration in our system, online education!\n" +
                                                "Your login: "+this.mail+"\n" +
                                                "Your password:"+this.mail+"\n", this.mail);
                 }catch(MessagingException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }     
-                try{
+                */try{
                     IcoFile file = new IcoFile(part, this);
                     file.SaveFile();
                 }catch(IOException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); } 

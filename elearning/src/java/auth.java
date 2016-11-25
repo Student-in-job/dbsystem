@@ -51,14 +51,14 @@ public class auth extends HttpServlet {
                     +"&grant_type="+grant_type
                     +"&code="+code;
             
-            //HTTPClient client = new HTTPClient(url, param, "POST");
-            //client.sendRequest();
-            //try {
-                //SONObject requestJSON = client.getRequestJSON();
-                //HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
-                //client1.sendRequest();
-                //JSONObject user_data = client1.getRequestJSON();
-                String mail = "ksinnd@gmail.com";//user_data.getString("email");
+            HTTPClient client = new HTTPClient(url, param, "POST");
+            client.sendRequest();
+            try {
+                JSONObject requestJSON = client.getRequestJSON();
+                HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
+                client1.sendRequest();
+                JSONObject user_data = client1.getRequestJSON();
+                String mail = user_data.getString("email");
                 user = new User(mail);
                 if(user.AuthorizeGoogle()){
                     request.getSession().setAttribute("1s_user", user);
@@ -66,9 +66,10 @@ public class auth extends HttpServlet {
                     if(key!=null){
                         if(key.Type.equals("phone")){
                             SMSAuthenticator sms = new SMSAuthenticator();
-                            sms.sendSMS(user.getID(), key.Secret);
+                            if(!sms.sendSMS(user.getID(), key.Secret))
+                                request.setAttribute("err", "SMS getway is temporarily unavailable!<br>Pleas use Google Autentificator code;");
                         }
-                        response.sendRedirect("authKey.jsp");
+                        request.getRequestDispatcher("authKey.jsp").forward(request, response);
                         return;
                     } else {
                         response.sendRedirect("SetUp2factor.jsp");
@@ -76,9 +77,9 @@ public class auth extends HttpServlet {
                     }
                 }
                         
-            //} catch (JSONException ex) {
-            //    Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
-            //}
+            } catch (JSONException ex) {
+                Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             /*String mail="ksinnD@gmail.com";
                 User user = new User(mail);

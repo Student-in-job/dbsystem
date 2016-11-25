@@ -5,9 +5,18 @@
  */
 package auth;
 
+import DataBasePak.Log;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +49,12 @@ public class smsgetway extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        boolean res = false;
         String phone = request.getParameter("phone");
         String text = request.getParameter("text");
-        String[] cmd = new String[]{
+        int livetime = Integer.parseInt(request.getParameter("livetime"));
+        /*String[] cmd = new String[]{
         "sh", 
         "/home/ksinn/1.sh", 
         "/home/ksinn/key.txt",
@@ -53,7 +65,32 @@ public class smsgetway extends HttpServlet {
           processRequest(response, true);
       } catch (IOException ex) {
           processRequest(response, false);
-      }
+      }*/
+        
+        try{
+            Properties properties=new Properties();
+            properties.setProperty("user","sms");
+            properties.setProperty("password","gfhjkm");
+            properties.setProperty("useUnicode","true");
+            properties.setProperty("characterEncoding","UTF-8"); 
+        
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://172.20.20.118/smsd", properties);
+            
+            PreparedStatement stmt = conn.prepareStatement("insert into outbox(number, text) value (?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            stmt.setString(1, "+"+phone);
+            stmt.setString(2, text);
+            res = 1==stmt.executeUpdate();
+                        
+            
+        } catch (Exception ex) {
+            Log.getOut(ex.getMessage());
+        }
+        
+        processRequest(response, res);
+        
     }
 
     

@@ -33,10 +33,12 @@
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3></h3>
-                    <form if="form" class="form" action="SetUpPhone" method="post">
+                    <form id="form" class="form" action="SetUpPhone" method="post">
                     <div class="form-item">
                         <label>Phone</label>
-                        <input type="text" name="phone" required >
+                        <label style="display: inline;">998 </label>
+                        <input style="display: inline;" type="number" name="prefix" required > 
+                        <input style="display: inline;" type="number" name="phone" required >
                     </div>
 
                     <div class="form-item">
@@ -53,11 +55,15 @@
                 $("#form").validate({
 
                    rules:{ 
-
-                       
-                        
-                        password:{
-                            required: true
+                        phone:{
+                            required: true,
+                            minlength:7,
+                            maxlength:7
+                        },
+                        prefix:{
+                            required: true,
+                            minlength:2,
+                            maxlength:2
                         }
                         
                    }

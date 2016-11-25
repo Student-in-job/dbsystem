@@ -35,14 +35,14 @@ public class SMSAuthenticator  extends SecondFactor{
       long num_code = this.get_code(user, System.currentTimeMillis());
       String code = String.valueOf(num_code);
       if(put_code(user, num_code)){
-      String param = "phone="+
-              phone+
-              "&text="+code;
-              
-      HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
-      client.sendRequest();
-      String req = client.getRequestText();
-      return req.substring(0, 2).equals("ok");
+        String param = "phone="+phone+
+                "&text="+code+
+                "&livetime="+lifetime;
+
+        HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
+        client.sendRequest();
+        String req = client.getRequestText();
+        return req.substring(0, 2).equals("ok");
       } else 
           return false;
       

@@ -53,7 +53,7 @@ public class SetUpPhone extends HttpServlet {
              return;
          }
          
-         String phone = request.getParameter("phone");
+         String phone = "998"+request.getParameter("prefix")+request.getParameter("phone");
          
          Secret key = new Secret();
          key.Secret = phone;

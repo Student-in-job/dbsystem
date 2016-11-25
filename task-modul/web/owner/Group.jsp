@@ -44,6 +44,11 @@
                             Add task <i class="fa fa-plus" aria-hidden="true"></i>
                         </button>
                     </a>
+                    <a href="${pageContext.request.contextPath}/edit/DataBaseManager?group=${group.id}">
+                        <button class="button round outline small">
+                            DMManager <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </a>
                 </div>
             </div>
             <hr>

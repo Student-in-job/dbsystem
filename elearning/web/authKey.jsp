@@ -32,7 +32,7 @@
             <div class="col col-3 text-center">
                 <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
                 <div class="p-error">
-                    <h3></h3>
+                    <h3>${err}</h3>
                     <form class="form" action="VerifyController" method="post">
                     <div class="form-item">
                         <label>Code</label>

@@ -42,7 +42,7 @@
         	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
 		</div>
 	    <div class="col col-3 text-center">
-	    	<a href="${pageContext.request.contextPath}"><div class="item centered logo"></div></a>
+	    	<a href="${pageContext.request.contextPath}/main"><div class="item centered logo"></div></a>
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
 	   	</div>                
                <div class="col col-3 text-right">
