@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import auth.SMSAuthenticator;
 import auth.Secret;
-import java.sql.SQLException;
 
 /**
  * Servlet implementation class SetUpController
@@ -46,7 +45,6 @@ public class SetUpPhone extends HttpServlet {
  
      try {
          User user = (User) request.getSession().getAttribute("1s_user");
-         request.getSession().removeAttribute("1s_user");
          
          if(user==null){
              response.sendRedirect(request.getServletContext().getContextPath());
@@ -67,8 +65,9 @@ public class SetUpPhone extends HttpServlet {
          HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
          client.sendRequest();
          
-         response.sendRedirect(request.getContextPath());
-     } catch (SQLException ex) {
+         response.sendRedirect("SendSMS");
+         
+     } catch (Exception ex) {
          throw new ServletException(ex);
      }
 

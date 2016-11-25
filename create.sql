@@ -28,7 +28,7 @@ create table if not exists users_key (
 	user int(11),
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_key_user  foreign key (user) references user (user_id) on delete no action on update no action,
-	unique(user),
+	unique(user, secret_type),
 	unique(secret_key)
 );
 

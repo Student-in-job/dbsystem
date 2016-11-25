@@ -26,6 +26,8 @@ public class SMSAuthenticator  extends SecondFactor{
   
     public boolean check_code(int user, long code, long time) throws SQLException{
         long saved_code = get_saved_code(user, time);
+        if(saved_code==-1)
+            return false;
         return code==saved_code;
     }
     

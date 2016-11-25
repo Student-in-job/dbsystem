@@ -42,10 +42,31 @@
                     <div class="form-item">
                         <button class="button primary width-100 big">Sign Up</button>
                     </div>
+                        or
+                        <a class="login" onclick="show()">send sms</a>
+                        <div id="sms-message"></div>
+                        
                     </form>
                 </div>
             </div>
         </div>
         <%@include file="/footer.jsp" %>
+        
+        <script>  
+        function show()  
+        {  
+            $.ajax({  
+                url: "<%=request.getServletContext().getContextPath()%>/SendSMS",  
+                cache: false, 
+                error: function(){
+                    window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
+                },
+                success: function(data){ 
+                    $("#sms-message").html(data);  
+                }  
+            });  
+        } 
+         
+    </script> 
     </body>
 </html>

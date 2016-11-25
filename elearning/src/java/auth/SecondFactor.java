@@ -66,11 +66,12 @@ public class SecondFactor {
   return (int) truncatedHash;
  }
     
-    static public Secret get2factor(int user) throws SQLException{
+    static public Secret get2factor(int user, String type) throws SQLException{
 
          Secret key = new Secret();
-         PreparedStatement stmt = db.getConn().prepareStatement("select * from users_key where user=?;");
+         PreparedStatement stmt = db.getConn().prepareStatement("select * from users_key where user=? and secret_type = ?;");
          stmt.setInt(1, user);
+         stmt.setString(2, type);
          ResultSet rs = stmt.executeQuery();
          if(rs.next()){
              key.Secret = rs.getString("secret_key");

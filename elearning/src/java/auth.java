@@ -62,13 +62,9 @@ public class auth extends HttpServlet {
                 user = new User(mail);
                 if(user.AuthorizeGoogle()){
                     request.getSession().setAttribute("1s_user", user);
-                    Secret key = SecondFactor.get2factor(user.getID());
+                    Secret key = SecondFactor.get2factor(user.getID(), "key");
                     if(key!=null){
-                        if(key.Type.equals("phone")){
-                            SMSAuthenticator sms = new SMSAuthenticator();
-                            if(!sms.sendSMS(user.getID(), key.Secret))
-                                request.setAttribute("err", "SMS getway is temporarily unavailable!<br>Pleas use Google Autentificator code;");
-                        }
+                        request.getSession().setAttribute("type", "key");
                         request.getRequestDispatcher("authKey.jsp").forward(request, response);
                         return;
                     } else {

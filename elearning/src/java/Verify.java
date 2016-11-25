@@ -13,6 +13,8 @@ import auth.SMSAuthenticator;
 import auth.SecondFactor;
 import auth.Secret;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Servlet implementation class VerifyController
@@ -55,29 +57,22 @@ public class Verify extends HttpServlet {
          String codestr = request.getParameter("code");
          long code = Long.parseLong(codestr);
          
-         
-         Secret secret= SecondFactor.get2factor(user.getID());
-         boolean r = false;
-         switch(secret.Type){
-             case "phone": {
-                 SMSAuthenticator ga = new SMSAuthenticator();
-                 ga.setWindowSize(5);  //should give 5 * 30 seconds of grace...
-                 r = ga.check_code(user.getID(), code, t);
-                 break;
-             }
-             case "key": {
+         boolean p = false, k = false;
+
+                 if(SecondFactor.get2factor(user.getID(), "phone")!=null);
+                 SMSAuthenticator sa = new SMSAuthenticator();
+                 sa.setWindowSize(5);  
+                 p = sa.check_code(user.getID(), code, t);
+
+                 if(!p){
+                    Secret secret= SecondFactor.get2factor(user.getID(), "key");
+                    GoogleAuthenticator ga = new GoogleAuthenticator();
+                    ga.setWindowSize(5); 
+                    k = ga.check_code(secret.Secret, code, t);
+                 }
                  
-                 GoogleAuthenticator ga = new GoogleAuthenticator();
-                 ga.setWindowSize(5);  //should give 5 * 30 seconds of grace...
-                 r = ga.check_code(secret.Secret, code, t);
-                 break;
-             }
-             default:{
-                 throw new ServletException();
-             }
-         }
-         
-         if(r){
+
+         if(p||k){
              request.getSession().removeAttribute("1s_user");
              request.getSession().setAttribute("user", user);
              response.sendRedirect(request.getContextPath());

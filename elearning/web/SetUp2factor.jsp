@@ -34,7 +34,7 @@
                 <div class="p-error">
                     <h3>Warning! You can not input data agane!</h3>
                     <p>
-                        <a href="SetUpController" target="_blank">get QRcode</a> or <a href="SetUpPhone.jsp"> set up you phone</a>  and login agane!
+                        <a href="SetUpController" target="_blank">get QRcode</a> and login agane!
                     </p>
                     
                 </div>
