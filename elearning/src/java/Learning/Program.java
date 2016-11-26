@@ -295,7 +295,7 @@ public class Program extends Parent{
     public boolean Publish(User user) throws Exception{
         
         if(Teacher.getID() != user.getID()) throw new IllegalAction();
-        if(this.Correct()!=null)  return false;//throw new InvalidParameter();
+        //if(this.Correct()!=null)  return false;//throw new InvalidParameter();
         this.State = "active";
         DataBase db = new DataBase(this);
         db.ReWrite();

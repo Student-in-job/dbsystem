@@ -463,6 +463,7 @@ public class User extends Parent implements API.User{
                             this.Gender = rs.getString("gender");
                             Birthday = rs.getDate("birthday");
                             this.DateRegestration = rs.getDate("addDate");
+                            password = rs.getString("passwords");
                             
                             db.write_auth("i");
                             

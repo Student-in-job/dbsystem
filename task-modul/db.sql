@@ -21,6 +21,7 @@ question text(2000) not null,
 answer text(1000) not null,
 ball int not null default 1,
 times int not null default 3,
+img varchar(1000) default null,
 deleted int not null default 0,
 primary key (id),
 constraint fk_task_group foreign key (group_id) references task_group(id)

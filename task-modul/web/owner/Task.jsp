@@ -39,7 +39,9 @@
                 </div>
             </div>
             <hr>            
-
+            <div class="col">
+                <img src="${task.img}">
+            </div>
             <div class="col">
                 <p>${task.question}</p>
                 <b>${task.answer}</b>

@@ -79,7 +79,8 @@ public class Accept extends Parant{
     
     public boolean putAnswer(String answer) throws Exception{
         
-        if(answer.toLowerCase().indexOf("alter")!=-1){
+        answer = answer.toLowerCase();
+        if(answer.indexOf("alter")!=-1){
             return false;
         }
         

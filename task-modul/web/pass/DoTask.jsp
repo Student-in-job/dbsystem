@@ -41,7 +41,8 @@
                 <div class="task-table">    
                     <div class="task-table-row">    
                         <div class="task-table-cell">
-                            <p>${task.question}</p>                                 
+                            <p>${task.question}</p>
+                            <img src="${task.img}">
                         </div>
                         <div class="task-table-cell">
                             

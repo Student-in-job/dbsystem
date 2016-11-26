@@ -183,14 +183,14 @@ if(request.getMethod().equals("POST")){
                             required: true,
                             number: true,
                             min: 0,
-                            max: 12
+                            max: 21
                         },
                         
                         time:{
                             required: true,
                             number: true,
                             min: 1,
-                            max: 120
+                            max: 180
                         },
                                 
                         group:{

@@ -43,7 +43,7 @@ public class StudentConnect extends DBConnect{
         this.conn = this.getConnection();
         this.stmt = conn.createStatement();
             
-        if(matcher.find()){
+        /*if(matcher.find()){
             String name="";
             try{
                 name = this.createTempTable(query);
@@ -53,7 +53,7 @@ public class StudentConnect extends DBConnect{
             }
             stmt.execute(query);
             query = "select * from "+name+";";
-        }  
+        } */ 
             
             try{
                 this.rs = stmt.executeQuery(query);

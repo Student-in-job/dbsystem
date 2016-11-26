@@ -31,6 +31,7 @@
                     <h3>${group.name}</h3>
                     <h4>Public: ${group.publish}</h4>
                     <h4>Active: ${group.active}</h4>
+                    <h4>Task's count: ${tasks.size()}</h4>
                 </div>
                 <div class="col col-1">
                     <a class="test-edit" href="${pageContext.request.contextPath}/edit/EditGroup?group=${group.id}">

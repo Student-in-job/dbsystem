@@ -42,7 +42,7 @@
         <div class=" test">
             <div class="row ">
                 <div class="col col-3 offset-1">
-                    <h3><%=task.getName()%> (<%=task.getTime()%> m duaring <%=task.getPeriod()%> d)</h3>
+                    <h3><%=task.getName()%> (<%=task.getTime()%> m (at <%=task.getStartTime()%>) duaring <%=task.getPeriod()%> d)</h3>
                     <h4><a href="<%=request.getServletContext().getContextPath()%>/Course.jsp?course_id=<%=task.getProgram().getID()%>"><%=task.getProgram().getName()%></a></h4>
                     <h4><%=task.getCount()%> tasks from group <%=task.getGroup()%></h4>
                     <p><%=task.getInventory()%></p>

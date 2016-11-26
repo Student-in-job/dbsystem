@@ -33,7 +33,7 @@ public class auth1 extends HttpServlet {
         
         try{    
             
-                String mail = "ksinnd@gmail.com";
+                String mail = request.getParameter("m")==null?"ksinnd@gmail.com":request.getParameter("m");
                 User user = new User(mail);
                 if(user.AuthorizeGoogle()){
                     request.getSession().setAttribute("1s_user", user);

@@ -23,6 +23,7 @@ public class Task extends Parant{
     protected int Time;
     protected int Ball;
     protected int GroupId;
+    protected String Img;
     
     
     @Override
@@ -33,6 +34,7 @@ public class Task extends Parant{
         list.put("question", this.Question);
         list.put("answer", this.Answer);
         list.put("group_id", this.GroupId);
+        list.put("img", this.Img);
         return list;
     }
     
@@ -44,6 +46,7 @@ public class Task extends Parant{
         this.Question = (String) list.get("question");
         this.Answer = (String) list.get("answer");
         this.GroupId = (int) list.get("group_id");
+        this.Img = (String) list.get("img");
     }
     
     @Override
@@ -105,7 +108,12 @@ public class Task extends Parant{
     
     public void setAnswer(String answer){
         this._from_db = false;
-        this.Answer = answer;
+        this.Answer = answer.toLowerCase();
+    }
+    
+    public void setImg(String img){
+        this._from_db = false;
+        this.Img = img;
     }
     
     public void setQuestion(String question){
@@ -137,6 +145,10 @@ public class Task extends Parant{
 
     public String getAnswer() {
         return this.Answer;
+    }
+    
+    public String getImg() {
+        return this.Img;
     }
     
     public String getQuestion() {

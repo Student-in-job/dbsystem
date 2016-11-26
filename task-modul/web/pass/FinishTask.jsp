@@ -28,6 +28,7 @@
         <div class="row centered text-center test">
             <div class="col col-8 ">
                 <h1>You compleat</h1>
+                <p>${request.error}</p>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>

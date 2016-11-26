@@ -185,16 +185,13 @@
             catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
         }*/
 
-        try {
+
             user.Change(request.getParameter("password"), user.getMail(), password, name, surname, birthday, gender, request.getPart("picture"));
             session.removeAttribute("user");
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getRequestURI()+"?e=password"); return;}
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); return;}
-        catch (IOException ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IOExtension"); return;} 
-        catch (InvalidParameter ex) {Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=InvalidParameter"); return;} 
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); return;}       
-     
-
+            User new_user = new User(user.getMail());
+            new_user.Authorize();
+            session.setAttribute("user", new_user);
+            
             response.sendRedirect("Userbar.jsp");
         }
 %>

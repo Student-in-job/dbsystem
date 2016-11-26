@@ -52,7 +52,7 @@ public class work_result extends HttpServlet {
                 accept.putMark(Integer.parseInt(request.getParameter("result")));        
                         
             } catch (Exception ex) {
-                Logger.getLogger(work_result.class.getName()).log(Level.SEVERE, null, ex);
+               response.getWriter().println("0");
             }
             
             

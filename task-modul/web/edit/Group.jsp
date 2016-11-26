@@ -34,7 +34,7 @@
                     
                     <div class="form-item">
                         <label>Name:</label>
-                        <textarea id="input" required name="name">${group.name}</textarea>
+                        <input class="width-100" type="text" id="input" required name="name" value="${group.name}">
                     </div>
                     
                     <div class="form-item">

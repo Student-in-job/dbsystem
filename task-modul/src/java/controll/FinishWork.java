@@ -19,6 +19,7 @@ public class FinishWork extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String error="";
         int user_id = (int) request.getSession().getAttribute("user_id");
         Integer work_id = (Integer) request.getSession().getAttribute("work_id");
         Work work = new Work();
@@ -39,12 +40,17 @@ public class FinishWork extends HttpServlet {
                     work = new Work(work_id);
                 }
             MarkSWT tok = new MarkSWT();
-            tok.putData(work, AppInf.task, AppInf.main, 60*1000*5);
+            tok.putData(work, AppInf.task, AppInf.main, System.currentTimeMillis()+60*1000*5);
             HTTPClient client = new HTTPClient(AppInf.main+"/api/work_result?"+tok.getURLParam(), null, "GET");
             client.sendRequest();
+            String res = client.getRequestText().substring(0, client.getRequestText().length()-1);
+            if(!"1".equals(res)){
+                error = "Error whith connect. Sed to you teach.";
+            }
         } catch(Exception ex){
             throw new ServletException(ex);
         }
+            request.setAttribute("error", error);
             request.getRequestDispatcher("FinishTask.jsp").forward(request, response);
         
     }

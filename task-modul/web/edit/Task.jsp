@@ -59,6 +59,11 @@
                     </div>
                     
                     <div class="form-item">
+                        <label>Scheme:</label> 
+                        <input class="width-100" type="text" name="img" value="${task.img}">
+                    </div>
+                    
+                    <div class="form-item">
                         <label>Time(in minuts):</label>
                         <input class="width-100" min="1" type="number" name="time" value="${task.time}">
                     </div>

@@ -37,6 +37,8 @@ public class CreateTask extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        request.setCharacterEncoding("UTF-8");
+        
         int user_id = (int) request.getSession().getAttribute("user_id");
         
         int group;
@@ -55,6 +57,7 @@ public class CreateTask extends HttpServlet {
         }
         
         new_task.setAnswer(request.getParameter("answer"));
+        new_task.setImg(request.getParameter("img"));
         new_task.setQuestion(request.getParameter("question"));
         try{
             new_task.setTime(Integer.parseInt(request.getParameter("time")));
