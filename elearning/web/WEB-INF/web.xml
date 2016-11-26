@@ -78,6 +78,10 @@
         <servlet-class>auth</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>auth1</servlet-name>
+        <servlet-class>auth1</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>work_data</servlet-name>
         <servlet-class>api.work_data</servlet-class>
     </servlet>
@@ -120,6 +124,10 @@
     <servlet-mapping>
         <servlet-name>NextTask</servlet-name>
         <url-pattern>/Pass/NextTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auth1</servlet-name>
+        <url-pattern>/auth1</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>auth</servlet-name>

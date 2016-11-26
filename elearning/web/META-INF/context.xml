@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context allowCasualMultipartParsing="true" path="/elearningzz">
-
-<Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
-               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-               username="root" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/elearning?useUnicode=true&amp;characterEncoding=UTF-8"
-/>
-
-<Resource name="jdbc/DBtuter" auth="ContainerTuter" type="javax.sql.DataSource"
-               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-               username="tuter" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"/>
-
-<Resource name="jdbc/DBstudent" auth="ContainerStudent" type="javax.sql.DataSource"
-               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-               username="student" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"
-/>
-
+<Context allowCasualMultipartParsing="true" path="/elearning">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxIdle="30" maxTotal="100" maxWaitMillis="10000" name="jdbc/DB" password="qwerty" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/elearning?useUnicode=true&amp;characterEncoding=UTF-8" username="user"/>
+  <Resource auth="ContainerTuter" driverClassName="com.mysql.jdbc.Driver" maxIdle="30" maxTotal="100" maxWaitMillis="10000" name="jdbc/DBtuter" password="qwerty" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8" username="tuter"/>
+  <Resource auth="ContainerStudent" driverClassName="com.mysql.jdbc.Driver" maxIdle="30" maxTotal="100" maxWaitMillis="10000" name="jdbc/DBstudent" password="qwerty" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8" username="student"/>
 </Context>
-

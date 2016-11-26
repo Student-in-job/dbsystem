@@ -28,12 +28,12 @@ public class SecondFactor {
  final static int numOfScratchCodes = 5;
  final static int scratchCodeSize = 8;
  
- int window_size =3;  // default 3 - max 17 (from google docs)
+ int window_size =0;  // default 3 - max 17 (from google docs)
  
-  public void setWindowSize(int s) {
+  /*public void setWindowSize(int s) {
   if( s >= 1 && s <= 17 )
    window_size = s;
- }
+ }*/
   
   
     

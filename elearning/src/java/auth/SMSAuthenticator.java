@@ -33,7 +33,7 @@ public class SMSAuthenticator  extends SecondFactor{
     
     public boolean sendSMS(int user, String phone) throws SQLException{
       
-      this.setWindowSize(5);
+      //this.setWindowSize(5);
       long num_code = this.get_code(user, System.currentTimeMillis());
       String code = String.valueOf(num_code);
       if(put_code(user, num_code)){

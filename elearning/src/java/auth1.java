@@ -5,24 +5,19 @@
  */
 
 
-import API.AppInf;
-import API.HTTPClient;
+
 import Learning.User;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 import auth.*;
 /**
  *
  * @author ksinn
  */
-public class auth extends HttpServlet {
+public class auth1 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,29 +32,9 @@ public class auth extends HttpServlet {
             throws ServletException, IOException {
         
         try{    
-            User user = null;
-            String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
-            String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
-            String redirect_uri = AppInf.main+"/auth";
-            String grant_type = "authorization_code";
-            String code = request.getParameter("code");
             
-            String url = "https://accounts.google.com/o/oauth2/token";
-            String param = "client_id="+client_id
-                    +"&client_secret="+client_secret
-                    +"&redirect_uri="+redirect_uri
-                    +"&grant_type="+grant_type
-                    +"&code="+code;
-            
-            HTTPClient client = new HTTPClient(url, param, "POST");
-            client.sendRequest();
-            try {
-                JSONObject requestJSON = client.getRequestJSON();
-                HTTPClient client1 = new HTTPClient("https://www.googleapis.com/oauth2/v1/userinfo?access_token="+requestJSON.getString("access_token"), null, "GET");
-                client1.sendRequest();
-                JSONObject user_data = client1.getRequestJSON();
-                String mail = user_data.getString("email");
-                user = new User(mail);
+                String mail = "ksinnd@gmail.com";
+                User user = new User(mail);
                 if(user.AuthorizeGoogle()){
                     request.getSession().setAttribute("1s_user", user);
                     Secret key = SecondFactor.get2factor(user.getID(), "key");
@@ -73,9 +48,7 @@ public class auth extends HttpServlet {
                     }
                 }
                         
-            } catch (JSONException ex) {
-                throw new ServletException(ex);
-            }
+            
             
             
                

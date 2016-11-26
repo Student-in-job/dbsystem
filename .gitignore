@@ -11,3 +11,6 @@ API/dist
 /rsa-sign/build/
 /el_gamal/nbproject/private/
 /el_gamal/build/
+/header/nbproject/private/
+/header/build/
+/header/dist/

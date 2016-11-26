@@ -768,6 +768,32 @@ public class DataBase {
             Done = true;
         
     }
+    
+    public void write_ip(String ip) throws SQLException {
+    
+        User user = (User) Ons;
+        PreparedStatement stmt = Connection.prepareStatement
+        ("insert into auth_ip (user, ip)  values (?, ?);");
+            stmt.setInt(1, user.getID());
+            stmt.setString(2, ip);
+            Done = 1==stmt.executeUpdate();
+        
+    }
+    
+    public boolean chek_ip(String ip) throws SQLException {
+        boolean res = false;
+        User user = (User) Ons;
+        PreparedStatement stmt = Connection.prepareStatement
+        ("select user from auth_ip where ip = ? and date(addDate) = date(now());");
+            stmt.setString(1, ip);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                res = rs.getInt("user")==user.getID();
+            } else 
+                res = true;
+        return res;    
+        
+    }
 
     public ResultSet FindWork() throws Exception {
         if(!"accept_task".equals(Type)){

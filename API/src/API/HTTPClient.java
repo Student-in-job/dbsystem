@@ -71,6 +71,7 @@ public class HTTPClient {
               Response = resp.toString();
 
         } catch (Exception e) {
+            e.getMessage();
 
         } finally {
 

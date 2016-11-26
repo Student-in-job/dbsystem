@@ -48,6 +48,14 @@ create table if not exists auth (
 	
 );
 
+create table if not exists auth_ip (
+	user int(11) not null,
+	ip text not null,
+	status int not null,
+	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	constraint fk_ip_user  foreign key (user) references user (user_id) on delete no action on update no action
+);
+
 create table if not exists area (
   area_id int(11) not null auto_increment,
   area_name varchar(20) not null,

@@ -52,7 +52,8 @@
         </div>
         <%@include file="/footer.jsp" %>
         
-        <script>  
+        <script>      
+            
         function show()  
         {  
             $.ajax({  
@@ -61,8 +62,9 @@
                 error: function(){
                     window.location.href = "<%=request.getServletContext().getContextPath()%>/Error.jsp";
                 },
-                success: function(data){ 
-                    $("#sms-message").html(data);  
+                success: function(data){
+                    $("#sms-message").html(data); 
+                    
                 }  
             });  
         } 

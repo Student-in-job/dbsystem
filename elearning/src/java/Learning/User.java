@@ -570,4 +570,18 @@ public class User extends Parent implements API.User{
     @Override
     public void setSurname(String data) {
     }
+
+    public boolean chekIP(String header) throws SQLException {
+        boolean res = false;
+        DataBase db = new DataBase(this);
+        if(db.chek_ip(header))
+        {
+            db.write_ip(header);
+            res = true;
+        } else {
+            res = false;
+        }
+        return res;
+       
+    }
 }

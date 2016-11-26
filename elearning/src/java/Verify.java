@@ -13,8 +13,6 @@ import auth.SMSAuthenticator;
 import auth.SecondFactor;
 import auth.Secret;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Servlet implementation class VerifyController
@@ -60,14 +58,13 @@ public class Verify extends HttpServlet {
          boolean p = false, k = false;
 
                  if(SecondFactor.get2factor(user.getID(), "phone")!=null);
-                 SMSAuthenticator sa = new SMSAuthenticator();
-                 sa.setWindowSize(5);  
+                 SMSAuthenticator sa = new SMSAuthenticator();  
                  p = sa.check_code(user.getID(), code, t);
 
                  if(!p){
                     Secret secret= SecondFactor.get2factor(user.getID(), "key");
                     GoogleAuthenticator ga = new GoogleAuthenticator();
-                    ga.setWindowSize(5); 
+                    //ga.setWindowSize(0); 
                     k = ga.check_code(secret.Secret, code, t);
                  }
                  
@@ -75,11 +72,10 @@ public class Verify extends HttpServlet {
          if(p||k){
              request.getSession().removeAttribute("1s_user");
              request.getSession().setAttribute("user", user);
-             response.sendRedirect(request.getContextPath());
          }else{
              request.getSession().removeAttribute("1s_user");
-             response.sendRedirect(request.getContextPath());
          }  
+         response.sendRedirect(request.getContextPath());
      } catch (SQLException ex) {
          throw new ServletException(ex);
      }

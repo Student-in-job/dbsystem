@@ -77,7 +77,7 @@ public class smsgetway extends HttpServlet {
             
             stmt.setString(1, "+"+phone);
             stmt.setString(2, text);
-            res = 1==1;//stmt.executeUpdate();
+            res = 1==stmt.executeUpdate();
                         
             
         } catch (Exception ex) {
