@@ -1,6 +1,6 @@
 package controll;
 
-import Model.Log;
+
 import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
@@ -17,17 +17,26 @@ public class EditTask extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int task;
-        Task new_task = new Task();
-        try{
-            task = Integer.parseInt(request.getParameter("task"));
-            new_task.getById(task);
-        } catch (Exception ex){
-            throw new ServletException(ex);
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            
+            int task;
+            Task new_task = new Task();
+            
+            try{
+                task = Integer.parseInt(request.getParameter("task"));
+                new_task.getById(task);
+            } catch (Exception ex){
+                throw new ServletException(ex);
+            }
+            
+            if(user_id==new_task.getGroup().getOwner()){
+                request.setAttribute("task", new_task);
+                request.getRequestDispatcher("Task.jsp").forward(request, response);
+                return;
+            }
         }
-        
-        request.setAttribute("task", new_task);
-        request.getRequestDispatcher("Task.jsp").forward(request, response);
+        throw new ServletException("You cannot see this page!");
     }
 
     @Override
@@ -36,51 +45,59 @@ public class EditTask extends HttpServlet {
                 
         request.setCharacterEncoding("UTF-8");
         
-        int task;
-        Task new_task = new Task();
-        try{
-            task = Integer.parseInt(request.getParameter("task"));
-            new_task.getById(task);
-        } catch (Exception ex){
-            throw new ServletException(ex);
-        }
-        
-        
-        new_task.setAnswer(request.getParameter("answer"));
-        new_task.setQuestion(request.getParameter("question"));
-        try{
-            new_task.setTime(Integer.parseInt(request.getParameter("time")));
-        } catch(Exception ex) {
-        }
-        try{
-            new_task.setBall(Integer.parseInt(request.getParameter("ball")));
-        } catch(Exception ex) {
-        }
-        boolean res;
-        try{
-            StudentConnect cheker = new StudentConnect();
-            boolean good_query = cheker.exequtQuery(new_task.getAnswer());
-            if(good_query){
-                res = new_task.Update(1);
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            
+            int task;
+            Task new_task = new Task();
+            
+            if(user_id==new_task.getGroup().getOwner()){
+                try{
+                    task = Integer.parseInt(request.getParameter("task"));
+                    new_task.getById(task);
+                } catch (Exception ex){
+                    throw new ServletException(ex);
+                }
 
-                if(res){
-                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
-                    return;
-                } else {
-                    request.setAttribute("task", new_task);
-                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
-                    return;
-                } 
-            } else {
-                request.setAttribute("task", new_task);
-                request.setAttribute("error", "Error code: "+cheker.getException().getErrorCode()+ ". " + cheker.getException().getMessage());
-                request.getRequestDispatcher("Task.jsp").forward(request, response);
-                return;
+
+                new_task.setAnswer(request.getParameter("answer"));
+                new_task.setQuestion(request.getParameter("question"));
+                try{
+                    new_task.setTime(Integer.parseInt(request.getParameter("time")));
+                } catch(Exception ex) {
+                }
+                try{
+                    new_task.setBall(Integer.parseInt(request.getParameter("ball")));
+                } catch(Exception ex) {
+                }
+                boolean res;
+                try{
+                    StudentConnect cheker = new StudentConnect();
+                    boolean good_query = cheker.exequtQuery(new_task.getAnswer());
+                    if(good_query){
+                        res = new_task.Update(1);
+
+                        if(res){
+                            response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                            return;
+                        } else {
+                            request.setAttribute("task", new_task);
+                            response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
+                            return;
+                        } 
+                    } else {
+                        request.setAttribute("task", new_task);
+                        request.setAttribute("error", "Error code: "+cheker.getException().getErrorCode()+ ". " + cheker.getException().getMessage());
+                        request.getRequestDispatcher("Task.jsp").forward(request, response);
+                        return;
+                    }
+
+                } catch(Exception ex){
+                    throw new ServletException(ex);
+                }
             }
-                
-        } catch(Exception ex){
-            throw new ServletException(ex);
         }
+        throw new ServletException("You cannot see this page!");
 
     }
 

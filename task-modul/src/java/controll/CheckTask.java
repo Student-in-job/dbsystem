@@ -38,6 +38,7 @@ public class CheckTask extends HttpServlet {
                     request.setAttribute("answer", answer);
                     request.setAttribute("task", accept.getTask());
                     request.getRequestDispatcher("DoTask.jsp").forward(request, response);
+                    return;
                 }
             }
         } catch(Exception ex){

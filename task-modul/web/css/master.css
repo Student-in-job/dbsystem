@@ -458,3 +458,8 @@ a.test-edit:hover {
     display: table-cell;
     width: 40%;
 }
+
+.db-schem {
+    
+    max-width: 600px;
+}

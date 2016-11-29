@@ -23,18 +23,27 @@ public class RenderAdminGroup extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int group;
-        TaskGroup task_group = new TaskGroup();
-        try{
-            group = Integer.parseInt(request.getParameter("group"));
-            task_group.getById(group);
-        } catch (Exception ex){
-            throw new ServletException(ex);
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            int group;
+            TaskGroup task_group = new TaskGroup();
+            
+            try{
+                group = Integer.parseInt(request.getParameter("group"));
+                task_group.getById(group);
+            } catch (Exception ex){
+                throw new ServletException(ex);
+            }
+            
+            if(user_id==task_group.getOwner()){
+                
+                request.setAttribute("group", task_group);
+                request.setAttribute("tasks", task_group.getTasks());
+                request.getRequestDispatcher("Group.jsp").forward(request, response);
+                return;
+            }
         }
-        
-        request.setAttribute("group", task_group);
-        request.setAttribute("tasks", task_group.getTasks());
-        request.getRequestDispatcher("Group.jsp").forward(request, response);
+        throw new ServletException("You cannot see this page!");
     }
 
     

@@ -31,6 +31,7 @@ public class CreateWork extends HttpServlet {
                 if(work.isExistKey()){
                     request.getSession().setAttribute("work_id", work.getId());
                     response.sendRedirect("NextTask");
+                    return;
                 } else {
                     String WORK_KEY = request.getParameter("work_key");
                     HTTPClient client = new HTTPClient(request.getParameter("Issuer")+"/api/work_data", "work_key="+request.getParameter("work_key"), "POST");
@@ -43,6 +44,7 @@ public class CreateWork extends HttpServlet {
                             if(work.Write()){
                                 request.getSession().setAttribute("work_id", work.getId());
                                 response.sendRedirect("NextTask");
+                                return;
                             } else {
                                 throw new Exception();
                             }

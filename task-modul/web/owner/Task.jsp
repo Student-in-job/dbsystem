@@ -40,7 +40,7 @@
             </div>
             <hr>            
             <div class="col">
-                <img src="${task.img}">
+                <img class="db-schem" src="${task.img}">
             </div>
             <div class="col">
                 <p>${task.question}</p>

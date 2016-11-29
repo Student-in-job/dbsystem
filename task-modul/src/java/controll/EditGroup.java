@@ -6,7 +6,7 @@
 package controll;
 
 
-import Model.Log;
+
 import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -24,18 +24,27 @@ public class EditGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int group;
-        TaskGroup new_group = new TaskGroup();
-        try{
-            group = Integer.parseInt(request.getParameter("group"));
-            new_group.getById(group);
-        } catch (Exception ex){
-            throw new ServletException(ex);
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            int group;
+            TaskGroup new_group = new TaskGroup();
+            
+            try{
+                group = Integer.parseInt(request.getParameter("group"));
+                new_group.getById(group);
+            } catch (Exception ex){
+                throw new ServletException(ex);
+            }
+            
+            if(user_id==new_group.getOwner()){
+
+                request.setAttribute("group", new_group);
+                request.getRequestDispatcher("Group.jsp").forward(request, response);
+                return;
+            }
         }
         
-        request.setAttribute("group", new_group);
-        request.getRequestDispatcher("Group.jsp").forward(request, response);
-        
+        throw new ServletException("You cannot see this page!");
     }
 
     
@@ -45,33 +54,42 @@ public class EditGroup extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
-        int group;
-        TaskGroup new_group = new TaskGroup();
-        try{
-            group = Integer.parseInt(request.getParameter("group"));
-            new_group.getById(group);
-        } catch (Exception ex){
-            throw new ServletException(ex);
-        }
-        
-        new_group.setName(request.getParameter("name"));
-        new_group.setPublish("true".equals(request.getParameter("publish")));
-        
-        boolean res;
-        try{
-            res = new_group.Update(1);
-
-            if(res){
-                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 
-                return;
-            } else {
-                request.setAttribute("group", new_group);
-                request.getRequestDispatcher("Group.jsp").forward(request, response);
-                return;
+        int user_id = (int) request.getSession().getAttribute("user_id");
+        if(user_id!=0){
+            int group;
+            TaskGroup new_group = new TaskGroup();
+            
+            try{
+                group = Integer.parseInt(request.getParameter("group"));
+                new_group.getById(group);
+            } catch (Exception ex){
+                throw new ServletException(ex);
             }
-        } catch(Exception ex){
-            throw new ServletException(ex);
+            
+            if(user_id==new_group.getOwner()){
+
+                new_group.setName(request.getParameter("name"));
+                new_group.setPublish("true".equals(request.getParameter("publish")));
+
+                boolean res;
+                try{
+                    res = new_group.Update(user_id);
+
+                    if(res){
+                        response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 
+                        return;
+                    } else {
+                        request.setAttribute("group", new_group);
+                        request.getRequestDispatcher("Group.jsp").forward(request, response);
+                        return;
+                    }
+                } catch(Exception ex){
+                    throw new ServletException(ex);
+                }
+            }
         }
+        
+        throw new ServletException("You cannot see this page!");
     }
 
     

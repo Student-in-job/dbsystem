@@ -1,5 +1,6 @@
 
 
+import API.AppInf;
 import Learning.User;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class SetUpGoogle extends HttpServlet {
          key.Type = "key";
          
          GoogleAuthenticator.put2factor(user.getID(), key);
-         String s = "otpauth://totp/"+user.getMail()+"?secret="+secretKey;
+         String s = "otpauth://totp/"+AppInf.main+"?secret="+secretKey;
          
          ByteArrayOutputStream outs = QRCode.from(s).to(ImageType.PNG).stream();
          

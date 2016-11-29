@@ -42,7 +42,7 @@
                     <div class="task-table-row">    
                         <div class="task-table-cell">
                             <p>${task.question}</p>
-                            <img src="${task.img}">
+                            <img class="db-schem" src="${task.img}">
                         </div>
                         <div class="task-table-cell">
                             

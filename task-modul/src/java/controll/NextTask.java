@@ -51,8 +51,10 @@ public class NextTask extends HttpServlet {
             request.getSession().setAttribute("accept", accept);
             request.setAttribute("task", accept.getTask());
             request.getRequestDispatcher("DoTask.jsp").forward(request, response);
+            return;
             } else {
                 response.sendRedirect("Start");
+                return;
             }
         } catch(Exception ex){
             throw new ServletException(ex);

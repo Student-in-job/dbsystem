@@ -37,6 +37,7 @@ public class test extends HttpServlet {
             test.getById(1);
             request.setAttribute("test", test);
             request.getRequestDispatcher("test.jsp").forward(request, response);
+            return;
         } catch (Exception ex) {
             Log.Write(ex.getLocalizedMessage());
         }

@@ -49,7 +49,7 @@ public class User implements API.User{
                 list.add(group); 
             }
         } catch (Exception ex) {
-            
+            Log.Write(ex.getMessage());
         }
         
         return list;
