@@ -299,3 +299,6 @@ CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
 grant alter, select, create, delete, drop, index, update, insert  on task to 'tuter'@'localhost';
 grant alter, select, CREATE, delete, update, insert on task to 'student'@'localhost';
 flush privileges;*/
+
+grant all privileges on task_modul to 'user'@'localhost';
+flush privileges;

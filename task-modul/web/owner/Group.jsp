@@ -73,6 +73,9 @@
                         </div>
                 </div>
                 <div class="col">
+                    <a class="test-edit" href="${pageContext.request.contextPath}/owner/Task?task=${task.id}">
+                        <i class="fa fa-trash font-green"></i> Show
+                    </a> 
                     <a class="test-edit" href="${pageContext.request.contextPath}/edit/Delete?task=${task.id}">
                         <i class="fa fa-trash font-green"></i> Delete
                     </a> 

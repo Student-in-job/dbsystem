@@ -3,7 +3,7 @@
     
     <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
                    maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-                   username="root" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
+                   username="user" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
                    url="jdbc:mysql://localhost:3306/task_modul?useUnicode=true&amp;characterEncoding=UTF-8"
     />
     
@@ -18,7 +18,7 @@
                url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"
     />
     
-    <Environment name="path/log" value="/home/ksinn/log.txt"
+    <Environment name="path/log" value="/srv/tomcat8/logs/task-modul.txt"
                 type="java.lang.String" override="false"/>
     
     <Environment name="path/real" value="/home/ksinn"
