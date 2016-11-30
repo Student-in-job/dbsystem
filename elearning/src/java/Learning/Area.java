@@ -5,7 +5,9 @@
  */
 package Learning;
 
-import DataBasePak.*;
+import Staff.Storage;
+import Staff.DataBase;
+import Staff.Log;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,11 +65,11 @@ public class Area extends Parent{
                         try {
                             list.add(new Program(rs.getInt("program_id")));
                         } catch (SQLException ex) {
-                        Log.getOut(ex.getMessage());
+                        Log.Write(ex.getLocalizedMessage()+"\n"+ex.getSQLState());
                         }
                     }
                 }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
                 }
         return list;
     }
@@ -91,11 +93,11 @@ public class Area extends Parent{
                                 if(pg.isPublished())
                                     list.add(pg);
                             }catch (SQLException ex){
-                                Log.getOut(ex.getMessage());
+                                Log.Write(ex.getLocalizedMessage());;
                             }
                         }                
         }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());
         }
         
         return list;
@@ -110,11 +112,11 @@ public class Area extends Parent{
                             try{
                                 list.add(new Area(rs.getInt("area_id")));
                             }catch (SQLException ex) {
-                                Log.getOut(ex.getMessage());
+                                Log.Write(ex.getLocalizedMessage());;
                             }
                         }
             }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
             }
         
         return list;

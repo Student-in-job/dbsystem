@@ -12,12 +12,13 @@
 package Learning;
 
 
-import DataBasePak.DBConnect;
+import Staff.DBConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,16 @@ public abstract class Parent extends DBConnect{
     abstract protected void _setParams(HashMap<String, Object> Params) throws Exception;
     abstract public String _getType();
     abstract protected boolean _isCorrect();
+    
+    public ArrayList<HashMap<String, Object>> getObjectsParam(HashMap<String, Object> params) throws Exception{
+        return this._parameterSelect(params);
+    }
+    
+    public void getFromParam(HashMap<String, Object> param) throws Exception{
+        this._from_db = false;
+        this.ID = (int) param.get("id");
+        this._setParams(param);
+    }
     
     protected boolean _select() throws Exception{
         
@@ -74,102 +85,120 @@ public abstract class Parent extends DBConnect{
     
     protected boolean _insert() throws NamingException, SQLException{
         
-        if(!this._isCorrect()) return false;
+        Connection conn = null;
+        try{
+            if(!this._isCorrect()) return false;
 
-            Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
-            String query_string = this.generateQueryString(params, "insert");
+                Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
+                String query_string = this.generateQueryString(params, "insert");
 
-            Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string, Statement.RETURN_GENERATED_KEYS);
+                conn = this.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query_string, Statement.RETURN_GENERATED_KEYS);
 
-            int i=1;
-            for(Map.Entry<String, Object> param : params){
-                /*if(param.getValue() == null){
-                    i++;
-                    continue;
-                }*/
-                if(param.getValue() instanceof Integer){
-                    stmt.setInt(i, (int) param.getValue());
-                    i++;
-                    continue;
+                int i=1;
+                for(Map.Entry<String, Object> param : params){
+                    /*if(param.getValue() == null){
+                        i++;
+                        continue;
+                    }*/
+                    if(param.getValue() instanceof Integer){
+                        stmt.setInt(i, (int) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof String){
+                        stmt.setString(i, (String) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Date){
+                        stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Long){
+                        stmt.setLong(i, ((Long) param.getValue()));
+                        i++;
+                        continue;
+                    }
                 }
-                if(param.getValue() instanceof String){
-                    stmt.setString(i, (String) param.getValue());
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Date){
-                    stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Long){
-                    stmt.setLong(i, ((Long) param.getValue()));
-                    i++;
-                    continue;
-                }
-            }
 
-            int result = stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            int auto_incrementID;
-            if(result == 1){
-                if(rs.next()) 
-                    this.ID = rs.getInt(1);
-                this._from_db = true;
-            }
-            conn.close();
-            return result == 1;
+                int result = stmt.executeUpdate();
+                ResultSet rs = stmt.getGeneratedKeys();
+                int auto_incrementID;
+                if(result == 1){
+                    if(rs.next()) 
+                        this.ID = rs.getInt(1);
+                    this._from_db = true;
+                }
+                conn.close();
+                return result == 1;
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
 
     }
     
     protected boolean _update() throws NamingException, SQLException{
-        if(this.ID==0) return false;
-        if(!this._isCorrect()) return false;
-            Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
-            String query_string = this.generateQueryString(params, "update");
+        Connection conn = null;
+        try{
+            if(this.ID==0) return false;
+            if(!this._isCorrect()) return false;
+                Set<Map.Entry<String, Object>> params = this._getParams().entrySet();
+                String query_string = this.generateQueryString(params, "update");
 
-            Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
+                conn = this.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query_string);
 
-            int i=1;
-            for(Map.Entry<String, Object> param : params){
-                if(param.getValue() instanceof Integer){
-                    stmt.setInt(i, (int) param.getValue());
-                    i++;
-                    continue;
+                int i=1;
+                for(Map.Entry<String, Object> param : params){
+                    if(param.getValue() instanceof Integer){
+                        stmt.setInt(i, (int) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof String){
+                        stmt.setString(i, (String) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Date){
+                        stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                    }
                 }
-                if(param.getValue() instanceof String){
-                    stmt.setString(i, (String) param.getValue());
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Date){
-                    stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
-                    i++;
-                    continue;
-                }
-            }
-            stmt.setInt(i, this.ID);
+                stmt.setInt(i, this.ID);
 
-            int result = stmt.executeUpdate();
-            conn.close();
-            if(result==1) 
-                this._from_db = true;
-            return result == 1;
+                int result = stmt.executeUpdate();
+                conn.close();
+                if(result==1) 
+                    this._from_db = true;
+                return result == 1;
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
 
     }
     
     protected boolean _delete() throws NamingException, SQLException{
-        if(this.ID==0) return false;
-            String query_string = this.generateQueryString(null, "delete");
+        Connection conn = null;
+        try{
+            if(this.ID==0) return false;
+                String query_string = this.generateQueryString(null, "delete");
 
-            Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
-            stmt.setInt(1, this.ID);
-            int result = stmt.executeUpdate();
-            conn.close();
-            return result == 1;
+                conn = this.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query_string);
+                stmt.setInt(1, this.ID);
+                int result = stmt.executeUpdate();
+                conn.close();
+                return result == 1;
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
 
     }
     
@@ -252,5 +281,46 @@ public abstract class Parent extends DBConnect{
         return query;
     }
     
+    protected ArrayList<HashMap<String, Object>> _parameterSelect(HashMap<String, Object> Params) throws Exception{
+        
+        ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+        
+        Set<Map.Entry<String, Object>> params = Params.entrySet();
+            String query_string = this.generateQueryString(params, "select");
+
+            Connection conn = this.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query_string);
+            int i=1;
+            for(Map.Entry<String, Object> param : params){
+                if(param.getValue() instanceof Integer){
+                    stmt.setInt(i, (int) param.getValue());
+                    i++;
+                    continue;
+                }
+                if(param.getValue() instanceof String){
+                    stmt.setString(i, (String) param.getValue());
+                    i++;
+                    continue;
+                }
+                if(param.getValue() instanceof Date){
+                    stmt.setDate(i, (java.sql.Date) (Date) param.getValue());
+                    i++;
+                    continue;
+                }
+            }
+            ResultSet rs = stmt.executeQuery();
+            HashMap<String, Object> res_params;
+            while(rs.next()){
+                res_params = new HashMap<String, Object>();
+                for(i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+                    res_params.put(rs.getMetaData().getColumnName(i), rs.getObject(rs.getMetaData().getColumnName(i)));
+                }
+                list.add(res_params);
+            }
+            conn.close();
+            
+        return list;
+        
+    }
     
 }

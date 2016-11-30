@@ -77,13 +77,13 @@
         <title>Program</title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <%@include file="../header.jsp"%>
@@ -152,7 +152,7 @@ for(int i=0; i<arealist.size(); i++){
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="<%=request.getServletContext().getContextPath()%>/js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script> 
 <script>
             $(document).ready(function(){
 

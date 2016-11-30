@@ -8,11 +8,13 @@ package auth;
 
 import API.AppInf;
 import API.HTTPClient;
-import DataBasePak.Storage;
+import Staff.Storage;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import javax.naming.NamingException;
 import org.apache.commons.codec.binary.Base32;
 
 /**
@@ -24,14 +26,14 @@ public class SMSAuthenticator  extends SecondFactor{
     final static int lifetime = 60;
   
   
-    public boolean check_code(int user, long code, long time) throws SQLException{
+    public boolean check_code(int user, long code, long time) throws SQLException, NamingException{
         long saved_code = get_saved_code(user, time);
         if(saved_code==-1)
             return false;
         return code==saved_code;
     }
     
-    public boolean sendSMS(int user, String phone) throws SQLException{
+    public boolean sendSMS(int user, String phone) throws SQLException, NamingException{
       
       //this.setWindowSize(5);
       long num_code = this.get_code(user, System.currentTimeMillis());
@@ -79,18 +81,25 @@ public class SMSAuthenticator  extends SecondFactor{
  }
     
   
-  static public boolean put_code(int user, long code) throws SQLException{
-            PreparedStatement stmt = Storage.getConn().prepareStatement("replace into sms_code (user, sms_code) values (?, ?);");
+  static public boolean put_code(int user, long code) throws SQLException, NamingException{
+      Connection conn = Storage.getConnection();
+      try{
+            PreparedStatement stmt = conn.prepareStatement("replace into sms_code (user, sms_code) values (?, ?);");
             stmt.setInt(1, user);
             stmt.setLong(2, code);
             stmt.executeUpdate();
             return true;
-            
+      } finally{
+        if(conn!=null)
+            conn.close();
+      }    
 
   }
   
-  static public long get_saved_code(int user, long time) throws SQLException{
-            PreparedStatement stmt = Storage.getConn().prepareStatement("select * from sms_code where user=? and addDate + interval ? second > ?;");
+  static public long get_saved_code(int user, long time) throws SQLException, NamingException{
+      Connection conn = Storage.getConnection();
+      try{
+            PreparedStatement stmt = conn.prepareStatement("select * from sms_code where user=? and addDate + interval ? second > ?;");
             stmt.setInt(1, user);
             stmt.setInt(2, lifetime);
             stmt.setTimestamp(3, new Timestamp(time));
@@ -100,6 +109,10 @@ public class SMSAuthenticator  extends SecondFactor{
             } else {
                 return -1;
             }
+      } finally{
+        if(conn!=null)
+            conn.close();
+      }
             
   }
   

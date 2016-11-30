@@ -6,7 +6,7 @@
 package Learning;
 
 
-import DataBasePak.Storage;
+import Staff.Storage;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -42,7 +42,7 @@ public class IcoFile{
     
     protected boolean SaveFile() throws IOException{
         
-        String path = Path + Owener.getType() + File.separator;
+        String path = Path + Owener._getType() + File.separator;
         new File(path).mkdirs();
         path += Owener.getID()+".png";
         BufferedImage img = ImageIO.read(Part.getInputStream());
@@ -84,7 +84,7 @@ public class IcoFile{
     protected void resize(BufferedImage img){
         
         
-        switch(this.Owener.getType()){
+        switch(this.Owener._getType()){
             case "area":{Xx=266; Yy=164; break;}
             case "user":{Xx=168; Yy=168; break;}
             case "program":{Xx=266; Yy=193; break;}

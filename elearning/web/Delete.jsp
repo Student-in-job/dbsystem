@@ -78,20 +78,20 @@ if(request.getMethod().equals("GET")){
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <%@include file="/header.jsp" %>
         <div class="row centered bg-blue">
             <div class="col col-7 text-center">
                 <form action="" class="form centered" method="POST">
-                    <img class="delete-img" src="<%=request.getServletContext().getContextPath()%>/img/Delete.png">
+                    <img class="delete-img" src="${pageContext.request.contextPath}/img/Delete.png">
                     <p class="">Are you absolutely sure you want to delete <%=type%> "<%=name%>"?
                     </p>
                     <input type="hidden" name="param" value="<%=param%>">

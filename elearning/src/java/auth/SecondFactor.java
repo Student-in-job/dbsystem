@@ -5,9 +5,10 @@
  */
 package auth;
 
-import DataBasePak.Storage;
+import Staff.Storage;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.Random;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.naming.NamingException;
 import org.apache.commons.codec.binary.Base32;
 
 /**
@@ -66,30 +68,42 @@ public class SecondFactor {
   return (int) truncatedHash;
  }
     
-    static public Secret get2factor(int user, String type) throws SQLException{
-
-         Secret key = new Secret();
-         PreparedStatement stmt = Storage.getConn().prepareStatement("select * from users_key where user=? and secret_type = ?;");
-         stmt.setInt(1, user);
-         stmt.setString(2, type);
-         ResultSet rs = stmt.executeQuery();
-         if(rs.next()){
-             key.Secret = rs.getString("secret_key");
-             key.Type = rs.getString("secret_type");
-         } else
-             key = null;
-         return key;
+    static public Secret get2factor(int user, String type) throws SQLException, NamingException{
+        
+        Connection conn = null;
+         try{
+            Secret key = new Secret();
+            conn = Storage.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("select * from users_key where user=? and secret_type = ?;");
+            stmt.setInt(1, user);
+            stmt.setString(2, type);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                key.Secret = rs.getString("secret_key");
+                key.Type = rs.getString("secret_type");
+            } else
+                key = null;
+            return key;
+         } finally {
+             if(conn!=null)
+                 conn.close();
+         }
     }
     
-    static public boolean put2factor(int user, Secret key) throws SQLException{
+    static public boolean put2factor(int user, Secret key) throws SQLException, NamingException{
  
-            PreparedStatement stmt = Storage.getConn().prepareStatement("insert into users_key (user, secret_key, secret_type) values (?, ?, ?);");
+         Connection conn = null;
+         try{
+            conn = Storage.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("insert into users_key (user, secret_key, secret_type) values (?, ?, ?);");
             stmt.setInt(1, user);
             stmt.setString(2, key.Secret);
             stmt.setString(3, key.Type);
-            stmt.executeUpdate();
-            return true;
-            
+            return 1==stmt.executeUpdate();
+        } finally {
+             if(conn!=null)
+                 conn.close();
+         }    
      
  }
     

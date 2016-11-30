@@ -5,8 +5,8 @@
  */
 package Learning;
 
-import DataBasePak.Log;
-import DataBasePak.DataBase;
+import Staff.Log;
+import Staff.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import java.sql.PreparedStatement;
@@ -106,10 +106,10 @@ public class Test extends Component {
                             int i = rs.getInt("test_task_id");
                             TestTask task = new TestTask(i);
                             list.add(task);
-                        } catch (Exception ex) {Log.getOut(ex.getMessage());}
+                        } catch (Exception ex) {Log.Write(ex.getLocalizedMessage());;}
                 }
             }
-        }catch (Exception ex) { Log.getOut(ex.getMessage());}
+        }catch (Exception ex) { Log.Write(ex.getLocalizedMessage());;}
         
         return list;
     }
@@ -122,7 +122,7 @@ public class Test extends Component {
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
-                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement(
+                PreparedStatement stmt = Staff.Storage.getConn().prepareStatement(
                                         "SELECT (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', max(accept_test_ball) as 'accept_test_ball' " +
                                         "FROM accept_test  " +
                                         "where test=?  " +
@@ -135,7 +135,7 @@ public class Test extends Component {
                         list.put(new User(rs.getInt("user")), rs.getInt("accept_test_ball"));
                     }catch(Exception ex){}
                 
-        }catch(SQLException ex){Log.getOut(ex.getMessage());}
+        }catch(SQLException ex){Log.Write(ex.getLocalizedMessage());;}
         
         return list;
             
@@ -148,13 +148,13 @@ public class Test extends Component {
 
     private void getBallfromDB() {
         try{
-                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement("select sum(test_task_ball) from test_task where test=?;");
+                PreparedStatement stmt = Staff.Storage.getConn().prepareStatement("select sum(test_task_ball) from test_task where test=?;");
                 stmt.setInt(1, this.ID);
                 ResultSet rs = stmt.executeQuery();
                 rs.next();
                 Ball = rs.getInt("sum(test_task_ball)");
                 
-        }catch(SQLException ex){Log.getOut(ex.getMessage());}
+        }catch(SQLException ex){Log.Write(ex.getLocalizedMessage());;}
     }
 
     public boolean isExem() {

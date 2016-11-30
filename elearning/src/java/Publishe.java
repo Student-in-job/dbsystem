@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DataBasePak.Log;
+import Staff.Log;
 import DataBasePak.ObjectNotFind;
 import DataBasePak.IllegalAction;
 import Learning.Program;
@@ -56,7 +56,7 @@ public class Publishe extends HttpServlet {
                     boolean a=false;
                     try{
                         a = user.Authorize();
-                    }catch(Exception ex){Log.getOut(ex.getMessage());}
+                    }catch(Exception ex){Log.Write(ex.getLocalizedMessage());;}
                     if(a){
                         request.getSession().setAttribute("user", user);
                     }
@@ -77,9 +77,9 @@ public class Publishe extends HttpServlet {
                 else 
                     out.println(prog.Correct());
             
-        }catch(IllegalAction ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); }
-        catch(ObjectNotFind ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); }
-        catch(Exception ex){Log.getOut(ex.getMessage()); response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); }
+        }catch(IllegalAction ex){Log.Write(ex.getLocalizedMessage());; response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); }
+        catch(ObjectNotFind ex){Log.Write(ex.getLocalizedMessage());; response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=ObjectNotFind"); }
+        catch(Exception ex){Log.Write(ex.getLocalizedMessage());; response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp"); }
     
     }    
 

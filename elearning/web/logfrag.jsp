@@ -37,7 +37,7 @@ if(user==null) {
         boolean a=false;
         try{
             a = user.Authorize();
-        }catch(Exception ex){Log.getOut(ex.getMessage());}
+        }catch(Exception ex){Log.Write(ex.getLocalizedMessage());;}
         if(a){
             session.setAttribute("user", user);
         }

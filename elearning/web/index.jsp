@@ -4,16 +4,29 @@
     Author     : ksinn
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="Learning.Area"%>
+<%@page import="Learning.Program"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Learning.*"%>
-<%@page import="DataBasePak.Log"%>
-<%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@include file="avtorize.jsp"%>
 <%
-ArrayList<Program> courses = (new Program().getAll());
-ArrayList<Area> areas = (new Area().getAll());
+ArrayList<Program> courses = new ArrayList<Program>();//(new Program().getAll()).subList(0, 2);
+ArrayList<Area> areas = new ArrayList<Area>(); //(new Area().getAll());
+List<Area> areas1, areas2;
+
+if(areas.size()>4){
+    areas2 = areas.subList(0, 3);
+    int size;
+    if(areas.size()>8)
+        size = 7;
+    else  
+        size = areas.size();
+    
+    areas2 = areas.subList(4, size);
+}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -58,29 +71,29 @@ ArrayList<Area> areas = (new Area().getAll());
 	</div>
 			
 	<div class="row between">
-<%for(int i=0; i<3&&i<courses.size(); i++){%>            
+<c:forEach var="course" items="${courses}">          
 		<div class="col text-center">		
 			<div class="item">
-                            <img src="<%=courses.get(i).getIco()%>">
+                            <img src="${course.ico}">
 			</div>
 			<div class="course-info centered">
 				<div class="item upper">
-					<b><%=courses.get(i).getName()%></b>
+					<b>${course.name}</b>
 				</div>
 				<div class="item">
-					<%=courses.get(i).getInventory().length()>50?courses.get(i).getInventory().substring(0, 50)+"...":courses.get(i).getInventory()%>
+					${course.shortInventory}
 				</div>
 				<div class="item">
 					<div class="row">
 						
 						<div class="col">
-                                                    <a class="button success outline small" href="Course.jsp?course_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
+                                                    <a class="button success outline small" href="Course.jsp?course_id=${course.iD}">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-<%}%>                
+</c:forEach>               
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 
@@ -96,28 +109,28 @@ ArrayList<Area> areas = (new Area().getAll());
 		</div>
 	</div>
 <div class="row between">
-<%for(int i=0; i<4&&i<areas.size(); i++){%>     
+<c:forEach var="area" items="${areas1}">     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+				<a href="Courses.jsp?area_id=${area.iD}"><img src="${area.ico}"></a>
 			</div>
 			<div class="area-info centered">
-				<b><%=areas.get(i).getName()%></b>
+				<b>${area.name}</b>
 			</div>
 		</div>
-<%}%>                
+</c:forEach>                
 	</div>
 	<div class="row between">
-<%for(int i=4; i<8&&i<areas.size(); i++){%>     
+<c:forEach var="area" items="${areas2}">     
 		<div class="col text-center">		
 			<div class="item">
-				<a href="Courses.jsp?area_id=<%=areas.get(i).getID()%>"><img src="<%=areas.get(i).getIco()%>"></a>
+				<a href="Courses.jsp?area_id=${area.iD}"><img src="${area.ico}"></a>
 			</div>
 			<div class="area-info centered">
-				<b><%=areas.get(i).getName()%></b>
+				<b>${area.name}</b>
 			</div>
 		</div>
-<%}%>
+</c:forEach>      
 	</div>
 	<div class="row around">
 		<div class="col col-11 text-right"> 

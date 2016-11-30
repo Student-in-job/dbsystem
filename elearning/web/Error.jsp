@@ -4,12 +4,11 @@
     Author     : ksinn
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8" isErrorPage="true"%>
+<%@page import="Staff.Log"%>
 <%
-Log.getOut(pageContext.getException().getLocalizedMessage());
+Log.Write(pageContext.getException().getLocalizedMessage());
 %>
-<%@include file="avtorize.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,25 +17,25 @@ Log.getOut(pageContext.getException().getLocalizedMessage());
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/kube.min.js"></script>
     </head>
     <body>
         <%@include file="/header.jsp" %>
         <div class="row centered bg-blue">
             <div class="col col-3 text-center">
-                <img src="<%=request.getServletContext().getContextPath()%>/img/ghost.png" alt="error">
+                <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>WHOOPS!</h3>
                     <p>
-                        <%=pageContext.getException().getLocalizedMessage()%>
+                        ${pageContext.exception}
                     </p>
                 </div>
             </div>

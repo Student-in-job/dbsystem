@@ -1,16 +1,18 @@
 package Learning;
 
-import DataBasePak.*;  
+import API.AppInf;
+import Staff.Storage;  
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.http.Part;
-import org.apache.commons.codec.digest.DigestUtils;
-
+import auth.GoogleAuthenticator;
+import auth.SMSAuthenticator;
+import auth.SecondFactor;
+import auth.Secret;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 
 
 /**
@@ -19,26 +21,12 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class User extends Parent implements API.User{
 
-    protected String mail;
-    protected String password;
+    protected String Mail;
     protected String Name;
     protected String Surname;
-    protected java.sql.Date Birthday;
     protected String Gender;
     protected boolean Logined;
-    protected float Rating;
-    protected String Ico;
-    protected java.sql.Date DateRegestration;
-    
-    @Override
-    public int getID(){
-        return this.ID;
-    }
-    
-    @Override
-    public int getTypeIndex(){
-        return 1;
-    }
+    protected Date DateRegestration;
     
     @Override
     public String _getType(){
@@ -49,464 +37,124 @@ public class User extends Parent implements API.User{
     public boolean MayChange(){
         return true;
     }
-     
-    public AcceptTask getAliveAcceptTask(Task task) throws Exception{
+    
+    @Override
+    protected HashMap<String, Object> _getParams() {
         
-        
-        
-        Course cours; 
-        User_courses uhc;
-        AcceptTask accept = null;
-
-            cours = this.getActiveCourse(task.getProgramID());
-            if(cours==null) 
-                return null;
-            uhc = this.getHasCours(cours); 
-        
-        if(!task.canStartNow(uhc)) return null;    
-            
-        DataBase db = new DataBase(this);
-        try{
-            ResultSet rs = db.FindAliveAccept(task, uhc);
-            rs.next();
-            accept = new AcceptTask();
-            accept.setWorkKey(rs.getString("accept_task_key"));
-            accept.getByKey();
-        } catch(ObjectNotFind ex){
-            if(task.canStart()){
-                accept = new AcceptTask(uhc, task);
-            }
-        }
-        
-        return accept;
-            
+        HashMap<String, Object> list = new HashMap<String, Object>();
+        list.put("name", this.Name);
+        list.put("surname", this.Surname);
+        list.put("gender", this.Gender);
+        list.put("mail", this.Mail);
+        return list;
         
     }
-    
-    public User(int id) throws Exception{
-        
-        this.ID=id;    
-        DataBase db = new DataBase(this);
-                ResultSet rs = db.Find(); 
-                rs.next();
-                            Logined = false;
-                            this.mail = rs.getString("user_mail");
-                            this.Name = rs.getString("user_name");
-                            this.Surname = rs.getString("user_surname");
-                            this.Gender = rs.getString("gender");
-                            Birthday = rs.getDate("birthday");
-                            this.DateRegestration = rs.getDate("addDate");
-        float i = 0;
-        try{
-            PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
-            ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
-            stmt.setInt(1, this.ID);
-            rs = stmt.executeQuery();
-            if(rs.next()){
-                    i = (rs.getFloat("r"));
-            }
-        }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
-        this.Rating = i;                    
 
+    @Override
+    protected void _setParams(HashMap<String, Object> Params) throws Exception {
+        
+        this.Name = (String) Params.get("name");
+        this.Surname = (String) Params.get("surname");
+        this.Gender = (String) Params.get("gender");
+        this.Mail = (String) Params.get("mail");
+        
+    }
+
+    @Override
+    protected boolean _isCorrect() {
+        
+        return true;
+    
     }
     
-    public User(String mail, String password, String name, String surname, Date birthday, String gender)
-    {
+    public void getById(int id) throws Exception{
+        if(id>0){
+            this.ID = id;
+            this._select();
+        } else 
+            throw new Exception("Invalid input data!");
+    }
+    
+    public User(){
         this.Logined = false;
-        this.mail = mail;
-        this.password = password;
-        this.Name = name;
-        this.Surname = surname;
-        this.Birthday = birthday;
-        this.Gender = gender;
-        
     }
     
-    public User(){}
-    
-    public int getTaskResult(Task task){
-        int i = -1;
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select max(accept_task_pass) as 'max' "
-                    + " from accept_task where task=? and "
-                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
-            stmt.setInt(2, this.ID);
-            stmt.setInt(1, task.getID());
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                try{
-                    i = (rs.getInt("max"));
-                }catch(Exception ex){}
-            }
-        }catch(Exception ex)
-        { Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); 
-        return -1;}    
-        
-        return i;
-    }
-    
-    public int getTestMaxResult(Test test){
-        int i = -1;
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select max(accept_test_ball) as 'max' "
-                    + " from accept_test where test=? and "
-                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
-            stmt.setInt(2, this.ID);
-            stmt.setInt(1, test.getID());
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                try{
-                    i = (rs.getInt("max"));
-                }catch(Exception ex){}
-            }
-        }catch(Exception ex)
-        { Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); 
-        return -1;}    
-        
-        return i;
-    }
-    
-    public int getTestMinResult(Test test){
-        int i = -1;
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select min(accept_test_ball) as 'min' "
-                    + " from accept_test where test=? and "
-                    + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
-            stmt.setInt(2, this.ID);
-            stmt.setInt(1, test.getID());
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                try{
-                    i = (rs.getInt("min"));
-                }catch(Exception ex){}
-            }            
-            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return -1;}
-    
-        return i;
-    }
-    
-    public Course getActiveCourse(int program){
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select * from user_has_course where user=? and " +
-             "course in (select course_id from course where program=?) and " +
-            "user_has_course_complited is null;");
-            stmt.setInt(1, this.ID);
-            stmt.setInt(2, program);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next())
-             return new Course(rs.getInt("course"));
-            else return null;
-                        
-            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); return null;}
-    }
-    
-    public void SendPassword() throws Exception{
-        
-        if(this.Logined) throw new IllegalAction();
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.FindUser();
-        rs.next();
-        SendMail Mail = new SendMail();
-        Mail.send("Reset password", "You password is \n"+rs.getString("passwords"), this.mail);
-    }
-    
-    public ArrayList<User> Find(String find) {
-        ArrayList<User> list = new ArrayList<User>();
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select * from user where user_deleted = 0 and (user_name like ? or user_surname like ?);");
-            stmt.setString(1, "%"+find+"%");
-            stmt.setString(2, "%"+find+"%");
-            ResultSet rs = stmt.executeQuery();
-                    while(rs.next()){
-                        try {
-                            list.add(new User(rs.getInt("user_id")));
-                        } catch (SQLException ex) {
-                        Log.getOut(ex.getMessage());
-                        }
-                    }
-                }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-                }
-        return list;
-    }
-    
-    public ArrayList<User> getAll(){
-        ArrayList<User> list = new ArrayList<User>();
-        try{
-            DataBase db = new DataBase(this);
-            ResultSet rs = db.All();
-                    while(rs.next()){
-                        try {
-                            list.add(new User(rs.getInt("user_id")));
-                        } catch (SQLException ex) {
-                        Log.getOut(ex.getMessage());
-                        }
-                    }
-                }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-                }
-        return list;
-    }
-    
-    public User(String mail, String password){
-        Logined = false;
-        this.mail = mail;
-        this.password = password;
-    }
-    
-    public User(String mail){
-        Logined = false;
-        this.mail = mail;
-    }
-
-    public User_courses getHasCours(Course course) throws Exception{
-      
-        PreparedStatement stmt = Storage.getConn().prepareStatement
-        ("select * from user_has_course where course = ? and user = ?;");
-        stmt.setInt(1, course.getID());
-        stmt.setInt(2, this.ID);
-        ResultSet rs = stmt.executeQuery();
-        if(rs!=null){
-            if(rs.next())
-                return new User_courses(rs.getInt("user_has_course_id"));
-        }
-        throw new ObjectNotFind();
-    }
-  
-    public ArrayList<Program> getActivePrograms(){
-      
-        ArrayList<Program> list = new ArrayList<Program>();
-        try{
-            DataBase db = new DataBase(this);
-            ResultSet rs = db.Find("program");
-                    while(rs.next())
-                        try{
-                            if(rs.getString("program_state").equals("active"))
-                            list.add(new Program(rs.getInt("program_id")));
-                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
-        }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-        }
-
-        return list;
-    }
-  
-    public ArrayList<Program> getCreatedPrograms(){
-        
-        ArrayList<Program> list = new ArrayList<Program>();
-        try{
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.Find("program");
-            while(rs.next())
-                    try{
-                        if(rs.getString("program_state").equals("created"))
-                        list.add(new Program(rs.getInt("program_id")));
-                    }catch (SQLException ex) { Log.getOut(ex.getMessage());}
-        }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-        }
-        
-        return list;
-    }
-  
-    public UserSchedule getMySchedule(){
-        UserSchedule uschedule= new UserSchedule();
-        ArrayList<Course> courses = this.getLearningCourses();
-        for(int i=0; i<courses.size(); i++)
-            uschedule.addSchedule(courses.get(i).getSchadule());
-        return uschedule;
-    }
-  
-    public ArrayList<Course> getLearningCourses(){
-        ArrayList<Course> list = new ArrayList<Course>();
-        try{
-            DataBase db = new DataBase(this);
-            ResultSet rs = db.Find("user_has_course");
-                    while(rs.next())
-                        try{
-                            if(rs.getDate("user_has_course_complited")!=null) continue;
-                            Course c = new Course(rs.getInt("course"));
-                            list.add(c);
-                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
-        }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-        }
-        
-        return list;
-    }
-    
-    public ArrayList<Course> getLearnedCourses(){
-        ArrayList<Course> list = new ArrayList<Course>();
-        try{
-            DataBase db = new DataBase(this);
-            ResultSet rs = db.Find("user_has_course");
-                    while(rs.next())
-                        try{
-                            if(rs.getDate("user_has_course_complited")==null) continue;
-                            Course c = new Course(rs.getInt("course"));
-                            list.add(c);
-                        }catch (SQLException ex) { Log.getOut(ex.getMessage());}
-        }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-        }
-        
-        return list;
-    }
-    
-    public ArrayList<Course> getTeachengCourses(){
-        
-        ArrayList<Course> list = new ArrayList<Course>();
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select * from course where program in (select program_id from program where user = ?) and course_deleted=0;");
-            stmt.setInt(1, this.ID);
-            ResultSet rs = stmt.executeQuery();
-            if(rs!=null){
-                    while(rs.next())
-                        try{
-                            list.add(new Course(rs.getInt("course_id")));
-                        }   catch (SQLException ex) { Log.getOut(ex.getMessage());}
-            }
-        }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
-        }
-        
-        return list;
-    }
- 
     public boolean Change(String password, String mail, String new_password, String name, String surname, Date birthday, String gender, Part part) throws Exception
     {
-        if(!Logined) throw new IllegalAction();
-        if(!this.password.equals(password)) throw new IllegalAction();
-        
-        User us = new User(mail, new_password, name, surname, birthday, gender);
-        
-        if(us.mail==null) us.mail = this.mail;
-        if(us.password == null) us.password = this.password;
-        if(us.Name==null) us.Name = this.Name;
-        if(us.Surname==null) us.Surname = this.Surname;
-        if(us.Birthday==null) us.Birthday = this.Birthday;
-        if(us.Gender==null) us.Gender = this.Gender;
-        
-        us.ID = this.ID;
-        DataBase db = new DataBase(us);
-        db.ReWrite();
+        if(!Logined) throw new Exception("Illegal Action! Only logined user can cange user data.");
+        return this._update();
+    }
+    
+    public boolean SaveIco(Part part) throws Exception{
         if(part.getSize()!=0){
             IcoFile file = new IcoFile(part, this);
-            file.SaveFile();
-        }            
-        return db.Done();
+            return file.SaveFile();
+        }  else 
+            throw new Exception("Invalid input data!");
     }
     
-    public void Register(Part part) throws Exception
+    public boolean Register() throws Exception
     {
-        if(!Logined){
-            if(this.write()){
-                /*try{
-                    SendMail mail = new SendMail();
-                    mail.send("Regestration", "Dear "+this.Name+"!\n"+
-                                               "Thank you for your registration in our system, online education!\n" +
-                                               "Your login: "+this.mail+"\n" +
-                                               "Your password:"+this.mail+"\n", this.mail);
-                }catch(MessagingException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }     
-                */try{
-                    IcoFile file = new IcoFile(part, this);
-                    file.SaveFile();
-                }catch(IOException ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); } 
-            }
-            
-        }
-        else throw new IllegalAction(); 
+        if(ID==0){
+            return this._insert();
+        } else 
+            throw new Exception("Invalid input data!");
     }
+    
+    public boolean getByMail(String mail) throws Exception{
+        
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("mail", mail);
+        
+        ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
+        for(int i=0; i<1; i++){
+            this.getFromParam(Params.get(i));
+        }
+        
+        this._from_db=true;
+        
+        return this._isCorrect();
+    }
+    
+    public boolean LogIn(long code, long t) throws Exception{
+        if(this._from_db){
+            if(SecondFactor.get2factor(this.ID, "phone")!=null);
+                 SMSAuthenticator sa = new SMSAuthenticator();  
+                 this.Logined = sa.check_code(this.ID, code, t);
 
-    public boolean Authorize() throws Exception{
-        
-            DataBase db = new DataBase(this);
-                ResultSet rs = db.FindUser(); 
-                rs.next();
-                if(password.equals(DigestUtils.md2Hex(rs.getString("passwords")))){
-                            Logined = true;
-                            this.ID =  rs.getInt("user_id");
-                            this.Name = rs.getString("user_name");
-                            this.Surname = rs.getString("user_surname");
-                            this.Gender = rs.getString("gender");
-                            Birthday = rs.getDate("birthday");
-                            this.DateRegestration = rs.getDate("addDate");
-                            password = rs.getString("passwords");
-                            float i = 0;
-                            try{
-                                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
-                                ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
-                                stmt.setInt(1, this.ID);
-                                rs = stmt.executeQuery();
-                                if(rs.next()){
-                                        i = (rs.getFloat("r"));
-                                }
-                            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
-                            this.Rating = i; 
-                    return true;
-                }
-                else return false;
+                 if(!this.Logined){
+                    Secret secret= SecondFactor.get2factor(ID, "key");
+                    GoogleAuthenticator ga = new GoogleAuthenticator();
+                    //ga.setWindowSize(0); 
+                    this.Logined = ga.check_code(secret.Secret, code, t);
+                 }
+        }
+        return this.Logined;
     }
     
-    public boolean AuthorizeGoogle(){
-        
-        try{    
-        DataBase db = new DataBase(this);
-                ResultSet rs = db.FindUser(); 
-                rs.next();
-                            Logined = true;
-                            this.ID =  rs.getInt("user_id");
-                            this.Name = rs.getString("user_name");
-                            this.Surname = rs.getString("user_surname");
-                            this.Gender = rs.getString("gender");
-                            Birthday = rs.getDate("birthday");
-                            this.DateRegestration = rs.getDate("addDate");
-                            password = rs.getString("passwords");
-                            
-                            db.write_auth("i");
-                            
-                            float i = 0;
-                            try{
-                                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
-                                ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
-                                stmt.setInt(1, this.ID);
-                                rs = stmt.executeQuery();
-                                if(rs.next()){
-                                        i = (rs.getFloat("r"));
-                                }
-                            }catch(Exception ex){ Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage()); }    
-                            this.Rating = i; 
-                            return true;
-        } catch (Exception ex){
-            return false;
-        }
+    public boolean hasSecondFactor() throws SQLException, NamingException{
+        return null != SecondFactor.get2factor(this.ID, "key");
     }
     
-    public boolean LogOut(){
+    public String setSecretKey() throws SQLException, NamingException{
+        String secretKey = GoogleAuthenticator.generateSecretKey(this.ID);
+         
+         Secret key = new Secret();
+         key.Secret = secretKey;
+         key.Type = "key";
+         
+         if(GoogleAuthenticator.put2factor(this.ID, key))
+            return "otpauth://totp/"+AppInf.main+"?secret="+secretKey;
+         else return null;
+    }
+    
+    public void LogOut(){
         
-        try{    
-        DataBase db = new DataBase(this);
-               db.write_auth("o");
-               return true;
-        } catch (Exception ex){
-            return false;
-        }
     }
     
     @Override
     public String getMail() {
-        
-        return mail;
-    }
-
-    public Date getBirthday() {
-        return Birthday;
+        return Mail;
     }
     
     public Date getDateRegestration() {
@@ -521,37 +169,29 @@ public class User extends Parent implements API.User{
         return Gender.equals("w")?"Women":"Men";
     }
     
-        public boolean isLogined()
+    public boolean isLogined()
     {
         return this.Logined;
     }
     
+    @Override
     public String getName()
     {
         return this.Name;
     }
     
+    @Override
     public String getSurname()
     {
         return this.Surname;
     }
     
-    public float getRating()
-    {
-        return this.Rating;
-    }
-    
-    public String getPassword()
-    {
-        return this.password;
-    }
-    
     @Override
     public String getIco(){
         
-        String path = Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
         if(new File(Storage.getRealPath()+path).exists())
-            return Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+            return Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_user_"+this.getGender()+".png";
     } 
 
@@ -567,32 +207,27 @@ public class User extends Parent implements API.User{
 
     @Override
     public void setMail(String data) {
+        this.Mail = data;
     }
 
     @Override
     public void setName(String data) {
+        this.Name = data;
     }
 
     @Override
     public void setSurname(String data) {
+        this.Surname = data;
     }
-
-    public boolean chekIP(String header) throws SQLException {
-        boolean res = false;
-        DataBase db = new DataBase(this);
-        if(db.chek_ip(header))
-        {
-            db.write_ip(header);
-            res = true;
-        } else {
-            res = false;
-        }
-        return res;
-       
+    
+    public void setGender(String data) {
+        this.Gender = data;
     }
 
     @Override
     public void setIco(String data) {
     
     }
+
+    
 }

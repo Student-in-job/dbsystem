@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBasePak.*;
+import Staff.DataBase;
 import java.sql.ResultSet;
 import java.util.Date;
 

@@ -1,8 +1,8 @@
 package Learning;
 
 
-import DataBasePak.DataBase;
-import DataBasePak.Log;
+import Staff.DataBase;
+import Staff.Log;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,10 +42,10 @@ public class Schedule{
                                 mat.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(mat);
                             }
-                            catch(Exception ex){ Log.getOut(ex.getMessage());}
+                            catch(Exception ex){ Log.Write(ex.getLocalizedMessage());;}
                         }
         } catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());
         }
         
         try{
@@ -57,10 +57,10 @@ public class Schedule{
                                 test.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(test);
                             }
-                            catch(Exception ex){ Log.getOut(ex.getMessage());}
+                            catch(Exception ex){ Log.Write(ex.getLocalizedMessage());;}
                         } 
         }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());
         }
         
         try{
@@ -71,10 +71,10 @@ public class Schedule{
                                 task.setDate(new Date(rs.getDate("date_time").getTime()));
                                 List.add(task);
                             }
-                            catch(Exception ex){ Log.getOut(ex.getMessage());}
+                            catch(Exception ex){ Log.Write(ex.getLocalizedMessage());;}
                         } 
         }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());
         }
                     
         Collections.sort(List, new Comparator<Component>() {

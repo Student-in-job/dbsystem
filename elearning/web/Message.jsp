@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="avtorize.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,15 +14,15 @@
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
-        <script src="<%=request.getServletContext().getContextPath()%>/js/jquery.min.js"></script>
-        <script src="<%=request.getServletContext().getContextPath()%>/js/kube.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/kube.min.js"></script>
     </head>
     <body>
         <%@include file="/header.jsp" %>
@@ -31,14 +30,11 @@
             <div class="col col-3 text-center">
                 <div class="p-error">
                     <p>
-                        ${param.message}
+                        ${message}
                     </p>
                 </div>
             </div>
-        </div>
-        <script> 
-            setInterval(function() {window.location.href = "${param.location}";}, 5000);  
-        </script>            
+        </div>            
         <%@include file="/footer.jsp" %>
     </body>
 </html>

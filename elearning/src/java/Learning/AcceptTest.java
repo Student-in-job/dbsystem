@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBasePak.DataBase;
+import Staff.DataBase;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class AcceptTest  extends Accept{
         DataBase db = new DataBase(this);
         db.ReWrite();
         
-        PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
+        PreparedStatement stmt = Staff.Storage.getConn().prepareStatement
         ("select test_id from test where program = ? and test_deleted=0 and test_id not in " +
         "(select DISTINCT test from accept_test where not(accept_test_ball is null) and user_has_course = ?);");
         stmt.setInt(1, UserHasCourse.getCourse().getProgram().getID());

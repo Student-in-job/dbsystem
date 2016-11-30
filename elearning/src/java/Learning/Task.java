@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBasePak.DataBase;
+import Staff.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import java.sql.ResultSet;

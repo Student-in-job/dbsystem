@@ -19,7 +19,7 @@
         request.getSession().invalidate();
 %>
 <script>
-    setTimeout(function(){window.location.href = "<%=request.getServletContext().getContextPath()%>";}, 0);
+    setTimeout(function(){window.location.href = "${pageContext.request.contextPath}";}, 0);
 </script>    
 <%        
         return;
@@ -37,13 +37,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
             <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
 
-            <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-            <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
         <!-- Kube CSS -->
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-        <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
         <%@include file="/header.jsp"%>
@@ -66,10 +66,10 @@
                     a = nuser.Authorize();
                 }
                 catch(ObjectNotFind ex){
-                    Log.getOut(ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());;
                 }
                 catch(Exception ex){
-                    Log.getOut(ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());;
                     response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp");
                     return;
                 }

@@ -5,7 +5,8 @@
  */
 package Learning;
 
-import DataBasePak.*;
+import Staff.Storage;
+import Staff.DataBase;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;

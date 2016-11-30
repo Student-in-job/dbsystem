@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package Learning;
-import DataBasePak.Log;
-import DataBasePak.Storage;
-import DataBasePak.DataBase;
+import Staff.Log;
+import Staff.Storage;
+import Staff.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import java.io.File;
@@ -121,7 +121,7 @@ public class Program extends Parent{
                         res.add(buf);
                     }
                 }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
                 }
         
         return res;
@@ -138,11 +138,11 @@ public class Program extends Parent{
                         try {
                             list.add(new Program(rs.getInt("program_id")));
                         } catch (SQLException ex) {
-                        Log.getOut(ex.getMessage());
+                        Log.Write(ex.getLocalizedMessage());;
                         }
                     }
                 }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
                 }
         return list;
     }
@@ -161,7 +161,7 @@ public class Program extends Parent{
         if(rs.next()) return new Course(rs.getInt("course_id"));
         else return null;
         }catch(Exception ex){
-            Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());
             return null;
         }
         
@@ -176,11 +176,11 @@ public class Program extends Parent{
                         try {
                             list.add(new Program(rs.getInt("program_id")));
                         } catch (SQLException ex) {
-                        Log.getOut(ex.getMessage());
+                        Log.Write(ex.getLocalizedMessage());;
                         }
                     }
                 }catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
                 }
         return list;
     }
@@ -193,10 +193,10 @@ public class Program extends Parent{
             ResultSet rs = db.Find("test");
                         while(rs.next()){
                             try {list.add(new Test(rs.getInt("test_id")));} 
-                            catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                            catch (SQLException ex) {Log.Write(ex.getLocalizedMessage());;}
                         }
             } catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
             }
         Collections.sort(list, new Comparator<Test>() {
         @Override
@@ -214,10 +214,10 @@ public class Program extends Parent{
             ResultSet rs = db.Find("task");
                         while(rs.next()){
                             try {list.add(new Task(rs.getInt("task_id")));} 
-                            catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                            catch (SQLException ex) {Log.Write(ex.getLocalizedMessage());;}
                         }
             } catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
             }
         Collections.sort(list, new Comparator<Task>() {
         @Override
@@ -237,11 +237,11 @@ public class Program extends Parent{
                             try {Material m = new Material(rs.getInt("material_id"));
                             list.add(m);
                             } catch (SQLException ex) {
-                                Log.getOut(ex.getMessage());
+                                Log.Write(ex.getLocalizedMessage());;
                             }
                         }
         } catch(Exception ex){
-                    Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());
+                    Log.Write(ex.getLocalizedMessage());
                 }
         
         Collections.sort(list, new Comparator<Material>() {

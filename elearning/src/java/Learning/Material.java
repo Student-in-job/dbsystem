@@ -5,8 +5,8 @@
  */
 package Learning;
 
-import DataBasePak.Log;
-import DataBasePak.DataBase;
+import Staff.Log;
+import Staff.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
@@ -104,9 +104,9 @@ public class Material extends Component {
             while(rs.next()){
                 try{
                         list.add(new Files(rs.getInt("files_id")));
-                } catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                } catch (SQLException ex) {Log.Write(ex.getLocalizedMessage());;}
             }
-        }catch(Exception ex){Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());}
+        }catch(Exception ex){Log.Write(ex.getLocalizedMessage());}
         
         return list;
    }
@@ -121,9 +121,9 @@ public class Material extends Component {
                     try {
                             if("video".equals(rs.getString("files_type")))
                             list.add(new Files(rs.getInt("files_id")));
-                    } catch (SQLException ex) { Log.getOut(ex.getMessage());}
+                    } catch (SQLException ex) { Log.Write(ex.getLocalizedMessage());;}
                 }
-        }catch(Exception ex){Log.getOut(ex.getLocalizedMessage() + "\n" + ex.getMessage());}
+        }catch(Exception ex){Log.Write(ex.getLocalizedMessage());}
         
         return list;
    }
@@ -138,9 +138,9 @@ public class Material extends Component {
                             try {
                                 if("document".equals(rs.getString("files_type")))
                                 list.add(new Files(rs.getInt("files_id")));
-                            } catch (SQLException ex) {Log.getOut(ex.getMessage());}
+                            } catch (SQLException ex) {Log.Write(ex.getLocalizedMessage());;}
                     }
-        } catch (Exception ex) { Log.getOut(ex.getMessage());}
+        } catch (Exception ex) { Log.Write(ex.getLocalizedMessage());;}
         
         return list;
    }

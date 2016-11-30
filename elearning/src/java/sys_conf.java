@@ -1,5 +1,5 @@
 
-import DataBasePak.Log;
+import Staff.Log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -60,7 +60,7 @@ public class sys_conf implements ServletContextListener {
             conn.close();
         
         } catch (SQLException ex) {
-            Log.getOut(ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());;
         } catch (NamingException ex) {
             Logger.getLogger(sys_conf.class.getName()).log(Level.SEVERE, null, ex);
         }

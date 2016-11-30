@@ -5,20 +5,20 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@include file="avtorize.jsp"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
-	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/normalize.css">
-	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
     <!-- Kube CSS -->
-    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
 
-    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/kube-ext.css">
-    <link rel="stylesheet" href="<%=request.getServletContext().getContextPath()%>/css/master.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
         <title>About as</title>
     </head>
     <body>
@@ -32,7 +32,7 @@
 	<div class="row  left">
 		<div class="col text-center">		
 			<div class="item">
-                            <img src="<%=request.getServletContext().getContextPath()%>/img/ksinn.png">
+                            <img src="${pageContext.request.contextPath}/img/ksinn.png">
 			</div>
 			<div class="item">
 				<b>Andreeva Kseniya</b>
@@ -43,7 +43,7 @@
 		</div>
                 <div class="col text-center">		
 			<div class="item">
-                            <img src="<%=request.getServletContext().getContextPath()%>/img/nata.png">
+                            <img src="${pageContext.request.contextPath}/img/nata.png">
 			</div>
 			<div class="item">
 				<b>Kim Nata</b>
@@ -54,7 +54,7 @@
 		</div>
                 <div class="col text-center">		
 			<div class="item">
-                            <img src="<%=request.getServletContext().getContextPath()%>/img/nata.png">
+                            <img src="${pageContext.request.contextPath}/img/nata.png">
 			</div>
 			<div class="item">
 				<b>Obidov Javlon</b>

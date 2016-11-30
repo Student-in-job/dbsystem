@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBasePak.Storage;
+import Staff.Storage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

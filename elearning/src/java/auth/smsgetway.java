@@ -5,7 +5,7 @@
  */
 package auth;
 
-import DataBasePak.Log;
+import Staff.Log;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -81,7 +81,7 @@ public class smsgetway extends HttpServlet {
                         
             
         } catch (Exception ex) {
-            Log.getOut(ex.getMessage());
+            Log.Write(ex.getLocalizedMessage());;
         }
         
         processRequest(response, res);
