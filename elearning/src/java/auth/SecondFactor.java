@@ -5,7 +5,7 @@
  */
 package auth;
 
-import DataBasePak.db;
+import DataBasePak.Storage;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
@@ -69,7 +69,7 @@ public class SecondFactor {
     static public Secret get2factor(int user, String type) throws SQLException{
 
          Secret key = new Secret();
-         PreparedStatement stmt = db.getConn().prepareStatement("select * from users_key where user=? and secret_type = ?;");
+         PreparedStatement stmt = Storage.getConn().prepareStatement("select * from users_key where user=? and secret_type = ?;");
          stmt.setInt(1, user);
          stmt.setString(2, type);
          ResultSet rs = stmt.executeQuery();
@@ -83,7 +83,7 @@ public class SecondFactor {
     
     static public boolean put2factor(int user, Secret key) throws SQLException{
  
-            PreparedStatement stmt = db.getConn().prepareStatement("insert into users_key (user, secret_key, secret_type) values (?, ?, ?);");
+            PreparedStatement stmt = Storage.getConn().prepareStatement("insert into users_key (user, secret_key, secret_type) values (?, ?, ?);");
             stmt.setInt(1, user);
             stmt.setString(2, key.Secret);
             stmt.setString(3, key.Type);

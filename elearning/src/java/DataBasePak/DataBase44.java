@@ -30,7 +30,7 @@ public class DataBase {
     
     public DataBase(Parent par){
         Ons = par;
-        Connection = db.getConn();
+        Connection = Storage.getConn();
         Done = false;
         Type = par.getType();
         TypeIndex = par.getTypeIndex();
@@ -571,7 +571,7 @@ public class DataBase {
         
         User user = (User) Ons;
         
-            Connection conn  = db.getConn();
+            Connection conn  = Storage.getConn();
             PreparedStatement stmt = conn.prepareStatement
         ("update user set passwords=?, user_name=?, user_surname=?, birthday=?, gender=?, user_mail=? where user_id = ?;");
             stmt.setString(1, user.getPassword());

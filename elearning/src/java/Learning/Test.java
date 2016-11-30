@@ -35,7 +35,7 @@ public class Test extends Component {
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "test";
     }
     
@@ -122,7 +122,7 @@ public class Test extends Component {
         
         HashMap<User, Integer> list = new HashMap<User, Integer>();   
         try{
-                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement(
+                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement(
                                         "SELECT (select user from user_has_course where user_has_course_id=accept_test.user_has_course) as 'user', max(accept_test_ball) as 'accept_test_ball' " +
                                         "FROM accept_test  " +
                                         "where test=?  " +
@@ -148,7 +148,7 @@ public class Test extends Component {
 
     private void getBallfromDB() {
         try{
-                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement("select sum(test_task_ball) from test_task where test=?;");
+                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement("select sum(test_task_ball) from test_task where test=?;");
                 stmt.setInt(1, this.ID);
                 ResultSet rs = stmt.executeQuery();
                 rs.next();

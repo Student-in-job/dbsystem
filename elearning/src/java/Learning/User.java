@@ -41,7 +41,7 @@ public class User extends Parent implements API.User{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "user";
     }
     
@@ -98,7 +98,7 @@ public class User extends Parent implements API.User{
                             this.DateRegestration = rs.getDate("addDate");
         float i = 0;
         try{
-            PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+            PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
             ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
             stmt.setInt(1, this.ID);
             rs = stmt.executeQuery();
@@ -127,7 +127,7 @@ public class User extends Parent implements API.User{
     public int getTaskResult(Task task){
         int i = -1;
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select max(accept_task_pass) as 'max' "
                     + " from accept_task where task=? and "
                     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
@@ -149,7 +149,7 @@ public class User extends Parent implements API.User{
     public int getTestMaxResult(Test test){
         int i = -1;
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select max(accept_test_ball) as 'max' "
                     + " from accept_test where test=? and "
                     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
@@ -171,7 +171,7 @@ public class User extends Parent implements API.User{
     public int getTestMinResult(Test test){
         int i = -1;
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select min(accept_test_ball) as 'min' "
                     + " from accept_test where test=? and "
                     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
@@ -190,7 +190,7 @@ public class User extends Parent implements API.User{
     
     public Course getActiveCourse(int program){
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select * from user_has_course where user=? and " +
              "course in (select course_id from course where program=?) and " +
             "user_has_course_complited is null;");
@@ -217,7 +217,7 @@ public class User extends Parent implements API.User{
     public ArrayList<User> Find(String find) {
         ArrayList<User> list = new ArrayList<User>();
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select * from user where user_deleted = 0 and (user_name like ? or user_surname like ?);");
             stmt.setString(1, "%"+find+"%");
             stmt.setString(2, "%"+find+"%");
@@ -266,7 +266,7 @@ public class User extends Parent implements API.User{
 
     public User_courses getHasCours(Course course) throws Exception{
       
-        PreparedStatement stmt = db.getConn().prepareStatement
+        PreparedStatement stmt = Storage.getConn().prepareStatement
         ("select * from user_has_course where course = ? and user = ?;");
         stmt.setInt(1, course.getID());
         stmt.setInt(2, this.ID);
@@ -362,7 +362,7 @@ public class User extends Parent implements API.User{
         
         ArrayList<Course> list = new ArrayList<Course>();
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select * from course where program in (select program_id from program where user = ?) and course_deleted=0;");
             stmt.setInt(1, this.ID);
             ResultSet rs = stmt.executeQuery();
@@ -440,7 +440,7 @@ public class User extends Parent implements API.User{
                             password = rs.getString("passwords");
                             float i = 0;
                             try{
-                                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+                                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
                                 ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
                                 stmt.setInt(1, this.ID);
                                 rs = stmt.executeQuery();
@@ -473,7 +473,7 @@ public class User extends Parent implements API.User{
                             
                             float i = 0;
                             try{
-                                PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+                                PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
                                 ("select 100*sum(ball)/sum(max) as 'r' from test_result where user = ?;");
                                 stmt.setInt(1, this.ID);
                                 rs = stmt.executeQuery();
@@ -549,9 +549,9 @@ public class User extends Parent implements API.User{
     @Override
     public String getIco(){
         
-        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
-        if(new File(db.getRealPath()+path).exists())
-            return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        if(new File(Storage.getRealPath()+path).exists())
+            return Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_user_"+this.getGender()+".png";
     } 
 

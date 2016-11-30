@@ -37,7 +37,7 @@ public class AcceptTest  extends Accept{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "accept_test";
     }
     
@@ -68,7 +68,7 @@ public class AcceptTest  extends Accept{
         DataBase db = new DataBase(this);
         db.ReWrite();
         
-        PreparedStatement stmt = DataBasePak.db.getConn().prepareStatement
+        PreparedStatement stmt = DataBasePak.Storage.getConn().prepareStatement
         ("select test_id from test where program = ? and test_deleted=0 and test_id not in " +
         "(select DISTINCT test from accept_test where not(accept_test_ball is null) and user_has_course = ?);");
         stmt.setInt(1, UserHasCourse.getCourse().getProgram().getID());

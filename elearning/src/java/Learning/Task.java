@@ -35,7 +35,7 @@ public class Task extends Component {
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "task";
     }
     

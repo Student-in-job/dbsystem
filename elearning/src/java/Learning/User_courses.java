@@ -24,7 +24,7 @@ public class User_courses extends Parent {
     }
     
       @Override
-    public String getType(){
+    public String _getType(){
         return "user_has_course";
     }
     

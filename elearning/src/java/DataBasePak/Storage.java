@@ -19,59 +19,49 @@ import javax.sql.DataSource;
  *
  * @author ksinn
  */
-public class db {
-    private static db conn = new db();
-    private static Connection db_conn;
+public class Storage {
+    private static Storage conn = new Storage();
     private static String RealPath;
     private static String LogPath;    
     private static String FileDir;
 
     
-    private db() 
+    private Storage() 
     {
         try {
- 
-            this.LoadConnection();
             
+            Connection db_conn = getConnection();
             
-            PreparedStatement stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
+            PreparedStatement stmt = db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 this.RealPath = rs.getString("value");
             }
-            stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
+            stmt = db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
             rs = stmt.executeQuery();
             if(rs.next()){
                 this.LogPath = rs.getString("value");
             }
             
-            stmt = this.db_conn.prepareStatement("select * from sys_conf where name = 'FileDir';");
+            stmt = db_conn.prepareStatement("select * from sys_conf where name = 'FileDir';");
             rs = stmt.executeQuery();
             if(rs.next()){
                 this.FileDir = rs.getString("value");
             }
             
-        }//catch (ClassNotFoundException ex) {} 
+        }
         catch (NamingException | SQLException ex) {}
     }
     
-    private void LoadConnection() throws NamingException, SQLException{        
+    public static Connection getConnection() throws NamingException, SQLException{        
              
-            InitialContext initContext;
-            initContext = new InitialContext();
-            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
-            this.db_conn = ds.getConnection();
+        InitialContext initContext;
+        initContext = new InitialContext();
+        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
+        return ds.getConnection();
     }
     
-    public static Connection getConn()
-    {
-        
-        /*InitialContext initContext= new InitialContext();
-        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/dbconnect");
-        return ds.getConnection();*/
-        return db_conn;
-    }
-    
+  
     public static Connection getTuterConn() throws NamingException, SQLException
     {
         

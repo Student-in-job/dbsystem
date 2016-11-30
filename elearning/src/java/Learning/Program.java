@@ -5,7 +5,7 @@
  */
 package Learning;
 import DataBasePak.Log;
-import DataBasePak.db;
+import DataBasePak.Storage;
 import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
@@ -43,7 +43,7 @@ public class Program extends Parent{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "program";
     }
     
@@ -95,7 +95,7 @@ public class Program extends Parent{
         ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
         
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select \n" +
             "(select user_surname from user where user_id=user) as 'surname', \n" +
             "(select user_name from user where user_id=user) as 'name',\n" +
@@ -130,7 +130,7 @@ public class Program extends Parent{
     public ArrayList<Program> Find(String find) {
         ArrayList<Program> list = new ArrayList<Program>();
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select * from program where program_deleted = 0 and program_state='active' and program_name like ?;");
             stmt.setString(1, "%"+find+"%");
             ResultSet rs = stmt.executeQuery();
@@ -149,7 +149,7 @@ public class Program extends Parent{
     
     public Course getCourse() {
         try{
-        PreparedStatement stmt = db.getConn().prepareStatement
+        PreparedStatement stmt = Storage.getConn().prepareStatement
         ("select * from course where program = ? and date(now())<\n" +
         "(select case when \n" +
         "(select @m := max(date(date_time)) from schedule_has_material where course = 1)>\n" +
@@ -398,9 +398,9 @@ public class Program extends Parent{
     }
     
     public String getIco(){
-        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";;
-        if(new File(db.getRealPath()+path).exists())
-            return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";;
+        if(new File(Storage.getRealPath()+path).exists())
+            return Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_program.png";
     }    
     

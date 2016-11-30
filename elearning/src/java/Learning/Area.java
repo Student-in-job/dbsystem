@@ -33,7 +33,7 @@ public class Area extends Parent{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "area";
     }
     
@@ -54,7 +54,7 @@ public class Area extends Parent{
     public ArrayList<Program> FindPrograms(String find){
         ArrayList<Program> list = new ArrayList<Program>();
         try{
-            PreparedStatement stmt = db.getConn().prepareStatement
+            PreparedStatement stmt = Storage.getConn().prepareStatement
             ("select * from program where program_deleted = 0 and area = ? and program_state='active' and program_name like ?;");
             stmt.setInt(1, this.ID);
             stmt.setString(2, "%"+find+"%");
@@ -130,9 +130,9 @@ public class Area extends Parent{
     }
     
     public String getIco(){
-        String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
-        if(new File(db.getRealPath()+path).exists())
-            return db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        String path = Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
+        if(new File(Storage.getRealPath()+path).exists())
+            return Storage.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_area.png";
     } 
 }

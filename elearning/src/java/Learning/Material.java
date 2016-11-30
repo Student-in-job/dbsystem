@@ -36,7 +36,7 @@ public class Material extends Component {
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "material";
     }
    

@@ -8,6 +8,7 @@ package Learning;
 import DataBasePak.DataBase;
 import java.sql.ResultSet;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -21,23 +22,45 @@ public class AcceptTask  extends Parent implements API.Work{
     private Task Task;
     private int Ball;
     private UUID WORK_KEY;
+    
+    @Override
+    protected HashMap<String, Object> _getParams() {
+        
+        HashMap<String, Object> list = new HashMap<String, Object>();
+        list.put("ball", this.Ball);
+        list.put("times", this.Time);
+        list.put("question", this.Question);
+        list.put("answer", this.Answer);
+        list.put("group_id", this.GroupId);
+        list.put("img", this.Img);
+        return list;
+        
+    }
+
+    @Override
+    protected void _setParams(HashMap<String, Object> Params) throws Exception {
+        
+        this.Ball = (int) Params.get("ball");
+        this.Time = (int) Params.get("times");
+        this.Question = (String) Params.get("question");
+        this.Answer = (String) Params.get("answer");
+        this.GroupId = (int) Params.get("group_id");
+        this.Img = (String) Params.get("img");
+        
+    }
+
+    @Override
+    protected boolean _isCorrect() {
+        
+    }
+    
 
     public AcceptTask() {
         
     }
     
     @Override
-    public int getID(){
-        return this.ID;
-    }
-    
-    @Override
-    public int getTypeIndex(){
-        return 12;
-    }
-    
-    @Override
-    public String getType(){
+    public String _getType(){
         return "accept_task";
     }
     
@@ -163,5 +186,5 @@ public class AcceptTask  extends Parent implements API.Work{
         DataBase db = new DataBase(this);
         db.ReWrite();
     }
-    
+
 }

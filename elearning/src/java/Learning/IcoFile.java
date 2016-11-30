@@ -6,7 +6,7 @@
 package Learning;
 
 
-import DataBasePak.db;
+import DataBasePak.Storage;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -23,7 +23,7 @@ public class IcoFile{
     
     protected Parent Owener;
     protected Part Part;
-    protected final String Path = db.getRealPath()+db.getFileDir();
+    protected final String Path = Storage.getRealPath()+Storage.getFileDir();
     protected int Xx;
     protected int Yy;
     

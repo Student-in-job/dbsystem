@@ -22,8 +22,8 @@ public class Files extends Parent{
     protected String FileType;
     protected Material Material;
     protected Part Part;
-    protected final String Derectory = db.getFileDir() + "material/";
-    protected final String Path = db.getRealPath() + Derectory;
+    protected final String Derectory = Storage.getFileDir() + "material/";
+    protected final String Path = Storage.getRealPath() + Derectory;
     
     
     
@@ -52,7 +52,7 @@ public class Files extends Parent{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "files";
     }
     

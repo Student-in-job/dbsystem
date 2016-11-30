@@ -8,7 +8,7 @@ package auth;
 
 import API.AppInf;
 import API.HTTPClient;
-import DataBasePak.db;
+import DataBasePak.Storage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +80,7 @@ public class SMSAuthenticator  extends SecondFactor{
     
   
   static public boolean put_code(int user, long code) throws SQLException{
-            PreparedStatement stmt = db.getConn().prepareStatement("replace into sms_code (user, sms_code) values (?, ?);");
+            PreparedStatement stmt = Storage.getConn().prepareStatement("replace into sms_code (user, sms_code) values (?, ?);");
             stmt.setInt(1, user);
             stmt.setLong(2, code);
             stmt.executeUpdate();
@@ -90,7 +90,7 @@ public class SMSAuthenticator  extends SecondFactor{
   }
   
   static public long get_saved_code(int user, long time) throws SQLException{
-            PreparedStatement stmt = db.getConn().prepareStatement("select * from sms_code where user=? and addDate + interval ? second > ?;");
+            PreparedStatement stmt = Storage.getConn().prepareStatement("select * from sms_code where user=? and addDate + interval ? second > ?;");
             stmt.setInt(1, user);
             stmt.setInt(2, lifetime);
             stmt.setTimestamp(3, new Timestamp(time));

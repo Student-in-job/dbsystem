@@ -33,7 +33,7 @@ public class Course extends Parent {
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "course";
     }
     

@@ -35,7 +35,7 @@ public class TestTask extends Parent{
     }
     
     @Override
-    public String getType(){
+    public String _getType(){
         return "test_task";
     }
     

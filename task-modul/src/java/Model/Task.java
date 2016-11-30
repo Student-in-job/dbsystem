@@ -5,10 +5,6 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 /**
@@ -154,26 +150,5 @@ public class Task extends Parant{
     public String getQuestion() {
         return this.Question;
     }
-    
-    
-   /* 
-    private Exception CorrectSQLQuery(){
-        try{
-            Statement stmt = db.getTuterConn().createStatement();
-            stmt.executeQuery(this.Answer);
-            return null;
-        }catch(NamingException | SQLException ex){return ex;}
-        
-    }
-    
-    public ResultSet getAnswerResult() throws SQLException, NamingException{
-        
-            Connection conn = db.getStudentConn();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(this.Answer);
-            //conn.close();
-            return rs;
-    }
-*/
 
 }

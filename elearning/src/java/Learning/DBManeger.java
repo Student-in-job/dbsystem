@@ -5,7 +5,7 @@
  */
 package Learning;
 
-import DataBasePak.db;
+import DataBasePak.Storage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +33,7 @@ public class DBManeger {
     public DBManeger(String query, Program prog) throws NamingException, IOException{
         Message="";
         
-        String testName = db.getRealPath()+db.getFileDir()+"temp/sq";
+        String testName = Storage.getRealPath()+Storage.getFileDir()+"temp/sq";
         int i=0;
         while((file = new File(testName+String.valueOf(i))).exists())
                 i++;
@@ -47,7 +47,7 @@ public class DBManeger {
     }
     
     public DBManeger(Part sqript, Program prog) throws NamingException, IOException{
-        String testName = db.getRealPath()+db.getFileDir()+"temp/";
+        String testName = Storage.getRealPath()+Storage.getFileDir()+"temp/";
         int i=0;
         File file;
         while((file = new File(testName+String.valueOf(i))).exists())
@@ -138,7 +138,7 @@ public class DBManeger {
         while ((line = bufferedreader.readLine()) != null) {
             Message+=line+"<br>\n";
         }
-        Message = Message.replaceAll(db.getRealPath(), "");
+        Message = Message.replaceAll(Storage.getRealPath(), "");
         
         
     }
