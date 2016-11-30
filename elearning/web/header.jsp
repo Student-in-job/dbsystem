@@ -58,7 +58,7 @@ String auth_url = "https://accounts.google.com/o/oauth2/auth?"
 	    <div class="col col-3 text-center">
 	    	<a href="<%=request.getServletContext().getContextPath()%>"><div class="item centered logo"></div></a>
                 <h5 class="upper primary"><img width="150" src="<%=request.getServletContext().getContextPath()%>/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
-	   	</div>
+	    </div>
                 
 	    
 <%
@@ -89,7 +89,7 @@ if(user!=null){%>
                 <a class="<%=main%>login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
             </div>
 
-                <%}%>            
+<%}%>            
 
 	<div id="login-modal" class="modal-box hide">
 	    <div class="modal">

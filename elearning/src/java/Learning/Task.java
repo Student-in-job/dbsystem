@@ -9,6 +9,8 @@ import DataBasePak.DataBase;
 import DataBasePak.InvalidParameter;
 import DataBasePak.IllegalAction;
 import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -119,6 +121,34 @@ public class Task extends Component {
     
     public int getGroup(){
         return Group;
+    }
+
+    boolean canStartNow(User_courses uhc) {
+        
+        Calendar now = Calendar.getInstance();
+        Calendar time = Calendar.getInstance();
+        
+        time.set(Calendar.HOUR_OF_DAY, this.StartTime);
+        if(now.before(time))
+            return false;
+        
+        time.add(Calendar.MINUTE, this.Time);
+        if(now.after(time))
+            return false;
+        
+        
+        time.setTime(uhc.getCourse().getDate());
+        
+        time.add(Calendar.DAY_OF_YEAR, this.Day-1);
+        if(now.before(time))
+            return false;
+
+        time.add(Calendar.DAY_OF_YEAR, this.Period-1);
+        if(now.after(time))
+            return false;
+        
+        
+        return true;
     }
 
 

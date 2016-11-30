@@ -25,7 +25,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        ${error}
+        <div>
+            ${error}
+        </div>
         <%@include file="/header.jsp" %>
 
         <div class="row centered test">

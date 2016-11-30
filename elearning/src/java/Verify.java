@@ -68,14 +68,16 @@ public class Verify extends HttpServlet {
                     k = ga.check_code(secret.Secret, code, t);
                  }
                  
-
+         String mess;
          if(p||k){
              request.getSession().removeAttribute("1s_user");
              request.getSession().setAttribute("user", user);
+             mess = "Welcome "+user.getName()+"!";
          }else{
              request.getSession().removeAttribute("1s_user");
+             mess = "Invalid code!";
          }  
-         response.sendRedirect(request.getContextPath());
+         response.sendRedirect(request.getContextPath()+"/Message.jsp?location="+request.getContextPath()+"&message="+mess);
      } catch (SQLException ex) {
          throw new ServletException(ex);
      }

@@ -27,8 +27,8 @@
         
         <div class="row centered text-center test">
             <div class="col col-8 ">
-                <h1>You compleat</h1>
-                <p>${request.error}</p>
+                <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
+                <h3>You complete</h3>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>

@@ -34,6 +34,7 @@ public class Auth extends HttpServlet {
         UserSWT wt = new UserSWT();
         if(wt.getDataFromRequest(request.getParameterMap(), user)){
             request.getSession().setAttribute("user_id", user.getId());
+            request.getSession().setAttribute("user", user);
         }
         response.sendRedirect(request.getContextPath()+"/main");
     }

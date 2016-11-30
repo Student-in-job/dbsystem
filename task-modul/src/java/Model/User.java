@@ -20,6 +20,7 @@ public class User implements API.User{
     String Mail;
     String Name;
     String Surname;
+    String Ico;
     
     
     @Override
@@ -81,6 +82,11 @@ public class User implements API.User{
     public String getName() {
         return this.Name;
     }
+    
+    @Override
+    public String getIco() {
+        return this.Ico;
+    }
 
     @Override
     public String getSurname() {
@@ -95,6 +101,11 @@ public class User implements API.User{
     @Override
     public void setName(String data) {
         this.Name = data;
+    }
+    
+    @Override
+    public void setIco(String data) {
+        this.Ico = data;
     }
 
     @Override

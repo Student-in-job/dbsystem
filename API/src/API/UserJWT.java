@@ -38,6 +38,7 @@ public class UserJWT extends JWT{
         json.put("name", user.getName());
         json.put("surname", user.getSurname());
         json.put("mail", user.getMail());
+        json.put("ico", user.getIco());
         
         Data = json;
         
@@ -48,6 +49,7 @@ public class UserJWT extends JWT{
         user.setName(Data.getString("name"));
         user.setSurname(Data.getString("surname"));
         user.setMail(Data.getString("mail"));
+        user.setIco(Data.getString("ico"));
         
     }
 

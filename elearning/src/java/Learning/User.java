@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.mail.MessagingException;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -52,6 +51,9 @@ public class User extends Parent implements API.User{
     }
      
     public AcceptTask getAliveAcceptTask(Task task) throws Exception{
+        
+        
+        
         Course cours; 
         User_courses uhc;
         AcceptTask accept = null;
@@ -61,6 +63,8 @@ public class User extends Parent implements API.User{
                 return null;
             uhc = this.getHasCours(cours); 
         
+        if(!task.canStartNow(uhc)) return null;    
+            
         DataBase db = new DataBase(this);
         try{
             ResultSet rs = db.FindAliveAccept(task, uhc);
@@ -542,6 +546,7 @@ public class User extends Parent implements API.User{
         return this.password;
     }
     
+    @Override
     public String getIco(){
         
         String path = db.getFileDir() + this.getType() + "/" +String.valueOf(ID)+".png";
@@ -584,5 +589,10 @@ public class User extends Parent implements API.User{
         }
         return res;
        
+    }
+
+    @Override
+    public void setIco(String data) {
+    
     }
 }

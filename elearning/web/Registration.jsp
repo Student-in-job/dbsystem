@@ -49,7 +49,7 @@
         
             nuser.Register(request.getPart("picture"));
         
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath());
         return;
         }
 %>
