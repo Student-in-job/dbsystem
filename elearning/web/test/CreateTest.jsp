@@ -20,7 +20,7 @@
         pg = new Program(program);
         
        
-    if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+    if(user.getId()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
     String name=null, inventory = null;
     int day=0, test, time=0;
@@ -53,13 +53,13 @@ if(request.getMethod().equals("POST")){
 
                 nt = new Test(name, day, inventory, time);
                 nt.Write(pg , user);
-                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
+                response.sendRedirect("Test.jsp?test="+nt.getId()); return;
             }
             else{
 
                 nt = new Test(test);
                 nt.Change(name, inventory, day, user, time);
-                response.sendRedirect("Test.jsp?test="+nt.getID()); return;
+                response.sendRedirect("Test.jsp?test="+nt.getId()); return;
             }   
         
 }
@@ -68,7 +68,7 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test</title>
+        <title>Test :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

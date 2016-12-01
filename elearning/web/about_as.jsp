@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
-        <title>About as</title>
+        <title>About as :: ${initParam.SiteName} &mdash; 2016 </title>
     </head>
     <body>
         <%@include file="header.jsp"%>

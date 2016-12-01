@@ -5,6 +5,13 @@
  */
 package Staff;
 
+import Model.User_courses;
+import Model.Parent;
+import Model.Course;
+import Model.Task;
+import Model.Program;
+import Model.Area;
+import Model.User;
 import Learning.*;
 import java.sql.Connection;
 import java.sql.Date;
@@ -49,7 +56,7 @@ public class DataBase {
             this.Find();
             PreparedStatement stmt = Connection.prepareStatement
         ("update "+Type+" set "+Type+"_deleted = 1 where "+Type+"_id = ?;");
-            stmt.setInt(1, Ons.getID());
+            stmt.setInt(1, Ons.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
     }
@@ -244,8 +251,8 @@ public class DataBase {
         
         
             PreparedStatement stmt = Connection.prepareStatement("select * from accept_task where user_has_course = ? and task = ? and Date(addDate)=Date(now()) and accept_task_deleted=0;");
-            stmt.setInt(1, uhc.getID());
-            stmt.setInt(2, task.getID());
+            stmt.setInt(1, uhc.getId());
+            stmt.setInt(2, task.getId());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -261,7 +268,7 @@ public class DataBase {
         
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+Type+" where "+Type+"_id = ? and "+Type+"_deleted=0;");
-            stmt.setInt(1, Ons.getID());
+            stmt.setInt(1, Ons.getId());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -278,7 +285,7 @@ public class DataBase {
         
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+where+" where "+Type+" = ? and "+where+"_deleted=0 order by addDate desc;");
-            stmt.setInt(1, Ons.getID());
+            stmt.setInt(1, Ons.getId());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -341,7 +348,7 @@ public class DataBase {
         
             PreparedStatement stmt = Connection.prepareStatement
         ("select * from "+where+" where "+where+"_id = (select max("+where+"_id) from "+where+" where "+Type+"=?) and "+where+"_deleted=0;");
-            stmt.setInt(1, Ons.getID());
+            stmt.setInt(1, Ons.getId());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -541,7 +548,7 @@ public class DataBase {
                 for(int i=0; i<course.getSchadule().getList().size(); i++){
                     stmt = Connection.prepareStatement
                     ("insert into schedule_has_"+course.getSchadule().getList().get(i).getType()+" ("+course.getSchadule().getList().get(i).getType()+", course, date_time)  values (?, ?, ?);");
-                        stmt.setInt(1, course.getSchadule().getList().get(i).getID());
+                        stmt.setInt(1, course.getSchadule().getList().get(i).getId());
                         stmt.setInt(2, OnsID);
                         stmt.setDate(3, new Date(course.getSchadule().getList().get(i).getDate().getTime()));
                         Done &= stmt.executeUpdate() == 1;
@@ -559,7 +566,7 @@ public class DataBase {
         PreparedStatement stmt = Connection.prepareStatement
         ("insert into accept_test (accept_test_date, user_has_course, test) VALUES (now(), ?, ?);", Statement.RETURN_GENERATED_KEYS);
         
-            stmt.setInt(1, accept.getUserHasCourse().getID());
+            stmt.setInt(1, accept.getUserHasCourse().getId());
             stmt.setInt(2, accept.getTestID());
             Done = stmt.executeUpdate() == 1;
             ResultSet rs = stmt.getGeneratedKeys();
@@ -580,7 +587,7 @@ public class DataBase {
             stmt.setDate(4, new Date(user.getBirthday().getTime()));
             stmt.setString(5, user.getGender());
             stmt.setString(6, user.getMail().toLowerCase());
-            stmt.setInt(7, user.getID());
+            stmt.setInt(7, user.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
             
@@ -601,7 +608,7 @@ public class DataBase {
             stmt.setInt(6, program.getAreaID());
             stmt.setString(7, program.getTyp());
             stmt.setString(8,  program.getState());
-            stmt.setInt(9, program.getID());
+            stmt.setInt(9, program.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
             
@@ -619,7 +626,7 @@ public class DataBase {
             stmt.setString(3, mat.getTyp());
             stmt.setString(4, mat.getInventory());  
             stmt.setString(5, mat.getText());
-            stmt.setInt(6, mat.getID());
+            stmt.setInt(6, mat.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
             
@@ -637,7 +644,7 @@ public class DataBase {
             stmt.setInt(2, test.getDay());
             stmt.setString(3, test.getInventory());
             stmt.setInt(4, test.getTime());
-            stmt.setInt(5, test.getID());
+            stmt.setInt(5, test.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
             
@@ -658,7 +665,7 @@ public class DataBase {
             stmt.setString(5, task.getVariant3());
             stmt.setString(6, task.getVariant4());
             stmt.setInt(7, task.getPoint());
-            stmt.setInt(8, task.getID());
+            stmt.setInt(8, task.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
             
@@ -671,7 +678,7 @@ public class DataBase {
             PreparedStatement stmt = Connection.prepareStatement
         ("UPDATE user_has_course SET user_has_course_complited=now() WHERE user_has_course_id=?;");
             
-            stmt.setInt(1, has_course.getID());
+            stmt.setInt(1, has_course.getId());
             
             int n = stmt.executeUpdate();
             Done = n == 1;
@@ -686,7 +693,7 @@ public class DataBase {
         ("UPDATE accept_test SET accept_test_ball=? WHERE accept_test_id=?;");
         
             stmt.setInt(1, accept.getBall());
-            stmt.setInt(2, accept.getID());
+            stmt.setInt(2, accept.getId());
             Done = stmt.executeUpdate() == 1;
             
     }
@@ -725,7 +732,7 @@ public class DataBase {
             stmt.setInt(6, task.getGroup());
             stmt.setInt(7, task.getCount());
             stmt.setInt(8, task.getPeriod());
-            stmt.setInt(9, task.getID());
+            stmt.setInt(9, task.getId());
             int n = stmt.executeUpdate();
             Done = n == 1;
     }
@@ -737,7 +744,7 @@ public class DataBase {
         PreparedStatement stmt = Connection.prepareStatement
         ("insert into accept_task (accept_task_date, user_has_course, task, accept_task_key) VALUES (now(), ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         
-            stmt.setInt(1, accept.getUserHasCourse().getID());
+            stmt.setInt(1, accept.getUserHasCourse().getId());
             stmt.setInt(2, accept.getTaskID());
             stmt.setString(3, accept.getWorkKey());
             Done = stmt.executeUpdate() == 1;
@@ -753,7 +760,7 @@ public class DataBase {
         ("UPDATE accept_task SET accept_task_ball=? WHERE accept_task_id=?;");
         
             stmt.setInt(1, accept.getBall());
-            stmt.setInt(2, accept.getID());
+            stmt.setInt(2, accept.getId());
             Done = stmt.executeUpdate() == 1;
     }
 
@@ -774,7 +781,7 @@ public class DataBase {
         User user = (User) Ons;
         PreparedStatement stmt = Connection.prepareStatement
         ("insert into auth_ip (user, ip)  values (?, ?);");
-            stmt.setInt(1, user.getID());
+            stmt.setInt(1, user.getId());
             stmt.setString(2, ip);
             Done = 1==stmt.executeUpdate();
         
@@ -788,7 +795,7 @@ public class DataBase {
             stmt.setString(1, ip);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                res = rs.getInt("user")==user.getID();
+                res = rs.getInt("user")==user.getId();
             } else 
                 res = true;
         return res;    

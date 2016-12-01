@@ -19,7 +19,7 @@
         program = Integer.parseInt(request.getParameter("program"));
         pg = new Program(program);
         
-    if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+    if(user.getId()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
     
     int task=0, group=0, count=0, time=0, starttime=0, period=0, day = 0;
     String name=null, inventory=null;
@@ -58,13 +58,13 @@ if(request.getMethod().equals("POST")){
 
                 nt = new Task(name, inventory, day, period, time, starttime, group, count);
                 nt.Write(pg , user);
-                response.sendRedirect("Task.jsp?task="+nt.getID()); return;
+                response.sendRedirect("Task.jsp?task="+nt.getId()); return;
             }
             else{
 
                 nt = new Task(task);
                 nt.Change(user, name, inventory, day, period, time, starttime, group, count);
-                response.sendRedirect("Task.jsp?task="+nt.getID()); return;
+                response.sendRedirect("Task.jsp?task="+nt.getId()); return;
             }   
         
 
@@ -74,7 +74,7 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Task</title>
+        <title>Task :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

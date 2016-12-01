@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registration</title>
+        <title>Registration :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,17 +33,17 @@
                     
                     <div class="form-item">
                         <label>Email</label>
-                        <input class="width-100" type="email" name="mail" required>
+                        <input class="width-100" type="email" name="mail" value="${user.mail}" required>
                     </div>
 
                     <div class="form-item">
                         <label>Name</label>
-                        <input class="width-100" name="name" type="text" required >
+                        <input class="width-100" name="name" type="text" value="${user.name}" required >
                     </div>
 
                     <div class="form-item">
                         <label>Surname</label>
-                        <input class="width-100" name="surname" type="text" required >
+                        <input class="width-100" name="surname" type="text" value="${user.surname}" required >
                     </div>
 
                     <div class="form-item">
@@ -76,17 +76,16 @@
                         mail:{
                             required: true,
                             email: true
+                            maxlength: 32
                         },
                         
                         surname:{
                             required: true,
-                            minlength: 1,
                             maxlength: 32
                         },
                         
                         name:{
                             required: true,
-                            minlength: 1,
                             maxlength: 32
                         },
                         

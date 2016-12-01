@@ -17,7 +17,7 @@ Material mat;
 
     mat = new Material(Integer.parseInt(request.getParameter("material_id")));
 boolean u = false;
-if(user!=null) u = user.getID()==mat.getProgram().getTeacherID();
+if(user!=null) u = user.getId()==mat.getProgram().getTeacherID();
 
 ArrayList<Files> dfile = mat.getDocFile();
 ArrayList<Files> vfile = mat.getVideoFile();
@@ -26,7 +26,7 @@ ArrayList<Files> vfile = mat.getVideoFile();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%=mat.getName()%> - <%=mat.getProgram().getName()%></title>
+        <title><%=mat.getName()%> - <%=mat.getProgram().getName()%> :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jwplayer/jwplayer.js"></script>
@@ -46,8 +46,8 @@ ArrayList<Files> vfile = mat.getVideoFile();
                 <h2><%=mat.getName()%></h2>
                 <h3><a = href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=mat.getProgramID()%>"><%=mat.getProgram().getName()%></a></h3> Day <%=mat.getDay()%>
                 <p>
-<%if(u){%>                    <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?material=<%=mat.getID()%>&program=<%=mat.getProgramID()%>"><button class="button small round success">UPDATE</button></a>
-                    <a href="${pageContext.request.contextPath}/program/Delete?material=<%=mat.getID()%>"><button class="button small round success">DELETE</button></a>
+<%if(u){%>                    <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?material=<%=mat.getId()%>&program=<%=mat.getProgramID()%>"><button class="button small round success">UPDATE</button></a>
+                    <a href="${pageContext.request.contextPath}/program/Delete?material=<%=mat.getId()%>"><button class="button small round success">DELETE</button></a>
 <%}%>                    
                 </p>
                 <p>
@@ -109,7 +109,7 @@ if(!vfile.isEmpty()){
                             </p>
                         </div>
                         <div class="col text-right">
-<%if(u){%>                            <a href="${pageContext.request.contextPath}/program/Delete?files=<%=vfile.get(i).getID()%>" class="button round outline">Delete</a>
+<%if(u){%>                            <a href="${pageContext.request.contextPath}/program/Delete?files=<%=vfile.get(i).getId()%>" class="button round outline">Delete</a>
 <%}%>                            <a href="${pageContext.request.contextPath}/<%=vfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ if(u){%>
                             </p>
                         </div>
                         <div class="col text-right">
-                           <a href="${pageContext.request.contextPath}/program/Upload.jsp?material=<%=mat.getID()%>" class="button round outline">Upload</a>
+                           <a href="${pageContext.request.contextPath}/program/Upload.jsp?material=<%=mat.getId()%>" class="button round outline">Upload</a>
                         </div>
                     </div>
 <%}%>
@@ -149,7 +149,7 @@ if(u){%>
                             </p>
                         </div>
                         <div class="col text-right">
-<%if(u){%>                            <a href="${pageContext.request.contextPath}/program/Delete?files=<%=dfile.get(i).getID()%>" class="button round outline">Delete</a>
+<%if(u){%>                            <a href="${pageContext.request.contextPath}/program/Delete?files=<%=dfile.get(i).getId()%>" class="button round outline">Delete</a>
 <%}%>                            <a href="${pageContext.request.contextPath}/<%=dfile.get(i).getURL()%>" class="button round outline">Download</a>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ if(u){%>
                             </p>
                         </div>
                         <div class="col text-right">
-                           <a href="${pageContext.request.contextPath}/program/Upload.jsp?material=<%=mat.getID()%>" class="button round outline">Upload</a>
+                           <a href="${pageContext.request.contextPath}/program/Upload.jsp?material=<%=mat.getId()%>" class="button round outline">Upload</a>
                         </div>
                     </div>
 <%}%>       

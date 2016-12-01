@@ -38,7 +38,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Rederect</title>
+        <title>Rederect :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -76,7 +76,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Error</title>
+        <title>Error :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,7 +114,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Task</title>
+        <title>Task :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -132,7 +132,7 @@
         <div class="row centered text-center test">
             <div class="col col-12 ">
                 <h3><%=task.getName()%></h3>
-                <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=task.getProgram().getID()%>"><%=task.getProgram().getName()%></a></h4>
+                <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=task.getProgram().getId()%>"><%=task.getProgram().getName()%></a></h4>
                 <p>
                     <%=task.getInventory()%>
                 </p>
@@ -142,7 +142,7 @@
                 <h4 class="col col-12"></h4>            
             </div>
             <div class="col col-12 test-btn">
-<%if(user!=null)if(user.getID()!=task.getProgram().getTeacherID()){%>
+<%if(user!=null)if(user.getId()!=task.getProgram().getTeacherID()){%>
                 <form method="POST" action="">
                 <input type="hidden" name="test" value="<%=tst%>">
                 <input class="button round outline" type="submit" value="Start task &rarr;">

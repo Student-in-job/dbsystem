@@ -9,7 +9,7 @@ package Controller.user;
 
 
 import Controller.HttpServletParent;
-import Learning.User;
+import Model.User;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

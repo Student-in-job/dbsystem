@@ -52,7 +52,7 @@ int n = (p*N)<courses.size()?p+1:0;
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Courses</title>
+        <title>Courses :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
 	
@@ -100,7 +100,7 @@ int n = (p*N)<courses.size()?p+1:0;
 					<div class="row">
 						
 						<div class="col">
-							<a class="button success outline small" href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=courses.get(i).getID()%>">Show more &rarr;</a>
+							<a class="button success outline small" href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=courses.get(i).getId()%>">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>

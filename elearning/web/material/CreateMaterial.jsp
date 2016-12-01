@@ -22,7 +22,7 @@
         pg = new Program(program);
         
        
-    if(user.getID()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
+    if(user.getId()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
             
     
     String typ="Lecture", text=null, name=null, inventory=null;
@@ -61,12 +61,12 @@ if(request.getMethod().equals("POST")){
 
                 nm = new Material(typ, text, name, inventory, day);    
                 nm.Write(pg , user);
-                response.sendRedirect("Upload.jsp?material="+nm.getID());
+                response.sendRedirect("Upload.jsp?material="+nm.getId());
         }
         else{
                 nm = new Material(material);
                 nm.Change(typ, text, name, inventory, day, user);
-                response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+nm.getID());
+                response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+nm.getId());
         }
         }    
 %>    
@@ -74,7 +74,7 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Material</title>
+        <title>Material :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

@@ -8,7 +8,7 @@ package Controller;
  * and open the template in the editor.
  */
 
-import Learning.User;
+import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +41,7 @@ public abstract class HttpServletParent extends HttpServlet {
             switch(this.PrivateMod()){
                 case 0:{
                     canContinue = true;
-
+                    break;
                 }
                 case 1:{
                     canContinue = user!=null;

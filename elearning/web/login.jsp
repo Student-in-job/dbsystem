@@ -31,7 +31,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Main Page :: <%=request.getServletContext().getInitParameter("SiteName")%> &mdash; 2016 </title>
+        <title>Main Page :: ${initParam.SiteName} &mdash; 2016 </title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">

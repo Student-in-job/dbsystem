@@ -39,7 +39,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Error</title>
+        <title>Error :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,7 +85,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test</title>
+        <title>Test :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -103,7 +103,7 @@
         <div class="row centered text-center test">
             <div class="col col-12 ">
                 <h3><%=test.getName()%></h3>
-                <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
+                <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=test.getProgram().getId()%>"><%=test.getProgram().getName()%></a></h4>
                 <p>
                     <%=test.getInventory()%>
                 </p>
@@ -124,7 +124,7 @@ for(Entry e : test.getStatistic().entrySet()){
 <%}%>              
             </div>
             <div class="col col-12 test-btn">
-<%if(user!=null)if(user.getID()!=test.getProgram().getTeacherID()){%>
+<%if(user!=null)if(user.getId()!=test.getProgram().getTeacherID()){%>
                 <form method="POST" action="StartTest.jsp">
                 <input type="hidden" name="test" value="<%=tst%>">
                 <input class="button round outline" type="submit" value="Start test &rarr;">

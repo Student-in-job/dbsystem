@@ -12,7 +12,7 @@ Log.Write(pageContext.getException().getLocalizedMessage());
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Error</title>
+        <title>Error :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">

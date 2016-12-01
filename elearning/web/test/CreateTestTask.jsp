@@ -19,7 +19,7 @@
         tst = new Test(test);
         
       
-    if(user.getID()!=tst.getProgram().getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}       
+    if(user.getId()!=tst.getProgram().getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}       
     
     String question=null, answer=null, v1=null, v2=null, v3=null, v4=null;
     int point=0, testtask;
@@ -60,13 +60,13 @@ if(request.getMethod().equals("POST")){
 
                     nt = new TestTask(question, answer, v1, v2, v3, v4, point);
                     nt.Write(tst, user);
-                    response.sendRedirect("Test.jsp?test="+tst.getID());
+                    response.sendRedirect("Test.jsp?test="+tst.getId());
                 }
                 else{
 
                     nt = new TestTask(testtask);
                     nt.Change(question, answer, v1, v2, v3, v4, point, user);
-                    response.sendRedirect("Test.jsp?test="+tst.getID());
+                    response.sendRedirect("Test.jsp?test="+tst.getId());
                 }
             }
 %>
@@ -74,7 +74,7 @@ if(request.getMethod().equals("POST")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>TestTask</title>
+        <title>TestTask :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

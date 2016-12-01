@@ -27,7 +27,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test</title>
+        <title>Test :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
@@ -47,7 +47,7 @@
                 <h4 class="col col-12">YOU RESULTS</h4>                
                 <div class="col">
                     <h3><%=accept.getTest().getName()%></h3>
-                    <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=accept.getTest().getProgram().getID()%>"><%=accept.getTest().getProgram().getName()%></a></h4>
+                    <h4><a href = "${pageContext.request.contextPath}/Course.jsp?course_id=<%=accept.getTest().getProgram().getId()%>"><%=accept.getTest().getProgram().getName()%></a></h4>
                     <p>
                         <%=accept.getTest().getInventory()%>
                     </p>

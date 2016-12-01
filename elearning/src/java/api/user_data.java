@@ -7,7 +7,7 @@ package api;
 
 import API.AppInf;
 import API.UserJWT;
-import Learning.User;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

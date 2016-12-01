@@ -13,7 +13,7 @@
 <%    Test test;
 
         test = new Test(Integer.parseInt(request.getParameter("test")));
-        if (test.getProgram().getTeacherID() != user.getID()) {
+        if (test.getProgram().getTeacherID() != user.getId()) {
             throw new IllegalAction();
         }
 
@@ -25,7 +25,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test</title>
+        <title>Test :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -43,16 +43,16 @@
             <div class="row ">
                 <div class="col col-3 offset-1">
                     <h3><%=test.getName()%> (<%=test.getTime()%> min)</h3>
-                    <h4><a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=test.getProgram().getID()%>"><%=test.getProgram().getName()%></a></h4>
+                    <h4><a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=test.getProgram().getId()%>"><%=test.getProgram().getName()%></a></h4>
                 </div>
                 <div class="col col-1">
-                    <a class="test-edit" href="Create<%=test.getName().equals("Exam")?"Exem":"Test"%>.jsp?program=<%=test.getProgramID()%>&test=<%=test.getID()%>">
+                    <a class="test-edit" href="Create<%=test.getName().equals("Exam")?"Exem":"Test"%>.jsp?program=<%=test.getProgramID()%>&test=<%=test.getId()%>">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
                 </div>
                 <div class="col">
-                    <a href="CreateTestTask.jsp?testtask=0&test=<%=test.getID()%>">
+                    <a href="CreateTestTask.jsp?testtask=0&test=<%=test.getId()%>">
                         <button class="button round outline small">
                             Add test <i class="fa fa-plus" aria-hidden="true"></i>
 
@@ -77,10 +77,10 @@
                     </form>
                 </div>
                 <div class="col">
-                    <a class="test-edit" href="${pageContext.request.contextPath}/Delete.jsp?testtask=<%=task.get(i).getID()%>">
+                    <a class="test-edit" href="${pageContext.request.contextPath}/Delete.jsp?testtask=<%=task.get(i).getId()%>">
                         <i class="fa fa-trash font-green"></i> Delete
                     </a> 
-                    <a class="test-edit" href="CreateTestTask.jsp?test=<%=test.getID()%>&testtask=<%=task.get(i).getID()%>">
+                    <a class="test-edit" href="CreateTestTask.jsp?test=<%=test.getId()%>&testtask=<%=task.get(i).getId()%>">
                         <i class="fa fa-cog font-green"></i> Edit
                     </a>
                 </div>

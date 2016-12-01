@@ -73,7 +73,7 @@ if(request.getMethod().equals("GET")){
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Accept delete</title>
+        <title>Accept delete :: ${initParam.SiteName} &mdash; 2016 </title>
 
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -113,7 +113,7 @@ if(request.getMethod().equals("POST")){
                 if("program".equals(param)){
 
                     Program p = new Program(value);
-                    if(user.getID()!=p.getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getTeacherID()) throw new IllegalAction();
                     pg=p.getTeacher();
                     p.Delete();
                 }
@@ -121,13 +121,13 @@ if(request.getMethod().equals("POST")){
 
                     Material p = new Material(value);
                     pg=p.getProgram();
-                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     p.Delete();
                 }
                 if("test".equals(param)){
 
                     Test p = new Test(value);
-                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     if(p.getName().equals("Exem")&&p.getDay()==p.getProgram().getDuration()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
@@ -135,21 +135,21 @@ if(request.getMethod().equals("POST")){
                 if("task".equals(param)){
 
                     Task p = new Task(value);
-                    if(user.getID()!=p.getProgram().getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getProgram();
                     p.Delete();
                 }
                 if("testtask".equals(param)){
 
                     TestTask p = new TestTask(value);
-                    if(user.getID()!=p.getTest().getProgram().getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getTest().getProgram().getTeacherID()) throw new IllegalAction();
                     pg=p.getTest();
                     p.Delete();
                 }
                 if("files".equals(param)){
 
                     Files p = new Files(value);
-                    if(user.getID()!=p.getMaterial().getProgram().getTeacherID()) throw new IllegalAction();
+                    if(user.getId()!=p.getMaterial().getProgram().getTeacherID()) throw new IllegalAction();
                     
                     pg=p.getMaterial();
                     p.Delete();
@@ -157,16 +157,16 @@ if(request.getMethod().equals("POST")){
                 if("user".equals(param)){
 
                     User p = (User) request.getSession().getAttribute("user");
-                    if(user.getID()!=p.getID()) throw new IllegalAction();
+                    if(user.getId()!=p.getId()) throw new IllegalAction();
                     p.Delete();
                 }
 
         if(pg==null) response.sendRedirect(request.getServletContext().getContextPath());
         switch(pg.getType()){
-            case "program": {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+pg.getID()); return;}
-            case "material": {response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+pg.getID()); return;}
-            case "task_list": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/TaskList.jsp?tasklist="+pg.getID()); return;}
-            case "test": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/Test.jsp?test="+pg.getID()); return;}
+            case "program": {response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+pg.getId()); return;}
+            case "material": {response.sendRedirect(request.getServletContext().getContextPath()+"/Material.jsp?material_id="+pg.getId()); return;}
+            case "task_list": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/TaskList.jsp?tasklist="+pg.getId()); return;}
+            case "test": {response.sendRedirect(request.getServletContext().getContextPath()+"/program/Test.jsp?test="+pg.getId()); return;}
             case "user": {response.sendRedirect(request.getServletContext().getContextPath()+"/Userbar.jsp"); return;}
             default: {response.sendRedirect(request.getServletContext().getContextPath()); return;}
         }

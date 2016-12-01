@@ -27,7 +27,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>User</title>
+        <title>User :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -79,7 +79,7 @@
 <%=activ_program.isEmpty()?"<p>Nothing yet</p>":""%>                                 
 <%for(int i=0; i<activ_program.size(); i++) {%>  
                 <p>
-                    <a href="Course.jsp?course_id=<%=activ_program.get(i).getID()%>"><%=activ_program.get(i).getName()%></a>
+                    <a href="Course.jsp?course_id=<%=activ_program.get(i).getId()%>"><%=activ_program.get(i).getName()%></a>
                 </p>                
 <%}%>                                               
                             </div>
@@ -89,7 +89,7 @@
 <%=learning_cours.isEmpty()?"<p>Nothing yet</p>":""%>
 <%for(int i=0; i<learning_cours.size(); i++) {%>  
                 <p>
-                    <a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=learning_cours.get(i).getID()%>"><%=learning_cours.get(i).getProgram().getName()%></a>   (<%=learning_cours.get(i).getDate()%>)
+                    <a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=learning_cours.get(i).getId()%>"><%=learning_cours.get(i).getProgram().getName()%></a>   (<%=learning_cours.get(i).getDate()%>)
                 </p>                
 <%}%>                                               
                             </div>
@@ -99,7 +99,7 @@
 <%=learned_cours.isEmpty()?"<p>Nothing yet</p>":""%>  
 <%for(int i=0; i<learned_cours.size(); i++) {%>  
                 <p>
-                    <a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=learned_cours.get(i).getID()%>"><%=learned_cours.get(i).getProgram().getName()%></a>  (<%=learned_cours.get(i).getDate()%>)
+                    <a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=learned_cours.get(i).getId()%>"><%=learned_cours.get(i).getProgram().getName()%></a>  (<%=learned_cours.get(i).getDate()%>)
                 </p>                
 <%}%>                                               
                             </div>

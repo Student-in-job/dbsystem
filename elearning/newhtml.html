@@ -41,7 +41,7 @@
     + " from accept_task where task=? and "
     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
     stmt.setInt(2, this.ID);
-    stmt.setInt(1, task.getID());
+    stmt.setInt(1, task.getId());
     ResultSet rs = stmt.executeQuery();
     if(rs.next()){
     try{
@@ -63,7 +63,7 @@
     + " from accept_test where test=? and "
     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
     stmt.setInt(2, this.ID);
-    stmt.setInt(1, test.getID());
+    stmt.setInt(1, test.getId());
     ResultSet rs = stmt.executeQuery();
     if(rs.next()){
     try{
@@ -85,7 +85,7 @@
     + " from accept_test where test=? and "
     + "(select user from user_has_course where user_has_course_id = user_has_course) = ?;");
     stmt.setInt(2, this.ID);
-    stmt.setInt(1, test.getID());
+    stmt.setInt(1, test.getId());
     ResultSet rs = stmt.executeQuery();
     if(rs.next()){
     try{
@@ -172,7 +172,7 @@
         
         PreparedStatement stmt = Storage.getConn().prepareStatement
                 ("select * from user_has_course where course = ? and user = ?;");
-        stmt.setInt(1, course.getID());
+        stmt.setInt(1, course.getId());
         stmt.setInt(2, this.ID);
         ResultSet rs = stmt.executeQuery();
         if(rs!=null){

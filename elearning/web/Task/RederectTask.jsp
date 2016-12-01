@@ -22,7 +22,7 @@ if(user!=null) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Rederect</title>
+        <title>Rederect :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">

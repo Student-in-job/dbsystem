@@ -5,6 +5,7 @@
  */
 
 
+import Model.User;
 import Learning.*;
 import java.io.IOException;
 import java.sql.Date;

@@ -42,7 +42,7 @@ int n = (p*N)<users.size()?p+1:0;
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
-        <title>People</title>
+        <title>People :: ${initParam.SiteName} &mdash; 2016 </title>
     </head>
     <body>
         <%@include file="/header.jsp"%>
@@ -56,7 +56,7 @@ int n = (p*N)<users.size()?p+1:0;
 <%int i;for(i=(p-1)*N; i<p*N-N/2&&i<users.size(); i++){%> 
 		<div class="col text-center">		
 			<div class="item">
-                            <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="${pageContext.request.contextPath}/<%=users.get(i).getIco()%>"></a>
+                            <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=users.get(i).getId()%>"><img src="${pageContext.request.contextPath}/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>
@@ -69,7 +69,7 @@ int n = (p*N)<users.size()?p+1:0;
 <%for(i=(p-1)*N+N/2; i<p*N&&i<users.size(); i++){%> 
 		<div class="col col-2  text-center">		
 			<div class="item">
-                            <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=users.get(i).getID()%>"><img src="${pageContext.request.contextPath}/<%=users.get(i).getIco()%>"></a>
+                            <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=users.get(i).getId()%>"><img src="${pageContext.request.contextPath}/<%=users.get(i).getIco()%>"></a>
 			</div>
 			<div class="item">
 				<b><%=users.get(i).getName()%> <%=users.get(i).getSurname()%></b>

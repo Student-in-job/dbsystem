@@ -24,12 +24,12 @@
         prog = new Program(program);
      
         
-        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getID()!=prog.getTeacherID())/*&&prog.getCourse()!=null**/){
+        if(!(prog.isPublished()&&user.getActiveCourse(program)==null&&user.getId()!=prog.getTeacherID())/*&&prog.getCourse()!=null**/){
             %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Error</title>
+        <title>Error :: ${initParam.SiteName} &mdash; 2016 </title>
         <meta charset="utf-8">
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +67,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Course</title>
+        <title>Course :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -133,7 +133,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Course</title>
+        <title>Course :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

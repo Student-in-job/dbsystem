@@ -6,7 +6,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="API.AppInf"%>
-<%@page import="Learning.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
@@ -55,10 +54,10 @@ pageContext.setAttribute("main", main);
 		            <div class="row centered">
 		            	<a href="${pageContext.request.contextPath}/about_as.jsp"><b>ABOUT US</b></a>
 		            	<a href="${pageContext.request.contextPath}/manual.pdf"><b>MANUAL</b></a>
-		            	<a href="${pageContext.request.contextPath}/Courses.jsp"><b>COURSES</b></a>
+		            	<a href="${pageContext.request.contextPath}/program/Courses"><b>COURSES</b></a>
 		            </div>
                         <div class="row centered">
-                            <a href="${pageContext.request.contextPath}/Peoples.jsp"><b>PEOPLE</b></a>
+                            <a href="${pageContext.request.contextPath}/user/Peoples"><b>PEOPLE</b></a>
                         </div>
                     </div>
         	</div>
@@ -76,7 +75,7 @@ pageContext.setAttribute("main", main);
 
                                     <img src="${pageContext.request.contextPath}/${user.ico}" class="usr-img float-left">
 
-                                    <a href="${pageContext.request.contextPath}/Userbar.jsp" style="text-decoration: none;">
+                                    <a href="${pageContext.request.contextPath}/user/UserPanel" style="text-decoration: none;">
                                     <button>
                                         ${user.name} &rarr;
                                     </button>

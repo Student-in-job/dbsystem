@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import Model.User;
 import Staff.Log;
 import Learning.*;
 import java.io.IOException;

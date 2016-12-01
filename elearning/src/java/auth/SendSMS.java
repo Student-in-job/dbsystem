@@ -5,7 +5,7 @@
  */
 package auth;
 
-import Learning.User;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,10 +37,10 @@ public class SendSMS extends HttpServlet {
         try {
             PrintWriter out = response.getWriter();
             User user = (User) request.getSession().getAttribute("1s_user");
-            Secret key = SecondFactor.get2factor(user.getID(), "phone");
+            Secret key = SecondFactor.get2factor(user.getId(), "phone");
                 if(key!=null){
                     SMSAuthenticator sms = new SMSAuthenticator();
-                    if(sms.sendSMS(user.getID(), key.Secret)){
+                    if(sms.sendSMS(user.getId(), key.Secret)){
                         request.getSession().setAttribute("type", "phone");
                         out.write("SMS send;");
                     } else

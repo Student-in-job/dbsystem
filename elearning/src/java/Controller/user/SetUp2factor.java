@@ -3,7 +3,7 @@ package Controller.user;
 
 
 import Controller.HttpServletParent;
-import Learning.User;
+import Model.User;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;

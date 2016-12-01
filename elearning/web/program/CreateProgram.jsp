@@ -5,76 +5,12 @@
 --%>
 
 
-<%@page import="java.io.IOException"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="DataBasePak.*"%>
-<%@page import="java.util.Map.Entry"%>
-<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Learning.*"%>
-
-<%@include file="../logfrag.jsp" %>
-<%
-    request.setCharacterEncoding("UTF-8");
-    String name = null, inventory=null, typ=null, mark ="";
-    int level=0, minlevel=-1, duration=0, program=0, area=0;
-    Part img=null;
-    Program np;
-    program = Integer.parseInt(request.getParameter("program")==null?"0":request.getParameter("program"));
-    
-    
-    
-    if(request.getMethod().equals("GET")){
-    
-        if(program!=0){
-
-
-                np = new Program(program);
-            if(user.getID()!=np.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-            name = np.getName();
-            inventory = np.getInventory();
-            area = np.getAreaID();
-            typ = np.getTyp();
-            level = np.getLevel();
-            minlevel = np.getMinLevel();
-            duration = np.getDuration();
-            
-        }
-    }
-    
-    if(request.getMethod().equals("POST")){
-        
-        name = request.getParameter("name");
-        inventory = request.getParameter("inventory");
-        area = Integer.parseInt(request.getParameter("area")==null?"0":request.getParameter("area"));
-        typ = "Standart";//request.getParameter("typ");
-        level = Integer.parseInt(request.getParameter("level")==null?"0":request.getParameter("level"));
-        minlevel = Integer.parseInt(request.getParameter("minlevel")==null?"0":request.getParameter("minlevel"));
-        duration = Integer.parseInt(request.getParameter("duration")==null?"0":request.getParameter("duration"));
-        img = request.getPart("picture");
-
-        if(minlevel<=level){
-        
-    
-            if(program==0){
-                    np = new Program(name, inventory, new Area(area), typ, level, minlevel, duration);
-                    np.Write(user, img);
-                    response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+np.getID()); return;
-            }
-            else{
-                np = new Program(program);
-                np.Change(name, inventory, typ, level, minlevel, duration, user, img);
-                response.sendRedirect(request.getServletContext().getContextPath()+"/Course.jsp?course_id="+np.getID()); return;
-            }
-        }
-}    
-%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Program</title>
+        <title>Program :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -105,7 +41,7 @@
 ArrayList<Area> arealist = (new Area()).getAll();
 for(int i=0; i<arealist.size(); i++){
 %>
-                            <option value="<%=arealist.get(i).getID()%>" <%=area==arealist.get(i).getID()?"selected":""%>><%=arealist.get(i).getName()%></option>
+                            <option value="<%=arealist.get(i).getId()%>" <%=area==arealist.get(i).getId()?"selected":""%>><%=arealist.get(i).getName()%></option>
 <%}%>
                         </select>
                     </div>

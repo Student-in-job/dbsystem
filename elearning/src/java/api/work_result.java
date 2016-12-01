@@ -31,7 +31,7 @@ public class work_result extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet work_result</title>");            
+            out.println("<title>Servlet work_result :: ${initParam.SiteName} &mdash; 2016 </title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet work_result at " + request.getContextPath() + "</h1>");

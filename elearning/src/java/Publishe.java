@@ -7,8 +7,8 @@
 import Staff.Log;
 import DataBasePak.ObjectNotFind;
 import DataBasePak.IllegalAction;
-import Learning.Program;
-import Learning.User;
+import Model.Program;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

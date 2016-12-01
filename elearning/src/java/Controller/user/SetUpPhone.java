@@ -4,7 +4,7 @@ package Controller.user;
 
 import API.AppInf;
 import API.HTTPClient;
-import Learning.User;
+import Model.User;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -60,7 +60,7 @@ public class SetUpPhone extends HttpServlet {
          key.Type = "phone";
          
          
-         SMSAuthenticator.put2factor(user.getID(), key);
+         SMSAuthenticator.put2factor(user.getId(), key);
          
          String param = "phone="+phone+"&text=this phone saved in system";
          

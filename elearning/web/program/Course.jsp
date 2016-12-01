@@ -24,9 +24,9 @@ int program_id = 0;
         program_id = Integer.parseInt(request.getParameter("course_id"));
         prog = new Program(program_id);
         
-    if(user!=null) {u = !prog.isPublished()&&user.getID()==prog.getTeacherID();
-                    c = prog.isPublished()&&user.getID()!=prog.getTeacherID();
-                    r = prog.isPublished()&&user.getID()==prog.getTeacherID();
+    if(user!=null) {u = !prog.isPublished()&&user.getId()==prog.getTeacherID();
+                    c = prog.isPublished()&&user.getId()!=prog.getTeacherID();
+                    r = prog.isPublished()&&user.getId()==prog.getTeacherID();
                     }
     
     ArrayList<Material> materials = prog.getMaterials();
@@ -38,7 +38,7 @@ int program_id = 0;
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Course</title>
+        <title>Course :: ${initParam.SiteName} &mdash; 2016 </title>
         <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
@@ -53,7 +53,7 @@ int program_id = 0;
         function publish()  
         {  
             $.ajax({  
-                url: "${pageContext.request.contextPath}/program/Publishe?program=<%=prog.getID()%>",  
+                url: "${pageContext.request.contextPath}/program/Publishe?program=<%=prog.getId()%>",  
                 cache: false, 
                 error: function(){
                     document.getElementById('mesagge').style.display = 'block';
@@ -88,19 +88,19 @@ int program_id = 0;
                         <img src="${pageContext.request.contextPath}/<%=prog.getIco()%>" alt="" class="float-left" style="margin-right: 20px; margin-bottom: 20px;">
                         <p class="middle">
                             Type: Selfstudy <br>
-                            Area: <a href="${pageContext.request.contextPath}/Courses.jsp?area_id=<%=prog.getArea().getID()%>"><%=prog.getArea().getName()%></a><br>
+                            Area: <a href="${pageContext.request.contextPath}/Courses.jsp?area_id=<%=prog.getArea().getId()%>"><%=prog.getArea().getName()%></a><br>
                             Duration: <%=prog.getDuration()%> days<br>
                             Level: <%=prog.getLevel()%><br>
                             Minimal Level: <%=prog.getMinLevel()%><br>
-                            Teacher: <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=prog.getTeacher().getID()%>"> <%=prog.getTeacher().getName()%> <%=prog.getTeacher().getSurname()%></a> <br>
+                            Teacher: <a href="${pageContext.request.contextPath}/User.jsp?user_id=<%=prog.getTeacher().getId()%>"> <%=prog.getTeacher().getName()%> <%=prog.getTeacher().getSurname()%></a> <br>
 <%if(u){%>                            
-                            <a href="${pageContext.request.contextPath}/program/CreateProgram.jsp?program=<%=prog.getID()%>"><button class="button small round primary">UPDATE</button></a>
-                            <a href="${pageContext.request.contextPath}/program/Delete?program=<%=prog.getID()%>"><button class="button small round error">DELETE</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateProgram.jsp?program=<%=prog.getId()%>"><button class="button small round primary">UPDATE</button></a>
+                            <a href="${pageContext.request.contextPath}/program/Delete?program=<%=prog.getId()%>"><button class="button small round error">DELETE</button></a>
                             <button class="button small round warning" style="color: #000;" onclick="publish()">PUBLISH</button>
 
 <%}%> 
 <%if(c){%>                            
-                            <%--<a href="${pageContext.request.contextPath}/CreateCourse.jsp?program=<%=prog.getID()%>"><button class="button small round error">START</button></a>--%>
+                            <%--<a href="${pageContext.request.contextPath}/CreateCourse.jsp?program=<%=prog.getId()%>"><button class="button small round error">START</button></a>--%>
 <%}%> 
                         </p>
                     </div>
@@ -130,13 +130,13 @@ int program_id = 0;
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "${pageContext.request.contextPath}/Material.jsp?material_id=<%=materials.get(i).getID()%>"><%=materials.get(i).getName()%></a> 
+                                <a href = "${pageContext.request.contextPath}/Material.jsp?material_id=<%=materials.get(i).getId()%>"><%=materials.get(i).getName()%></a> 
                             </p>
                         </div>
 <%if(u){%>                             
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?material=<%=materials.get(i).getID()%>&program=<%=materials.get(i).getProgramID()%>"><button class="button small round primary">UPDATE</button></a>
-                            <a href="${pageContext.request.contextPath}/program/Delete?material=<%=materials.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?material=<%=materials.get(i).getId()%>&program=<%=materials.get(i).getProgramID()%>"><button class="button small round primary">UPDATE</button></a>
+                            <a href="${pageContext.request.contextPath}/program/Delete?material=<%=materials.get(i).getId()%>"><button class="button small round error">DELETE</button></a>
                         </div>
 <%}%>                        
                     </div>
@@ -149,7 +149,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateMaterial.jsp?program=<%=prog.getId()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        
@@ -161,13 +161,13 @@ if(u){%>
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "${pageContext.request.contextPath}/Pass/StartTest.jsp?test=<%=tests.get(i).getID()%>"><%=tests.get(i).getName()%></a>
+                                <a href = "${pageContext.request.contextPath}/Pass/StartTest.jsp?test=<%=tests.get(i).getId()%>"><%=tests.get(i).getName()%></a>
                             </p>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/Test.jsp?test=<%=tests.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
-                           <%if(!tests.get(i).isExem()){%><a href="${pageContext.request.contextPath}/program/Delete?test=<%=tests.get(i).getID()%>"><button class="button small round error">DELETE</button></a><%}%>
+                            <a href="${pageContext.request.contextPath}/program/Test.jsp?test=<%=tests.get(i).getId()%>"><button class="button small round primary">UPDATE</button></a>
+                           <%if(!tests.get(i).isExem()){%><a href="${pageContext.request.contextPath}/program/Delete?test=<%=tests.get(i).getId()%>"><button class="button small round error">DELETE</button></a><%}%>
 
                         </div>
 <%}%>                            
@@ -182,7 +182,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/CreateTest.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateTest.jsp?program=<%=prog.getId()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        
@@ -192,13 +192,13 @@ if(u){%>
                     <div class="row">
                         <div class="col">
                             <p>
-                                <a href = "${pageContext.request.contextPath}/Pass/StartTask.jsp?task=<%=tasks.get(i).getID()%>"><%=tasks.get(i).getName()%></a>
+                                <a href = "${pageContext.request.contextPath}/Pass/StartTask.jsp?task=<%=tasks.get(i).getId()%>"><%=tasks.get(i).getName()%></a>
                             </p>
                         </div>
 <%if(u){%> 
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/Task.jsp?task=<%=tasks.get(i).getID()%>"><button class="button small round primary">UPDATE</button></a>
-                           <a href="${pageContext.request.contextPath}/program/Delete?task=<%=tasks.get(i).getID()%>"><button class="button small round error">DELETE</button></a>
+                            <a href="${pageContext.request.contextPath}/program/Task.jsp?task=<%=tasks.get(i).getId()%>"><button class="button small round primary">UPDATE</button></a>
+                           <a href="${pageContext.request.contextPath}/program/Delete?task=<%=tasks.get(i).getId()%>"><button class="button small round error">DELETE</button></a>
 
                         </div>
 <%}%>                            
@@ -213,7 +213,7 @@ if(u){%>
                             </p>
                         </div>
                         <div>
-                            <a href="${pageContext.request.contextPath}/program/CreateTask.jsp?program=<%=prog.getID()%>"><button class="button small round success">ADD</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateTask.jsp?program=<%=prog.getId()%>"><button class="button small round success">ADD</button></a>
                         </div>
                     </div>
 <%}%>                        
