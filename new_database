@@ -33,7 +33,7 @@ create table if not exists user (
 
 create table if not exists users_key (
 	secret_key varchar(16) not null,
-	secret_type enum('phone', 'key') not null,
+	secret_type enum('phone', 'key'),
 	user int,
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_users_key_user  foreign key (user) references user (id) on delete no action on update no action,
@@ -92,25 +92,26 @@ create table if not exists course (
   end_date date not null,
   program int not null,
   public int not null default 1,
+  self_study int not null,
   deleted TINYINT not null default 0,
   primary key (id),
   constraint fk_course_program foreign key (program) references program (id) on delete no action on update no action
 );
 
-create table if not exists user_has_course (
+create table if not exists teaching (
   id int not null auto_increment,
   user int not null,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   course int not null,
   #start datetime not null,
   deleted TINYINT not null default 0,
-  #complited datetime default null,
+  complited TINYINT not null default 0,
   primary key (id),
   unique(user, course),
-  constraint fk_user_has_course_user  foreign key (user) references user (id) on delete no action on update no action,
-  constraint fk_user_has_course_course foreign key (course) references course (id) on delete no action on update no action
+  constraint fk_teaching_user  foreign key (user) references user (id) on delete no action on update no action,
+  constraint fk_teaching_course foreign key (course) references course (id) on delete no action on update no action
 );
-
+/*
 
 #Задания
 create table if not exists task (
@@ -140,7 +141,7 @@ create table if not exists accept_task(
   primary key (id),
   unique(work_key),
   constraint fk_accept_task_task  foreign key (task)  references task (id)    on delete no action    on update no action,
-  constraint fk_accept_task_user_has_course  foreign key (has_course)  references user_has_course (id)    on delete no action    on update no action
+  constraint fk_accept_task_teaching  foreign key (has_course)  references teaching (id)    on delete no action    on update no action
 );
 
 
@@ -170,7 +171,7 @@ create table if not exists files (
   constraint fk_files_matrial foreign key (material) references material (id) on delete no action on update no action
 );
 
-
+/*
 #Тесты
 create table if not exists test (
   id int not null auto_increment,
@@ -207,5 +208,6 @@ create table if not exists accept_test (
   test int not null,
   deleted TINYINT default 0,
   primary key (id),
-  constraint fk_accept_test_user_has_course1  foreign key (has_course)  references user_has_course (id)    on delete no action    on update no action,
+  constraint fk_accept_test_teaching  foreign key (has_course)  references teaching (id)    on delete no action    on update no action,
   constraint fk_accept_test_test  foreign key (test)  references test (id)    on delete no action    on update no action);
+*/

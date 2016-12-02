@@ -3,73 +3,7 @@
     Created on : 05.09.2016, 11:17:11
     Author     : ksinn
 --%>
-
-<%@page import="DataBasePak.*"%>
-<%@page import="java.io.IOException"%>
-<%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%@include file="../logfrag.jsp" %>
-<%
-    request.setCharacterEncoding("UTF-8");
-    String message="";
-    int program = 0;
-    Program pg;
-
-        program = Integer.parseInt(request.getParameter("program"));
-        pg = new Program(program);
-        
-    if(user.getId()!=pg.getTeacherID()) {response.sendRedirect(request.getServletContext().getContextPath()+"/Error.jsp?e=IllegalAction"); return;}
-    
-    int task=0, group=0, count=0, time=0, starttime=0, period=0, day = 0;
-    String name=null, inventory=null;
-    Task nt;
-    task = Integer.parseInt(request.getParameter("task")==null?"0":request.getParameter("task"));
- 
-if(request.getMethod().equals("GET")){
-    if(task!=0){
-
-            nt = new Task(task);
-        name = nt.getName();
-        day = nt.getDay();
-        inventory = nt.getInventory();
-        program = nt.getProgramID();
-        time=nt.getTime();
-        starttime=nt.getStartTime();
-        period=nt.getPeriod();
-        group = nt.getGroup();
-
-    }
-    
-}    
-if(request.getMethod().equals("POST")){
-    
-    name = request.getParameter("name");
-    inventory = request.getParameter("inventory");
-    day = Integer.parseInt(request.getParameter("day"));
-    time = Integer.parseInt(request.getParameter("time"));
-    starttime = Integer.parseInt(request.getParameter("starttime"));
-    group = Integer.parseInt(request.getParameter("group"));
-    count = Integer.parseInt(request.getParameter("count"));
-    period = Integer.parseInt(request.getParameter("period"));
-    
-
-            if(task==0){
-
-                nt = new Task(name, inventory, day, period, time, starttime, group, count);
-                nt.Write(pg , user);
-                response.sendRedirect("Task.jsp?task="+nt.getId()); return;
-            }
-            else{
-
-                nt = new Task(task);
-                nt.Change(user, name, inventory, day, period, time, starttime, group, count);
-                response.sendRedirect("Task.jsp?task="+nt.getId()); return;
-            }   
-        
-
-}
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -88,57 +22,54 @@ if(request.getMethod().equals("POST")){
         
     </head>
     <body>
-        <div  class="box " >
-            <div id="mesagge" class="middle-text"><%=message%></div>
-        </div>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
 
                 <form id="form" class="form" action="" method="POST">
                     <h3 class="text-centered">Task</h3>
-                    <input type="hidden" name="program" value="<%=program%>"> 
-                    <input type="hidden" name="test" value="<%=task%>"> 
+                    <input type="hidden" name="program" value="${program.id}"> 
+                    <input type="hidden" name="task" value="${task.id}"> 
                     
                     <div class="form-item">
                         <label>Group ID:</label>
-                        <input class="width-100" required type="number" name="group" value="<%=day!=0?day:""%>">
-                    </div>
-                    
-                    <div class="form-item">
-                        <label>Count:</label>
-                        <input class="width-100" required  type="number" name="count" value="<%=day!=0?day:""%>">
+                        <input class="width-100" required type="number" name="group" value="${task.groupId}">
                     </div>
                     
                     <div class="form-item">
                         <label>Name:</label>
-                        <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
-                    </div>
-                    
-                    <div class="form-item">
-                        <label>Inventory:</label>
-                        <textarea required name="inventory"><%=inventory==null?"":inventory%></textarea>
+                        <input class="width-100" required type="text" name="name" value="${task.name}">
                     </div>
                     
                     <div class="form-item">
                         <label>Day:</label>
-                        <input class="width-100" required type="number" name="day" value="<%=day!=0?day:""%>">
+                        <input class="width-100" required type="number" name="day" value="${task.day}">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Total Count:</label>
+                        <input class="width-100" required  type="number" name="total_count" value="${task.totalCount}">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label>Passing Count:</label>
+                        <input class="width-100" required  type="number" name="passing_count" value="${task.passingCount}">
                     </div>
                     
                     <div class="form-item">
                         <label>Period:</label>
-                        <input class="width-100" required type="number" name="period" value="<%=period!=0?period:""%>">
+                        <input class="width-100" required type="number" name="period" value="${task.period}">
                     </div>
                     
                     <div class="form-item">
                         <label>Start Time(hour):</label>
-                        <input class="width-100" required type="number" name="starttime" value="<%=starttime!=0?starttime:""%>">
+                        <input class="width-100" required type="number" name="starttime" value="${task.startTime}">
                     </div>
                     
                     <div class="form-item">
                         <label>Time(in minuts):</label>
-                        <input class="width-100" required type="number" name="time" value="<%=time!=0?time:""%>">
+                        <input class="width-100" required type="number" name="time" value="${task.time}">
                     </div>
                     
                     <div class="form-item">
@@ -157,8 +88,7 @@ if(request.getMethod().equals("POST")){
 
                         name:{
                             required: true,
-                            minlength: 6,
-                            maxlength: 50
+                            maxlength: 64
                         },
                         
                         day:{
@@ -172,25 +102,17 @@ if(request.getMethod().equals("POST")){
                             number: true,
                             min: 1
                         },        
-                            
-                        inventory:{
-                            required: true,
-                            minlength: 20,
-                            maxlength: 1000
-                        },
                         
                         starttime:{
                             required: true,
                             number: true,
-                            min: 0,
-                            max: 21
+                            min: 0
                         },
                         
                         time:{
                             required: true,
                             number: true,
-                            min: 1,
-                            max: 180
+                            min: 1
                         },
                                 
                         group:{
@@ -199,7 +121,12 @@ if(request.getMethod().equals("POST")){
                             min: 1
                         },
                         
-                        count:{
+                        total_count:{
+                            required: true,
+                            number: true,
+                            min: 1
+                        } ,
+                        passing_count:{
                             required: true,
                             number: true,
                             min: 1
@@ -212,6 +139,6 @@ if(request.getMethod().equals("POST")){
 
             }); //end of ready
         </script> 
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>

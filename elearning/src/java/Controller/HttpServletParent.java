@@ -58,10 +58,9 @@ public abstract class HttpServletParent extends HttpServlet {
                 }
             }
 
-            /*if(user==null){
+            if(user==null)
                 user = new User();
-            }
-            request.setAttribute("user", user);*/
+            
 
             if(canContinue){
                 if(request.getMethod().equals("POST")){

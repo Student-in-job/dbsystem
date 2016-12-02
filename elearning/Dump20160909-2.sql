@@ -639,7 +639,7 @@ CREATE TABLE `user_has_course` (
   `user_has_course_datetime` datetime NOT NULL,
   `user_has_course_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_has_course_deleted` int(11) NOT NULL DEFAULT '0',
-  `user_has_course_complited` datetime DEFAULT NULL,
+  `user_has_course_completed` datetime DEFAULT NULL,
   PRIMARY KEY (`user_has_course_id`),
   UNIQUE KEY `user` (`user`,`course`),
   KEY `fk_user_has_course_course1` (`course`),
@@ -674,9 +674,9 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = '' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `closer_course` ON SCHEDULE EVERY 1 DAY STARTS '2016-09-08 16:17:04' ON COMPLETION NOT PRESERVE ENABLE DO update user_has_course set user_has_course_complited = now() 
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `closer_course` ON SCHEDULE EVERY 1 DAY STARTS '2016-09-08 16:17:04' ON COMPLETION NOT PRESERVE ENABLE DO update user_has_course set user_has_course_completed = now() 
 where (select course_end_date from course where course_id = course) < now()
-and user_has_course_complited is null */ ;;
+and user_has_course_completed is null */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;

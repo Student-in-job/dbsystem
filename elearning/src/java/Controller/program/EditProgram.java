@@ -7,7 +7,6 @@ package Controller.program;
 
 import Controller.HttpServletParent;
 import Model.Area;
-import Model.Program;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,18 +16,37 @@ import javax.servlet.http.Part;
  *
  * @author ksinn
  */
-public class CreateProgram extends HttpServletParent {
+public class EditProgram extends HttpServletParent {
 
+    
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        ArrayList<Area> areas = (new Area()).getAll();
-        request.setAttribute("areas", areas);
-        request.getRequestDispatcher("ProgramDataForm.jsp").forward(request, response);
+        int id;
+        id = Integer.parseInt(request.getParameter("id"));
+        Model.Program program = new Model.Program();
+        program.getById(id);
+        
+        if(program.MayChange()&&program.getUser().getId()==user.getId()){
+            ArrayList<Area> areas = (new Area()).getAll();
+        
+            request.setAttribute("areas", areas);
+            request.setAttribute("program", program);
+
+            request.getRequestDispatcher("ProgramDataForm.jsp").forward(request, response);
+            return;
+            
+        } else {
+            throw new Exception("You cannot");            
+        }
+        
+        
     }
 
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String discription = request.getParameter("discription");
         int area = Integer.parseInt(request.getParameter("area"));
@@ -36,7 +54,8 @@ public class CreateProgram extends HttpServletParent {
         int duration = Integer.parseInt(request.getParameter("duration"));
         Part img = request.getPart("picture");
 
-        Program program = new Program();
+        Model.Program program = new Model.Program();
+        program.getById(id);
         
         program.setName(name);
         program.setArea(area);
@@ -44,7 +63,7 @@ public class CreateProgram extends HttpServletParent {
         program.setLevel(level);
         program.setDuration(duration);
         
-        if(program.Write(user)){
+        if(program.Update(user)){
             program.SaveIco(img);
             response.sendRedirect("Program?"+program.getId()); 
             return;
@@ -56,7 +75,7 @@ public class CreateProgram extends HttpServletParent {
             request.getRequestDispatcher("ProgramDataForm.jsp");
             return;
         }
-           
+    
     }
 
     @Override
@@ -64,5 +83,4 @@ public class CreateProgram extends HttpServletParent {
         return HttpServletParent.OnlyForAuthorized;
     }
 
-    
 }

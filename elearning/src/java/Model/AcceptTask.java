@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Learning;
+package Model;
 
-import Model.User_courses;
-import Model.Parent;
-import Model.Task;
-import Staff.DataBase;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
+
 
 /**
  *
@@ -20,11 +16,11 @@ import java.util.UUID;
  */
 public class AcceptTask  extends Parent implements API.Work{
     
-    private Date StartTime;
-    private User_courses UserHasCourse;
-    private Task Task;
-    private int Ball;
+    private Date CreateDate;
+    private Teaching Teaching;
     private UUID WORK_KEY;
+    private Task Task;
+    private int Coompleted;
     
     @Override
     protected HashMap<String, Object> _getParams() {
@@ -37,7 +33,11 @@ public class AcceptTask  extends Parent implements API.Work{
         list.put("group_id", this.GroupId);
         list.put("img", this.Img);
         return list;
-        
+    }
+    
+    @Override
+    protected void _setParams(HashMap<String, Object> Params) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AcceptTask  extends Parent implements API.Work{
 
     @Override
     protected boolean _isCorrect() {
-        
+       return true; 
     }
     
 
@@ -65,20 +65,6 @@ public class AcceptTask  extends Parent implements API.Work{
     @Override
     public String _getType(){
         return "accept_task";
-    }
-    
-    public AcceptTask(User_courses user_course, Task task) throws Exception{
-        this.Task = task;
-        this.UserHasCourse = user_course;
-        this.WORK_KEY = UUID.randomUUID();
-        DataBase db = new DataBase(this);
-        db.Write();
-        if(db.Done()) {
-            ID = db.ID();
-        }
-        else throw new Exception();
-
-        
     }
     
     public void getByKey() throws Exception{
@@ -189,5 +175,7 @@ public class AcceptTask  extends Parent implements API.Work{
         DataBase db = new DataBase(this);
         db.ReWrite();
     }
+
+    
 
 }

@@ -117,7 +117,7 @@ create table if not exists user_has_course (
   user_has_course_datetime datetime not null,
   user_has_course_id int(11) not null auto_increment,
   user_has_course_deleted int(11) not null default 0,
-  user_has_course_complited datetime default null,
+  user_has_course_completed datetime default null,
   primary key (user_has_course_id),
   unique(user, course),
   constraint fk_user_has_course_user1  foreign key (user) references user (user_id) on delete no action on update no action,
@@ -266,9 +266,9 @@ from accept_test
 group by user, test;
 
 CREATE EVENT closer_course ON SCHEDULE EVERY 1 DAY 
-DO update user_has_course set user_has_course_complited = now() 
+DO update user_has_course set user_has_course_completed = now() 
 where (select course_end_date from course where course_id = course) < now()
-and user_has_course_complited is null;
+and user_has_course_completed is null;
 
 
 /*create database task;

@@ -7,7 +7,7 @@ package api;
 
 import API.AppInf;
 import API.WorkJWT;
-import Learning.AcceptTask;
+import Model.AcceptTask;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

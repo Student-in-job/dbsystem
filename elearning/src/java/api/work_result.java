@@ -6,7 +6,7 @@
 package api;
 
 import API.MarkSWT;
-import Learning.AcceptTask;
+import Model.AcceptTask;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;

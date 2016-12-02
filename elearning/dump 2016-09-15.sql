@@ -642,7 +642,7 @@ CREATE TABLE `user_has_course` (
   `user_has_course_datetime` datetime NOT NULL,
   `user_has_course_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_has_course_deleted` int(11) NOT NULL DEFAULT '0',
-  `user_has_course_complited` datetime DEFAULT NULL,
+  `user_has_course_completed` datetime DEFAULT NULL,
   PRIMARY KEY (`user_has_course_id`),
   UNIQUE KEY `user` (`user`,`course`),
   KEY `fk_user_has_course_course1` (`course`),

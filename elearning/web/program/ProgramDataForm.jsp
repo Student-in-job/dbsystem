@@ -27,59 +27,43 @@
         <div class="row centered registration">
             <div class="col col-4">
 
-                <form id="form" class="form" action="CreateProgram.jsp" method="POST" enctype="multipart/form-data">
+                <form id="form" class="form" action="" method="POST" enctype="multipart/form-data">
                     <h3 class="text-centered">Program</h3>
-                    <input type="hidden" name="program" value="<%=program%>">
+                    <input type="hidden" name="id" value="${program.id}">
                     <div class="form-item">
                         <label>Name:</label>
-                        <input class="width-100" required type="text" name="name" value="<%=name!=null?name:""%>">
+                        <input class="width-100" required type="text" name="name" value="${program.name}">
                     </div>
+                    
                     <div class="form-item">
                         <label>Area:</label>
                         <select required name="area" >
-<%
-ArrayList<Area> arealist = (new Area()).getAll();
-for(int i=0; i<arealist.size(); i++){
-%>
-                            <option value="<%=arealist.get(i).getId()%>" <%=area==arealist.get(i).getId()?"selected":""%>><%=arealist.get(i).getName()%></option>
-<%}%>
+                            <c:forEach items="${areas}" var="area">
+                                <option value="${area.id}">${area.name}</option>
+                            </c:forEach>
                         </select>
-                    </div>
-                    <div class="form-item">
-                        <label>Inventory:</label>
-                        <textarea rows="6" required  name="inventory"><%=inventory!=null?inventory:""%></textarea>
                     </div>
                     
-<%--                    <div class="form-item">
-                        <label>Type:</label>
-                        <select required required name="typ" >
-                            <option <%="Seminar".equals(typ)?"selected":""%> value="Seminar">Seminar</option>
-                            <option <%="Mini".equals(typ)?"selected":""%> value="Mini">Mini</option>
-                            <option <%="Standard".equals(typ)?"selected":""%> value="Standard">Standard</option>
-                        </select>
+                    <div class="form-item">
+                        <label>Description:</label>
+                        <textarea rows="6" required  name="discription">${program.description}</textarea>
                     </div> 
---%>                        
+                      
                     <div class="form-item">
                         <label>Level:</label>
                         <label>Какой уровень будет после прохождения курса</label>
-                        <input class="width-100" id="level" required type="number" min="1" max="3" name="level" value="<%=level!=0?level:""%>">
-                    </div>
-                    
-                    <div class="form-item">
-                        <label>Min - Levet:</label>
-                        <label>Какого уровня курс надо прайти, для зачисления</label>
-                        <input class="width-100" required type="number" min="0" max="2" name="minlevel" value="<%=minlevel!=-1?minlevel:"0"%>">
+                        <input class="width-100" id="level" required type="number" min="1" max="3" name="level" value=${program.level}>
                     </div>
                     
                     <div class="form-item">
                         <label>Duration:</label>
                         поставить условие длительности
-                        <input class="width-100" required type="number" name="duration" min="1" value="<%=duration!=0?duration:""%>"> days.
+                        <input class="width-100" required type="number" name="duration" min="1" value="${program.duration}"> days.
                     </div>
                     
                     <div class="form-item">
                         <label>Picture:</label>
-                        <input class="width-100" <%=program==0?"required":""%> type="file" name="picture" >
+                        <input class="width-100" type="file" name="picture" >
                     </div>  
                     
 		    <div class="form-item">        
@@ -98,14 +82,12 @@ for(int i=0; i<arealist.size(); i++){
 
                         name:{
                             required: true,
-                            minlength: 6,
-                            maxlength: 100,
+                            maxlength: 128,
                         },
                         
-                        inventory:{
+                        discription:{
                             required: true,
-                            minlength: 20,
-                            maxlength: 3000,
+                            maxlength: 4096,
                         },
                         
                         level:{
@@ -115,13 +97,6 @@ for(int i=0; i<arealist.size(); i++){
                             max: 3,
                         },
                         
-                        minlevel:{
-                            required: true,
-                            number: true,
-                            min: 0,
-                            max: 2,
-                        },
-                        
                         duration:{
                             required: true,
                             number: true,
@@ -129,11 +104,9 @@ for(int i=0; i<arealist.size(); i++){
                             max: 183
                         },
                         
-<%if(program==0){%>     picture:{
-                            <%=program==0?"required:true,":""%>
+                picture:{
                             accept: "png|jpg|jpeg",
-                        }
-<%}%>                        
+                        }                       
                    },
 
                 });

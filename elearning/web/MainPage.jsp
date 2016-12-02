@@ -93,13 +93,13 @@
 					<b>${course.name}</b>
 				</div>
 				<div class="item">
-					${course.shortInventory}
+					${course.shortDescription}
 				</div>
 				<div class="item">
 					<div class="row">
 						
 						<div class="col">
-                                                    <a class="button success outline small" href="${pageContext.request.contextPath}/program/Course?id=${course.iD}">Show more &rarr;</a>
+                                                    <a class="button success outline small" href="${pageContext.request.contextPath}/program/Program?id=${course.id}">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>

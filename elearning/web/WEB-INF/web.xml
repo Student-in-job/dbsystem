@@ -9,8 +9,48 @@
         <servlet-class>Controller.program.Areas</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>auth</servlet-name>
+        <servlet-class>Controller.user.auth1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Publishe</servlet-name>
+        <servlet-class>Controller.program.Publishe</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CreateProgram</servlet-name>
         <servlet-class>Controller.program.CreateProgram</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Program</servlet-name>
+        <servlet-class>Controller.program.Program</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditProgram</servlet-name>
+        <servlet-class>Controller.program.EditProgram</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateCourse</servlet-name>
+        <servlet-class>Controller.program.CreateCourse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Course</servlet-name>
+        <servlet-class>Controller.program.Course</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddStudents</servlet-name>
+        <servlet-class>Controller.program.AddStudents</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StartCourse</servlet-name>
+        <servlet-class>Controller.program.StartCourse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateTask</servlet-name>
+        <servlet-class>Controller.Task.CreateTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Task</servlet-name>
+        <servlet-class>Controller.Task.Task</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserPanel</servlet-name>
@@ -32,6 +72,46 @@
         <servlet-name>CreateProgram</servlet-name>
         <url-pattern>/program/CreateProgram</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Program</servlet-name>
+        <url-pattern>/program/Program</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProgram</servlet-name>
+        <url-pattern>/program/EditProgram</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateCourse</servlet-name>
+        <url-pattern>/program/CreateCourse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Publishe</servlet-name>
+        <url-pattern>/program/Publishe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Course</servlet-name>
+        <url-pattern>/program/Course</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddStudents</servlet-name>
+        <url-pattern>/program/AddStudents</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartCourse</servlet-name>
+        <url-pattern>/program/StartCourse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auth</servlet-name>
+        <url-pattern>/auth1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateTask</servlet-name>
+        <url-pattern>/task/CreateTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Task</servlet-name>
+        <url-pattern>/task/Task</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -48,7 +128,7 @@
     </welcome-file-list>
     <context-param>
         <param-name>LogPath</param-name>
-        <param-value>/srv/tomcat8/logs/elearning.txt</param-value>
+        <param-value>elearning.txt</param-value>
     </context-param>
     <context-param>
         <param-name>SiteName</param-name>

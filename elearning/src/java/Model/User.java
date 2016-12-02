@@ -1,6 +1,7 @@
 package Model;
 
 import API.AppInf;
+import Staff.Log;
 import Staff.Storage;  
 import java.io.File;
 import java.sql.Date;
@@ -224,6 +225,56 @@ public class User extends Parent implements API.User{
     public void setIco(String data) {
     
     }
-
+    
+    public ArrayList<Teaching> getTeachings() throws Exception{
+        ArrayList<Teaching> list = new ArrayList<Teaching>();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("completed", 0);
+        param.put("user", this.ID);
+        Teaching teaching = new Teaching();
+        ArrayList<HashMap<String, Object>> Params;
+        try {
+            Params = teaching.getObjectsParam(param);
+            for(int i=0; i<Params.size(); i++){
+                teaching = new Teaching();
+                try{
+                    teaching.getFromParam(Params.get(i));
+                    teaching.ReadCourseFromDB();
+                    list.add(teaching);
+                } catch (Exception ex) {
+                    Log.Write(ex.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            Log.Write(ex.getLocalizedMessage());
+        }
+        return list;
+    }
+    
+    public Teaching getTeaching(Course course) throws Exception{
+        ArrayList<Teaching> list = new ArrayList<Teaching>();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("user", this.ID);
+        param.put("course", course.ID);
+        param.put("completed", 0);
+        Teaching teaching = new Teaching();
+        ArrayList<HashMap<String, Object>> Params;
+            Params = teaching.getObjectsParam(param);
+            for(int i=0; i<1; i++){
+                try{
+                    teaching.getFromParam(Params.get(i));
+                    teaching.ReadCourseFromDB();
+                    list.add(teaching);
+                } catch (Exception ex) {
+                    Log.Write(ex.getLocalizedMessage());
+                    return null;
+                }
+            }
+        return teaching;
+    }
+    
+    public boolean haveCourse(Course course) throws Exception{
+        return this.getTeaching(course)!=null;
+    }
     
 }

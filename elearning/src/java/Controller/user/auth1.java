@@ -26,10 +26,9 @@ public class auth1 extends HttpServletParent {
                 String mail = request.getParameter("m")==null?"ksinnd@gmail.com":request.getParameter("m");
                 User user = new User();
                 if(user.getByMail(mail)){
-                    request.getSession().setAttribute("1s_user", user);                    
+                    request.getSession().setAttribute("user", user);                    
                     if(user.hasSecondFactor()){
-                        request.getSession().setAttribute("type", "key");
-                        request.getRequestDispatcher("authKey.jsp").forward(request, response);
+                        response.sendRedirect(request.getContextPath());
                         return;
                     } else {
                         response.sendRedirect("SetUp2factor.jsp");

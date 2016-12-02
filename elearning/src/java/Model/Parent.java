@@ -59,10 +59,11 @@ public abstract class Parent extends DBConnect{
     
     protected boolean _select() throws Exception{
         
-
+        Connection conn=null;
+        try{
             String query_string = this.generateQueryString(null, "select");
 
-            Connection conn = this.getConnection();
+            conn = this.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query_string);
             stmt.setInt(1, this.ID);
             ResultSet rs = stmt.executeQuery();
@@ -79,6 +80,11 @@ public abstract class Parent extends DBConnect{
                 conn.close();
                 return false;
             }
+        } finally {
+            if(conn!=null){
+                conn.close();
+            }
+        }
             
         
     }
@@ -335,7 +341,7 @@ public abstract class Parent extends DBConnect{
             IcoFile file = new IcoFile(part, this);
             return file.SaveFile();
         }  else 
-            throw new Exception("Invalid input data!");
+            return false;
     }
     
 }

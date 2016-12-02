@@ -29,12 +29,13 @@ public class sys_conf implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-                    
+        
+        Connection conn=null;
         try {
             
             InitialContext initContext= new InitialContext();
             DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DB");
-            Connection conn= ds.getConnection();
+            conn = ds.getConnection();
             PreparedStatement stmt;
             
             stmt = conn.prepareStatement("delete from sys_conf where name = 'RealPath';");
@@ -63,6 +64,14 @@ public class sys_conf implements ServletContextListener {
             Log.Write(ex.getLocalizedMessage());;
         } catch (NamingException ex) {
             Logger.getLogger(sys_conf.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if(conn!=null){
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                }
+            }
+                
         }
         
     }

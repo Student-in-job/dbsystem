@@ -59,28 +59,6 @@ public class Area extends Parent{
             throw new Exception("Invalid input data!");
     }
     
-    
-    /*public ArrayList<Program> FindPrograms(String find){
-        ArrayList<Program> list = new ArrayList<Program>();
-        try{
-            PreparedStatement stmt = Storage.getConn().prepareStatement
-            ("select * from program where program_deleted = 0 and area = ? and program_state='active' and program_name like ?;");
-            stmt.setInt(1, this.ID);
-            stmt.setString(2, "%"+find+"%");
-            ResultSet rs = stmt.executeQuery();
-                    while(rs.next()){
-                        try {
-                            list.add(new Program(rs.getInt("program_id")));
-                        } catch (SQLException ex) {
-                        Log.Write(ex.getLocalizedMessage()+"\n"+ex.getSQLState());
-                        }
-                    }
-                }catch(Exception ex){
-                    Log.Write(ex.getLocalizedMessage());
-                }
-        return list;
-    }*/
-    
     public boolean Write() throws Exception{
         
         return this._insert();
@@ -96,7 +74,7 @@ public class Area extends Parent{
         ArrayList<HashMap<String, Object>> Params;
         try {
             Params = program.getObjectsParam(param);
-            for(int i=0; i<1; i++){
+            for(int i=0; i<Params.size(); i++){
                 program = new Program();
                 try{
                     program.getFromParam(Params.get(i));
@@ -121,7 +99,7 @@ public class Area extends Parent{
         ArrayList<HashMap<String, Object>> Params;
         try {
             Params = this.getObjectsParam(param);
-            for(int i=0; i<1; i++){
+            for(int i=0; i<Params.size(); i++){
                 area = new Area();
                 try{
                     area.getFromParam(Params.get(i));

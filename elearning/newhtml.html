@@ -102,7 +102,7 @@
             PreparedStatement stmt = Storage.getConn().prepareStatement
                     ("select * from user_has_course where user=? and " +
                             "course in (select course_id from course where program=?) and " +
-                            "user_has_course_complited is null;");
+                            "user_has_course_completed is null;");
             stmt.setInt(1, this.ID);
             stmt.setInt(2, program);
             ResultSet rs = stmt.executeQuery();
@@ -233,7 +233,7 @@
             ResultSet rs = db.Find("user_has_course");
             while(rs.next())
                 try{
-                    if(rs.getDate("user_has_course_complited")!=null) continue;
+                    if(rs.getDate("user_has_course_completed")!=null) continue;
                     Course c = new Course(rs.getInt("course"));
                     list.add(c);
                 }catch (SQLException ex) { Log.Write(ex.getLocalizedMessage());;}
@@ -251,7 +251,7 @@
             ResultSet rs = db.Find("user_has_course");
             while(rs.next())
                 try{
-                    if(rs.getDate("user_has_course_complited")==null) continue;
+                    if(rs.getDate("user_has_course_completed")==null) continue;
                     Course c = new Course(rs.getInt("course"));
                     list.add(c);
                 }catch (SQLException ex) { Log.Write(ex.getLocalizedMessage());;}

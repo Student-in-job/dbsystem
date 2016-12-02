@@ -56,21 +56,26 @@ public abstract class Parant extends DBConnect{
             String query_string = this.generateQueryString(null, "select");
 
             Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
-            stmt.setInt(1, this._id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                HashMap<String, Object> Params = new HashMap<String, Object>();
-                for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
-                    Params.put(rs.getMetaData().getColumnName(i), rs.getObject(rs.getMetaData().getColumnName(i)));
+            try{
+                PreparedStatement stmt = conn.prepareStatement(query_string);
+                stmt.setInt(1, this._id);
+                ResultSet rs = stmt.executeQuery();
+                if(rs.next()){
+                    HashMap<String, Object> Params = new HashMap<String, Object>();
+                    for(int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+                        Params.put(rs.getMetaData().getColumnName(i), rs.getObject(rs.getMetaData().getColumnName(i)));
+                    }
+                    conn.close();
+                    this._setParams(Params);
+                    this._from_db = true;
+                    return true;
+                } else{
+                    conn.close();
+                    return false;
                 }
-                conn.close();
-                this._setParams(Params);
-                this._from_db = true;
-                return true;
-            } else{
-                conn.close();
-                return false;
+            } finally {
+                if(conn!=null)
+                    conn.close();
             }
             
         
@@ -85,46 +90,51 @@ public abstract class Parant extends DBConnect{
             String query_string = this.generateQueryString(params, "insert");
 
             Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string, Statement.RETURN_GENERATED_KEYS);
+            try{
+                PreparedStatement stmt = conn.prepareStatement(query_string, Statement.RETURN_GENERATED_KEYS);
 
-            int i=1;
-            for(Map.Entry<String, Object> param : params){
-                /*if(param.getValue() == null){
-                    i++;
-                    continue;
-                }*/
-                if(param.getValue() instanceof Integer){
-                    stmt.setInt(i, (int) param.getValue());
-                    i++;
-                    continue;
+                int i=1;
+                for(Map.Entry<String, Object> param : params){
+                    /*if(param.getValue() == null){
+                        i++;
+                        continue;
+                    }*/
+                    if(param.getValue() instanceof Integer){
+                        stmt.setInt(i, (int) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof String){
+                        stmt.setString(i, (String) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Date){
+                        stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Long){
+                        stmt.setLong(i, ((Long) param.getValue()));
+                        i++;
+                        continue;
+                    }
                 }
-                if(param.getValue() instanceof String){
-                    stmt.setString(i, (String) param.getValue());
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Date){
-                    stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Long){
-                    stmt.setLong(i, ((Long) param.getValue()));
-                    i++;
-                    continue;
-                }
-            }
 
-            int result = stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            int auto_increment_id;
-            if(result == 1){
-                if(rs.next()) 
-                    this._id = rs.getInt(1);
-                this._from_db = true;
+                int result = stmt.executeUpdate();
+                ResultSet rs = stmt.getGeneratedKeys();
+                int auto_increment_id;
+                if(result == 1){
+                    if(rs.next()) 
+                        this._id = rs.getInt(1);
+                    this._from_db = true;
+                }
+                conn.close();
+                return result == 1;
+            } finally {
+                if(conn!=null)
+                    conn.close();
             }
-            conn.close();
-            return result == 1;
 
     }
     
@@ -135,33 +145,38 @@ public abstract class Parant extends DBConnect{
             String query_string = this.generateQueryString(params, "update");
 
             Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
+            try{
+                PreparedStatement stmt = conn.prepareStatement(query_string);
 
-            int i=1;
-            for(Map.Entry<String, Object> param : params){
-                if(param.getValue() instanceof Integer){
-                    stmt.setInt(i, (int) param.getValue());
-                    i++;
-                    continue;
+                int i=1;
+                for(Map.Entry<String, Object> param : params){
+                    if(param.getValue() instanceof Integer){
+                        stmt.setInt(i, (int) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof String){
+                        stmt.setString(i, (String) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Date){
+                        stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                    }
                 }
-                if(param.getValue() instanceof String){
-                    stmt.setString(i, (String) param.getValue());
-                    i++;
-                    continue;
-                }
-                if(param.getValue() instanceof Date){
-                    stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
-                    i++;
-                    continue;
-                }
+                stmt.setInt(i, this._id);
+
+                int result = stmt.executeUpdate();
+                conn.close();
+                if(result==1) 
+                    this._from_db = true;
+                return result == 1;
+            } finally {
+                if(conn!=null)
+                    conn.close();
             }
-            stmt.setInt(i, this._id);
-
-            int result = stmt.executeUpdate();
-            conn.close();
-            if(result==1) 
-                this._from_db = true;
-            return result == 1;
 
     }
     
@@ -170,11 +185,16 @@ public abstract class Parant extends DBConnect{
             String query_string = this.generateQueryString(null, "delete");
 
             Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
-            stmt.setInt(1, this._id);
-            int result = stmt.executeUpdate();
-            conn.close();
-            return result == 1;
+            try{
+                PreparedStatement stmt = conn.prepareStatement(query_string);
+                stmt.setInt(1, this._id);
+                int result = stmt.executeUpdate();
+                conn.close();
+                return result == 1;
+            } finally {
+                if(conn!=null)
+                    conn.close();
+            }
 
     }
     
@@ -186,35 +206,40 @@ public abstract class Parant extends DBConnect{
             String query_string = this.generateQueryString(params, "select");
 
             Connection conn = this.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query_string);
-            int i=1;
-            for(Map.Entry<String, Object> param : params){
-                if(param.getValue() instanceof Integer){
-                    stmt.setInt(i, (int) param.getValue());
-                    i++;
-                    continue;
+            try{
+                PreparedStatement stmt = conn.prepareStatement(query_string);
+                int i=1;
+                for(Map.Entry<String, Object> param : params){
+                    if(param.getValue() instanceof Integer){
+                        stmt.setInt(i, (int) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof String){
+                        stmt.setString(i, (String) param.getValue());
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Date){
+                        stmt.setDate(i, (java.sql.Date) (Date) param.getValue());
+                        i++;
+                        continue;
+                    }
                 }
-                if(param.getValue() instanceof String){
-                    stmt.setString(i, (String) param.getValue());
-                    i++;
-                    continue;
+                ResultSet rs = stmt.executeQuery();
+                HashMap<String, Object> res_params;
+                while(rs.next()){
+                    res_params = new HashMap<String, Object>();
+                    for(i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+                        res_params.put(rs.getMetaData().getColumnName(i), rs.getObject(rs.getMetaData().getColumnName(i)));
+                    }
+                    list.add(res_params);
                 }
-                if(param.getValue() instanceof Date){
-                    stmt.setDate(i, (java.sql.Date) (Date) param.getValue());
-                    i++;
-                    continue;
-                }
+                conn.close();
+            } finally {
+                if(conn!=null)
+                    conn.close();
             }
-            ResultSet rs = stmt.executeQuery();
-            HashMap<String, Object> res_params;
-            while(rs.next()){
-                res_params = new HashMap<String, Object>();
-                for(i = 1; i <= rs.getMetaData().getColumnCount(); i++){
-                    res_params.put(rs.getMetaData().getColumnName(i), rs.getObject(rs.getMetaData().getColumnName(i)));
-                }
-                list.add(res_params);
-            }
-            conn.close();
             
         return list;
         

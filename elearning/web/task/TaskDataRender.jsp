@@ -4,23 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="java.sql.ResultSet"%>
-<%@page import="DataBasePak.*"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Learning.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%@include file="/logfrag.jsp"%>
-<%    Task task;
-
-        task = new Task(Integer.parseInt(request.getParameter("task")));
-        if (task.getProgram().getTeacherID() != user.getId()) {
-            throw new IllegalAction();
-        }
-
-%>
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,13 +26,13 @@
         <div class=" test">
             <div class="row ">
                 <div class="col col-3 offset-1">
-                    <h3><%=task.getName()%> (<%=task.getTime()%> m (at <%=task.getStartTime()%>) duaring <%=task.getPeriod()%> d)</h3>
-                    <h4><a href="${pageContext.request.contextPath}/Course.jsp?course_id=<%=task.getProgram().getId()%>"><%=task.getProgram().getName()%></a></h4>
-                    <h4><%=task.getCount()%> tasks from group <%=task.getGroup()%></h4>
-                    <p><%=task.getInventory()%></p>
+                    <h3>${task.name} (${task.time} m (at ${task.startTime}) duaring ${task.period} d)</h3>
+                    <h4><a href="${pageContext.request.contextPath}/program/Program?id=${task.program.id}">${task.program.name}</a></h4>
+                    <h4>${task.totalCount} tasks from group ${task.groupId}</h4>
+                    <h4>Passing: ${task.passingCount}</h4>
                 </div>
                 <div class="col col-1">
-                    <a class="test-edit" href="CreateTask.jsp?program=<%=task.getProgramID()%>&task=<%=task.getId()%>">
+                    <a class="test-edit" href="task/EditTask?id=${task.id}">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
