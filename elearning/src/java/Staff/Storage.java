@@ -30,23 +30,29 @@ public class Storage {
     {
         try {
             
-            Connection db_conn = getConnection();
-            
-            PreparedStatement stmt = db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                this.RealPath = rs.getString("value");
-            }
-            stmt = db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
-            rs = stmt.executeQuery();
-            if(rs.next()){
-                this.LogPath = rs.getString("value");
-            }
-            
-            stmt = db_conn.prepareStatement("select * from sys_conf where name = 'FileDir';");
-            rs = stmt.executeQuery();
-            if(rs.next()){
-                this.FileDir = rs.getString("value");
+            Connection db_conn = null;
+            try{
+                db_conn = getConnection();
+
+                PreparedStatement stmt = db_conn.prepareStatement("select * from sys_conf where name = 'RealPath';");
+                ResultSet rs = stmt.executeQuery();
+                if(rs.next()){
+                    this.RealPath = rs.getString("value");
+                }
+                stmt = db_conn.prepareStatement("select * from sys_conf where name = 'LogPath';");
+                rs = stmt.executeQuery();
+                if(rs.next()){
+                    this.LogPath = rs.getString("value");
+                }
+
+                stmt = db_conn.prepareStatement("select * from sys_conf where name = 'FileDir';");
+                rs = stmt.executeQuery();
+                if(rs.next()){
+                    this.FileDir = rs.getString("value");
+                }
+            } finally {
+                if(db_conn!=null)
+                    db_conn.close();
             }
             
         }
@@ -62,22 +68,6 @@ public class Storage {
     }
     
   
-    public static Connection getTuterConn() throws NamingException, SQLException
-    {
-        
-        InitialContext initContext= new InitialContext();
-        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DBtuter");
-        return ds.getConnection();
-    }
-    
-    public static Connection getStudentConn() throws NamingException, SQLException
-    {
-        
-        InitialContext initContext= new InitialContext();
-        DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/DBstudent");
-        return ds.getConnection();
-    }
-    
     public static String getRealPath()
     {
         return RealPath;

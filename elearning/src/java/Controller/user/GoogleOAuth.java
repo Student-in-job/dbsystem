@@ -11,6 +11,8 @@ import API.AppInf;
 import API.HTTPClient;
 import Controller.HttpServletParent;
 import Model.User;
+import auth.SMSAuthenticator;
+import auth.Secret;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +49,15 @@ public class GoogleOAuth extends HttpServletParent {
                 user = new User();
                     if(user.getByMail(mail)){
                         request.getSession().setAttribute("1s_user", user);
-                        if(user.hasSecondFactor()){
+                        Secret secret = user.getSecondFactor();
+                        if(secret!=null){
+                            if("phone".equals(secret.Type)){
+                                SMSAuthenticator sms = new SMSAuthenticator();
+                            if(sms.sendSMS(user.getId(), secret.Secret)){
+                            } else{
+                            
+                            }
+                        }
                             request.getRequestDispatcher("VerifyCode.jsp").forward(request, response);
                             return;
                         } else {

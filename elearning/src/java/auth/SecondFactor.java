@@ -68,15 +68,14 @@ public class SecondFactor {
   return (int) truncatedHash;
  }
     
-    static public Secret get2factor(int user, String type) throws SQLException, NamingException{
+    static public Secret get2factor(int user) throws SQLException, NamingException{
         
         Connection conn = null;
          try{
             Secret key = new Secret();
             conn = Storage.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("select * from users_key where user=? and secret_type = ?;");
+            PreparedStatement stmt = conn.prepareStatement("select * from users_key where user=?;");
             stmt.setInt(1, user);
-            stmt.setString(2, type);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 key.Secret = rs.getString("secret_key");

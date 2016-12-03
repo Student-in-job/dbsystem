@@ -21,12 +21,7 @@ import javax.servlet.http.Part;
  *
  * @author ksinn
  */
-public class DBManeger extends DBConnect{
-    
-    @Override
-    protected String getDataSourseName(){
-        return "tuter";
-    }
+public class DBManeger{
     
     private String Message;
     private String Prefix;

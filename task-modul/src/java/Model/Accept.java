@@ -88,30 +88,34 @@ public class Accept extends Parant{
         StudentConnect conn_stud = new StudentConnect();
         StudentConnect conn_tut = new StudentConnect();
         ResultSet stud, tut;
-        
-        if(!conn_stud.exequtQuery(answer)){
-            this.Ex = conn_stud.getException();
-            return false;
-        } else {
-            this.ResultArray = conn_stud.getResultArray();
-            if(!conn_tut.exequtQuery(this.Task.getAnswer())){
-                throw conn_stud.getException();
-            }
-
-            tut = conn_tut.getResultSet();
-            stud = conn_stud.getResultSet();
-
-            try{
-                if(this.Compear(tut, stud)){
-                    this.Result = 1;
-                    this.TotalTime = (int) ((new Date()).getTime() - this.Time.getTime());
-                }
-            } catch(Exception ex){
-                this.Ex = ex;
+        try{
+            if(!conn_stud.exequtQuery(answer)){
+                this.Ex = conn_stud.getException();
                 return false;
+            } else {
+                this.ResultArray = conn_stud.getResultArray();
+                if(!conn_tut.exequtQuery(this.Task.getAnswer())){
+                    throw conn_stud.getException();
+                }
+
+                tut = conn_tut.getResultSet();
+                stud = conn_stud.getResultSet();
+
+                try{
+                    if(this.Compear(tut, stud)){
+                        this.Result = 1;
+                        this.TotalTime = (int) ((new Date()).getTime() - this.Time.getTime());
+                    }
+                } catch(Exception ex){
+                    this.Ex = ex;
+                    return false;
+                }
+
+                return true;
             }
-            
-            return true;
+        } finally {
+            conn_stud.close();
+            conn_tut.close();
         }
         
         

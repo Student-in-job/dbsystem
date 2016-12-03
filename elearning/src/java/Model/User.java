@@ -114,22 +114,40 @@ public class User extends Parent implements API.User{
     
     public boolean LogIn(long code, long t) throws Exception{
         if(this._from_db){
-            if(SecondFactor.get2factor(this.ID, "phone")!=null);
-                 SMSAuthenticator sa = new SMSAuthenticator();  
-                 this.Logined = sa.check_code(this.ID, code, t);
+            Secret secret = SecondFactor.get2factor(this.ID);
+            if(secret!=null){
+                switch(secret.Type){
+                    case "key":{
+                        GoogleAuthenticator ga = new GoogleAuthenticator();
+                        this.Logined = ga.check_code(secret.Secret, code, t);
+                        UserLog.inKey(this.ID).Write(this.Logined?1:0);
+                        break;
+                    }
+                    case "phone":{
+                        SMSAuthenticator sa = new SMSAuthenticator();  
+                        this.Logined = sa.check_code(this.ID, code, t);
+                        UserLog.inSMS(this.ID).Write(this.Logined?1:0);
+                        break;
+                    }
+                }
+            }
+                 
 
                  if(!this.Logined){
-                    Secret secret= SecondFactor.get2factor(ID, "key");
-                    GoogleAuthenticator ga = new GoogleAuthenticator();
-                    //ga.setWindowSize(0); 
-                    this.Logined = ga.check_code(secret.Secret, code, t);
+                    
+                 } else {
+                    
                  }
         }
         return this.Logined;
     }
     
     public boolean hasSecondFactor() throws SQLException, NamingException{
-        return null != SecondFactor.get2factor(this.ID, "key");
+        return null != SecondFactor.get2factor(this.ID);
+    }
+    
+    public Secret getSecondFactor() throws SQLException, NamingException{
+        return SecondFactor.get2factor(this.ID);
     }
     
     public String setSecretKey() throws SQLException, NamingException{
@@ -144,8 +162,8 @@ public class User extends Parent implements API.User{
          else return null;
     }
     
-    public void LogOut(){
-        
+    public void LogOut() throws NamingException, SQLException{
+        UserLog.out(this.ID).Write(1);
     }
     
     @Override

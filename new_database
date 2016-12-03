@@ -37,7 +37,7 @@ create table if not exists users_key (
 	user int,
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_users_key_user  foreign key (user) references user (id) on delete no action on update no action,
-	unique(user, secret_type),
+	unique(user),
 	unique(secret_key)
 );
 
@@ -53,7 +53,7 @@ create table if not exists auth (
 	user varchar(32) not null,
 	factor enum('phone', 'key'),
 	mods char not null,
-	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_auth_user  foreign key (user) references user (mail) on delete no action on update no action
 	
 );

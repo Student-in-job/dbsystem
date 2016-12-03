@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,16 @@ public class StudentConnect extends DBConnect{
     private SQLException ex;
     
     public StudentConnect(){
+    }
+    
+    public void close(){
+        if(conn!=null)
+            try {
+                this.conn.close();
+        } catch (SQLException ex) {
+            Log.Write(ex.getLocalizedMessage());
+        }
+        
     }
     
     public boolean exequtQuery(String query) throws Exception{
@@ -64,15 +76,6 @@ public class StudentConnect extends DBConnect{
             }
         
         return res;
-    }
-    
-
-    protected void finalize(){
-        try {
-            this.conn.close();
-        } catch (SQLException ex) {
-            Log.Write(ex.getMessage());
-        }
     }
     
     public ResultSet getResultSet(){
