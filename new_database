@@ -133,7 +133,7 @@ create table if not exists task (
 create table if not exists accept_task(
   id int not null auto_increment,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  has_course int not null,
+  teaching int not null,
   work_key varchar(36) not null,
   task int not null,
   completed int default 0,
@@ -141,7 +141,7 @@ create table if not exists accept_task(
   primary key (id),
   unique(work_key),
   constraint fk_accept_task_task  foreign key (task)  references task (id)    on delete no action    on update no action,
-  constraint fk_accept_task_teaching  foreign key (has_course)  references teaching (id)    on delete no action    on update no action
+  constraint fk_accept_task_teaching  foreign key (teaching)  references teaching (id)    on delete no action    on update no action
 );
 
 

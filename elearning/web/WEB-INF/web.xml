@@ -9,6 +9,10 @@
         <servlet-class>Controller.program.Areas</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SetUpPhone</servlet-name>
+        <servlet-class>Controller.user.SetUpPhone</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>auth</servlet-name>
         <servlet-class>Controller.user.auth1</servlet-class>
     </servlet>
@@ -51,6 +55,14 @@
     <servlet>
         <servlet-name>Task</servlet-name>
         <servlet-class>Controller.Task.Task</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StartTask</servlet-name>
+        <servlet-class>Controller.Task.StartTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogOut</servlet-name>
+        <servlet-class>Controller.user.LogOut</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserPanel</servlet-name>
@@ -112,6 +124,22 @@
         <servlet-name>Task</servlet-name>
         <url-pattern>/task/Task</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendSMS</servlet-name>
+        <url-pattern>/user/SendSMS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetUpPhone</servlet-name>
+        <url-pattern>/user/SetUpPhone</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartTask</servlet-name>
+        <url-pattern>/task/StartTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogOut</servlet-name>
+        <url-pattern>/user/LogOut</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -160,7 +188,7 @@
     </servlet>
     <servlet>
         <servlet-name>SendSMS</servlet-name>
-        <servlet-class>auth.SendSMS</servlet-class>
+        <servlet-class>Controller.user.SendSMS</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>work_data</servlet-name>
@@ -205,10 +233,6 @@
     <servlet-mapping>
         <servlet-name>smsgetway</servlet-name>
         <url-pattern>/smsgetway</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SendSMS</servlet-name>
-        <url-pattern>/SendSMS</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>

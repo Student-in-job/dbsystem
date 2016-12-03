@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -18,37 +19,44 @@ public class AcceptTask  extends Parent implements API.Work{
     
     private Date CreateDate;
     private Teaching Teaching;
+    private int TeachingId;
     private UUID WORK_KEY;
     private Task Task;
-    private int Coompleted;
+    private int TaskId;
+    private int Completed;
+    
+    public AcceptTask(){
+        this.Teaching = new Teaching();
+        this.Task = new Task();
+    }
+    
+    public void ReadTaskFromDB() throws Exception{
+        this.Task.getById(this.TaskId);
+    }
+    
+    public void ReadTeachingFromDB() throws Exception{
+        this.Teaching.getById(this.TeachingId);
+    }
     
     @Override
     protected HashMap<String, Object> _getParams() {
         
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("ball", this.Ball);
-        list.put("times", this.Time);
-        list.put("question", this.Question);
-        list.put("answer", this.Answer);
-        list.put("group_id", this.GroupId);
-        list.put("img", this.Img);
+        list.put("completed", this.Completed);
+        list.put("task", this.Task.getId());
+        list.put("teaching", this.Teaching.getId());
+        list.put("work_key", this.WORK_KEY.toString());
         return list;
     }
     
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void _setParams(HashMap<String, Object> Params) throws Exception {
         
-        this.Ball = (int) Params.get("ball");
-        this.Time = (int) Params.get("times");
-        this.Question = (String) Params.get("question");
-        this.Answer = (String) Params.get("answer");
-        this.GroupId = (int) Params.get("group_id");
-        this.Img = (String) Params.get("img");
+        this.CreateDate = (Date) Params.get("addDate");
+        this.WORK_KEY = UUID.fromString((String) Params.get("work_key"));
+        this.TeachingId = (int) Params.get("teaching");
+        this.TaskId = (int) Params.get("task");
+        this.Completed = (int) Params.get("completed");
         
     }
 
@@ -57,42 +65,54 @@ public class AcceptTask  extends Parent implements API.Work{
        return true; 
     }
     
-
-    public AcceptTask() {
-        
-    }
-    
     @Override
     public String _getType(){
         return "accept_task";
     }
     
+    public void getById(int id) throws Exception{
+        if(id>0){
+            this.ID = id;
+            this._select();
+            this.ReadTaskFromDB();
+            this.ReadTeachingFromDB();
+        } else 
+            throw new Exception("Invalid input data!");
+    }  
+    
     public void getByKey() throws Exception{
-        DataBase db = new DataBase(this);
-        ResultSet rs = db.FindWork();
-        rs.next();
-        this.ID=rs.getInt("accept_task_id");
-        this.StartTime=new Date(rs.getTimestamp("accept_task_date").getTime());
-        this.UserHasCourse = new User_courses(rs.getInt("user_has_course"));
-        this.Task= new Task(rs.getInt("task"));
-        this.Ball=rs.getInt("accept_task_ball");
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("work_key", this.WORK_KEY.toString());
+
+            ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
+            for(int i=0; i<1; i++){
+                this.getFromParam(Params.get(i));
+            }
+            this.ReadTaskFromDB();
+            this.ReadTeachingFromDB();
+            this._from_db=true;
         
-    }        
+    }  
     
-    public User_courses getUserHasCourse(){
-        return this.UserHasCourse;
+    public boolean Write() throws Exception{
+        this.WORK_KEY = UUID.randomUUID();
+        this.Completed=0;
+        this.ReadTaskFromDB();
+        this.ReadTeachingFromDB();
+        return this._insert();
     }
     
-    public int getBall(){
-        return Ball;
+    public Teaching getTeaching(){
+        return this.Teaching;
     }
     
-    public int getTaskID(){
-        return Task.getId();
+    @Override
+    public int getCompleted(){
+        return this.Completed;
     }
     
     public Task getTask(){
-        return Task;
+        return this.Task;
     }
 
     @Override
@@ -107,31 +127,32 @@ public class AcceptTask  extends Parent implements API.Work{
 
     @Override
     public int getUser() {
-        return UserHasCourse.getUser_id();
+        return this.Teaching.getUser().getId();
     }
 
     @Override
-    public long getTime() {
-        return StartTime.getTime();
+    public long getCreateTime() {
+        return CreateDate.getTime();
     }
 
     @Override
-    public int getGroup() {
-        return Task.Group;
+    public int getGroupId() {
+        return Task.getGroupId();
     }
 
     @Override
     public int getCount() {
-        return Task.Count;
+        return Task.getTotalCount();
     }
 
     @Override
     public long getLiveTime() {
-        return Task.Time*60*1000;
+        return Task.getTime()*60*1000;
     }
 
     @Override
     public void setWorkKey(String data) {
+        this._from_db = false;
         WORK_KEY=UUID.fromString(data);
     }
 
@@ -141,13 +162,7 @@ public class AcceptTask  extends Parent implements API.Work{
     }
 
     @Override
-    public void setTime(long data) {
-        
-    }
-
-    @Override
     public void setGroup(int data) {
-        
     }
 
     @Override
@@ -161,19 +176,27 @@ public class AcceptTask  extends Parent implements API.Work{
     }
 
     @Override
-    public int getResult() {
-       return this.Ball;
-    }
-
-    @Override
-    public void setResult(int data) {
-        this.Ball = data;
+    public void setCompleted(int data) {
+        this._from_db = false;
+        this.Completed = data;
     }
 
     public void putMark(int parseInt) throws Exception {
-        this.Ball = parseInt;
-        DataBase db = new DataBase(this);
-        db.ReWrite();
+        this.Completed = parseInt;
+        this._update();
+    }
+
+    @Override
+    public void setCreateTime(long data) {
+        
+    }
+    
+    public void setTeaching(int data){
+        this.TeachingId = data;
+    }
+    
+    public void setTask(int data){
+        this.TaskId=data;
     }
 
     

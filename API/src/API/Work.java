@@ -13,17 +13,17 @@ package API;
 public interface Work extends Parent{
     public String getWorkKey();
     public int getUser();
-    public long getTime();
-    public int getGroup();
+    public long getCreateTime();
+    public int getGroupId();
     public int getCount();
     public long getLiveTime();
-    public int getResult();
+    public int getCompleted();
     
     public void setWorkKey(String data);
     public void setUser(int data);
-    public void setTime(long data);
+    public void setCreateTime(long data);
     public void setGroup(int data) throws Exception;
     public void setCount(int data);
     public void setLiveTime(long data);
-    public void setResult(int data);
+    public void setCompleted(int data);
 }

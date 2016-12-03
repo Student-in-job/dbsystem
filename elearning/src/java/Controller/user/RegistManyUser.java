@@ -1,3 +1,5 @@
+package Controller.user;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,9 +8,10 @@
 
 
 import Model.User;
-import Learning.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
                  maxFileSize=1024*1024*100,      // 10MB
                  maxRequestSize=1024*1024*150)   // 50MB
 
-public class RegistAll extends HttpServlet {
+public class RegistManyUser extends HttpServlet {
 
 
     @Override
@@ -33,7 +36,7 @@ public class RegistAll extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         
-        int i=0;
+        PrintWriter out = response.getWriter();
             
         
                 String data = request.getParameter("data");
@@ -41,15 +44,24 @@ public class RegistAll extends HttpServlet {
                 String[] b = data.split("\n");
                 for(int j=0; j<b.length; j++){
                     String[] d = b[j].split(" ");
-                    User user = new User(d[2], d[0]+"123"+d[1], d[0], d[1], new Date(0), "s");
+                    User user = new User();
+                    user.setMail(d[2]);
+                    user.setSurname(d[0]);
+                    user.setName(d[1]);
+                    try{
+                        user.setGender(d[3]);
+                    } catch (Exception ex){
+                        user.setGender("m");
+                    }
                     try {
-                        user.Register(null);
+                        user.Register();
+                        out.write(d[2]+" is write\n");
                     } catch (Exception ex) {
-                        i++;
+                       out.write(d[2]+" is not write. Ex:"+ex.getMessage()+"\n");
                     }
                 }
                 
-        response.getWriter().print(i);
+        
         
     }
 

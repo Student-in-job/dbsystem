@@ -12,6 +12,9 @@ import auth.GoogleAuthenticator;
 import auth.SMSAuthenticator;
 import auth.SecondFactor;
 import auth.Secret;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 
@@ -273,8 +276,68 @@ public class User extends Parent implements API.User{
         return teaching;
     }
     
+    public Teaching getTeaching(Program program) throws Exception{
+        Teaching theaching = new Teaching();
+        Connection conn = this.getConnection();
+        try{
+            PreparedStatement stmt = conn.prepareStatement(
+                "select * from teaching where \n" +
+                "user = ? and \n" +
+                "deleted=0 and \n" +
+                "completed=0 and \n" +
+                "(select program from course where id = course) = ?;");
+            stmt.setInt(1, this.ID);
+            stmt.setInt(2, program.getId());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                theaching.getById(rs.getByte("id"));
+                return theaching;
+            } else 
+                return null;
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
+        
+    }
+    
     public boolean haveCourse(Course course) throws Exception{
         return this.getTeaching(course)!=null;
+    }
+
+    public AcceptTask getAcceptTask(Task task) throws Exception {
+        
+        AcceptTask accept = new AcceptTask();
+        Teaching teach = this.getTeaching(task.Program);
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("task", task.getId());
+        param.put("teaching", teach.getId());
+        param.put("completed", 0);
+        ArrayList<HashMap<String, Object>> Params;
+            Params = accept.getObjectsParam(param);
+                try{
+                    accept.getFromParam(Params.get(1));
+                    accept.ReadTeachingFromDB();
+                    accept.ReadTaskFromDB();
+                } catch (Exception ex) {
+                    accept =  null;
+                }        
+        if(accept!=null){
+            return accept;
+        } else {
+            if(task.canStart()){
+                accept = new AcceptTask();
+                accept.setTask(task.getId());
+                accept.setTeaching(teach.ID);
+                if(accept.Write()){
+                    return accept;
+                } else 
+                    return null;
+                    
+            } else 
+                return null;
+        }
+    
     }
     
 }

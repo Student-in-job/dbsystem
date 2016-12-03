@@ -154,6 +154,7 @@ public class Work extends Parant implements API.Work{
         if(!this.Group._from_db) throw new Exception();
     }
     
+    @Override
     public void setUser(int data){
         this._from_db = false;
         this.UserId = data;
@@ -164,17 +165,18 @@ public class Work extends Parant implements API.Work{
         this.Time = data;
     }
     
+    @Override
     public void setCount(int data){
         this._from_db = false;
         this.Count = data;
     }
     
     @Override
-    public int getGroup(){
+    public int getGroupId(){
         return this.Group.getId();
     }
     
-    public TaskGroup getGroupObj() throws Exception{
+    public TaskGroup getGroup() throws Exception{
         return this.Group;
     }
     
@@ -189,7 +191,7 @@ public class Work extends Parant implements API.Work{
     }
     
     @Override
-    public long getTime(){
+    public long getCreateTime(){
         return this.Time.getTime();
     }
     
@@ -250,7 +252,7 @@ public class Work extends Parant implements API.Work{
     }
 
     @Override
-    public void setTime(long data) {
+    public void setCreateTime(long data) {
         this.Time = new Date(data);
     }
 
@@ -261,7 +263,7 @@ public class Work extends Parant implements API.Work{
     }
 
     @Override
-    public int getResult() {
+    public int getCompleted() {
         int max=0, res=0;
         for(int i=0; i<this.Accepts.size(); i++){
             res+=Accepts.get(i).Result;
@@ -271,7 +273,7 @@ public class Work extends Parant implements API.Work{
     }
 
     @Override
-    public void setResult(int data) {
+    public void setCompleted(int data) {
     
     }
     

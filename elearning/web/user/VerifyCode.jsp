@@ -55,10 +55,10 @@
         function show()  
         {  
             $.ajax({  
-                url: "${pageContext.request.contextPath}/SendSMS",  
+                url: "${pageContext.request.contextPath}/user/SendSMS",  
                 cache: false, 
                 error: function(){
-                    window.location.href = "${pageContext.request.contextPath}/Error.jsp";
+                    $("#sms-message").html("error"); 
                 },
                 success: function(data){
                     $("#sms-message").html(data); 

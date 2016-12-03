@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package auth;
+package Controller.user;
 
 import Controller.HttpServletParent;
 import Model.User;
+import auth.SMSAuthenticator;
+import auth.SecondFactor;
+import auth.Secret;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +44,7 @@ public class SendSMS extends HttpServletParent {
 
     @Override
     protected int PrivateMod() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return HttpServletParent.OnlyForUnAuthorized;
     }
 
 }

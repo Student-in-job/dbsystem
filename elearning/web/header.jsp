@@ -81,7 +81,7 @@ pageContext.setAttribute("main", main);
                                     </button>
                                 </a>
                                 <br>
-                                <a href="${pageContext.request.contextPath}/login.jsp?logout=ok" >Log out</a>
+                                <a href="${pageContext.request.contextPath}/user/LogOut" >Log out</a>
                                 </div>
                            </div>
             </div>        

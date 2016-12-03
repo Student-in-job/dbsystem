@@ -62,10 +62,7 @@ public class SetUpPhone extends HttpServlet {
          
          SMSAuthenticator.put2factor(user.getId(), key);
          
-         String param = "phone="+phone+"&text=this phone saved in system";
          
-         HTTPClient client = new HTTPClient(AppInf.main+"/smsgetway", param, "POST");
-         client.sendRequest();
          
          response.sendRedirect("SendSMS");
          

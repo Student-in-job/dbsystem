@@ -31,7 +31,7 @@ public class NextTask extends HttpServlet {
                 for(int i=Params.size()-1; i>=0; i--){
                     work = new Work();
                     work.getFromParam(Params.get(i));
-                    if(work.getTime()+work.getLiveTime()*1000 > new Date().getTime()){
+                    if(work.getCreateTime()+work.getLiveTime()*1000 > new Date().getTime()){
                         work.ReadAcceptsFromDB();
                         work.ReadTaskGroup();
                         mark=true;

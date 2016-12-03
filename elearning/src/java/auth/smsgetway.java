@@ -11,7 +11,10 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +41,7 @@ public class smsgetway extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        this.doPost(request, response);
     }
 
     
@@ -45,22 +49,10 @@ public class smsgetway extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Connection conn = null;
         boolean res = false;
         String phone = request.getParameter("phone");
         String text = request.getParameter("text");
-        //int livetime = Integer.parseInt(request.getParameter("livetime"));
-        /*String[] cmd = new String[]{
-        "sh", 
-        "/home/ksinn/1.sh", 
-        "/home/ksinn/key.txt",
-        "'" + new Date().toString() + " " + phone + ": " + text+"\n'",
-        };
-      try {
-          Process proc = Runtime.getRuntime().exec(cmd);
-          processRequest(response, true);
-      } catch (IOException ex) {
-          processRequest(response, false);
-      }*/
         
         try{
             Properties properties=new Properties();
@@ -71,7 +63,7 @@ public class smsgetway extends HttpServlet {
         
             Class.forName("com.mysql.jdbc.Driver");
             
-            Connection conn = DriverManager.getConnection("jdbc:mysql://172.20.20.118/smsd", properties);
+            conn = DriverManager.getConnection("jdbc:mysql://172.20.20.118/smsd", properties);
             
             PreparedStatement stmt = conn.prepareStatement("insert into outbox(number, text) value (?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
             
@@ -82,6 +74,13 @@ public class smsgetway extends HttpServlet {
             
         } catch (Exception ex) {
             Log.Write(ex.getLocalizedMessage());;
+        } finally {
+            if(conn!=null)
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(smsgetway.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
         
         processRequest(response, res);

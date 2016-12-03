@@ -31,7 +31,7 @@ public class MarkSWT extends SWT{
         this.Key = request.get("work_key")[0];
         if(this.CheckSign()){
             work.setWorkKey(this.Key);
-            work.setResult(this.Result);
+            work.setCompleted(this.Result);
             return true;
         } else {
             return false;
@@ -44,7 +44,7 @@ public class MarkSWT extends SWT{
         this.ExpiresOn = expireson;
         this.Issuer = issuer;
         this.Key = work.getWorkKey();
-        this.Result = work.getResult();
+        this.Result = work.getCompleted();
     }
             
     public MarkSWT(){

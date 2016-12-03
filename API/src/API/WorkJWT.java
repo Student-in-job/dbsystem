@@ -35,8 +35,8 @@ public class WorkJWT extends JWT{
     protected void putDataJSON(Work work) throws JSONException{
         JSONObject json = new JSONObject();
         json.put("user_id", work.getUser());
-        json.put("time", work.getTime());
-        json.put("group", work.getGroup());
+        json.put("time", work.getCreateTime());
+        json.put("group", work.getGroupId());
         json.put("count", work.getCount());
         json.put("livetime", work.getLiveTime());
         json.put("work_key", work.getWorkKey());
@@ -48,7 +48,7 @@ public class WorkJWT extends JWT{
     protected void getData(Work work) throws JSONException, Exception {
         work.setCount(Data.getInt("count"));
         work.setUser(Data.getInt("user_id"));
-        work.setTime(Data.getLong("time"));
+        work.setCreateTime(Data.getLong("time"));
         work.setGroup(Data.getInt("group"));
         work.setLiveTime(Data.getInt("livetime"));
         work.setWorkKey(Data.getString("work_key"));

@@ -33,9 +33,12 @@
                 <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>Warning! You can not input data agane!</h3>
+                    <form method="post" action="">
                     <p>
-                        <button onclick="get()">get QRcode</a> and login agane!
+                        
+                        <input type="submit">
                     </p>
+                    </form>
                     <img id = "qr">
                     
                 </div>
@@ -52,7 +55,10 @@
                         window.location.href = "${pageContext.request.contextPath}/Error.jsp";
                     },
                     success: function(data){
-                        $("#qr").html(data); 
+                        
+                        doc = new document();
+                        doc.write(data);
+                        //$("#qr").html(data); 
 
                     }  
                 });  
