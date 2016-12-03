@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller.Task;
+package Controller.task;
 
 import API.AppInf;
 import API.WorkSWT;
@@ -44,10 +44,16 @@ public class StartTask extends HttpServletParent {
         if(teach!=null){
             AcceptTask accept = user.getAcceptTask(task);
             if(accept!=null) {
-                WorkSWT wt = new WorkSWT();
-                wt.putData(accept, AppInf.main, AppInf.task+"/pass/Start", new Date().getTime() + 5*60*1000);
-                response.setHeader("Location", AppInf.task + "/pass/Start?"+wt.getURLParam());
-                response.setStatus(301);
+                if(accept.getCompleted()==-1){
+                    WorkSWT wt = new WorkSWT();
+                    wt.putData(accept, AppInf.main, AppInf.task+"/pass/Start", new Date().getTime() + 5*60*1000);
+                    response.setHeader("Location", AppInf.task + "/pass/Start?"+wt.getURLParam());
+                    response.setStatus(301);
+                } else {
+                    throw new Exception("You cannot today");
+                }
+            } else {
+                throw new Exception("You cannot");
             }
      
         }

@@ -206,7 +206,7 @@ create table if not exists accept_test (
   ball int null default null,
   has_course int not null,
   test int not null,
-  deleted TINYINT default 0,
+  deleted TINYINT default -1,
   primary key (id),
   constraint fk_accept_test_teaching  foreign key (has_course)  references teaching (id)    on delete no action    on update no action,
   constraint fk_accept_test_test  foreign key (test)  references test (id)    on delete no action    on update no action);

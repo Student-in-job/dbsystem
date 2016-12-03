@@ -50,15 +50,15 @@
     </servlet>
     <servlet>
         <servlet-name>CreateTask</servlet-name>
-        <servlet-class>Controller.Task.CreateTask</servlet-class>
+        <servlet-class>Controller.task.CreateTask</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Task</servlet-name>
-        <servlet-class>Controller.Task.Task</servlet-class>
+        <servlet-class>Controller.task.Task</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StartTask</servlet-name>
-        <servlet-class>Controller.Task.StartTask</servlet-class>
+        <servlet-class>Controller.task.StartTask</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOut</servlet-name>

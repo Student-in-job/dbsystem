@@ -96,7 +96,7 @@ public class AcceptTask  extends Parent implements API.Work{
     
     public boolean Write() throws Exception{
         this.WORK_KEY = UUID.randomUUID();
-        this.Completed=0;
+        this.Completed=-1;
         this.ReadTaskFromDB();
         this.ReadTeachingFromDB();
         return this._insert();

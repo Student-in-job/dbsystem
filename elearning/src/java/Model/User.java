@@ -4,7 +4,6 @@ import API.AppInf;
 import Staff.Log;
 import Staff.Storage;  
 import java.io.File;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.http.Part;
@@ -16,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.naming.NamingException;
 
 
@@ -312,11 +312,11 @@ public class User extends Parent implements API.User{
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("task", task.getId());
         param.put("teaching", teach.getId());
-        param.put("completed", 0);
+        param.put("date(addDate)-date(now())", 0);
         ArrayList<HashMap<String, Object>> Params;
             Params = accept.getObjectsParam(param);
                 try{
-                    accept.getFromParam(Params.get(1));
+                    accept.getFromParam(Params.get(0));
                     accept.ReadTeachingFromDB();
                     accept.ReadTaskFromDB();
                 } catch (Exception ex) {

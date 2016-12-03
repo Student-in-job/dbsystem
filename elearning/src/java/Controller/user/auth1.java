@@ -31,7 +31,7 @@ public class auth1 extends HttpServletParent {
                         response.sendRedirect(request.getContextPath());
                         return;
                     } else {
-                        response.sendRedirect("SetUp2factor.jsp");
+                        response.sendRedirect(request.getContextPath());
                         return;
                     }
                 }

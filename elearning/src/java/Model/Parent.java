@@ -312,9 +312,14 @@ public abstract class Parent extends DBConnect{
                     continue;
                 }
                 if(param.getValue() instanceof Date){
-                    stmt.setDate(i, (java.sql.Date) (Date) param.getValue());
-                    i++;
-                    continue;
+                        stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                }
+                if(param.getValue() instanceof Long){
+                        stmt.setLong(i, ((Long) param.getValue()));
+                        i++;
+                        continue;
                 }
             }
             ResultSet rs = stmt.executeQuery();
