@@ -11,9 +11,9 @@ package API;
  * @author ksinn
  */
 public class AppInf {
-    static String a = "http://localhost:8084/";
-            //"http://tomcat.cybercloud.uz/";
-    public static String main =  a+"elearning";
-    public static String task =  a+"task-modul";
+    public static String a = "http://localhost:8084";
+            //"http://www.tomcat.cybercloud.uz";
+    public static String main =  a+"/elearning";
+    public static String task =  a+"/task-modul";
     public static String HMACSHA256Key =  "elearning-main_12345";
 }

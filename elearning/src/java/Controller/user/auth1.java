@@ -10,6 +10,8 @@ package Controller.user;
 
 import Controller.HttpServletParent;
 import Model.User;
+import auth.SMSAuthenticator;
+import auth.Secret;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +28,22 @@ public class auth1 extends HttpServletParent {
                 String mail = request.getParameter("m")==null?"ksinnd@gmail.com":request.getParameter("m");
                 User user = new User();
                 if(user.getByMail(mail)){
-                    request.getSession().setAttribute("user", user);                    
-                    if(user.hasSecondFactor()){
-                        response.sendRedirect(request.getContextPath());
-                        return;
-                    } else {
-                        response.sendRedirect(request.getContextPath());
-                        return;
-                    }
+                    request.getSession().setAttribute("1s_user", user);                    
+                    Secret secret = user.getSecondFactor();
+                        if(secret!=null){
+                            if("phone".equals(secret.Type)){
+                                SMSAuthenticator sms = new SMSAuthenticator();
+                            if(sms.sendSMS(user.getId(), secret.Secret)){
+                            } else{
+                            
+                            }
+                        }
+                            request.getRequestDispatcher("VerifyCode.jsp").forward(request, response);
+                            return;
+                        } else {
+                            response.sendRedirect("SetUp");
+                            return;
+                        }
                 }
                         
             

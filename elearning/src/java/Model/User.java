@@ -158,7 +158,10 @@ public class User extends Parent implements API.User{
          key.Type = "key";
          
          if(GoogleAuthenticator.put2factor(this.ID, key))
-            return "otpauth://totp/"+AppInf.main+"?secret="+secretKey;
+            return "otpauth://totp/tomcat.cyberforum.uz:elearning?secret="+secretKey+
+                    "&issuer=tomcat.cyberforum.uz"+
+                    "&algorithm=sha1"+
+                    "&period=30";
          else return null;
     }
     

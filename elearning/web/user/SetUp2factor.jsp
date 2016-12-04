@@ -33,21 +33,25 @@
                 <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <div class="p-error">
                     <h3>Warning! You can not input data agane!</h3>
+                    
                     <form method="post" action="">
                     <p>
                         
                         <input type="submit">
                     </p>
                     </form>
-                    <img id = "qr">
+                    <img id = "qr" src="">
                     
                 </div>
             </div>
         </div>
         <script>
         function get()  
-            {  
-                $.ajax({  
+            { 
+                console.log(123);
+                $("#qr").src = "${pageContext.request.contextPath}/img/favicon.png";
+                
+                /*$.ajax({  
                     url: "SetUp", 
                     method: "POST",
                     cache: false, 
@@ -61,7 +65,7 @@
                         //$("#qr").html(data); 
 
                     }  
-                });  
+                }); */ 
             } 
         </script>
         <%@include file="/footer.jsp" %>

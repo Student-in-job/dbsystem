@@ -118,7 +118,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>auth</servlet-name>
-        <url-pattern>/auth1</url-pattern>
+        <url-pattern>/user/auth1</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateTask</servlet-name>
