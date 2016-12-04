@@ -15,34 +15,34 @@ import javax.naming.NamingException;
  */
 public class UserLog extends Parent{
 
-    private int UserId;
+    private String User;
     private int Result;
     private String Factor;
     private String Mods; 
     
     private UserLog(){}
     
-    static public UserLog inSMS(int user){
+    static public UserLog inSMS(String user){
         UserLog res = new UserLog();
-        res.UserId = user;
+        res.User = user;
         res.Mods = "i";
         res.Factor="phone";
         return  res;
     }
     
-    static public UserLog inKey(int user){
+    static public UserLog inKey(String user){
         UserLog res = new UserLog();
-        res.UserId = user;
+        res.User = user;
         res.Mods = "i";
         res.Factor="key";
         return  res;
     }
     
-    static public UserLog out(int user){
+    static public UserLog out(String user){
         UserLog res = new UserLog();
-        res.UserId = user;
+        res.User = user;
         res.Mods = "o";
-        res.Factor="";
+        res.Factor=null;
         return  res;
     }
     
@@ -59,7 +59,7 @@ public class UserLog extends Parent{
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("user", this.UserId);
+        list.put("user", this.User);
         list.put("result", this.Result);
         list.put("mods", this.Mods);
         list.put("factor", this.Factor);
@@ -68,7 +68,7 @@ public class UserLog extends Parent{
 
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
-        this.UserId = (int) Params.get("user");
+        this.User = (String) Params.get("user");
         this.Result = (int) Params.get("result");
         this.Mods = (String) Params.get("mods");
         this.Factor = (String) Params.get("factor");

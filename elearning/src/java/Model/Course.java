@@ -172,7 +172,9 @@ public class Course extends Parent {
     }
 
     public ArrayList getMarks() {
-        return new ArrayList();
+        ArrayList list = new ArrayList();
+        
+        return list;
     }
 
     public ArrayList<User> getOutStudents() throws Exception {

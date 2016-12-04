@@ -32,7 +32,7 @@
                     <h4>Passing: ${task.passingCount}</h4>
                 </div>
                 <div class="col col-1">
-                    <a class="test-edit" href="task/EditTask?id=${task.id}">
+                    <a class="test-edit" href="EditTask?id=${task.id}">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>

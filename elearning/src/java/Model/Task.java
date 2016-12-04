@@ -30,10 +30,6 @@ public class Task extends Component  {
         return "task";
     }
     
-    public boolean canStart(){
-        return true;
-    }
-    
     public int getTime(){
         return Time;
     }
@@ -89,7 +85,7 @@ public class Task extends Component  {
         this.GroupId = groupId;
     }
 
-    boolean canStartNow(Teaching thech) {
+    boolean canStartNow(Course course) {
         
         Calendar now = Calendar.getInstance();
         Calendar time = Calendar.getInstance();
@@ -103,7 +99,7 @@ public class Task extends Component  {
             return false;
         
         
-        time.setTime(thech.getCourse().getStartDate());
+        time.setTime(course.getStartDate());
         
         time.add(Calendar.DAY_OF_YEAR, this.Day-1);
         if(now.before(time))

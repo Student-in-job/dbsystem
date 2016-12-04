@@ -15,16 +15,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class CreateTask extends HttpServletParent {
+public class EditTask extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int program = Integer.parseInt(request.getParameter("program"));
-        Program pg = new Program();
-        pg.getById(program);
-        if(user.getId()==pg.getUser().getId()) {
-            request.setAttribute("program", pg);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Task task = new Task();
+        task.getById(id);
+        if(user.getId()==task.getProgram().getUser().getId()) {
+            request.setAttribute("task", task);
             request.getRequestDispatcher("TaskDataForm.jsp").forward(request, response);
         } else {
             throw new Exception("You cannot");
@@ -35,10 +35,10 @@ public class CreateTask extends HttpServletParent {
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        int program = Integer.parseInt(request.getParameter("program"));
-        Program pg = new Program();
-        pg.getById(program);
-        if(user.getId()==pg.getUser().getId()) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Task task = new Task();
+        task.getById(id);
+        if(user.getId()==task.getProgram().getUser().getId()) {
         
         String name = request.getParameter("name");
         int day = Integer.parseInt(request.getParameter("day"));
@@ -48,12 +48,9 @@ public class CreateTask extends HttpServletParent {
         int total_count = Integer.parseInt(request.getParameter("total_count"));
         int passing_count = Integer.parseInt(request.getParameter("passing_count"));
         int period = Integer.parseInt(request.getParameter("period"));
-
-        Task task = new Task();
         
         task.setDay(day);
         task.setName(name);
-        task.setProgram(pg.getId());
         task.setTime(time);
         task.setGroupId(group);
         task.setPassingCount(passing_count);
@@ -65,7 +62,6 @@ public class CreateTask extends HttpServletParent {
             response.sendRedirect("Task?id="+task.getId());
         else {
             request.setAttribute("task", task);
-            request.setAttribute("program", pg);
             request.getRequestDispatcher("TaskDataForm.jsp").forward(request, response);
         }
         } else {

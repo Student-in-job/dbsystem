@@ -25,16 +25,16 @@ public class SendSMS extends HttpServletParent {
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PrintWriter out = response.getWriter();
             user = (User) request.getSession().getAttribute("1s_user");
-            Secret key = SecondFactor.get2factor(user.getId(), "phone");
-                if(key!=null){
+            Secret key = SecondFactor.get2factor(user.getId());
+                if(key!=null&&"phone".equals(key.Type)){
                     SMSAuthenticator sms = new SMSAuthenticator();
                     if(sms.sendSMS(user.getId(), key.Secret)){
-                        request.getSession().setAttribute("type", "phone");
                         out.write("SMS send;");
                     } else
                         out.write("SMS getway is temporarily unavailable!<br>Pleas use Google Autentificator code;");
                 } else 
-                    response.sendRedirect("SetUpPhone.jsp");
+                    out.write("Pleas use Google Autentificator code;");
+                
     }
 
     @Override

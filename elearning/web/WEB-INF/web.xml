@@ -33,6 +33,10 @@
         <servlet-class>Controller.program.EditProgram</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditTask</servlet-name>
+        <servlet-class>Controller.task.EditTask</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CreateCourse</servlet-name>
         <servlet-class>Controller.program.CreateCourse</servlet-class>
     </servlet>
@@ -139,6 +143,10 @@
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/user/LogOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditTask</servlet-name>
+        <url-pattern>/task/EditTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
