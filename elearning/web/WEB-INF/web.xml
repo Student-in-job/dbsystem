@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+    
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AdminsPage</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        
+    </security-constraint>
+    
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/Error.jsp</location>
@@ -67,6 +90,26 @@
     <servlet>
         <servlet-name>LogOut</servlet-name>
         <servlet-class>Controller.user.LogOut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteTask</servlet-name>
+        <servlet-class>Controller.task.Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListStudents</servlet-name>
+        <servlet-class>Controller.admin.ListStudents</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditSudent</servlet-name>
+        <servlet-class>Controller.admin.EditSudent</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SetPhone</servlet-name>
+        <servlet-class>Controller.admin.SetPhone</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserPanel</servlet-name>
@@ -147,6 +190,26 @@
     <servlet-mapping>
         <servlet-name>EditTask</servlet-name>
         <url-pattern>/task/EditTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/program/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteTask</servlet-name>
+        <url-pattern>/task/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListStudents</servlet-name>
+        <url-pattern>/admin/ListStudents</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditSudent</servlet-name>
+        <url-pattern>/admin/EditStudent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetPhone</servlet-name>
+        <url-pattern>/admin/SetPhone</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

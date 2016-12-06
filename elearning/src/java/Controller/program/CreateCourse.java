@@ -52,9 +52,11 @@ public class CreateCourse extends HttpServletParent {
                 request.getRequestDispatcher("CourseDataForm.jsp").forward(request, response);
                 return;
             } else {
+                
                 Course course = new Course();
-                course.setStartDate(start);
                 course.setProgram(id);
+                course.ReadProgramFromDB();
+                course.setStartDate(start);
                 course.setPublic(publ);
                 if(course.Create()){
                     response.sendRedirect("Course?id="+course.getId());

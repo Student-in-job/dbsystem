@@ -48,10 +48,14 @@ public class StartCourse extends HttpServletParent {
                 teach.setUser(user.getId());
         }
         PrintWriter out = response.getWriter();
-        if(teach.Write()){
-            out.write("ok");
-        } else {
-            out.write("no");
+        try{
+            if(teach.Write()){
+                out.write("ok");
+            } else {
+                out.write("no");
+            }
+        } catch (Exception ex){
+            out.write("error");
         }
         out.flush();
         out.close();

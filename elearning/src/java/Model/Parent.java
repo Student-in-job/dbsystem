@@ -190,7 +190,7 @@ public abstract class Parent extends DBConnect{
 
     }
     
-    protected boolean _delete() throws NamingException, SQLException{
+    public boolean _delete() throws NamingException, SQLException{
         Connection conn = null;
         try{
             if(this.ID==0) return false;

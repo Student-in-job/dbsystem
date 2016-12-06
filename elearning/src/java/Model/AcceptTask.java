@@ -134,6 +134,11 @@ public class AcceptTask  extends Parent implements API.Work{
     public long getCreateTime() {
         return CreateDate.getTime();
     }
+    
+    public Date getTime() {
+        return CreateDate;
+    }
+    
 
     @Override
     public int getGroupId() {

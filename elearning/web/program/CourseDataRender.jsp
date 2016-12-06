@@ -40,6 +40,8 @@
                         <p class="middle">
                             Area: <a href="${pageContext.request.contextPath}/program/Courses?area_id=${course.program.area.id}">${course.program.area.name}</a><br>
                             Duration: ${course.program.duration} days<br>
+                            Start date: ${course.startDate}<br>
+                            End date: ${course.endDate}<br>
                             Level: ${course.program.level}<br>
                             Teacher: <a href="${pageContext.request.contextPath}/user/Profile?id=${course.program.user.id}"> ${course.program.user.name} ${course.program.user.surname}</a> <br>
                             <c:if test="${student}">                           

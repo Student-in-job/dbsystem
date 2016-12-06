@@ -36,6 +36,10 @@
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
+                    <a class="test-edit" href="Delete?id=${task.id}">
+                        <i class="fa fa-cog font-green" aria-hidden="true"></i>
+                        Delete
+                    </a>
                 </div>
             </div>
             <hr>            

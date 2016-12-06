@@ -35,7 +35,7 @@ public class UserSettings extends HttpServletParent {
                     mail = request.getParameter("mail").toLowerCase();
                     gender = request.getParameter("gender");
 
-                    user.setMail(mail);
+                    
                     user.setSurname(surname);
                     user.setGender(gender);
                     user.setName(name);

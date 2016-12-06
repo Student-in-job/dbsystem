@@ -28,16 +28,24 @@
         <div class="row centered text-center test">
             <div class="col col-12 ">
                 <h3>${task.name}</h3>
+                <p>
+                    You can pass this task from ${startday}<br>
+                    start time: ${task.startTime}:00<br>
+                    time: ${task.time} <br>
+                    duaring ${task.period} day<br>
+                </p>
             </div>
             <div class="row centered best-results ">
                 <h4 class="col col-12"></h4>            
             </div>
-            <div class="col col-12 test-btn">
-                <form method="POST" action="">
-                <input type="hidden" name="test" value="${test.id}">
-                <input class="button round outline" type="submit" value="Start task &rarr;">
-                </form> 
-            </div>             
+                <c:if test="${true}">
+                <div class="col col-12 test-btn">
+                    <form method="POST" action="">
+                    <input type="hidden" name="test" value="${test.id}">
+                    <input class="button round outline" type="submit" value="Start task &rarr;">
+                    </form> 
+                </div>  
+                </c:if>
         </div>
         <%@include file="/footer.jsp" %>
         <script src="${pageContext.request.contextPath}/js/jquery.easypiechart.min.js"></script>

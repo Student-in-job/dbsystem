@@ -66,7 +66,7 @@
                             Teacher: <a href="${pageContext.request.contextPath}/user/Profile?id=${program.user.id}"> ${program.user.name} ${program.user.surname}</a> <br>
                             <c:if test="${admin}">                            
                                 <a href="${pageContext.request.contextPath}/program/EditProgram?id=${program.id}"><button class="button small round primary">UPDATE</button></a>
-                                <a href="${pageContext.request.contextPath}/program/Delete?program=${program.id}"><button class="button small round error">DELETE</button></a>
+                                <a href="${pageContext.request.contextPath}/program/Delete?id=${program.id}"><button class="button small round error">DELETE</button></a>
                                 <button class="button small round warning" style="color: #000;" onclick="publish()">PUBLISH</button>
                             </c:if>
                             <c:if test="${student}">                           

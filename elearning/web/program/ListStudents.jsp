@@ -25,31 +25,39 @@
     <body>
         <%@include file="../header.jsp"%>
         <c:forEach items="${users}" var="user">  
-            <div>
+            <div id="${user.id}">
                 ${user.name} ${user.surname} - <button onclick="add(${user.id})">Add</button>
             </div>
         </c:forEach>    
     </body>
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script>
+        
+        $("#${user.id}").remove();        
+        
         function add(id){
             $.ajax({  
                 url: "${pageContext.request.contextPath}/program/StartCourse?id=${course.id}&user="+id, 
                 method: 'POST',
                 cache: false, 
                 error: function(){
-                    document.getElementById('mesagge').style.display = 'block';
-                    $("#mesagge").html("Error");
+                    document.getElementById('message').style.display = 'block';
+                    $("#message").html("Error");
                 },
                 success: function(data){
-                    
-                        document.getElementById('mesagge').style.display = 'completed';
-                        $("#mesagge").html(data); 
+                       document.getElementById('message').style.display = 'block';
+                       $("#message").html(data); 
+                       del(id);
                         
                 }  
             });  
         }
          
+         
+         
+        function del(id){
+            $("#"+id).remove();        
+        } 
     </script>
 <%@include file="../footer.jsp" %>
     </body>

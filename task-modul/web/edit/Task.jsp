@@ -54,7 +54,7 @@
                     </div>
                     
                     <div class="form-item">
-                        <label>Answer Query:</label> <a target="blank" href="DataBaseManager.jsp?group=${task.group.id}">DataBase Manager -></a>
+                        <label>Answer Query:</label> <a target="blank" href="${pageContext.request.contextPath}/admin/DataBaseManager.jsp?group=${task.group.id}">DataBase Manager -></a>
                         <textarea required name="answer">${task.answer}</textarea>
                     </div>
                     

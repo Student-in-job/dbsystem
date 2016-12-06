@@ -81,6 +81,7 @@ public class Course extends Parent {
         this._from_db = false;
         this.StartDate = data;
         Calendar end = Calendar.getInstance();
+        end.setTime(data);
         end.add(Calendar.DAY_OF_YEAR, this.Program.getDuration()-1);
         this.EndDate = end.getTime();
     }
@@ -122,7 +123,7 @@ public class Course extends Parent {
         return true;
     }
 
-    private void ReadProgramFromDB() throws Exception {
+    public void ReadProgramFromDB() throws Exception {
         this.Program.getById(this.ProgramId);
     }
 
@@ -142,7 +143,8 @@ public class Course extends Parent {
         return !this.Public
                 &&!this.SelfStudy
                 &&this.Program.getUser().getId()!=user.getId()
-                &&!user.haveCourse(this);
+                &&!user.haveCourse(this)
+                &&user.getId()!=this.getProgram().getUser().getId();
     }
 
     public ArrayList<User> getStudents() {

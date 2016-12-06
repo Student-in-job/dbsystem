@@ -85,7 +85,7 @@ public class Task extends Component  {
         this.GroupId = groupId;
     }
 
-    boolean canStartNow(Course course) {
+    public boolean canStartNow(Course course) {
         
         Calendar now = Calendar.getInstance();
         Calendar time = Calendar.getInstance();
@@ -94,7 +94,7 @@ public class Task extends Component  {
         if(now.before(time))
             return false;
         
-        time.add(Calendar.MINUTE, this.Time);
+        time.add(Calendar.HOUR_OF_DAY, this.Time);
         if(now.after(time))
             return false;
         

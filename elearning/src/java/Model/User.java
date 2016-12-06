@@ -1,6 +1,5 @@
 package Model;
 
-import API.AppInf;
 import Staff.Log;
 import Staff.Storage;  
 import java.io.File;
@@ -344,7 +343,10 @@ public class User extends Parent implements API.User{
                     accept =  null;
                 }        
         if(accept!=null){
-            return accept;
+            if(new Date(accept.getCreateTime()+task.getTime()*60*1000).getTime()<System.currentTimeMillis())
+                return accept;
+            else 
+                return null;
         } else {
             if(task.canStartNow(teach.getCourse())){
                 accept = new AcceptTask();
@@ -359,6 +361,83 @@ public class User extends Parent implements API.User{
                 return null;
         }
     
+    }
+
+    public ArrayList<Course> getCourseICreated() throws Exception {
+        ArrayList<Course> list = new ArrayList<Course>();
+        Course course;
+        Connection conn=null;
+        try{
+            conn = this.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM course where self_study=0 and program in (select id from program where user=?);");
+            stmt.setInt(1, this.ID);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                course = new Course();
+                course.getById(rs.getByte("id"));
+                list.add(course);
+            } 
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
+                
+        return list;
+    }
+
+    public ArrayList<Program> getMyProgram() {
+        ArrayList<Program> list = new ArrayList<Program>();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("deleted", 0);
+        param.put("user", this.ID);
+        Program program = new Program();
+        ArrayList<HashMap<String, Object>> Params;
+        try {
+            Params = program.getObjectsParam(param);
+            for(int i=0; i<Params.size(); i++){
+                program = new Program();
+                try{
+                    program.getFromParam(Params.get(i));
+                    list.add(program);
+                } catch (Exception ex) {
+                    Log.Write(ex.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            Log.Write(ex.getLocalizedMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<User> getAll() {
+        
+        ArrayList<User> list = new ArrayList<User>();
+        
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("deleted", 0);
+        User user;
+        ArrayList<HashMap<String, Object>> Params;
+        try {
+            Params = this.getObjectsParam(param);
+            for(int i=0; i<Params.size(); i++){
+                user = new User();
+                try{
+                    user.getFromParam(Params.get(i));
+                    list.add(user);
+                } catch (Exception ex) {
+                    Log.Write(ex.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            Log.Write(ex.getLocalizedMessage());
+        }
+        
+        return list;
+    
+    }
+
+    public boolean Update() throws NamingException, SQLException {
+        return this._update();
     }
     
 }

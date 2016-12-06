@@ -46,38 +46,38 @@
             </div>
             <div class="row userbar-2 ">
                 <div class="col col-2 offset-1 nav">
-                    <a href="#created_courses" class="tablink" onclick="openTab(event, 'created_courses')">Created courses</a>
-                    <a href="#published_courses" class="tablink" onclick="openTab(event, 'published_courses')">Published courses</a>
-                    <a href="#learn_courses" class="tablink  a-blue" onclick="openTab(event, 'learn_courses')">Current courses</a>
+                    <a href="#my_program" class="tablink" onclick="openTab(event, 'my_program')">My program</a>
+                    <a href="#my_courses" class="tablink" onclick="openTab(event, 'my_courses')">My courses</a>
+                    <a href="#current_courses" class="tablink  a-blue" onclick="openTab(event, 'current_courses')">Current courses</a>
                     <a href="#finished_courses" class="tablink" onclick="openTab(event, 'finished_courses')">Studied courses</a>
                     <a href="#create" class="tablink" onclick="openTab(event, 'create')">Create course</a>
                 </div>
                 <div class="col col-8 border">
                     
                         
-                            <div id="created_courses" class="courses">
-                                <h3>Created courses</h3>
-                                <c:forEach var="program" items="${created_program}">
+                            <div id="my_program" class="courses">
+                                <h3>My program</h3>
+                                <c:forEach var="program" items="${my_program}">
                                 <p>
-                                    <a href="${pageContext.request.contextPath}/program/Course.jsp?id=${program.iD}">${program.name}</a>
+                                    <a href="${pageContext.request.contextPath}/program/Program?id=${program.id}">${program.name}</a>
                                 </p>     
                                 </c:forEach>                                                                               
                             </div>
                     
-                            <div id="published_courses" class="courses">
-                                <h3>Published courses</h3>
-                                <c:forEach var="program" items="${published_courses}">
+                            <div id="my_courses" class="courses">
+                                <h3>My courses</h3>
+                                <c:forEach var="course" items="${my_courses}">
                                 <p>
-                                    <a href="${pageContext.request.contextPath}/program/Course.jsp?id=${program.iD}">${program.name}</a>
+                                    <a href="${pageContext.request.contextPath}/program/Course?id=${course.id}">${course.program.name}</a> from ${course.startDate} to ${course.endDate}
                                 </p>     
                                 </c:forEach>                                                                               
                             </div>
                             
-                            <div id="learn_courses" class="courses">
-                                <h3>Learn courses</h3>
-                                <c:forEach var="program" items="${learn_cours}">
+                            <div id="current_courses" class="courses">
+                                <h3>Current courses</h3>
+                                <c:forEach var="teach" items="${current_cours}">
                                 <p>
-                                    <a href="${pageContext.request.contextPath}/program/Course.jsp?id=${program.iD}">${program.name}</a>
+                                    <a href="${pageContext.request.contextPath}/program/Course?id=${teach.course.id}">${teach.course.program.name}</a>
                                 </p>     
                                 </c:forEach>                                                                               
                             </div>
@@ -110,7 +110,7 @@
         <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/kube.min.js"></script>
         <script>
-            document.getElementById("learn_courses").style.display = "block";
+            document.getElementById("current_courses").style.display = "block";
             
                      function openTab(evt, cityName) {
                           var i, x, tablinks;

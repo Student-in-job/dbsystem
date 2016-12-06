@@ -58,7 +58,7 @@ public class EditTask extends HttpServletParent {
         task.setStartTime(starttime);
         task.setPeriod(period);
         
-        if(task.Write(user))
+        if(task.Update(user))
             response.sendRedirect("Task?id="+task.getId());
         else {
             request.setAttribute("task", task);

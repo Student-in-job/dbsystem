@@ -10,6 +10,7 @@ import API.WorkSWT;
 import Controller.HttpServletParent;
 import Model.AcceptTask;
 import Model.Teaching;
+import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,9 +28,18 @@ public class StartTask extends HttpServletParent {
         Model.Task task = new Model.Task();
         
         task.getById(id);
-        if(user.getTeaching(task.getProgram())!=null){
+        Teaching teach = user.getTeaching(task.getProgram());
+        if(teach!=null){
             request.setAttribute("task", task);
+            Calendar start = Calendar.getInstance();
+            start.setTime(teach.getCourse().getStartDate());
+            start.add(Calendar.DAY_OF_YEAR, task.getDay());
+            request.setAttribute("startday", new java.sql.Date(start.getTimeInMillis()));
+            if(task.canStartNow(teach.getCourse()))
+                request.setAttribute("start", true);
             request.getRequestDispatcher("StartTask.jsp").forward(request, response);
+        } else {
+            throw new Exception("You cannot");
         }
     }
 
