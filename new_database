@@ -24,7 +24,7 @@ create table if not exists user (
   name varchar(32) not null,
   surname varchar(32) not null,
   gender enum('m', 'w') not null,
-  mail varchar(32) not null,
+  mail varchar(256) not null,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted TINYINT not null default 0,
   primary key (id),

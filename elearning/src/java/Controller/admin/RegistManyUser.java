@@ -1,4 +1,4 @@
-package Controller.user;
+package Controller.admin;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,15 +7,12 @@ package Controller.user;
  */
 
 
+import Controller.HttpServletParent;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /**
@@ -24,26 +21,29 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @WebServlet("/admin/RegistAll")
-@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
-                 maxFileSize=1024*1024*100,      // 10MB
-                 maxRequestSize=1024*1024*150)   // 50MB
 
-public class RegistManyUser extends HttpServlet {
-
+public class RegistManyUser extends HttpServletParent {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        request.getRequestDispatcher("RegistAll.jsp").forward(request, response);
+        
+    }
+
+    @Override
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         PrintWriter out = response.getWriter();
             
         
                 String data = request.getParameter("data");
                 
-                String[] b = data.split("\n");
+                data = data.replaceAll("\n", "");
+                
+                String[] b = data.split(";");
                 for(int j=0; j<b.length; j++){
-                    String[] d = b[j].split(" ");
+                    String[] d = b[j].split("\\+");
                     User user = new User();
                     user.setMail(d[2]);
                     user.setSurname(d[0]);
@@ -60,15 +60,13 @@ public class RegistManyUser extends HttpServlet {
                        out.write(d[2]+" is not write. Ex:"+ex.getMessage()+"\n");
                     }
                 }
-                
-        
-        
+                out.flush();
+                out.close();
     }
 
-  
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return HttpServletParent.ForAll;
+    }
 
 }

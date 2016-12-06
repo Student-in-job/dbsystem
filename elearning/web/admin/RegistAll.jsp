@@ -4,14 +4,6 @@
     Author     : ksinn
 --%>
 
-<%@page import="javax.servlet.annotation.MultipartConfig"%>
-<%@page import="DataBasePak.Log"%>
-<%@page import="Learning.*"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%
-User user=null;
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +23,7 @@ User user=null;
         <script src="${pageContext.request.contextPath}/js/extend/tabs.js"></script>
     </head>
     <body>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">
@@ -54,7 +46,7 @@ User user=null;
             </div>
         </div>
         
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
 
