@@ -63,12 +63,48 @@
             <div class="col col-8">
                 <nav class="tabs" data-component="tabs" data-equals="true">
                     <ul>
+                        <li class="active"><a href="#material">MATERIAL</a></li>
+                        <li><a href="#test">TEST</a></li>
+                        <li><a href="#task">TASK</a></li>
                         <li><a href="#tab13">STUDENTS</a></li>
                         <c:if test="${admin}">
                         <li><a href="#result">RESULT</a></li>
                         </c:if>
                     </ul>
                 </nav>
+                <div id="material"  >
+                    <c:forEach items="${materials}" var="material">                   
+                        <div class="row">
+                            <div class="col">
+                                <p>
+                                    <a href = "${pageContext.request.contextPath}/material/Material?id=${material.id}">${material.name}</a> 
+                                </p>
+                            </div>
+                        </div>
+                    </c:forEach>                      
+                </div>                
+                <div id="test">
+                <c:forEach items="${tests}" var="test">                              
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                <a href = "${pageContext.request.contextPath}/test/StartTest?id=${test.id}">${test.name}</a>
+                            </p>
+                        </div>                                              
+                    </div>
+                </c:forEach>                       
+                </div>
+                <div id="task">
+                    <c:forEach items="${tasks}" var="task">                              
+                        <div class="row">
+                            <div class="col">
+                                <p>
+                                    <a href = "${pageContext.request.contextPath}/task/StartTask?id=${task.id}">${task.name}</a>
+                                </p>
+                            </div>                           
+                        </div>
+                    </c:forEach>                  
+                </div>
                  <div id="tab13">
                     <c:forEach items="${students}" var="student">                              
                         <div class="row">

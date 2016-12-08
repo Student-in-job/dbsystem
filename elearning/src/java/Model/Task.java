@@ -6,6 +6,7 @@
 package Model;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -87,28 +88,53 @@ public class Task extends Component  {
 
     public boolean canStartNow(Course course) {
         
+        
         Calendar now = Calendar.getInstance();
         Calendar time = Calendar.getInstance();
-        
+        time.setTime(course.getStartDate());
         time.set(Calendar.HOUR_OF_DAY, this.StartTime);
+        time.add(Calendar.DAY_OF_YEAR, this.Day-1);
+        time.set(Calendar.MINUTE, 0);
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MILLISECOND, 0);
+        time.add(Calendar.MINUTE, this.Time);
+        
+        int now_day = now.get(Calendar.DAY_OF_YEAR);
+        int time_day = time.get(Calendar.DAY_OF_YEAR);
+        if(now_day<time_day||now_day>time_day+this.Period-1)
+            return false;
+        
+        int now_hour = now.get(Calendar.HOUR_OF_DAY);
+        if(now_hour<this.StartTime)
+            return false;
+        
+        time.set(Calendar.DAY_OF_YEAR, now_day);
+        if(now.after(time))
+            return false;
+        
+        
+        
+        /*;
+        
+        
         if(now.before(time))
             return false;
         
-        time.add(Calendar.HOUR_OF_DAY, this.Time);
+        time.add(Calendar.MINUTE, this.Time);
         if(now.after(time))
             return false;
         
         
         time.setTime(course.getStartDate());
         
-        time.add(Calendar.DAY_OF_YEAR, this.Day-1);
+        
         if(now.before(time))
             return false;
 
         time.add(Calendar.DAY_OF_YEAR, this.Period-1);
         if(now.after(time))
             return false;
-        
+        */
         
         return true;
     }

@@ -5,22 +5,19 @@ import API.AppInf;
 import API.HTTPClient;
 import API.MarkSWT;
 import Model.Work;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class FinishWork extends HttpServlet {
+public class FinishWork extends MyServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws Exception {
         
         String error="";
-        int user_id = (int) request.getSession().getAttribute("user_id");
         Integer work_id = (Integer) request.getSession().getAttribute("work_id");
         Work work = new Work();
         try{
@@ -57,22 +54,22 @@ public class FinishWork extends HttpServlet {
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         processRequest(request, response);
     }
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         processRequest(request, response);
     }
 
     
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }

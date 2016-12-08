@@ -1,6 +1,6 @@
-drop database elearning_test;
-create schema if not exists elearning_test default character set utf8 collate utf8_general_ci ;
-use elearning_test;
+drop database elearning;
+create schema if not exists elearning default character set utf8 collate utf8_general_ci ;
+use elearning;
 
 /*CREATE EVENT closer_course ON SCHEDULE EVERY 1 DAY 
 DO update has_course set complited = now() 
@@ -24,7 +24,7 @@ create table if not exists user (
   name varchar(32) not null,
   surname varchar(32) not null,
   gender enum('m', 'w') not null,
-  mail varchar(256) not null,
+  mail varchar(128) not null,
   addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted TINYINT not null default 0,
   primary key (id),
@@ -50,9 +50,10 @@ create table if not exists sms_code (
 );
 
 create table if not exists auth (
-	user varchar(32) not null,
+	user varchar(128) not null,
 	factor enum('phone', 'key'),
 	mods char not null,
+	result int,
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_auth_user  foreign key (user) references user (mail) on delete no action on update no action
 	
@@ -105,13 +106,13 @@ create table if not exists teaching (
   course int not null,
   #start datetime not null,
   deleted TINYINT not null default 0,
-  complited TINYINT not null default 0,
+  completed TINYINT not null default 0,
   primary key (id),
   unique(user, course),
   constraint fk_teaching_user  foreign key (user) references user (id) on delete no action on update no action,
   constraint fk_teaching_course foreign key (course) references course (id) on delete no action on update no action
 );
-/*
+
 
 #Задания
 create table if not exists task (
@@ -136,7 +137,7 @@ create table if not exists accept_task(
   teaching int not null,
   work_key varchar(36) not null,
   task int not null,
-  completed int default 0,
+  completed int default -1,
   deleted TINYINT default 0,
   primary key (id),
   unique(work_key),
@@ -144,7 +145,7 @@ create table if not exists accept_task(
   constraint fk_accept_task_teaching  foreign key (teaching)  references teaching (id)    on delete no action    on update no action
 );
 
-
+/*
 #Материалы
 create table if not exists material (
   id int not null auto_increment,

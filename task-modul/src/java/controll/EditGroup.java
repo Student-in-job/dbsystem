@@ -10,7 +10,6 @@ package controll;
 import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,14 +17,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class EditGroup extends HttpServlet {
+public class EditGroup extends MyServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
+        
             int group;
             TaskGroup new_group = new TaskGroup();
             
@@ -40,22 +38,19 @@ public class EditGroup extends HttpServlet {
 
                 request.setAttribute("group", new_group);
                 request.getRequestDispatcher("Group.jsp").forward(request, response);
-                return;
-            }
-        }
+            } else 
+               throw new ServletException("You cannot see this page!");
         
-        throw new ServletException("You cannot see this page!");
     }
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
         
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
+        
             int group;
             TaskGroup new_group = new TaskGroup();
             
@@ -87,15 +82,13 @@ public class EditGroup extends HttpServlet {
                     throw new ServletException(ex);
                 }
             }
-        }
         
-        throw new ServletException("You cannot see this page!");
     }
 
     
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }

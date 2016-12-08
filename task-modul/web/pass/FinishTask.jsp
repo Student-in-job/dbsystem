@@ -5,13 +5,13 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
-
+<%@page import="API.AppInf"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Task</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -23,12 +23,13 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        <%@include file="../header.jsp" %>
+        <%@include file="/header.jsp" %>
         
         <div class="row centered text-center test">
             <div class="col col-8 ">
                 <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <h3>You complete</h3>
+                <a href="${AppInf.main}">go back</a>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>

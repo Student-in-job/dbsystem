@@ -14,7 +14,7 @@ Log.Write(pageContext.getException().getLocalizedMessage());
     <head>
         <title>Error</title>
         <meta charset="utf-8">
-        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">

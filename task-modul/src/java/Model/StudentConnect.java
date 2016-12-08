@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,9 +46,6 @@ public class StudentConnect extends DBConnect{
         boolean res=false;
         
         query = query.toLowerCase();
-        
-        Pattern p = Pattern.compile("[(update)|(insert)|(delete)]", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = p.matcher(query);
         
         this.conn = this.getConnection();
         this.stmt = conn.createStatement();
@@ -91,7 +86,6 @@ public class StudentConnect extends DBConnect{
                 buf.add(rs.getMetaData().getColumnName(i));
             }
             list.add(buf);
-
             while(rs.next()){
                 buf = new ArrayList<String>();
                 for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){

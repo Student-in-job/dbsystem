@@ -26,7 +26,7 @@
         <div  class="box " >
             <div id="mesagge" class="middle-text">${message}</div>
         </div>
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">

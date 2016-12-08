@@ -128,6 +128,11 @@ public abstract class Parent extends DBConnect{
                         i++;
                         continue;
                     }
+                    if(param.getValue() instanceof Boolean){
+                        stmt.setBoolean(i, ((boolean) param.getValue()));
+                        i++;
+                        continue;
+                    }
                 }
 
                 int result = stmt.executeUpdate();
@@ -172,6 +177,11 @@ public abstract class Parent extends DBConnect{
                     }
                     if(param.getValue() instanceof Date){
                         stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
+                        i++;
+                        continue;
+                    }
+                    if(param.getValue() instanceof Boolean){
+                        stmt.setBoolean(i, ((boolean) param.getValue()));
                         i++;
                         continue;
                     }
@@ -318,6 +328,11 @@ public abstract class Parent extends DBConnect{
                 }
                 if(param.getValue() instanceof Long){
                         stmt.setLong(i, ((Long) param.getValue()));
+                        i++;
+                        continue;
+                }
+                if(param.getValue() instanceof Boolean){
+                        stmt.setBoolean(i, ((boolean) param.getValue()));
                         i++;
                         continue;
                 }

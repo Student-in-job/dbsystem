@@ -3,22 +3,18 @@ package controll;
 
 import Model.StudentConnect;
 import Model.Task;
-import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class EditTask extends HttpServlet {
+public class EditTask extends MyServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
             
             int task;
             Task new_task = new Task();
@@ -33,33 +29,24 @@ public class EditTask extends HttpServlet {
             if(user_id==new_task.getGroup().getOwner()){
                 request.setAttribute("task", new_task);
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
-                return;
-            }
-        }
-        throw new ServletException("You cannot see this page!");
+            } else 
+               throw new ServletException("You cannot see this page!");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
                 
         request.setCharacterEncoding("UTF-8");
-        
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
             
-            int task;
+            int task=Integer.parseInt(request.getParameter("task"));
             Task new_task = new Task();
-            
+            try {
+                new_task.getById(task);
+            } catch (Exception ex) {
+                throw new ServletException(ex);
+            }
             if(user_id==new_task.getGroup().getOwner()){
-                try{
-                    task = Integer.parseInt(request.getParameter("task"));
-                    new_task.getById(task);
-                } catch (Exception ex){
-                    throw new ServletException(ex);
-                }
-
-
                 new_task.setAnswer(request.getParameter("answer"));
                 new_task.setQuestion(request.getParameter("question"));
                 try{
@@ -73,9 +60,15 @@ public class EditTask extends HttpServlet {
                 boolean res;
                 try{
                     StudentConnect cheker = new StudentConnect();
-                    boolean good_query = cheker.exequtQuery(new_task.getAnswer());
+                    boolean good_query=false;
+                    try{
+                        good_query = cheker.exequtQuery(new_task.getAnswer());
+                    } finally {
+                        cheker.close();
+                    }
+                    
                     if(good_query){
-                        res = new_task.Update(1);
+                        res = new_task.Update(user_id);
 
                         if(res){
                             response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Task?task="+new_task.getId()); 
@@ -95,15 +88,14 @@ public class EditTask extends HttpServlet {
                 } catch(Exception ex){
                     throw new ServletException(ex);
                 }
-            }
-        }
-        throw new ServletException("You cannot see this page!");
+            } else 
+                throw new ServletException("You cannot see this page!");
 
     }
 
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }

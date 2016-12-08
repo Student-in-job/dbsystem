@@ -3,9 +3,7 @@
     Created on : 19.11.2016, 10:58:41
     Author     : ksinn
 --%>
-
-
-
+<%@page import="API.AppInf"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -13,7 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Userbar</title>
-        <link href="img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -31,7 +29,7 @@
             <%@include file="/header.jsp" %>
             <div class="row userbar-1">
                 <div class="col col-3 text-right">
-                    <img src="${pageContext.request.contextPath}/img/default_user_m.png" alt="" class="img-circle">
+                    <img src="${AppInf.main}/${user.ico}" alt="" class="img-circle">
                 </div>
                 <div class="col col-3">
                     <br>

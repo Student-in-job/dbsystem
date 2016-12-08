@@ -53,11 +53,12 @@ public class GoogleOAuth extends HttpServletParent {
                         if(secret!=null){
                             if("phone".equals(secret.Type)){
                                 SMSAuthenticator sms = new SMSAuthenticator();
-                            if(sms.sendSMS(user.getId(), secret.Secret)){
-                            } else{
-                            
+                                if(sms.sendSMS(user.getId(), secret.Secret)){
+                                    
+                                } else{
+                                    throw new ServletException("SMS gateway is fail!");
+                                }
                             }
-                        }
                             request.getRequestDispatcher("VerifyCode.jsp").forward(request, response);
                             return;
                         } else {

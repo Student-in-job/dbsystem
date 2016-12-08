@@ -10,7 +10,6 @@ import Model.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,38 +17,38 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Main extends HttpServlet {
+public class Main extends MyServlet {
 
     
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
-            User user = new User();
-            user.setId(user_id);            
-            user.getUserData();
-            ArrayList<TaskGroup> group =user.getGroup();
-            request.setAttribute("user", user);
+            User user = (User) request.getSession().getAttribute("user");
+            if(user==null){
+                user = new User();
+                user.setId(user_id);
+                user.getUserData();
+            }
+            ArrayList<TaskGroup> group = user.getGroup();
             request.setAttribute("group_list", group);
-        } 
-        request.getRequestDispatcher("/Main.jsp").forward(request, response);
+            request.getRequestDispatcher("/Main.jsp").forward(request, response);
+    
     }
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
     }
 
    
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }

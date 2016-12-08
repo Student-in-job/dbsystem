@@ -4,7 +4,8 @@
     Author     : ksinn
 --%>
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="API.AppInf"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
 
 <div class="row around">
@@ -46,39 +47,23 @@
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
 	   	</div>                
                <div class="col col-3 text-right">
-               </div>          
+                   <c:if test="${user != null}">
+                           <div class="col col-8 offset-5"> 
+                                <div class="${main}user_board">
 
-	<div id="login-modal" class="modal-box hide">
-	    <div class="modal">
-	        <span class="close"></span>
-	        <div class="modal-header">Sign in</div>
-	        <div class="modal-body">
-				<form method="post" action="${pageContext.request.contextPath}/login.jsp" class="form">
-				    <div class="form-item">
-				        <label>Email <span class="req">*</span></label>
-				        
-				        <input type="email" name="mail" class="width-100" required>
-				    </div>
-				    <div class="form-item">
-				        <label>Password <span class="req">*</span></label>
-				        
-				        <input type="password" name="password" class="width-100" required>
-				    </div>
-                                    <label class="form-item checkbox">
-				        <input type="checkbox"  name="remember" value="ok"> Remember me
-				    </label>
-				    <div class="form-item">
-                                        <button class="button primary width-100 big">Log in</button>		
-				    </div>
-                                    
-                                    
-				    <hr>
-                                    <p class="text-center">Don`t have an account yet? <a href="${pageContext.request.contextPath}/Registration.jsp">Sign Up</a></p>    
-                                    <p class="text-center"><a href="ResetPassword.jsp" >Lost your password?</a></p>
-				</form>
-	        </div> 
-            </div>
-	</div>
+                                    <img src="${AppInf.main}/${user.ico}" class="usr-img float-left">
+
+                                    <a href="${pageContext.request.contextPath}/main" style="text-decoration: none;">
+                                    <button>
+                                        ${user.name} &rarr;
+                                    </button>
+                                </a>
+                                <br>
+                                <a href="${pageContext.request.contextPath}/user/LogOut" >Log out</a>
+                                </div>
+                           </div>        
+                    </c:if>
+               </div>          
       </div>
 <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>

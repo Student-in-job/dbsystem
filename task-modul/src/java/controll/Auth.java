@@ -7,9 +7,6 @@ package controll;
 
 import API.UserSWT;
 import Model.User;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,22 +14,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Auth extends HttpServlet {
+public class Auth extends MyServlet {
 
-   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-    }
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         User user = new User();
         UserSWT wt = new UserSWT();
         if(wt.getDataFromRequest(request.getParameterMap(), user)){
+                      
+            user.getUserData();
             request.getSession().setAttribute("user_id", user.getId());
             request.getSession().setAttribute("user", user);
         }
@@ -41,15 +34,13 @@ public class Auth extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
     }
 
-   
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForUnAuthorized;
+    }
 
 }

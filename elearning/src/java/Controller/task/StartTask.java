@@ -57,7 +57,8 @@ public class StartTask extends HttpServletParent {
                 if(accept.getCompleted()==-1){
                     WorkSWT wt = new WorkSWT();
                     wt.putData(accept, AppInf.main, AppInf.task+"/pass/Start", new Date().getTime() + 5*60*1000);
-                    //response.setHeader("Location", AppInf.task + "/pass/Start?"+wt.getURLParam());
+                    response.setHeader("Location", AppInf.task + "/pass/Start?"+wt.getURLParam());
+                    response.setHeader("Cache-Control", "no-store");
                     response.setStatus(301);
                 } else {
                     throw new Exception("You cannot today");

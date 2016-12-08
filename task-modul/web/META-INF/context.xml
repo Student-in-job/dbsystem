@@ -2,18 +2,18 @@
 <Context path="/task-modul">
     
     <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
-                   maxActive="100" maxWait="10000" maxAge="10000" removeAbandoned="true" 
+                   maxActive="20" maxWait="10000" maxAge="10000" removeAbandoned="true" 
                    username="user" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
                    url="jdbc:mysql://localhost:3306/task_modul?useUnicode=true&amp;characterEncoding=UTF-8"
     />
     
     <Resource name="jdbc/tuter" auth="ContainerTuter" type="javax.sql.DataSource"
-               maxActive="100" maxWait="10000" maxAge="10000" removeAbandoned="true" 
+               maxActive="10" maxWait="10000" maxAge="10000" removeAbandoned="true" 
                username="tuter" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
                url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"/>
 
     <Resource name="jdbc/student" auth="ContainerStudent" type="javax.sql.DataSource"
-               maxActive="100" maxWait="10000" maxAge="10000" removeAbandoned="true" 
+               maxActive="40" maxWait="10000" maxAge="1000000" removeAbandoned="true" 
                username="student" password="qwerty" driverClassName="com.mysql.jdbc.Driver"
                url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"
     />

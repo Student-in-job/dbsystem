@@ -125,8 +125,8 @@ public class Area extends Parent{
     }
     
     public String getIco(){
-        String path = Storage.getRealPath() + this._getType() + "/" +String.valueOf(ID)+".png";
-        if(new File(Storage.getRealPath()+path).exists())
+        String path = Storage.getRealPath()+Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
+        if(new File(path).exists())
             return Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_area.png";
     } 

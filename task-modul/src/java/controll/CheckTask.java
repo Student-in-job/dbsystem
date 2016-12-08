@@ -3,16 +3,14 @@ package controll;
 import Model.Accept;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class CheckTask extends HttpServlet {
+public class CheckTask extends MyServlet {
 
     private void Proc(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try{
+            throws Exception {
             String answer = request.getParameter("answer");
             Accept accept = (Accept) request.getSession().getAttribute("accept");
             if(accept==null){
@@ -25,9 +23,9 @@ public class CheckTask extends HttpServlet {
                     return;
                 } else {
                     if(accept.putAnswer(answer)){
+                        accept.Update();
                         if(accept.getResult()==1){
-                            accept.Update();
-                            response.sendRedirect("NextTask");
+                            response.sendRedirect("NextTask?m=1");
                             return;
                         } else {
                             request.setAttribute("rs", accept.getResultArray());
@@ -41,31 +39,34 @@ public class CheckTask extends HttpServlet {
                     return;
                 }
             }
-        } catch(Exception ex){
-            throw new ServletException(ex);
-                }
             
         
     }
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        this.Proc(request, response);
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Accept accept = (Accept) request.getSession().getAttribute("accept");
+            if(accept!=null){
+                accept.setResult(0);
+                accept.setTotalTime();
+                accept.Update();
+            }
+            response.sendRedirect("NextTask");
     }
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         this.Proc(request, response);
     }
 
-
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
+
 
 }

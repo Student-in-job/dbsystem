@@ -9,7 +9,6 @@ import Model.DBManeger;
 import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class DataBaseManager extends HttpServlet {
+public class DataBaseManager extends MyServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
             request.getRequestDispatcher("DataBaseManager.jsp").forward(request, response);
@@ -30,19 +29,21 @@ public class DataBaseManager extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         
         request.setCharacterEncoding("UTF-8");
         String query = "";
         String message = "";
         query = request.getParameter("query");
-        try{
-            DBManeger man = new DBManeger(query, new TaskGroup(Integer.parseInt(request.getParameter("group"))));
+        TaskGroup group = new TaskGroup(Integer.parseInt(request.getParameter("group")));
+        if(group.getOwner()==user_id){
+            DBManeger man = new DBManeger(query, group);
             message = man.getMessage();
-        }catch(Exception ex){
-            throw new ServletException(ex);
+        } else {
+            throw new Exception("You cannot");
         }
+        
         
         request.setAttribute("message", message);
         request.setAttribute("query", query);
@@ -53,8 +54,8 @@ public class DataBaseManager extends HttpServlet {
 
 
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }

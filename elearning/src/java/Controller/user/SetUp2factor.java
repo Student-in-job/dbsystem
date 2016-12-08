@@ -32,7 +32,8 @@ public class SetUp2factor extends HttpServletParent {
          String s = user.setSecretKey();
          if(s!=null){
             ByteArrayOutputStream outs = QRCode.from(s).to(ImageType.PNG).stream();
-         
+            
+            response.setHeader("Cache-Control", "no-store");
             response.setContentType("image/png");
             response.setContentLength(outs.size());
          

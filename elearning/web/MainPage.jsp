@@ -4,15 +4,15 @@
     Author     : ksinn
 --%>
 
+<%@page import="Model.Course"%>
 <%@page import="Model.Area"%>
-<%@page import="Model.Program"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-        List<Program> courses = (new Program().getAll());
+        List<Course> courses = (new Course().getAll());
         ArrayList<Area> areas = (new Area().getAll());
         List<Area> areas1=null, areas2=null; 
    
@@ -86,20 +86,23 @@
 <c:forEach var="course" items="${courses}">          
 		<div class="col text-center">		
 			<div class="item">
-                            <img src="${course.ico}">
+                            <img src="${course.program.ico}">
 			</div>
 			<div class="course-info centered">
 				<div class="item upper">
-					<b>${course.name}</b>
+					<b>${course.program.name}</b>
+				</div>
+                                <div class="item upper">
+					<b>${course.startDate}</b>
 				</div>
 				<div class="item">
-					${course.shortDescription}
+					${course.program.shortDescription}
 				</div>
 				<div class="item">
 					<div class="row">
 						
 						<div class="col">
-                                                    <a class="button success outline small" href="${pageContext.request.contextPath}/program/Program?id=${course.id}">Show more &rarr;</a>
+                                                    <a class="button success outline small" href="${pageContext.request.contextPath}/program/Course?id=${course.id}">Show more &rarr;</a>
 						</div>
 					</div>
 				</div>

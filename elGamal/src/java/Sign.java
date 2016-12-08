@@ -7,7 +7,6 @@
 import elgamal.CipherText;
 import elgamal.Elgamal;
 import elgamal.KeySet;
-import elgamal.PlainText;
 import elgamal.PublicKey;
 import java.io.IOException;
 import java.io.PrintWriter;

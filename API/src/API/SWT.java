@@ -57,7 +57,7 @@ import org.apache.commons.codec.digest.HmacUtils;
             res += "&"+entry.getKey()+"="+entry.getValue();
         }
         
-        return Sign.equals(HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, res))&&(new Date()).getTime()<this.ExpiresOn;
+        return Sign.equals(HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, res))&&System.currentTimeMillis()<this.ExpiresOn;
     }
 
     

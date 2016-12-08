@@ -38,7 +38,7 @@
             <div class="row centered best-results ">
                 <h4 class="col col-12"></h4>            
             </div>
-                <c:if test="${true}">
+                <c:if test="${start}">
                 <div class="col col-12 test-btn">
                     <form method="POST" action="">
                     <input type="hidden" name="test" value="${test.id}">

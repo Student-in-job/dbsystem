@@ -70,6 +70,7 @@ public class Accept extends Parant{
     }
     
     public boolean Write() throws Exception{
+        this.Result=-1;
         return this._insert();
     }
     
@@ -102,10 +103,8 @@ public class Accept extends Parant{
                 stud = conn_stud.getResultSet();
 
                 try{
-                    if(this.Compear(tut, stud)){
-                        this.Result = 1;
-                        this.TotalTime = (int) ((new Date()).getTime() - this.Time.getTime());
-                    }
+                    this.setTotalTime();
+                    this.Result = this.Compear(tut, stud)?1:0;
                 } catch(Exception ex){
                     this.Ex = ex;
                     return false;
@@ -159,6 +158,16 @@ public class Accept extends Parant{
     public void setTask(Task task){
         this.TaskId = task.getId();
         this.Task = task;
+        this._from_db = false;
+    }
+    
+    public void setResult(int data){
+        this.Result = data;
+        this._from_db = false;
+    }
+    
+    public void setTotalTime(){
+        this.TotalTime = (int) ((new Date()).getTime() - this.Time.getTime());
         this._from_db = false;
     }
     

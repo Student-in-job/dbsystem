@@ -46,7 +46,7 @@ public class CreateProgram extends HttpServletParent {
         
         if(program.Write(user)){
             program.SaveIco(img);
-            response.sendRedirect("Program?"+program.getId()); 
+            response.sendRedirect("Program?id="+program.getId()); 
             return;
         } else {
             ArrayList<Area> areas = (new Area()).getAll();

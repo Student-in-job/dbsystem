@@ -116,6 +116,7 @@ public class Program extends Parent{
     public boolean Write(User user) throws Exception
     {
         User = user;
+        UserId = user.ID;
         return this._insert();
     }
     

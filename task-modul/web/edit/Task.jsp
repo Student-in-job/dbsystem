@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Task</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
@@ -20,7 +20,7 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
-        <script src="${pageContext.request.contextPath}/js/tinymce/tinymce.min.js"></script>
+        <%--<script src="${pageContext.request.contextPath}/js/tinymce/tinymce.min.js"></script>
         <script>tinymce.init({
             selector: '#input',
             theme: 'modern',
@@ -35,10 +35,11 @@
 
             });
         </script>
+        --%>
     </head>
     <body>
         ${error}
-        <%@include file="../header.jsp"%>
+        <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
             <div class="col col-4">

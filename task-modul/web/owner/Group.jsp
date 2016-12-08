@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Group</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
@@ -45,29 +45,18 @@
                             Add task <i class="fa fa-plus" aria-hidden="true"></i>
                         </button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/edit/DataBaseManager?group=${group.id}">
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${group.id}">
                         <button class="button round outline small">
-                            DMManager <i class="fa fa-plus" aria-hidden="true"></i>
+                            DM-Manager <i class="fa fa-plus" aria-hidden="true"></i>
                         </button>
                     </a>
                 </div>
             </div>
             <hr>
-<%--            <c:if test="${tasks.isEmpty==null}">
-            
-            <div class="row">
-                <div class="col">
-                    <div class="col offset-1">
-                        <p>Nothing yet</p>
-                    </div>
-                </div>
-            </div> 
-            </c:if>
---%>
             <c:forEach var="task" items="${tasks}">
             <div class="row">
                 <div class="col offset-1">
-                    <p>${task.question} (${task.ball} )</p>
+                    <p>${task.question} (${task.time} min)</p>
                         <div class="form-item checkboxes">
                             <p>${task.answer}</p>
                         </div>
@@ -75,10 +64,7 @@
                 <div class="col">
                     <a class="test-edit" href="${pageContext.request.contextPath}/owner/Task?task=${task.id}">
                         <i class="fa fa-trash font-green"></i> Show
-                    </a> 
-                    <a class="test-edit" href="${pageContext.request.contextPath}/edit/Delete?task=${task.id}">
-                        <i class="fa fa-trash font-green"></i> Delete
-                    </a> 
+                    </a>
                     <a class="test-edit" href="${pageContext.request.contextPath}/edit/EditTask?task=${task.id}">
                         <i class="fa fa-cog font-green"></i> Edit
                     </a>

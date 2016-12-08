@@ -7,9 +7,8 @@ package controll;
 
 import Model.StudentConnect;
 import Model.Task;
-import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,43 +16,49 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class RenderAdminTask extends HttpServlet {
+public class RenderAdminTask extends MyServlet {
 
     
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        if(user_id!=0){
-            
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        
             int task;
             Task new_task = new Task();
             
-            StudentConnect conn = new StudentConnect();
-            try{
+            StudentConnect conn = null;
                 task = Integer.parseInt(request.getParameter("task"));
                 new_task.getById(task);
-                conn.exequtQuery(new_task.getAnswer());
-            } catch (Exception ex){
-                throw new ServletException(ex);
-            }
+                ArrayList resultArray;
+                try{
+                    conn = new StudentConnect();
+                    conn.exequtQuery(new_task.getAnswer());
+                    resultArray = conn.getResultArray();
+                } finally {
+                    if(conn!=null)
+                        conn.close();
+                }
+            
 
             if(user_id==new_task.getGroup().getOwner()){
                 request.setAttribute("task", new_task);
-                request.setAttribute("rs", conn.getResultArray());
+                request.setAttribute("rs", resultArray);
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
-            }
-        }
-        
-        throw new ServletException("You cannot see this page!");
+            } else 
+                throw new ServletException("You cannot see this page!");
         
     }
 
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
+
+    @Override
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

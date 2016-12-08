@@ -9,7 +9,6 @@ package elgamal;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
@@ -38,12 +37,6 @@ public class Elgamal {
         }while(kset.getPk().getP().compareTo(r)==-1);
         
         for(int i=0;i<pt.length;i++){
-           if(pt[i].compareTo(modulo)==1){
-                //System.out.println("mod "+ modulo+" bytes  "+modulo.bitCount()+" "+pt.getPt()[i]);
-                System.out.println("Plain text superieure a N");
-                System.exit(1);
-            } 
-           //System.out.println("mod "+ modulo+" bytes  "+modulo.bitCount()+" "+pt.getPt()[i]);
            mhr[i]=(pt[i].multiply(kset.getPk().getH().modPow(r, modulo))).mod(modulo);
         }
         BigInteger gr=kset.getPk().getG().modPow(r,modulo);
@@ -58,10 +51,9 @@ public class Elgamal {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Elgamal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.out.print(bytes.length+"\n");
+        
         byte[][] chuncked =divideArray(bytes, 31);
-        //System.out.println("remainder is "+ s.length()%127);
-        //last byte[]. we have to delete zeros in the end!
+       
         byte lastchunck[]=new byte[s.length()%31];
         int j=0;
         for(int i=0;i<chuncked[0].length;i++){
@@ -70,16 +62,15 @@ public class Elgamal {
                j++;
              }
         }
-        // convert to biginteger!
+        
         BigInteger[] chuncks=new BigInteger[chuncked.length];
         for(int w=0;w<chuncks.length-1;w++){
             chuncks[w]=new BigInteger(chuncked[w]);
-            //System.out.print(new String(chuncks[w].toByteArray()));
+            
         }
-        //convert last chunk
+        
         chuncks[chuncks.length-1]=new BigInteger(lastchunck);
-       // System.out.println(new String(chuncks[chuncks.length-1].toByteArray()));
-        //encrypt
+       
         cipherT=encrypt(chuncks);
         return cipherT;
     }
@@ -91,9 +82,7 @@ public class Elgamal {
             tmp=ct.getGr().modPow(kset.getSk().getX(), mod);
             plain[i]=ct.getCt()[i].multiply(tmp.modInverse(mod)).mod(mod);
         }
-        //BigInteger s=ct.getGr().modPow(kset.getSk().getX(), kset.getPk().getP());
-        //BigInteger decrypt=ct.getCt().multiply(s.modInverse(kset.getPk().getP())).mod(kset.getPk().getP());
-        return plain;
+       return plain;
     }
     public static byte[][] divideArray(byte[] source, int chunksize) {
         byte[][] ret = new byte[(int)Math.ceil(source.length / (double)chunksize)][chunksize];

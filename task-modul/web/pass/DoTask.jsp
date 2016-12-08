@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -36,7 +36,7 @@
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
-                <a href="NextTask"><button class="button small round outline">Finish task</button></a>
+                <a href="Check"><button class="button small round outline">Finish task</button></a>
             </div>
             
             

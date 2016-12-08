@@ -99,8 +99,9 @@
                                 <li>Create  test and Exem;</li>
                                 <li>Publish;</li>
                             </ul>
-                            <a href="${pageContext.request.contextPath}/program/CreateProgram.jsp"><button class="button round outline">Create course</button></a>
-                            <a href="${pageContext.request.contextPath}/program/RederectTask.jsp"><button class="button round outline">Create task</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateProgram"><button class="button round outline">Create new program</button></a>
+                            <a href="${pageContext.request.contextPath}/program/CreateArea"><button class="button round outline">Create new area</button></a>
+                            <a href="${pageContext.request.contextPath}/rederect/Task/${System.currentTimeMillis()}"><button class="button round outline">Create task</button></a>
                         </div>
                 </div>
             </div>

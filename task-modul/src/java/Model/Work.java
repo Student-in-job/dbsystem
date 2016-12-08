@@ -93,12 +93,12 @@ public class Work extends Parant implements API.Work{
     public Accept Next() throws Exception{
         if(this.Accepts.size() == this.Count) 
             return null;
-        if(!this.Accepts.isEmpty()){
+        /*if(!this.Accepts.isEmpty()){
             if(this.Accepts.get(this.Accepts.size()-1).getLeftTime()>0
-                    &&this.Accepts.get(this.Accepts.size()-1).Result==0){
+                    &&this.Accepts.get(this.Accepts.size()-1).Result==-1){
                 return this.Accepts.get(this.Accepts.size()-1);
             }
-        }
+        }*/
         ArrayList<Task> list = this._generatTaskList();
         if(this.Accepts.size() == list.size()) return null;
         int ch;
@@ -266,8 +266,8 @@ public class Work extends Parant implements API.Work{
     public int getCompleted() {
         int max=0, res=0;
         for(int i=0; i<this.Accepts.size(); i++){
-            res+=Accepts.get(i).Result;
-            max+=Accepts.get(i).Task.Ball;
+            if(Accepts.get(i).Result>0)
+                res+=Accepts.get(i).Result;
         }
         return res;
     }

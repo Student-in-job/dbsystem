@@ -4,58 +4,37 @@ import Model.StudentConnect;
 import Model.Task;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class CreateTask extends HttpServlet {
+public class CreateTask extends MyServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         
         int group;
-        try{
             group = Integer.parseInt(request.getParameter("group"));
-        } catch (Exception ex){
-            throw new ServletException(ex);
-        }
         Task new_task = new Task();
-        try {
             new_task.setGroup(group);
-        } catch (Exception ex) {
-            throw new ServletException(ex);
-        }
         
         request.setAttribute("task", new_task);
         request.getRequestDispatcher("Task.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         
         request.setCharacterEncoding("UTF-8");
         
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        
-        int group;
-        try{
-            group = Integer.parseInt(request.getParameter("group"));
-        } catch (Exception ex){
-            throw new ServletException(ex);
-        }
+        int group = Integer.parseInt(request.getParameter("group"));
         
         Task new_task = new Task();
         
-        try {
-            new_task.setGroup(group);
-        } catch (Exception ex) {
-            throw new ServletException(ex);
-        }
-        
+        new_task.setGroup(group);
         new_task.setAnswer(request.getParameter("answer"));
         new_task.setImg(request.getParameter("img"));
         new_task.setQuestion(request.getParameter("question"));
@@ -69,10 +48,16 @@ public class CreateTask extends HttpServlet {
         }
         
         boolean res;
-        try{
             
-            StudentConnect cheker = new StudentConnect();
-            boolean good_query = cheker.exequtQuery(new_task.getAnswer());
+            StudentConnect cheker = null;
+            boolean good_query=false;
+            try{
+                cheker = new StudentConnect();
+                good_query = cheker.exequtQuery(new_task.getAnswer());
+            } finally {
+                if(cheker!=null)
+                    cheker.close();
+            }
             if(good_query){
                 res = new_task.Write(user_id);
 
@@ -90,15 +75,12 @@ public class CreateTask extends HttpServlet {
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
             }
-        } catch(Exception ex){
-            throw new ServletException(ex);
-        }
+        
 
     }
 
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 }

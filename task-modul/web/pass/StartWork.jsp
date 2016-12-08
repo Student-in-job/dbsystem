@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Task</title>
-        <link href="../img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <link href="${pageContext.request.contextPath}/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        <%@include file="../header.jsp" %>
+        <%@include file="/header.jsp" %>
         
         <div class="row centered text-center test">
             <div class="col col-8 ">

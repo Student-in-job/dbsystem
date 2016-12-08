@@ -101,6 +101,7 @@ pageContext.setAttribute("main", main);
                     
                     <a href="${auth_url}"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
                     <a href="${pageContext.request.contextPath}/user/auth1"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
+                    <a href="${pageContext.request.contextPath}/user/SignUp"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
 	        </div> 
             </div>
 	</div>

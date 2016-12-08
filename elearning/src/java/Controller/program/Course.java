@@ -27,12 +27,18 @@ public class Course extends HttpServletParent {
         boolean admin = course.getProgram().getUser().getId() == user.getId();
         ArrayList students = course.getStudents();
         ArrayList marks = course.getMarks();
+        ArrayList materials = course.getProgram().getMaterials();
+        ArrayList tests = course.getProgram().getTests();
+        ArrayList tasks = course.getProgram().getTasks();
         
         request.setAttribute("student", student);
         request.setAttribute("admin", admin);
         request.setAttribute("course", course);
         request.setAttribute("students", students);
         request.setAttribute("marks", marks);
+        request.setAttribute("tasks", tasks);
+        request.setAttribute("testa", tests);
+        request.setAttribute("materials", materials);
         
         request.getRequestDispatcher("CourseDataRender.jsp").forward(request, response);
         

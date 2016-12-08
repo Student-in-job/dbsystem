@@ -173,9 +173,44 @@ public class Course extends Parent {
         return list;
     }
 
-    public ArrayList getMarks() {
+    public ArrayList getMarks() throws Exception {
         ArrayList list = new ArrayList();
-        
+        Connection conn = this.getConnection();
+        try{
+            PreparedStatement stmt = conn.prepareStatement("select \n" +
+                "(select name from task where id=task) as 'task',\n" +
+                "(select concat(surname, ' ', name) from user where id = user) as 'user',\n" +
+                "max(accept_task.completed) as 'max',\n" +
+                "(select total_count from task where id=task) as 'total'\n" +
+                "from accept_task join teaching on teaching=teaching.id\n" +
+                "where course=?\n" +
+                "group by teaching");
+            stmt.setInt(1, this.ID);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                ArrayList<String> buf = new ArrayList<String>();
+                try{
+                    for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+                        buf.add(rs.getMetaData().getColumnName(i));
+                    }
+                    list.add(buf);
+                    rs.beforeFirst();
+                    while(rs.next()){
+                        buf = new ArrayList<String>();
+                        for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+                            buf.add(rs.getString(i));
+                        }
+                        list.add(buf);
+                    }
+                } catch(SQLException ex){
+                    buf.add("Error code: " + ex.getErrorCode() + ". "+ex.getMessage());
+                    list.add(buf);
+                }
+            }
+        } finally {
+            if(conn!=null)
+                conn.close();
+        }
         return list;
     }
 
@@ -197,5 +232,33 @@ public class Course extends Parent {
         }
         return list;
         
+    }
+    
+    
+    public ArrayList<Course> getAll() {
+        ArrayList<Course> list = new ArrayList<Course>();
+        
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("deleted", 0);
+        param.put("(start_date-date(now())>0)", true);
+        Course program;
+        ArrayList<HashMap<String, Object>> Params;
+        try {
+            Params = this.getObjectsParam(param);
+            for(int i=0; i<Params.size(); i++){
+                program = new Course();
+                try{
+                    program.getFromParam(Params.get(i));
+                    program.ReadProgramFromDB();
+                    list.add(program);
+                } catch (Exception ex) {
+                    Log.Write(ex.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            Log.Write(ex.getLocalizedMessage());
+        }
+        
+        return list;
     }
 }

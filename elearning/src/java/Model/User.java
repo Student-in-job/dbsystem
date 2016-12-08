@@ -205,8 +205,8 @@ public class User extends Parent implements API.User{
     @Override
     public String getIco(){
         
-        String path = Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
-        if(new File(Storage.getRealPath()+path).exists())
+        String path = Storage.getRealPath()+Storage.getFileDir()+ this._getType() + "/" +String.valueOf(ID)+".png";
+        if(new File(path).exists())
             return Storage.getFileDir() + this._getType() + "/" +String.valueOf(ID)+".png";
         else return "img/default_user_"+this.getGender()+".png";
     } 
@@ -329,37 +329,36 @@ public class User extends Parent implements API.User{
         
         AcceptTask accept = new AcceptTask();
         Teaching teach = this.getTeaching(task.Program);
-        HashMap<String, Object> param = new HashMap<String, Object>();
-        param.put("task", task.getId());
-        param.put("teaching", teach.getId());
-        param.put("date(addDate)-date(now())", 0);
-        ArrayList<HashMap<String, Object>> Params;
-            Params = accept.getObjectsParam(param);
-                try{
-                    accept.getFromParam(Params.get(0));
-                    accept.ReadTeachingFromDB();
-                    accept.ReadTaskFromDB();
-                } catch (Exception ex) {
+        if(task.canStartNow(teach.getCourse())){
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("task", task.getId());
+            param.put("teaching", teach.getId());
+            param.put("date(addDate)-date(now())", 0);
+            param.put("completed", -1);
+            ArrayList<HashMap<String, Object>> Params;
+                Params = accept.getObjectsParam(param);
+                if(Params.size()>0){
+                        accept.getFromParam(Params.get(0));
+                        accept.ReadTeachingFromDB();
+                        accept.ReadTaskFromDB();
+                } else
                     accept =  null;
-                }        
-        if(accept!=null){
-            if(new Date(accept.getCreateTime()+task.getTime()*60*1000).getTime()<System.currentTimeMillis())
-                return accept;
-            else 
-                return null;
-        } else {
-            if(task.canStartNow(teach.getCourse())){
-                accept = new AcceptTask();
-                accept.setTask(task.getId());
-                accept.setTeaching(teach.ID);
-                if(accept.Write()){
+            if(accept!=null){
+                if(accept.getCreateTime()+task.getTime()*60*1000>System.currentTimeMillis())
                     return accept;
-                } else 
+                else 
                     return null;
-                    
-            } else 
-                return null;
-        }
+            } else {
+                    accept = new AcceptTask();
+                    accept.setTask(task.getId());
+                    accept.setTeaching(teach.ID);
+                    if(accept.Write()){
+                        return accept;
+                    } else 
+                        throw new Exception("Cannot write new accept of task "+task.getId()+"for student "+this.ID);                
+            }
+        } else 
+            return null;
     
     }
 

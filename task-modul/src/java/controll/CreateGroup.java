@@ -9,7 +9,6 @@ package controll;
 import Model.TaskGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class CreateGroup extends HttpServlet {
+public class CreateGroup extends MyServlet {
 
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         request.getRequestDispatcher("Group.jsp").forward(request, response);
@@ -30,39 +29,34 @@ public class CreateGroup extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         
-        int user_id = (int) request.getSession().getAttribute("user_id");
-        
-        request.setCharacterEncoding("UTF-8");
-        
-        TaskGroup new_group = new TaskGroup();
-        
-        new_group.setName(request.getParameter("name"));
-        new_group.setPublish("1".equals(request.getParameter("publish")));
-        
-        boolean res;
-        try{
-            res = new_group.Write(user_id);
+       
+            request.setCharacterEncoding("UTF-8");
 
-            if(res){
-                response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 
-                return;
-            } else {
-                request.setAttribute("group", new_group);
-                request.getRequestDispatcher("Group.jsp").forward(request, response);
-                return;
-            }
-        } catch(Exception ex){
-            throw new ServletException(ex);
-        }
+            TaskGroup new_group = new TaskGroup();
+
+            new_group.setName(request.getParameter("name"));
+            new_group.setPublish("1".equals(request.getParameter("publish")));
+
+            boolean res;
+                res = new_group.Write(user_id);
+
+                if(res){
+                    response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 
+                    return;
+                } else {
+                    request.setAttribute("group", new_group);
+                    request.getRequestDispatcher("Group.jsp").forward(request, response);
+                    return;
+                }
     }
 
     
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected int PrivateMod() {
+        return MyServlet.OnlyForAuthorized;
+    }
 
 }
