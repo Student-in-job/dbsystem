@@ -141,7 +141,7 @@ public class DBManeger{
         this.Message = "";
         this.RewriteQuery();
         this.executFile();  
-        this.file.delete();
+        //this.file.delete();
     
     }
     
@@ -156,6 +156,7 @@ public class DBManeger{
         norm_string = norm_string.replaceAll("\\(", " ( ");
         norm_string = norm_string.replaceAll("\\)", " ) ");
         norm_string = norm_string.replaceAll(";", " ; ");
+        norm_string = norm_string.replaceAll(",", " , ");
         
         return norm_string;
     }
