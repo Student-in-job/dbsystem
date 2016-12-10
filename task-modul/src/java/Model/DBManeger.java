@@ -162,7 +162,7 @@ public class DBManeger{
     }
     
     private void GenerateUniqName(){
-        String testName = InitParams.RealPath +"/tmp/task_modul/sql";
+        String testName = "/tmp/sql";
         int i=0;
         while((this.file = new File(testName+String.valueOf(i))).exists())
                 i++;

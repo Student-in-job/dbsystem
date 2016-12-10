@@ -296,7 +296,7 @@ drop database task;
 create database task;
 CREATE USER 'tuter'@'localhost' IDENTIFIED BY 'qwerty';
 CREATE USER 'student'@'localhost' IDENTIFIED BY 'qwerty';
-grant alter, select, create, delete, drop, index, update, insert  on task to 'tuter'@'localhost';
+grant select, create, delete, index, update, insert  on task to 'tuter'@'localhost';
 grant alter, select, CREATE, delete, update, insert on task to 'student'@'localhost';
 flush privileges;*/
 

@@ -7,8 +7,8 @@ DO update has_course set complited = now()
 where (select end_date from course where id = course) < now()
 and complited is null;*/
 
-/*grant all privileges on elearning_test.* to 'user'@'localhost';
-flush privileges;*/
+grant all privileges on elearning.* to 'user'@'localhost';
+flush privileges;
 
 #Системные данные
 create table if not exists sys_conf (

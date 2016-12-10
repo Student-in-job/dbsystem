@@ -18,10 +18,10 @@
                url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8"
     />
     
-    <Environment name="path/log" value="/srv/tomcat8/logs/task-modul.txt"
+    <Environment name="path/log" value="/var/log/elearning/task-modul.txt"
                 type="java.lang.String" override="false"/>
     
-    <Environment name="path/real" value="/home/ksinn"
+    <Environment name="path/real" value="/srv/tomcat8/webapps/task-modul"
                 type="java.lang.String" override="false"/>
     
 

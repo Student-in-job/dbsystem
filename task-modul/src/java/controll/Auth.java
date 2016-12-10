@@ -40,7 +40,7 @@ public class Auth extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForUnAuthorized;
+        return MyServlet.ForAll;
     }
 
 }
