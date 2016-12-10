@@ -30,7 +30,7 @@ public abstract class Component extends Parent{
         if(user.getId()==this.Program.getUser().getId())
             return this._insert();
         else
-            throw new Exception("You cannot");
+            return false;
     }
     
     public boolean Update(User user) throws Exception{
@@ -38,7 +38,7 @@ public abstract class Component extends Parent{
         if(user.getId()==this.Program.getUser().getId())
             return this._update();
         else
-            throw new Exception("You cannot");
+            return false;
     }
     
     public void getById(int id) throws Exception{
@@ -48,7 +48,7 @@ public abstract class Component extends Parent{
             this._select();
             this.ReadProgramFromDB();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for component");
     }
     
     public Program getProgram(){

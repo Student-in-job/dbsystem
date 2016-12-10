@@ -69,7 +69,8 @@ public class CreateCourse extends HttpServletParent {
                 }
             }
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot create this cours!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
         }
                         
                

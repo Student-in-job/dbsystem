@@ -46,8 +46,10 @@ public class RenderAdminTask extends MyServlet {
                 request.setAttribute("rs", resultArray);
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
                 return;
-            } else 
-                throw new ServletException("You cannot see this page!");
+            } else {
+                request.setAttribute("message", "You cannot see this page!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            }
         
     }
 

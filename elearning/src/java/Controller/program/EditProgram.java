@@ -37,7 +37,8 @@ public class EditProgram extends HttpServletParent {
             return;
             
         } else {
-            throw new Exception("You cannot");            
+            request.setAttribute("message", "You cannot edit this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);            
         }
         
         
@@ -57,23 +58,29 @@ public class EditProgram extends HttpServletParent {
         Model.Program program = new Model.Program();
         program.getById(id);
         
-        program.setName(name);
-        program.setArea(area);
-        program.setDiscription(discription);
-        program.setLevel(level);
-        program.setDuration(duration);
+        if(program.MayChange()&&program.getUser().getId()==user.getId()){
         
-        if(program.Update(user)){
-            program.SaveIco(img);
-            response.sendRedirect("Program?"+program.getId()); 
-            return;
+            program.setName(name);
+            program.setArea(area);
+            program.setDiscription(discription);
+            program.setLevel(level);
+            program.setDuration(duration);
+
+            if(program.Update(user)){
+                program.SaveIco(img);
+                response.sendRedirect("Program?"+program.getId()); 
+                return;
+            } else {
+                ArrayList<Area> areas = (new Area()).getAll();
+                program.ReadAreaFromDB();
+                request.setAttribute("areas", areas);
+                request.setAttribute("program", program);
+                request.getRequestDispatcher("ProgramDataForm.jsp");
+                return;
+            }
         } else {
-            ArrayList<Area> areas = (new Area()).getAll();
-            program.ReadAreaFromDB();
-            request.setAttribute("areas", areas);
-            request.setAttribute("program", program);
-            request.getRequestDispatcher("ProgramDataForm.jsp");
-            return;
+            request.setAttribute("message", "You cannot edit this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);            
         }
     
     }

@@ -77,7 +77,7 @@ public class AcceptTask  extends Parent implements API.Work{
             this.ReadTaskFromDB();
             this.ReadTeachingFromDB();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for AcceptTask whith id="+id);
     }  
     
     public void getByKey() throws Exception{

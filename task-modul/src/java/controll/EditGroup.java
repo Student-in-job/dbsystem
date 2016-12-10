@@ -38,8 +38,10 @@ public class EditGroup extends MyServlet {
 
                 request.setAttribute("group", new_group);
                 request.getRequestDispatcher("Group.jsp").forward(request, response);
-            } else 
-               throw new ServletException("You cannot see this page!");
+            } else {
+                request.setAttribute("message", "You cannot edit this group!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            }
         
     }
 
@@ -81,6 +83,9 @@ public class EditGroup extends MyServlet {
                 } catch(Exception ex){
                     throw new ServletException(ex);
                 }
+            } else {
+                request.setAttribute("message", "You cannot edit this group!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);
             }
         
     }

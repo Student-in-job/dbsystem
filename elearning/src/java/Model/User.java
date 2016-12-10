@@ -75,7 +75,7 @@ public class User extends Parent implements API.User{
             this.ID = id;
             this._select();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for user with id="+id);
     }
     
     public User(){
@@ -93,7 +93,7 @@ public class User extends Parent implements API.User{
         if(ID==0){
             return this._insert();
         } else 
-            throw new Exception("Invalid input data!");
+            return false;
     }
     
     public boolean getByMail(String mail) throws Exception{
@@ -355,7 +355,7 @@ public class User extends Parent implements API.User{
                     if(accept.Write()){
                         return accept;
                     } else 
-                        throw new Exception("Cannot write new accept of task "+task.getId()+"for student "+this.ID);                
+                        throw new Exception("Cannot write new accept of task "+task.getId()+"for user "+this.ID);                
             }
         } else 
             return null;

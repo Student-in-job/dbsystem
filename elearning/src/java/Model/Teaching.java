@@ -32,7 +32,7 @@ public class Teaching extends Parent {
             this.ReadUserFromDB();
             this.ReadCourseFromDB();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for teaching with id="+id);
     }
     
     public Course getCourse(){

@@ -56,7 +56,7 @@ public class Area extends Parent{
             this.ID = id;
             this._select();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for Area whith id="+id);
     }
     
     public boolean Write() throws Exception{

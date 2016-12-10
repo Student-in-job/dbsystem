@@ -44,7 +44,7 @@ public class SetUp2factor extends HttpServletParent {
             outStream.flush();
             outStream.close();
          } else {
-             throw new Exception("Key has not created!");
+             throw new Exception("Key has not created for user "+user.getId()+";");
          }
              
     }

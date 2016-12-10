@@ -41,9 +41,10 @@ public class Delete extends HttpServletParent {
         }
         out.flush();
         out.close();
-        } else 
-            throw new Exception("You cannot");
-        
+        } else {
+            request.setAttribute("message", "You cannot delete this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
+        }
     }
 
     @Override

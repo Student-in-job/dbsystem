@@ -27,7 +27,8 @@ public class EditTask extends HttpServletParent {
             request.setAttribute("task", task);
             request.getRequestDispatcher("TaskDataForm.jsp").forward(request, response);
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot edit this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
         }
 
     }
@@ -65,7 +66,8 @@ public class EditTask extends HttpServletParent {
             request.getRequestDispatcher("TaskDataForm.jsp").forward(request, response);
         }
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot edit this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
         }
     }
 

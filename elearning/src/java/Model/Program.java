@@ -59,7 +59,7 @@ public class Program extends Parent{
             this.ReadAreaFromDB();
             this.ReadUserFromDB();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for program with id="+id);
     }
    
     public ArrayList<Program> getAll() {

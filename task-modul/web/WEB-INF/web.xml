@@ -114,6 +114,10 @@
         <servlet-name>MyServlet</servlet-name>
         <servlet-class>controll.MyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>group_data</servlet-name>
+        <servlet-class>api.group_data</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DataBaseManager</servlet-name>
         <url-pattern>/admin/DataBaseManager</url-pattern>
@@ -181,6 +185,10 @@
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>group_data</servlet-name>
+        <url-pattern>/group_data</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

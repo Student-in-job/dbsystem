@@ -6,7 +6,6 @@
 package Controller.task;
 
 import Controller.HttpServletParent;
-import Model.Program;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +25,8 @@ public class Task extends HttpServletParent {
             request.setAttribute("task", task);
             request.getRequestDispatcher("TaskDataRender.jsp").forward(request, response);
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot see this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);    
         }
     }
 

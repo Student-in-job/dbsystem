@@ -41,7 +41,8 @@ public class DataBaseManager extends MyServlet {
             DBManeger man = new DBManeger(query, group);
             message = man.getMessage();
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot create anything in this group!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
         }
         
         

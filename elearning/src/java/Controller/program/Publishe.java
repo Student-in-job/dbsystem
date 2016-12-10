@@ -33,11 +33,11 @@ public class Publishe extends HttpServletParent {
                 Model.Program prog = new Model.Program();
                 prog.getById(id);
                 if(prog.Publish(user))
-                    out.println("Program published");
+                    out.println("Completed");
                 else 
-                    out.println("You cannot");
+                    out.println("Dont completed");
         } catch(Exception ex){
-            out.println("You cannot");
+            out.println("Error");
         }
             
     }

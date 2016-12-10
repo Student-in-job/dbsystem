@@ -45,7 +45,7 @@ public class Course extends Parent {
             this._select();
             this.ReadProgramFromDB();
         } else 
-            throw new Exception("Invalid input data!");
+            throw new Exception("Invalid input data for course whith id="+id);
     }
     
     public Program getProgram(){

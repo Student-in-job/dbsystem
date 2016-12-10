@@ -39,7 +39,8 @@ public class StartTask extends HttpServletParent {
                 request.setAttribute("start", true);
             request.getRequestDispatcher("StartTask.jsp").forward(request, response);
         } else {
-            throw new Exception("You cannot");
+            request.setAttribute("message", "You cannot start this component, because you not in course!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);     
         }
     }
 
@@ -61,12 +62,17 @@ public class StartTask extends HttpServletParent {
                     response.setHeader("Cache-Control", "no-store");
                     response.setStatus(301);
                 } else {
-                    throw new Exception("You cannot today");
+                    request.setAttribute("message", "You cannot start this component, because you already complete ons today!");
+                    request.getRequestDispatcher("/Message.jsp").forward(request, response);     
                 }
             } else {
-                throw new Exception("You cannot");
+                request.setAttribute("message", "You cannot start this component!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);     
             }
      
+        } else {
+            request.setAttribute("message", "You cannot start this component, because you not in course!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);     
         }
     
     }

@@ -29,8 +29,10 @@ public class EditTask extends MyServlet {
             if(user_id==new_task.getGroup().getOwner()){
                 request.setAttribute("task", new_task);
                 request.getRequestDispatcher("Task.jsp").forward(request, response);
-            } else 
-               throw new ServletException("You cannot see this page!");
+            } else {
+                request.setAttribute("message", "You cannot edit this task!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            }
     }
 
     @Override
@@ -88,8 +90,10 @@ public class EditTask extends MyServlet {
                 } catch(Exception ex){
                     throw new ServletException(ex);
                 }
-            } else 
-                throw new ServletException("You cannot see this page!");
+            } else {
+                request.setAttribute("message", "You cannot edit this group!");
+                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            }
 
     }
 
