@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        <div  class="box " >
+        <div  class="box" >
             <div id="mesagge" class="middle-text">${message}</div>
         </div>
         <%@include file="/header.jsp"%>
@@ -63,7 +63,7 @@
 
             }); //end of ready
         </script> 
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
 

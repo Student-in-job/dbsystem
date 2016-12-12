@@ -54,11 +54,11 @@ create table if not exists auth (
 	factor enum('phone', 'key'),
 	mods char not null,
 	result int,
+	print varchar(1024),
 	addDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	constraint fk_auth_user  foreign key (user) references user (mail) on delete no action on update no action
 	
 );
-
 
 #Программы и курсы
 create table if not exists area (

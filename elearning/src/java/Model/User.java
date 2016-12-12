@@ -111,7 +111,7 @@ public class User extends Parent implements API.User{
         return this._isCorrect();
     }
     
-    public boolean LogIn(long code, long t) throws Exception{
+    public boolean LogIn(long code, long t, String print) throws Exception{
         if(this._from_db){
             Secret secret = SecondFactor.get2factor(this.ID);
             if(secret!=null){
@@ -119,13 +119,13 @@ public class User extends Parent implements API.User{
                     case "key":{
                         GoogleAuthenticator ga = new GoogleAuthenticator();
                         this.Logined = ga.check_code(secret.Secret, code, t);
-                        UserLog.inKey(this.Mail).Write(this.Logined?1:0);
+                        UserLog.inKey(this.Mail, print).Write(this.Logined?1:0);
                         break;
                     }
                     case "phone":{
                         SMSAuthenticator sa = new SMSAuthenticator();  
                         this.Logined = sa.check_code(this.ID, code, t);
-                        UserLog.inSMS(this.Mail).Write(this.Logined?1:0);
+                        UserLog.inSMS(this.Mail, print).Write(this.Logined?1:0);
                         break;
                     }
                 }

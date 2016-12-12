@@ -47,7 +47,7 @@ public class CreateCourse extends HttpServletParent {
             form.applyPattern("yyyy-MM-dd");
             Date start = form.parse(request.getParameter("start_date"));
             boolean publ = "1".equals(request.getParameter("public"));
-            if(start.before(new Date(System.currentTimeMillis()+1000*3600*24))){
+            if(start.before(new Date(System.currentTimeMillis()-1000*3600*24))){
                 request.setAttribute("message", "Error date!");
                 request.setAttribute("program", program);
                 request.getRequestDispatcher("CourseDataForm.jsp").forward(request, response);

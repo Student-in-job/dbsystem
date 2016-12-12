@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        <div>
+        <div id="mesagge">
             ${error}
         </div>
         <%@include file="/header.jsp" %>

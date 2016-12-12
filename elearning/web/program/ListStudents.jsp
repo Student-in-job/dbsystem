@@ -59,6 +59,6 @@
             $("#"+id).remove();        
         } 
     </script>
-<%@include file="../footer.jsp" %>
+<%@include file="/footer.jsp" %>
     </body>
 </html>

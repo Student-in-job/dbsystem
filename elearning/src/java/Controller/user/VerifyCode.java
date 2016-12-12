@@ -29,7 +29,7 @@ public class VerifyCode extends HttpServletParent {
          String codestr = request.getParameter("code");
          long code = Long.parseLong(codestr);
          
-         boolean p = user.LogIn(code, t);
+         boolean p = user.LogIn(code, t, request.getHeader("user-agent")+"; "+request.getHeader("x-forwarded-for"));
 
          String mess;
          if(p){

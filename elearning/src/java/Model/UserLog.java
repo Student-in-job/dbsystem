@@ -19,22 +19,25 @@ public class UserLog extends Parent{
     private int Result;
     private String Factor;
     private String Mods; 
+    private String Print;
     
     private UserLog(){}
     
-    static public UserLog inSMS(String user){
+    static public UserLog inSMS(String user, String print){
         UserLog res = new UserLog();
         res.User = user;
         res.Mods = "i";
         res.Factor="phone";
+        res.Print = print;
         return  res;
     }
     
-    static public UserLog inKey(String user){
+    static public UserLog inKey(String user, String print){
         UserLog res = new UserLog();
         res.User = user;
         res.Mods = "i";
         res.Factor="key";
+        res.Print = print;
         return  res;
     }
     
@@ -61,6 +64,7 @@ public class UserLog extends Parent{
         HashMap<String, Object> list = new HashMap<String, Object>();
         list.put("user", this.User);
         list.put("result", this.Result);
+        list.put("print", this.Print);
         list.put("mods", this.Mods);
         list.put("factor", this.Factor);
         return list;
@@ -72,6 +76,7 @@ public class UserLog extends Parent{
         this.Result = (int) Params.get("result");
         this.Mods = (String) Params.get("mods");
         this.Factor = (String) Params.get("factor");
+        this.Print = (String) Params.get("print");
     }
 
     @Override

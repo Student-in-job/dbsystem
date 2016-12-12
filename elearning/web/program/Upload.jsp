@@ -130,7 +130,7 @@
 
             }); //end of ready
         </script>
-        <%@include file="../footer.jsp" %>
+        <%@include file="/footer.jsp" %>
     </body>
 </html>
 
