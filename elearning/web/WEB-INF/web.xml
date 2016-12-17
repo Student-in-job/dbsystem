@@ -154,10 +154,6 @@
         <url-pattern>/program/StartCourse</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>auth</servlet-name>
-        <url-pattern>/user/auth1</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CreateTask</servlet-name>
         <url-pattern>/task/CreateTask</url-pattern>
     </servlet-mapping>
