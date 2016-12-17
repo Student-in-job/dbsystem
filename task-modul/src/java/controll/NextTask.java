@@ -45,6 +45,7 @@ public class NextTask extends MyServlet {
                 return;
             }
             request.getSession().setAttribute("accept", accept);
+            
             request.setAttribute("task", accept.getTask());
             if("1".equals(request.getParameter("m")))
                 request.setAttribute("error", "Query pass!");

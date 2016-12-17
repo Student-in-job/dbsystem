@@ -24,18 +24,17 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/flipclock.css">
-        <script src="${pageContext.request.contextPath}/js/flipclock.js"></script>
-        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+         
     </head>
     <body>
-        <div id="mesagge">
+        <div class="message">
             ${error}
         </div>
         <%@include file="/header.jsp" %>
 
         <div class="row centered test">
             <div class="col col-11">
-                <p>time-left: <span id="timer"></span></p>
+                <%--<p>time-left: <span id="timer"></span></p>--%>
                 <div class="clock"></div>
                 <h4>PASS TEST!</h4>
             </div>
@@ -79,27 +78,12 @@
                             
         </div>
         
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/flipclock.js"></script>    
+        <script src="${pageContext.request.contextPath}/js/kube.min.js"></script>           
+        
         <script> 
-        var clock;
-        $(document).ready(function () {
-            var clock;
-            clock = $('.clock').FlipClock({
-                clockFace: 'DailyCounter',
-                autoStart: false,
-                language: 'RU-RU',
-                callbacks: {
-                    stop: function () {
-                        $('.message').html('The clock has stopped!');
-                    }
-                }
-            });
-            clock.setTime(${task.time}*60*1000);
-            clock.setCountdown(false);
-            clock.start();
-        });
-
-            
-            
+       
         function show()  
         {  
             $.ajax({  
@@ -108,29 +92,45 @@
                 error: function(){
                     window.location.href = "${pageContext.request.contextPath}/Error.jsp";
                 },
-                success: function(data){ 
-                    setTimeout(function(){
-                        var elem = $('submit');
-                        elem.parentNode.removeChild(elem);
-                    }, data);
-                    data = Math.floor(data/1000);
-                    var h = Math.floor(data/3600);
-                    data = Math.floor(data%3600);
-                    var m = Math.floor(data/60);
-                    var s = Math.floor(data%60);
-                    $("#timer").html(h + ':' + m + ':' + s);  
+                success: function(data){
+                    if(data<=0){
+                        window.location.href = "${pageContext.request.contextPath}/pass/Check";
+                    }
+                    
                 }  
             });  
         } 
         
         
-      
-        $(document).ready(function(){  
-            show();  
-            setInterval('show()',1000);  
-        });  
-    </script> 
         
+                
+        $(document).ready(function () {
+            setInterval('show()',1000); 
+            var clock;
+            clock = $('.clock').FlipClock({
+                clockFace: 'MinuteCounter',
+                autoStart: false,
+                language: 'us-us',
+            });
+            clock.setTime(${task.time}*60-3);
+            $.ajax({  
+                url: "Timer",  
+                cache: false, 
+                error: function(){
+                    window.location.href = "${pageContext.request.contextPath}/Error.jsp";
+                },
+                success: function(data){
+                   clock.setTime(data/1000-2);  
+                }  
+            }); 
+            
+            clock.setCountdown(true);
+            clock.start();
+            
+        });
+        
+    </script> 
+             
         <%@include file="/footer.jsp" %>
 
     </body>

@@ -179,7 +179,7 @@ public class Course extends Parent {
         try{
             PreparedStatement stmt = conn.prepareStatement("select \n" +
                 "(select name from task where id=task) as 'task',\n" +
-                "(select concat(surname, ' ', name) from user where id = user) as 'user',\n" +
+                "(select mail from user where id = user) as 'user',\n" +
                 "max(accept_task.completed) as 'max',\n" +
                 "(select total_count from task where id=task) as 'total'\n" +
                 "from accept_task join teaching on teaching=teaching.id\n" +

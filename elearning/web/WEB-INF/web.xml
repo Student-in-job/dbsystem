@@ -30,10 +30,6 @@
         <servlet-class>Controller.user.SetUpPhone</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>auth</servlet-name>
-        <servlet-class>Controller.user.auth1</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Publishe</servlet-name>
         <servlet-class>Controller.program.Publishe</servlet-class>
     </servlet>
@@ -306,10 +302,6 @@
     <servlet-mapping>
         <servlet-name>smsgetway</servlet-name>
         <url-pattern>/smsgetway</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SignUp</servlet-name>
-        <url-pattern>/user/SignUp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GoogleOAuth</servlet-name>
