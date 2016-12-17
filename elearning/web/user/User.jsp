@@ -64,7 +64,7 @@
                 </div>
                 
             </div>
-            <div class="row userbar-2 ">
+            <div class="row userbar-2">
                 <div class="col col-2 offset-1 nav nav-user">
                     <a href="#active_courses" class="tablink" onclick="openTab(event, 'active_courses')">Published courses</a>
                     <a href="#learn_courses" class="tablink a-blue" onclick="openTab(event, 'learn_courses')">Current courses</a>

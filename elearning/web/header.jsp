@@ -30,38 +30,38 @@ pageContext.setAttribute("main", main);
     ${message}
 </div>
 <div class="row around">
-		<div class="col col-3">
-			<div id="sidenav" class="sidenav">
-	            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	            <div class="row centered">
-	            	<img class="logo-round" src="${pageContext.request.contextPath}/img/logo-round.png">
-                    </div>
-                    
-                    <div class="row centered search-box">
-                        <form method="get" action="${pageContext.request.contextPath}/Courses.jsp" class="form">
-                            <div class="form-item">
-                                <div class="controls">
-                                <input type="text" name="find" placeholder="Search">
-                                <button class="button primary">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    
-	            <div class="valign-sidenav">
-		            <div class="row centered">
-		            	<a href="${pageContext.request.contextPath}/about_as.jsp"><b>ABOUT US</b></a>
-		            	<a href="${pageContext.request.contextPath}/manual.pdf"><b>MANUAL</b></a>
-		            	<a href="${pageContext.request.contextPath}/program/Courses"><b>COURSES</b></a>
-		            </div>
+		<div class="col col-3 space-top">
+                    <div id="sidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <div class="row centered">
-                            <a href="${pageContext.request.contextPath}/user/Peoples"><b>PEOPLE</b></a>
+                            <img class="logo-round" src="${pageContext.request.contextPath}/img/logo-round.png">
+                        </div>
+                    
+                        <div class="row centered search-box">
+                            <form method="get" action="${pageContext.request.contextPath}/Courses.jsp" class="form">
+                                <div class="form-item">
+                                    <div class="controls">
+                                        <input type="text" name="find" placeholder="Search">
+                                        <button class="button inverted">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <div class="valign-sidenav">
+                                <div class="row centered">
+                                    <a href="${pageContext.request.contextPath}/about_as.jsp"><b>ABOUT US</b></a>
+                                    <a href="${pageContext.request.contextPath}/manual.pdf"><b>MANUAL</b></a>
+                                    <a href="${pageContext.request.contextPath}/program/Courses"><b>COURSES</b></a>
+                                </div>
+                            <div class="row centered">
+                                <a href="${pageContext.request.contextPath}/user/Peoples"><b>PEOPLE</b></a>
+                            </div>
                         </div>
                     </div>
-        	</div>
-        	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
+                        <a class="h3" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
 		</div>
 	    <div class="col col-3 text-center">
 	    	<a href="${pageContext.request.contextPath}"><div class="item centered logo"></div></a>
@@ -87,9 +87,9 @@ pageContext.setAttribute("main", main);
             </div>        
     </c:when>
     <c:otherwise>
-            <div class="col col-3 text-right">
+            <div class="col col-3 space-top text-right">
                    <img src="${pageContext.request.contextPath}/img/${main}login-ico.png"> 
-                <a class="${main}login" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
+                <a class="${main}login h4" data-width="450px" data-component="modal" data-target="#login-modal">Log in</a>
             </div>
     </c:otherwise>
 </c:choose>

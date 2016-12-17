@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col space-top">
                         <p>
                             ${course.program.description}
                         </p>
@@ -128,6 +128,7 @@
                         </div>
                     </c:if>
                  </div>
+                <c:if test="${admin}">
                 <div id="result">
                     <table>
                         <c:forEach var="row" items="${marks}">
@@ -139,6 +140,7 @@
                          </c:forEach>
                     </table>                
                 </div>
+                </c:if>
             </div>
         </div>
         <%@include file="/footer.jsp" %>

@@ -41,7 +41,7 @@
                 <div class="col text-center"> 
                     <br>
                     <br>
-                    <c:if test="${user != null}"><a class="button round outline" href="${pageContext.request.contextPath}/user/UserSettings">Settings &rarr;</a></c:if>
+                    <c:if test="${user != null}"><a class="button round outline inverted" style="font-size:18px;" href="${pageContext.request.contextPath}/user/UserSettings">Settings &rarr;</a></c:if>
                 </div>
             </div>
             <div class="row userbar-2 ">
@@ -58,9 +58,9 @@
                             <div id="my_program" class="courses">
                                 <h3>My program</h3>
                                 <c:forEach var="program" items="${my_program}">
-                                <p>
-                                    <a href="${pageContext.request.contextPath}/program/Program?id=${program.id}">${program.name}</a>
-                                </p>     
+                                <ul>
+                                    <li><a href="${pageContext.request.contextPath}/program/Program?id=${program.id}">${program.name}</a></li>
+                                </ul>     
                                 </c:forEach>                                                                               
                             </div>
                     

@@ -19,6 +19,8 @@ public class CreateTask extends MyServlet {
             group = Integer.parseInt(request.getParameter("group"));
         Task new_task = new Task();
             new_task.setGroup(group);
+            new_task.setBall(1);
+            new_task.setTime(2);
         
         request.setAttribute("task", new_task);
         request.getRequestDispatcher("Task.jsp").forward(request, response);

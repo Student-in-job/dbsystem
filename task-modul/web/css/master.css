@@ -63,7 +63,7 @@
 .logo:hover{
  background-position: top;
 }
-.row {
+.space-top {
 	padding-top: 22px;
 }
 .space-both {
@@ -73,7 +73,7 @@
 	background-color: #fff;
 	margin-top: -6px;
 	padding: 10px 7px;
-	width: 250px; /* todo: change px to percent for use true adaptive */
+	width: 266px;    /* todo: change px to percent for use true adaptive */
 	border: 1px solid #f0f0f0;
 }
 /* TODO: need hover effect on the link-img at area & user blocks */
@@ -156,6 +156,7 @@
 .userbar-1 {
     background: #00BCD3;
     color: #fff;
+    padding: 1.3em;    
 }
 
 .img-circle {
@@ -167,13 +168,13 @@
 
 .userbar-2 {
     min-height: 720px;
-    background: url(../img/usr_bg.png) no-repeat bottom;
+    background: url(../img/usr_bg.png) no-repeat left bottom;
 }
 
 .nav {
-    border: 1px solid #c3c3c3;
-    padding: 0;
-    max-height: 194px;
+    /*border: 1px solid #c3c3c3;*/
+    padding: .7em;
+    /*max-height: 194px;*/
    }
 
 .nav a {
@@ -210,9 +211,8 @@
 }
 
 .border {
-    border: 1px solid #c3c3c3;
-    margin-left: 15px;
-    margin-bottom: 170px;
+    border-left: 1px solid #c3c3c3;
+    margin: .7em 0 7.5em .5em;
 }
 
 .chart {

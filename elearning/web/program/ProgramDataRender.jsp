@@ -51,7 +51,7 @@
         <%@include file="/header.jsp" %>
         <div class="row centered">
             <div class="col col-8">
-                <h3>${program.name}</h3>
+                <h2>${program.name}</h2>
 
                 <div class="row green-bg">
 
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col space-top">
                         <p>
                             ${program.description}
                         </p>

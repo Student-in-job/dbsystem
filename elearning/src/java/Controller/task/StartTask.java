@@ -33,7 +33,7 @@ public class StartTask extends HttpServletParent {
             request.setAttribute("task", task);
             Calendar start = Calendar.getInstance();
             start.setTime(teach.getCourse().getStartDate());
-            start.add(Calendar.DAY_OF_YEAR, task.getDay());
+            start.add(Calendar.DAY_OF_YEAR, task.getDay()-1);
             request.setAttribute("startday", new java.sql.Date(start.getTimeInMillis()));
             if(task.canStartNow(teach.getCourse()))
                 request.setAttribute("start", true);

@@ -32,7 +32,7 @@ public class SetPhone extends HttpServletParent {
             User stud = new User();
             stud.getById(id);
             Secret secret = new Secret();
-            secret.Secret="+"+phone;
+            secret.Secret=phone;
             secret.Type="phone";
             PrintWriter out = response.getWriter();
             try{

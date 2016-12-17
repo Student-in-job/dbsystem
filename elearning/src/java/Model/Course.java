@@ -223,7 +223,7 @@ public class Course extends Parent {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 User user = new User();
-                user.getById(rs.getByte("id"));
+                user.getById(rs.getInt("id"));
                 list.add(user);
             }
         } finally {

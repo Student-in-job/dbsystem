@@ -23,6 +23,9 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/flipclock.css">
+        <script src="${pageContext.request.contextPath}/js/flipclock.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     </head>
     <body>
         <div id="mesagge">
@@ -33,6 +36,7 @@
         <div class="row centered test">
             <div class="col col-11">
                 <p>time-left: <span id="timer"></span></p>
+                <div class="clock"></div>
                 <h4>PASS TEST!</h4>
             </div>
             <div class="col col-11 pagination">
@@ -75,7 +79,27 @@
                             
         </div>
         
-        <script>  
+        <script> 
+        var clock;
+        $(document).ready(function () {
+            var clock;
+            clock = $('.clock').FlipClock({
+                clockFace: 'DailyCounter',
+                autoStart: false,
+                language: 'RU-RU',
+                callbacks: {
+                    stop: function () {
+                        $('.message').html('The clock has stopped!');
+                    }
+                }
+            });
+            clock.setTime(${task.time}*60*1000);
+            clock.setCountdown(false);
+            clock.start();
+        });
+
+            
+            
         function show()  
         {  
             $.ajax({  

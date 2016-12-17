@@ -77,8 +77,8 @@
 
 <div class="course-block">
 	<div class="row around">
-		<div class="col text-center">
-			<h3 class="upper success">Online Courses</h3>
+		<div class="col text-center space-top">
+			<h2 class="upper success">Online Courses</h2>
 		</div>
 	</div>
 			
@@ -111,7 +111,7 @@
 </c:forEach>               
 	</div>
 	<div class="row around">
-		<div class="col col-11 text-right"> 
+		<div class="col col-11  space-top text-right"> 
                     <a href="${pageContext.request.contextPath}/program/Courses" class="button round outline">See all &rarr;</a>
 		</div>
 	</div>
@@ -119,8 +119,8 @@
 
 <div class="area-block">
 	<div class="row around">
-		<div class="col">
-			<h3 class="warning upper text-center">Areas</h3>
+		<div class="col space-top">
+			<h2 class="warning upper text-center">Areas</h2>
 		</div>
 	</div>
 <div class="row between">
@@ -148,7 +148,7 @@
 </c:forEach>      
 	</div>
 	<div class="row around">
-		<div class="col col-11 text-right"> 
+		<div class="col col-11 space-top text-right"> 
 			<a class="button round outline" href="${pageContext.request.contextPath}/program/Areas">See all &rarr;</a>
 		</div>
 	</div>	

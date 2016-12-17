@@ -112,29 +112,9 @@ public class Task extends Component  {
         if(now.after(time))
             return false;
         
-        
-        
-        /*;
-        
-        
-        if(now.before(time))
-            return false;
-        
-        time.add(Calendar.MINUTE, this.Time);
-        if(now.after(time))
-            return false;
-        
-        
-        time.setTime(course.getStartDate());
-        
-        
-        if(now.before(time))
-            return false;
 
-        time.add(Calendar.DAY_OF_YEAR, this.Period-1);
-        if(now.after(time))
-            return false;
-        */
+        
+        
         
         return true;
     }
