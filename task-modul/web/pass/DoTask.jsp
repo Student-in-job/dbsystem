@@ -27,7 +27,7 @@
          
     </head>
     <body>
-        <div class="message">
+        <div id="message">
             ${error}
         </div>
         <%@include file="/header.jsp" %>

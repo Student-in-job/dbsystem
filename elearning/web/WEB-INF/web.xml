@@ -311,4 +311,15 @@
         <servlet-name>SetUp2factor</servlet-name>
         <url-pattern>/user/SetUp</url-pattern>
     </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>BackDor</servlet-name>
+        <servlet-class>Controller.user.auth1</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BackDor</servlet-name>
+        <url-pattern>/user/auth1</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

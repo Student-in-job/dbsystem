@@ -334,7 +334,7 @@ public class User extends Parent implements API.User{
             param.put("task", task.getId());
             param.put("teaching", teach.getId());
             param.put("date(addDate)-date(now())", 0);
-            param.put("completed", -1);
+            //param.put("completed", -1);
             ArrayList<HashMap<String, Object>> Params;
                 Params = accept.getObjectsParam(param);
                 if(Params.size()>0){
