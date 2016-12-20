@@ -40,15 +40,11 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="${pageContext.request.contextPath}/edit/CreateTask?group=${group.id}">
-                        <button class="button round outline small">
+                    <a href="${pageContext.request.contextPath}/edit/CreateTask?group=${group.id}" class="button small round success outline">
                             Add task <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${group.id}">
-                        <button class="button round outline small">
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${group.id}" class="button small round success outline">
                             DM-Manager <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
                     </a>
                 </div>
             </div>

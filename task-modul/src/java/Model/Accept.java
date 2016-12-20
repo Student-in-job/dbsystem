@@ -124,6 +124,17 @@ public class Accept extends Parant{
         
         r1.beforeFirst();
         r2.beforeFirst();
+        
+        if(r1.getMetaData().getColumnCount()!=r2.getMetaData().getColumnCount())
+            return false;
+        r1.last();
+        r2.last();
+        if(r1.getRow()!=r2.getRow()) 
+            return false;
+        
+        r1.beforeFirst();
+        r2.beforeFirst();
+        
         for(int i=1; i<=r1.getMetaData().getColumnCount(); i++)
             if(!r1.getMetaData().getColumnName(i).equals(r2.getMetaData().getColumnName(i)))
                 return false;

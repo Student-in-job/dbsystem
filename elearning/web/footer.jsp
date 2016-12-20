@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<div class="footer">
+<div class="footer space-top">
 	<div class="row">
 		<div class="col text-center"><h6><%=request.getServletContext().getInitParameter("SiteName")%> &copy; 2016, All right reserved.</h6></div>
 	</div>	

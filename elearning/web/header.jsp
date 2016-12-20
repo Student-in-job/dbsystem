@@ -70,18 +70,14 @@ pageContext.setAttribute("main", main);
 <c:choose>
     <c:when test="${user != null}">
             <div class="col col-3">
-                           <div class="col col-8 offset-5"> 
+                           <div class="col col-8 offset-5 space-top"> 
                                 <div class="${main}user_board">
 
                                     <img src="${pageContext.request.contextPath}/${user.ico}" class="usr-img float-left">
 
-                                    <a href="${pageContext.request.contextPath}/user/UserPanel" style="text-decoration: none;">
-                                    <button>
-                                        ${user.name} &rarr;
-                                    </button>
-                                </a>
+                                    <a href="${pageContext.request.contextPath}/user/UserPanel" class="button small round outline" style="text-decoration: none;">${user.name} &rarr;</a>
                                 <br>
-                                <a href="${pageContext.request.contextPath}/user/LogOut" >Log out</a>
+                                <a href="${pageContext.request.contextPath}/user/LogOut" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;Log out <i class="fa fa-sign-out"></i></a>
                                 </div>
                            </div>
             </div>        

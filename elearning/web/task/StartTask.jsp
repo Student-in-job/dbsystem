@@ -27,12 +27,12 @@
         
         <div class="row centered text-center test">
             <div class="col col-12 ">
-                <h3>${task.name}</h3>
+                <h1>${task.name}</h1>
                 <p>
-                    You can pass this task from ${startday}<br>
-                    start time: ${task.startTime}:00<br>
-                    time: ${task.time} <br>
-                    duaring ${task.period} day<br>
+                    You can pass this task from: ${startday}<br>
+                    Start time: ${task.startTime}:00<br>
+                    Time: ${task.time} min<br>
+                    Duaring: ${task.period} day<br>
                 </p>
             </div>
             <div class="row centered best-results ">
@@ -42,7 +42,7 @@
                 <div class="col col-12 test-btn">
                     <form method="POST" action="">
                     <input type="hidden" name="test" value="${test.id}">
-                    <input class="button round outline" type="submit" value="Start task &rarr;">
+                    <input class="button big round success" type="submit" value="Start task &rarr;">
                     </form> 
                 </div>  
                 </c:if>

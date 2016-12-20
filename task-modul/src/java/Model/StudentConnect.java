@@ -86,7 +86,7 @@ public class StudentConnect extends DBConnect{
                 buf.add(rs.getMetaData().getColumnName(i));
             }
             list.add(buf);
-            while(rs.next()){
+            for(int j=0; j<25&&rs.next(); j++){
                 buf = new ArrayList<String>();
                 for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
                     buf.add(rs.getString(i));

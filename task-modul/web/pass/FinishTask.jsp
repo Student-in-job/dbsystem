@@ -26,10 +26,10 @@
         <%@include file="/header.jsp" %>
         
         <div class="row centered text-center test">
-            <div class="col col-8 ">
+            <div class="col col-8 space-top">
                 <img src="${pageContext.request.contextPath}/img/ghost.png" alt="error">
                 <h3>You complete</h3>
-                <a href="${AppInf.main}">go back</a>
+                <p class="space-top"><a href="${AppInf.main}" class="button big warning round">&larr; Go back</a></p>
             </div>            
         </div>
         <%@include file="/footer.jsp" %>

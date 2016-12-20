@@ -63,9 +63,8 @@
             <div class="col col-8">
                 <nav class="tabs" data-component="tabs" data-equals="true">
                     <ul>
-                        <li class="active"><a href="#material">MATERIAL</a></li>
-                        <li><a href="#test">TEST</a></li>
-                        <li><a href="#task">TASK</a></li>
+                        <li><a href="#material">MATERIAL</a></li>
+                        <li class="active"><a href="#task">TASK</a></li>
                         <li><a href="#tab13">STUDENTS</a></li>
                         <c:if test="${admin}">
                         <li><a href="#result">RESULT</a></li>
@@ -83,17 +82,7 @@
                         </div>
                     </c:forEach>                      
                 </div>                
-                <div id="test">
-                <c:forEach items="${tests}" var="test">                              
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                <a href = "${pageContext.request.contextPath}/test/StartTest?id=${test.id}">${test.name}</a>
-                            </p>
-                        </div>                                              
-                    </div>
-                </c:forEach>                       
-                </div>
+                
                 <div id="task">
                     <c:forEach items="${tasks}" var="task">                              
                         <div class="row">

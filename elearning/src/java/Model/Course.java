@@ -184,7 +184,7 @@ public class Course extends Parent {
                 "(select total_count from task where id=task) as 'total'\n" +
                 "from accept_task join teaching on teaching=teaching.id\n" +
                 "where course=?\n" +
-                "group by teaching");
+                "group by teaching order by user");
             stmt.setInt(1, this.ID);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){

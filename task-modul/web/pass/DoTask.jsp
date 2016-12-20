@@ -27,55 +27,54 @@
          
     </head>
     <body>
-        <div id="message">
-            ${error}
-        </div>
         <%@include file="/header.jsp" %>
 
-        <div class="row centered test">
-            <div class="col col-11">
-                <%--<p>time-left: <span id="timer"></span></p>--%>
-                <div class="clock"></div>
-                <h4>PASS TEST!</h4>
-            </div>
-            <div class="col col-11 pagination">
-                <a href="Check"><button class="button small round outline">Finish task</button></a>
-            </div>
-            
-            
-                <div class="task-table">    
-                    <div class="task-table-row">    
-                        <div class="task-table-cell">
-                            <p>${task.question}</p>
-                            <img class="db-schem" src="${task.img}">
+        <div class="test space-top">
+            <div class="row centered">
+                <div class="col col-4">
+                    <%--<p>time-left: <span id="timer"></span></p>--%>
+                    <div class="clock"></div>
+                        <div id="message" style="color: red; font-size: 150%; padding: 20px;">
+                             ${error}
                         </div>
-                        <div class="task-table-cell">
-                            
-                        </div>    
-                    </div>
-                    <div class="task-table-row">        
-                        <form class="task-table-cell" method="POST" action="Check">    
-                            <div class="col col-11">
-                                    <textarea rows="6" required  name="answer">${answer}</textarea>
-                            </div>
 
-                            <div class="col col-11">
-                                <input id="submit" type="submit" class="button round outline primary" value="Confirm &rArr;">
-                            </div>
-                        </form>
-                        <table class="task-table-cell">
-                        <c:forEach var="row" items="${rs}">
-                         <tr>
-                             <c:forEach var="cell" items="${row}">
-                             <td>${cell}</td>
-                             </c:forEach>
-                         </tr> 
-                         </c:forEach>    
-                        </table>
-                    </div> 
-                </div>   
+                </div>
+                <div class="col col-2 space-top">
+                    <a href="Check" class="button big error round">Finish task</a>
+                </div>
+            </div> 
+                        
+                <div class="row centered">
+                    <div class="col coll-11">    
+                            <p>${task.question}</p>
+                            <img src="${task.img}">
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col col-5">        
+                            <form id="checkAnswer" method="POST" action="Check">    
+                                <textarea rows="6" required  name="answer">${answer}</textarea>
+
+                                <div class="col space-top">
+                                    <input id="submit" type="submit" class="button round outline primary" value="Confirm &rArr;">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col col-7">        
+                            <table class="bordered">
+                                <c:forEach var="row" items="${rs}">
+                                 <tr>
+                                     <c:forEach var="cell" items="${row}">
+                                     <td>${cell}</td>
+                                     </c:forEach>
+                                 </tr> 
+                                 </c:forEach>    
+                            </table>
+                        </div> 
+                    </div>  
+            </div>
                             
-                            
+              
         </div>
         
         <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>

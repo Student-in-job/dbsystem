@@ -92,7 +92,6 @@
                 <nav class="tabs" data-component="tabs" data-equals="true">
                     <ul>
                         <li class="active"><a href="#tab11">MATERIAL</a></li>
-                        <li><a href="#tab12">TEST</a></li>
                         <li><a href="#tab13">TASK</a></li>
                     </ul>
                 </nav>
@@ -128,36 +127,7 @@
                     </c:if>                        
                 </div>
                 
-                <div id="tab12">
-                <c:forEach items="${tests}" var="test">                              
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                <a href = "${pageContext.request.contextPath}/test/StartTest?id=${test.id}">${test.name}</a>
-                            </p>
-                        </div>
-                        <c:if test="${admin}"> 
-                            <div>
-                                <a href="${pageContext.request.contextPath}/test/EditTest?id=${test.id}"><button class="button small round primary">UPDATE</button></a>
-                                <a href="${pageContext.request.contextPath}/test/Delete?id=${test.id}"><button class="button small round error">DELETE</button></a>
-                            </div>
-                        </c:if>                         
-                    </div>
-                </c:forEach>
-                    <c:if test="${admin}"> 
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                Create new test 
-                            </p>
-                        </div>
-                        <div>
-                            <a href="${pageContext.request.contextPath}/test/CreateTest?program=${program.id}"><button class="button small round success">ADD</button></a>
-                        </div>
-                    </div>
-                    </c:if>                       
-                </div>
-                
+                               
                 <div id="tab13">
                     <c:forEach items="${tasks}" var="task">                              
                         <div class="row">

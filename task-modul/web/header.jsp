@@ -9,7 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="/Error.jsp"%>
 
 <div class="row around">
-		<div class="col col-3">
+		<div class="col col-3 space-top">
 			<div id="sidenav" class="sidenav">
 	            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	            <div class="row centered">
@@ -20,10 +20,10 @@
                         <form method="get" action="${pageContext.request.contextPath}/Courses.jsp" class="form">
                             <div class="form-item">
                                 <div class="controls">
-                                <input type="text" name="find" placeholder="Search">
-                                <button class="button primary">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
+                                    <input type="text" name="find" placeholder="Search">
+                                    <button class="button inverted">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -40,26 +40,22 @@
                         </div>
                     </div>
         	</div>
-        	<a class="h4" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
+        	<a class="h3" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
 		</div>
 	    <div class="col col-3 text-center">
 	    	<a href="${pageContext.request.contextPath}/main"><div class="item centered logo"></div></a>
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
 	   	</div>                
-               <div class="col col-3 text-right">
+               <div class="col col-3">
                    <c:if test="${user != null}">
-                           <div class="col col-8 offset-5"> 
+                           <div class="col col-8 offset-5 space-top"> 
                                 <div class="${main}user_board">
 
                                     <img src="${AppInf.main}/${user.ico}" class="usr-img float-left">
 
-                                    <a href="${pageContext.request.contextPath}/main" style="text-decoration: none;">
-                                    <button>
-                                        ${user.name} &rarr;
-                                    </button>
-                                </a>
+                                    <a href="${pageContext.request.contextPath}/main" class="button small round outline" style="text-decoration: none;">${user.name} &rarr;</a>
                                 <br>
-                                <a href="${pageContext.request.contextPath}/user/LogOut" >Log out</a>
+                                <a href="${pageContext.request.contextPath}/user/LogOut" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;Log out <i class="fa fa-sign-out"></i></a>
                                 </div>
                            </div>        
                     </c:if>

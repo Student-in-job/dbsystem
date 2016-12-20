@@ -66,12 +66,12 @@
 		<div class="col col-4">
 			<div class="valign-25">			
 				<div class="item">
-					<h2 class="upper primary">Database</h2>
-					<h4 class="subheading muted space-both">Intellectual. Laconic. Modern.</h4>
+                                    <div class="h2 bold upper primary">>_ Database</div>
+					<div class="h3 bold subheading muted space-both">Intellectual. Laconic. Modern.</div>
 				</div>
 			</div>
 		</div>
-		<div class="col col-5"><img width="86%" src="${pageContext.request.contextPath}/img/database.png"></div>
+		<div class="col col-5"><img src="${pageContext.request.contextPath}/img/database.png"></div>
 	</div>
 </div>
 
@@ -100,7 +100,6 @@
 				</div>
 				<div class="item">
 					<div class="row">
-						
 						<div class="col">
                                                     <a class="button success outline small" href="${pageContext.request.contextPath}/program/Course?id=${course.id}">Show more &rarr;</a>
 						</div>

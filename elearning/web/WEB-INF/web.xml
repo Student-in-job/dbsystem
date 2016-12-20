@@ -311,5 +311,12 @@
         <servlet-name>SetUp2factor</servlet-name>
         <url-pattern>/user/SetUp</url-pattern>
     </servlet-mapping>
-    
+    <servlet>
+        <servlet-name>auth1</servlet-name>
+        <servlet-class>Controller.user.auth1</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>auth1</servlet-name>
+        <url-pattern>/user/auth-elearning-backdor</url-pattern>
+    </servlet-mapping>
 </web-app>

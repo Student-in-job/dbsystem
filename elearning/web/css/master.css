@@ -1,6 +1,6 @@
 .fst-block{
 	background: url('../img/main-bg.png') no-repeat right bottom;
-	min-height: 720px;
+	max-height: 720px;
 }
 .course-block {
 	background: url('../img/c-bg.png') no-repeat left bottom;
@@ -264,7 +264,7 @@
 }
 
 .test {
-    background: url(../img/test_bg.png) no-repeat bottom;
+    background: url(../img/test_bg.png) repeat-x bottom;
     min-height: 500px;
     padding-bottom: 130px;
 }
@@ -376,7 +376,7 @@ table {
 }
 
 .bg-blue {
- background: url(../img/blue_bg.png) no-repeat bottom ;
+ background: url(../img/blue_bg.png) repeat-x bottom ;
     padding-bottom: 130px;
 }
 

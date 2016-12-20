@@ -29,9 +29,9 @@
         <div class="row centered bg-blue">
             <div class="col col-3 text-center">
                 <div class="p-error">
-                    <p>
+                    <h3>
                         ${message}
-                    </p>
+                    </h3>
                 </div>
             </div>
         </div>            

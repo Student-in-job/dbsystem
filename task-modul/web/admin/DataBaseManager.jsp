@@ -23,9 +23,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/master.css">
     </head>
     <body>
-        <div  class="box" >
-            <div id="mesagge" class="middle-text">${message}</div>
-        </div>
+
         <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
@@ -39,12 +37,20 @@
                     </div>
                     
                     <div class="form-item">
-                        <button class="button primary width-100 big">Complete</button>
+                        <button data-component="message" data-target="#my-message-primary" class="button primary width-100 big">Complete</button>
                     </div>
                 </form>
             </div>
         </div>
+                    
+            <div id="my-message-primary" class="message primary" style="display:block;position: absolute;">
+                <span class="close small inverted"></span>
+                ${message}
+            </div>                    
+                    
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script> 
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/kube.min.js"></script>
         <script>
             $(document).ready(function(){
 
@@ -61,7 +67,12 @@
                 });
 
 
-            }); //end of ready
+            }); //end of ready       
+            $(document).ready(function(){
+                $("#my-message-primary span").click(function(){
+                    $("#my-message-primary").removeAttr("style");
+                })  
+            });                
         </script> 
         <%@include file="/footer.jsp" %>
     </body>
