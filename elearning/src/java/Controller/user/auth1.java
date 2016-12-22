@@ -38,7 +38,7 @@ public class auth1 extends HttpServletParent {
                             
                             }
                         }
-                            request.getRequestDispatcher("VerifyCode.jsp").forward(request, response);
+                            response.sendRedirect(request.getContextPath());
                             return;
                         } else {
                             response.sendRedirect("SetUp");

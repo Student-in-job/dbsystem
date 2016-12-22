@@ -317,6 +317,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>auth1</servlet-name>
-        <url-pattern>/user/auth-elearning-backdor</url-pattern>
+        <url-pattern>/admin/auth-elearning-backdor</url-pattern>
     </servlet-mapping>
 </web-app>

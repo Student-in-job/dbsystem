@@ -447,3 +447,8 @@ a.test-edit:hover {
 .db-schem {
     max-width: 1000px;
 }
+
+.sql-teatarea {
+    width: 800px;
+    align-self: center;
+}

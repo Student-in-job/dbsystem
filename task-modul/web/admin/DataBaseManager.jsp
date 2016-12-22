@@ -31,7 +31,7 @@
 
                 <form id="form" class="form" action="DataBaseManager" method="POST">
                     <input type="hidden" name="group" value="${param["group"]}">
-                    <div class="form-item">
+                    <div class="form-item sql-teatarea">
                         <label>SQL Query:</label>
                         <textarea required name="query">${query}</textarea>
                     </div>

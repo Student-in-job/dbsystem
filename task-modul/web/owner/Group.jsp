@@ -52,7 +52,7 @@
             <c:forEach var="task" items="${tasks}">
             <div class="row">
                 <div class="col offset-1">
-                    <p>${task.question} (${task.time} min)</p>
+                    <p class="bold">${task.question} <i>(${task.time} min)</i></p>
                         <div class="form-item checkboxes">
                             <p>${task.answer}</p>
                         </div>

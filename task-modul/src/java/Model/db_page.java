@@ -32,8 +32,16 @@ public class db_page extends DBConnect{
         try{
             conn = this.getConnection();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(SQL);
-            return this.getResultArray(rs);
+            ResultSet rs;
+            boolean execute = stmt.execute(SQL);
+            if(execute){
+                rs = stmt.getResultSet();
+                return this.getResultArray(rs);
+            } else {
+                ArrayList<String> ar = new ArrayList<String>();
+                ar.add(execute?"true":"false");
+                return ar;
+            }
         } finally{
             if(conn!=null)
                 conn.close();

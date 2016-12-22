@@ -111,7 +111,7 @@ public class DBManeger{
             "mysql",
             "task",
             "--user=" + "tuter",
-            "--password=" + "qwerty",
+            "--password=" + "ytRewQ321",
             "-e",
             "source " + this.file.getPath()
         };

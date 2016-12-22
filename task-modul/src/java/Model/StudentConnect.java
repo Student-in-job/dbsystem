@@ -49,19 +49,20 @@ public class StudentConnect extends DBConnect{
         
         this.conn = this.getConnection();
         this.stmt = conn.createStatement();
+        this.stmt.setMaxRows(100);
             
         /*if(matcher.find()){
-            String name="";
-            try{
-                name = this.createTempTable(query);
-            } catch(SQLException e) {
-                this.ex = e;
-                res = false;
-            }
-            stmt.execute(query);
-            query = "select * from "+name+";";
-        } */ 
-            
+        String name="";
+        try{
+        name = this.createTempTable(query);
+        } catch(SQLException e) {
+        this.ex = e;
+        res = false;
+        }
+        stmt.execute(query);
+        query = "select * from "+name+";";
+        } */
+        
             try{
                 this.rs = stmt.executeQuery(query);
                 res = true;
@@ -93,6 +94,11 @@ public class StudentConnect extends DBConnect{
                 }
                 list.add(buf);
             }
+            if(rs.next()){
+                buf = new ArrayList<String>();
+                buf.add("...");
+                list.add(buf);
+            }              
         } catch(SQLException ex){
             buf.add("Error code: " + ex.getErrorCode() + ". "+ex.getMessage());
             list.add(buf);

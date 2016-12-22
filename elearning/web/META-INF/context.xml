@@ -3,7 +3,7 @@
   <Resource 
       auth="Container" 
             driverClassName="com.mysql.jdbc.Driver" 
-            maxIdle="5" maxActive="100" maxWait="10000" maxAge="10000" removeAbandoned="true" 
+            maxIdle="5" maxActive="100" maxAge="10000" removeAbandoned="true" 
             name="jdbc/DB" 
             password="qwerty" 
             type="javax.sql.DataSource" 

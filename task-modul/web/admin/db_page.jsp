@@ -27,7 +27,7 @@ if(request.getMethod().equals("POST")){
     <body>
         <div>
         <form action="" method="POST">
-            <p><textarea name="sql"><%=request.getParameter("sql")%></textarea></p>
+            <p><textarea name="sql" style="width: 500px"><%=request.getParameter("sql")%></textarea></p>
             <p><input type="submit"></p>
         </form>
         </div>

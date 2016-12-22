@@ -49,12 +49,12 @@
                     <input type="hidden" name="group" value="${task.group.id}"> 
                     <input type="hidden" name="task" value="${task.id}"> 
                     
-                    <div class="form-item">
+                    <div class="form-item sql-teatarea">
                         <label>Question:</label>
                         <textarea id="input" required name="question">${task.question}</textarea>
                     </div>
                     
-                    <div class="form-item">
+                    <div class="form-item sql-teatarea">
                         <label>Answer Query:</label> <a target="blank" href="${pageContext.request.contextPath}/admin/DataBaseManager.jsp?group=${task.group.id}">DataBase Manager -></a>
                         <textarea required name="answer">${task.answer}</textarea>
                     </div>
