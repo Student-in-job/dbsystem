@@ -66,7 +66,7 @@
 		<div class="col col-4">
 			<div class="valign-25">			
 				<div class="item">
-                                    <div class="h2 bold upper primary">>_ Database</div>
+                                    <div class="h2 bold upper primary"><i class="fa fa-terminal" style="color:#000"></i><span id="blink">|</span> Database</div>
 					<div class="h3 bold subheading muted space-both">Intellectual. Laconic. Modern.</div>
 				</div>
 			</div>

@@ -34,8 +34,8 @@
                 <div class="col col-3">
                     <br>
                     <p>
-                        Name: ${user.name} ${user.surname}<br>
-                        Mail:  ${user.mail}<br>
+                        <span class="bold">${user.name} ${user.surname}</span><br>
+                        E-Mail:  ${user.mail}<br>
                     </p>
                 </div>
             </div>

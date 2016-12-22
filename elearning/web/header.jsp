@@ -93,7 +93,7 @@ pageContext.setAttribute("main", main);
 	    <div class="modal">
 	        <span class="close"></span>
 	        <div class="modal-header">Sign in</div>
-	        <div class="modal-body">
+	        <div class="modal-body text-center">
                     
                     <a href="${auth_url}"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
                     <%--<a href="${pageContext.request.contextPath}/user/auth1"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>

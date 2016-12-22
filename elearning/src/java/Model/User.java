@@ -310,7 +310,7 @@ public class User extends Parent implements API.User{
             stmt.setInt(2, program.getId());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                theaching.getById(rs.getByte("id"));
+                theaching.getById(rs.getInt("id"));
                 return theaching;
             } else 
                 return null;
@@ -373,7 +373,7 @@ public class User extends Parent implements API.User{
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 course = new Course();
-                course.getById(rs.getByte("id"));
+                course.getById(rs.getInt("id"));
                 list.add(course);
             } 
         } finally {

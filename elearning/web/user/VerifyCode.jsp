@@ -40,9 +40,6 @@
                     <div class="form-item">
                         <button class="button primary width-100 big">Sign Up</button>
                     </div>
-                        or
-                        <a class="login" onclick="show()">send sms</a>
-                        <div id="sms-message"></div>
                         
                     </form>
                 </div>
