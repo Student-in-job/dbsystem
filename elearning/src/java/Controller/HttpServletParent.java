@@ -8,7 +8,10 @@ package Controller;
  * and open the template in the editor.
  */
 
-import Model.User;
+import Entety.User;
+import Service.CourseService;
+import Service.TaskService;
+import Service.UserService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +31,9 @@ public abstract class HttpServletParent extends HttpServlet {
     static protected int OnlyForAuthorized = 1;
     static protected int OnlyForUnAuthorized = 2;
     static protected int ForAll = 0;
+    static protected UserService userService = new UserService();
+    static protected CourseService courseService = new CourseService();
+   static protected TaskService taskService = new TaskService();
     abstract protected int PrivateMod();
     
     protected User user;

@@ -1,0 +1,146 @@
+
+CREATE TABLE 10_customer (
+  id_customer int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  passport varchar(45) DEFAULT NULL,
+  citizenship int(11) DEFAULT NULL,
+  PRIMARY KEY (id_customer),
+  KEY fk_customer_country_idx (citizenship),
+  CONSTRAINT fk_customer_country FOREIGN KEY (citizenship) REFERENCES 10_country (id_country) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+INSERT INTO 10_customer VALUES (1,'морозов александр','aa6078050',3);
+INSERT INTO 10_customer VALUES (2,'алексеев александр','ac2468401',12);
+INSERT INTO 10_customer VALUES (3,'петухов александр','38№1259531',2);
+INSERT INTO 10_customer VALUES (4,'аксенов александр','90№1486496',2);
+INSERT INTO 10_customer VALUES (5,'осипова александра','ab4196860',17);
+INSERT INTO 10_customer VALUES (6,'григорьев алексей','66№9966112',2);
+INSERT INTO 10_customer VALUES (7,'рыбаков алексей','ab6836414',12);
+INSERT INTO 10_customer VALUES (8,'соболева алина','61№2358079',2);
+INSERT INTO 10_customer VALUES (9,'архипова алина','ac4016808',3);
+INSERT INTO 10_customer VALUES (10,'смирнова анастасия','91№8812717',2);
+INSERT INTO 10_customer VALUES (11,'воробьева анастасия','42№3266649',2);
+INSERT INTO 10_customer VALUES (12,'никитина анастасия','ad9485762',10);
+INSERT INTO 10_customer VALUES (13,'федотова анастасия','39№9681406',2);
+INSERT INTO 10_customer VALUES (14,'александрова анастасия','90№1324520',2);
+INSERT INTO 10_customer VALUES (15,'мухина анастасия','19№5638810',2);
+INSERT INTO 10_customer VALUES (16,'виноградов андрей','ad5054400',3);
+INSERT INTO 10_customer VALUES (17,'пономарев андрей','92№7708057',2);
+INSERT INTO 10_customer VALUES (18,'миронов андрей','63№6350733',2);
+INSERT INTO 10_customer VALUES (19,'панов андрей','35№5399027',2);
+INSERT INTO 10_customer VALUES (20,'попова анна','ad6965600',3);
+INSERT INTO 10_customer VALUES (21,'крылова анна','aa1324064',19);
+INSERT INTO 10_customer VALUES (22,'матвеева анна','26№1950474',2);
+INSERT INTO 10_customer VALUES (23,'копылова анна','93№2202936',2);
+INSERT INTO 10_customer VALUES (24,'кузьмин арсений','50№8822331',2);
+INSERT INTO 10_customer VALUES (25,'власов арсений','85№3985000',2);
+INSERT INTO 10_customer VALUES (26,'соловьев артем','98№1244410',2);
+INSERT INTO 10_customer VALUES (27,'андреев артем','ad9282476',3);
+INSERT INTO 10_customer VALUES (28,'романов артем','aa7451812',3);
+INSERT INTO 10_customer VALUES (29,'никифоров артем','65№8483243',2);
+INSERT INTO 10_customer VALUES (30,'щербаков артем','79№1970036',2);
+INSERT INTO 10_customer VALUES (31,'кудряшов артем','ad3854672',10);
+INSERT INTO 10_customer VALUES (32,'лазарев богдан','43№4120154',2);
+INSERT INTO 10_customer VALUES (33,'суворов богдан','90№1742921',5);
+INSERT INTO 10_customer VALUES (34,'комарова валерия','ad3497243',3);
+INSERT INTO 10_customer VALUES (35,'громова валерия','27№5315508',2);
+INSERT INTO 10_customer VALUES (36,'максимова вероника','ab7476016',3);
+INSERT INTO 10_customer VALUES (37,'козлова виктория','ad8961448',3);
+INSERT INTO 10_customer VALUES (38,'белова виктория','59№2897177',2);
+INSERT INTO 10_customer VALUES (39,'журавлева виктория','aa5643262',5);
+INSERT INTO 10_customer VALUES (40,'калинина виктория','ab3067686',3);
+INSERT INTO 10_customer VALUES (41,'денисова виктория','ab1770018',13);
+INSERT INTO 10_customer VALUES (42,'селезнева виктория','ac4511634',1);
+INSERT INTO 10_customer VALUES (43,'ковалев владислав','aa1782034',3);
+INSERT INTO 10_customer VALUES (44,'сорокин владислав','49№5373744',13);
+INSERT INTO 10_customer VALUES (45,'блинов владислав','67№6772408',2);
+INSERT INTO 10_customer VALUES (46,'котов владислав','99№8009650',2);
+INSERT INTO 10_customer VALUES (47,'кудрявцев глеб','ab9535840',3);
+INSERT INTO 10_customer VALUES (48,'маслов глеб','80№1860905',2);
+INSERT INTO 10_customer VALUES (49,'семенов даниил','aa5942264',9);
+INSERT INTO 10_customer VALUES (50,'степанов даниил','ab4615963',10);
+INSERT INTO 10_customer VALUES (51,'большаков даниил','21№9599782',17);
+INSERT INTO 10_customer VALUES (52,'гаврилов даниил','68№5664271',2);
+INSERT INTO 10_customer VALUES (53,'кузнецова дарья','86№9922365',2);
+INSERT INTO 10_customer VALUES (54,'богданова дарья','76№2026522',10);
+INSERT INTO 10_customer VALUES (55,'рябова дарья','ad9356819',3);
+INSERT INTO 10_customer VALUES (56,'егорова дарья','75№8086547',15);
+INSERT INTO 10_customer VALUES (57,'ширяева дарья','98№1514880',2);
+INSERT INTO 10_customer VALUES (58,'трофимова дарья','93№9898203',2);
+INSERT INTO 10_customer VALUES (59,'медведев денис','92№2963617',2);
+INSERT INTO 10_customer VALUES (60,'абрамов денис','aa8471971',3);
+INSERT INTO 10_customer VALUES (61,'васильев дмитрий','19№6967686',2);
+INSERT INTO 10_customer VALUES (62,'веселов дмитрий','78№8317525',2);
+INSERT INTO 10_customer VALUES (63,'ершов дмитрий','22№8339470',2);
+INSERT INTO 10_customer VALUES (64,'воронов дмитрий','41№2916991',2);
+INSERT INTO 10_customer VALUES (65,'голубев егор','21№2775505',2);
+INSERT INTO 10_customer VALUES (66,'королев егор','48№7188403',2);
+INSERT INTO 10_customer VALUES (67,'суханов егор','13№2900082',2);
+INSERT INTO 10_customer VALUES (68,'третьяков егор','48№6883471',2);
+INSERT INTO 10_customer VALUES (69,'новиков екатерина','27№7044682',2);
+INSERT INTO 10_customer VALUES (70,'морозов екатерина','42№4883350',2);
+INSERT INTO 10_customer VALUES (71,'алексеев екатерина','aa4328544',3);
+INSERT INTO 10_customer VALUES (72,'петухов екатерина','50№1343871',2);
+INSERT INTO 10_customer VALUES (73,'аксенов екатерина','79№8717035',2);
+INSERT INTO 10_customer VALUES (74,'осипова екатерина','89№5404740',2);
+INSERT INTO 10_customer VALUES (75,'григорьев елизавета','aa6450410',3);
+INSERT INTO 10_customer VALUES (76,'рыбаков елизавета','ab3891074',15);
+INSERT INTO 10_customer VALUES (77,'соболева елизавета','84№6248304',2);
+INSERT INTO 10_customer VALUES (78,'архипова елизавета','16№8158411',2);
+INSERT INTO 10_customer VALUES (79,'смирнова елизавета','ac3375349',8);
+INSERT INTO 10_customer VALUES (80,'воробьева елизавета','38№3816143',2);
+INSERT INTO 10_customer VALUES (81,'никитина захар','ac1798191',3);
+INSERT INTO 10_customer VALUES (82,'федотова захар','79№3180811',2);
+INSERT INTO 10_customer VALUES (83,'александрова иван','ab9387923',18);
+INSERT INTO 10_customer VALUES (84,'мухина иван','ad5544187',3);
+INSERT INTO 10_customer VALUES (85,'виноградов иван','aa7274407',3);
+INSERT INTO 10_customer VALUES (86,'пономарев иван','87№7637548',2);
+INSERT INTO 10_customer VALUES (87,'миронов илья','58№3652968',2);
+INSERT INTO 10_customer VALUES (88,'панов илья','ac4883051',20);
+INSERT INTO 10_customer VALUES (89,'попова кирилл','80№3235038',2);
+INSERT INTO 10_customer VALUES (90,'крылова кирилл','84№4672825',2);
+INSERT INTO 10_customer VALUES (91,'матвеева кирилл','25№3365999',2);
+INSERT INTO 10_customer VALUES (92,'копылова кирилл','ac7806646',20);
+INSERT INTO 10_customer VALUES (93,'кузьмин кристина','96№8103977',2);
+INSERT INTO 10_customer VALUES (94,'власов ксения','ab4659065',3);
+INSERT INTO 10_customer VALUES (95,'соловьев ксения','ad7555216',3);
+INSERT INTO 10_customer VALUES (96,'петров максим','25№7986212',7);
+INSERT INTO 10_customer VALUES (97,'яковлев максим','82№2962359',2);
+INSERT INTO 10_customer VALUES (98,'антонов максим','62№3439470',2);
+INSERT INTO 10_customer VALUES (99,'родионов максим','aa2033212',11);
+INSERT INTO 10_customer VALUES (100,'иванов мария','aa9620015',3);
+INSERT INTO 10_customer VALUES (101,'федоров мария','aa5189094',18);
+INSERT INTO 10_customer VALUES (102,'цветков мария','ad7632606',3);
+INSERT INTO 10_customer VALUES (103,'дорофеев мария','29№7361806',7);
+INSERT INTO 10_customer VALUES (104,'коновалов мария','ab3840516',3);
+INSERT INTO 10_customer VALUES (105,'емельянов мария','ab6541743',7);
+INSERT INTO 10_customer VALUES (106,'павлов михаил','45№5230113',2);
+INSERT INTO 10_customer VALUES (107,'марков михаил','ab1659087',8);
+INSERT INTO 10_customer VALUES (108,'данилов наталия','ab4543479',16);
+INSERT INTO 10_customer VALUES (109,'горшков наталия','43№7487325',2);
+INSERT INTO 10_customer VALUES (110,'морозов никита','ad7187388',14);
+INSERT INTO 10_customer VALUES (111,'алексеев никита','ac5105484',7);
+INSERT INTO 10_customer VALUES (112,'петухов никита','24№5732563',12);
+INSERT INTO 10_customer VALUES (113,'аксенов никита','ac6465250',3);
+INSERT INTO 10_customer VALUES (114,'осипова никита','aa2495671',3);
+INSERT INTO 10_customer VALUES (115,'григорьев никита','99№7778937',8);
+INSERT INTO 10_customer VALUES (116,'рыбаков полина','92№7547357',2);
+INSERT INTO 10_customer VALUES (117,'соболева полина','66№4244463',2);
+INSERT INTO 10_customer VALUES (118,'архипова полина','aa1437228',3);
+INSERT INTO 10_customer VALUES (119,'смирнова полина','ab4892060',3);
+INSERT INTO 10_customer VALUES (120,'воробьева савелий','ad6887177',3);
+INSERT INTO 10_customer VALUES (121,'никитина савелий','77№5398109',18);
+INSERT INTO 10_customer VALUES (122,'федотова софия','ab6940995',3);
+INSERT INTO 10_customer VALUES (123,'александрова софия','40№9687896',2);
+INSERT INTO 10_customer VALUES (124,'мухина софья','19№6080113',11);
+INSERT INTO 10_customer VALUES (125,'виноградов софья','aa4169976',3);
+INSERT INTO 10_customer VALUES (126,'пономарев тимофей','58№6726917',2);
+INSERT INTO 10_customer VALUES (127,'миронов тимофей','ad7736418',3);
+INSERT INTO 10_customer VALUES (128,'панов ульяна','22№3536379',2);
+INSERT INTO 10_customer VALUES (129,'попова ульяна','ab2420762',18);
+INSERT INTO 10_customer VALUES (130,'крылова ульяна','11№3258211',16);
+INSERT INTO 10_customer VALUES (131,'матвеева юлия','ac3768139',20);
+INSERT INTO 10_customer VALUES (132,'копылова юлия','64№3616704',2);
+
+

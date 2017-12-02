@@ -1,0 +1,11 @@
+﻿/*select  count(*) as n from */
+((
+select b.title_book, a.name_author, p.publish from books b join authors a on b.code_author=a.code_author join publishing_house p on b.code_publish=p.code_publish where a.name_author like '%навои%' order by b.code_book
+) EXCEPT (
+select title_book, (select name_author from authors where code_author = books.code_author) as name_author, (select publish from publishing_house where code_publish = books.code_publish) as publish from books 
+)) union ((
+select title_book, (select name_author from authors where code_author = books.code_author) as name_author, (select publish from publishing_house where code_publish = books.code_publish) as publish from books
+) EXCEPT (
+select b.title_book, a.name_author, p.publish from books b join authors a on b.code_author=a.code_author join publishing_house p on b.code_publish=p.code_publish where a.name_author like '%навои%' order by b.code_book
+))
+/*) as res*/

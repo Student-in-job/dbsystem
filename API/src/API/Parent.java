@@ -9,6 +9,6 @@ package API;
  *
  * @author ksinn
  */
-public interface Parent {
+interface Parent {
     
 }

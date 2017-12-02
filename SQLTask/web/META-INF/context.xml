@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/SQLTask">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxAge="10000" name="jdbc/DB" password="qwerty" removeAbandoned="true" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/sql_task_service?useUnicode=true&amp;characterEncoding=UTF-8" username="user"/>
+  <!--<Resource auth="ContainerTuter" driverClassName="com.mysql.jdbc.Driver" maxActive="10" maxAge="10000" name="jdbc/tuter" password="ytRewQ321" removeAbandoned="true" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8" username="tuter"/>
+  <Resource auth="ContainerStudent" driverClassName="com.mysql.jdbc.Driver" maxActive="40" maxAge="1000000" name="jdbc/student" password="ytRewQ321" removeAbandoned="true" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/task?useUnicode=true&amp;characterEncoding=UTF-8" username="student"/>
+  -->
+  <Resource name="jdbc/postgres" auth="Container"
+          type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://localhost:5432/task"
+          username="postgres" password="qwerty" maxActive="20" maxIdle="10" maxWait="-1"/>
+
+  <Environment name="path/log" override="false" type="java.lang.String" value="/var/log/elearning/task-modul.txt"/>
+  <Environment name="path/real" override="false" type="java.lang.String" value="/srv/tomcat8/webapps/task-modul"/>
+</Context>

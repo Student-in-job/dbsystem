@@ -5,9 +5,8 @@
  */
 package api;
 
-import API.AppInf;
-import API.UserJWT;
-import Model.User;
+
+import Entety.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

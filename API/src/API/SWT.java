@@ -5,7 +5,7 @@
  */
 package API;
 
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.codec.digest.HmacUtils;
@@ -18,6 +18,7 @@ import org.apache.commons.codec.digest.HmacUtils;
     protected String Audience; //Кому преднознче
     protected String Issuer;// Автор токена
     protected String Sign;
+    protected String HMACSHA256Key;
     
     protected abstract HashMap<String, String> getData();
     
@@ -39,7 +40,7 @@ import org.apache.commons.codec.digest.HmacUtils;
         }
 
         
-        res += ("&HMACSHA256="+HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, res));
+        res += ("&HMACSHA256="+HmacUtils.hmacMd5Hex(HMACSHA256Key, res));
         
         return res;
     }
@@ -57,7 +58,7 @@ import org.apache.commons.codec.digest.HmacUtils;
             res += "&"+entry.getKey()+"="+entry.getValue();
         }
         
-        return Sign.equals(HmacUtils.hmacMd5Hex(AppInf.HMACSHA256Key, res))&&System.currentTimeMillis()<this.ExpiresOn;
+        return Sign.equals(HmacUtils.hmacMd5Hex(HMACSHA256Key, res))&&System.currentTimeMillis()<this.ExpiresOn;
     }
 
     

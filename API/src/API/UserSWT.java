@@ -45,8 +45,8 @@ public class UserSWT extends SWT{
         this.Id = user.getId();
     }
             
-    public UserSWT(){
-    
+    public UserSWT(String key){
+        this.HMACSHA256Key = key;
     }
     
 }

@@ -47,7 +47,8 @@ public class WorkSWT extends SWT{
         this.Id = work.getUser();
     }
             
-    public WorkSWT(){
+    public WorkSWT(String key){
+        this.HMACSHA256Key = key;
     
     }
     
