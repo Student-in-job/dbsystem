@@ -4,11 +4,14 @@
     Author     : ksinn
 --%>
 
-<%@page import="API.AppInf"%>
+<%@page import="Model.Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    
+    Service serv = new Service();
+    serv.getById(1);
 if(request.getSession().getAttribute("user_id")==null){
-    response.setHeader("Location", AppInf.main);
+    response.setHeader("Location", serv.getURL());
     response.setHeader("Cache-Control", "no-store");
     response.setStatus(301);
 } else {

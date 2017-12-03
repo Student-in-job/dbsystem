@@ -11,9 +11,14 @@ import Entety.Service;
 import Entety.Task;
 import Entety.Study;
 import Entety.Work;
+import com.google.gson.JsonObject;
+import java.security.InvalidKeyException;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.oauth.jsontoken.JsonToken;
+import net.oauth.jsontoken.crypto.HmacSHA256Signer;
+import org.joda.time.Instant;
 
 /**
  *
@@ -34,9 +39,9 @@ public class StartWork extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-        
+
         int idTask = Integer.parseInt(request.getParameter("t"));
         Task task = new Task();
         task.getById(idTask);
@@ -44,16 +49,29 @@ public class StartWork extends HttpServletParent {
         int studyId = Integer.parseInt(request.getParameter("s"));
         Study study = new Study();
         study.getById(studyId);
-        
+
         if (taskService.canStart(study, task)) {
             Work work = taskService.createWork(study, task);
             if (work != null) {
                 if (!work.isCompleated()) {
                     Service service = new Service();
                     service.getById(task.getServiceId());
-                    WorkSWT wt = new WorkSWT(service.getMyKey());                    
-                    wt.putData(work, myURL,  task.getService().getWorkStartPointURL(), new Date().getTime() + 5 * 60 * 1000);
-                    response.setHeader("Location", task.getService().getWorkStartPointURL()+"?" + wt.getURLParam());
+
+                    HmacSHA256Signer signer;
+                    try {
+                        signer = new HmacSHA256Signer(myURL, null, work.getTask().getService().getMyKey().getBytes());
+                    } catch (InvalidKeyException e) {
+                        throw new RuntimeException(e);
+                    }
+                    JsonToken token = new JsonToken(signer);
+                    token.setAudience(work.getTask().getService().getURL());
+                    token.setIssuedAt(Instant.now());
+                    token.setExpiration(Instant.now().plus(60 * 1000));
+                    JsonObject payload = token.getPayloadAsJsonObject();
+
+                    payload.addProperty("work_key", work.getWorkKey());
+
+                    response.setHeader("Location", task.getService().getWorkStartPointURL() + "?t=" + token.serializeAndSign());
                     response.setHeader("Cache-Control", "no-store");
                     response.setStatus(301);
                 } else {
@@ -65,9 +83,9 @@ public class StartWork extends HttpServletParent {
                 request.getRequestDispatcher("/Message.jsp").forward(request, response);
             }
         } else {
-                request.setAttribute("message", "You cannot start this component!");
-                request.getRequestDispatcher("/Message.jsp").forward(request, response);
-            }
+            request.setAttribute("message", "You cannot start this component!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
+        }
 
     }
 

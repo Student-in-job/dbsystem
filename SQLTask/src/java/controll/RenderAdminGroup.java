@@ -6,6 +6,8 @@
 package controll;
 
 import Model.TaskList;
+import Struct.List;
+import static Struct.TasKer.getListFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,39 +18,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RenderAdminGroup extends MyServlet {
 
-
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-            int group;
-            TaskList task_group = new TaskList();
+        int group = Integer.parseInt(request.getParameter("group"));
+        List list = getListFactory().createById(group);
 
-                group = Integer.parseInt(request.getParameter("group"));
-                task_group.getById(group);
-            
-            
-            if(user_id==task_group.getUser()){
-                
-                request.setAttribute("group", task_group);
-                request.setAttribute("tasks", task_group.getTasks());
-                request.getRequestDispatcher("Group.jsp").forward(request, response);
-            } else 
-                throw new ServletException("You are not owner this work");
-       
+        if (user_id == list.getUserId()) {
+
+            request.setAttribute("group", list);
+            request.setAttribute("tasks", list.getTasks());
+            request.getRequestDispatcher("Group.jsp").forward(request, response);
+        } else {
+            throw new ServletException("You are not owner this work");
+        }
+
     }
 
-    
-    
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
-        
+
     }
 
-   
-    
     @Override
     protected int PrivateMod() {
         return MyServlet.OnlyForAuthorized;

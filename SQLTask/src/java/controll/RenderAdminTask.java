@@ -9,7 +9,6 @@ import Model.Result;
 import Model.StudentConnect;
 import Model.Task;
 import java.util.ArrayList;
-import javafx.scene.text.Text;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

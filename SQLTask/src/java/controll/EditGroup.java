@@ -6,8 +6,8 @@
 package controll;
 
 
-
-import Model.TaskList;
+import Struct.List;
+import static Struct.TasKer.getListFactory;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,78 +19,54 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class EditGroup extends MyServlet {
 
-
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            int group;
-            TaskList new_group = new TaskList();
-            
-            try{
-                group = Integer.parseInt(request.getParameter("group"));
-                new_group.getById(group);
-            } catch (Exception ex){
-                throw new ServletException(ex);
-            }
-            
-            if(user_id==new_group.getUser()){
 
-                request.setAttribute("group", new_group);
-                request.getRequestDispatcher("Group.jsp").forward(request, response);
-            } else {
-                request.setAttribute("message", "You cannot edit this group!");
-                request.getRequestDispatcher("/Message.jsp").forward(request, response);
-            }
-        
+        int group;
+        List list;
+        try {
+            group = Integer.parseInt(request.getParameter("group"));
+            list = getListFactory().createById(group);
+        } catch (Exception ex) {
+            throw new ServletException(ex);
+        }
+
+        if (user_id == list.getUserId()) {
+            request.setAttribute("group", list);
+            request.getRequestDispatcher("Group.jsp").forward(request, response);
+        } else {
+            request.setAttribute("message", "You cannot edit this group!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
+        }
+
     }
 
-    
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        
-        
-            int group;
-            TaskList new_group = new TaskList();
-            
-            try{
-                group = Integer.parseInt(request.getParameter("group"));
-                new_group.getById(group);
-            } catch (Exception ex){
-                throw new ServletException(ex);
-            }
-            
-            if(user_id==new_group.getUser()){
+            throws ServletException, IOException, Exception {
 
-                new_group.setName(request.getParameter("name"));
-                new_group.setPublish("true".equals(request.getParameter("publish")));
-
-                boolean res;
-                try{
-                    res = new_group.Update(user_id);
-
-                    if(res){
-                        response.sendRedirect(request.getServletContext().getContextPath()+"/owner/Group?group="+new_group.getId()); 
-                        return;
-                    } else {
-                        request.setAttribute("group", new_group);
-                        request.getRequestDispatcher("Group.jsp").forward(request, response);
-                        return;
-                    }
-                } catch(Exception ex){
-                    throw new ServletException(ex);
+        int group = Integer.parseInt(request.getParameter("group"));
+        List list = getListFactory().createById(group);
+        if (user_id == list.getUserId()) {
+            list = getListFactory().create(request, list);
+            try {
+                if (list.update()) {
+                    response.sendRedirect(request.getServletContext().getContextPath() + "/owner/Group?group=" + list.getId());
+                } else {
+                    request.setAttribute("group", list);
+                    request.getRequestDispatcher("Group.jsp").forward(request, response);
                 }
-            } else {
-                request.setAttribute("message", "You cannot edit this group!");
-                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            } catch (Exception ex) {
+                throw ex;
             }
-        
+        } else {
+            request.setAttribute("message", "You cannot edit this group!");
+            request.getRequestDispatcher("/Message.jsp").forward(request, response);
+        }
+
     }
 
-    
     @Override
     protected int PrivateMod() {
         return MyServlet.OnlyForAuthorized;

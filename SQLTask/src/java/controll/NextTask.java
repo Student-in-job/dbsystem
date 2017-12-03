@@ -2,6 +2,7 @@ package controll;
 
 import Model.Result;
 import Model.Work;
+import Struct.d.Examinator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +14,20 @@ public class NextTask extends MyServlet {
             throws Exception {
             
         
-            Work work = new Work();
+        //Examinator exam = (Examinator) request.getSession().getAttribute("examinator");
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        Work work = new Work();
             boolean mark = false;
             Integer work_id = (Integer) request.getSession().getAttribute("work_id");
             /*if(work_id==null){

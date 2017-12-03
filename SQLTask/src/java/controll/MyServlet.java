@@ -5,7 +5,7 @@
  */
 package controll;
 
-
+import Struct.TasKer;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public abstract class MyServlet extends HttpServlet {
+public abstract class MyServlet extends HttpServlet implements TasKer{
 
     abstract protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception;
     abstract protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -28,8 +28,13 @@ public abstract class MyServlet extends HttpServlet {
     
     protected int user_id;
     
-    private void Chose(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+    
+    public String extractURL(HttpServletRequest request){
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
         
+    
+    private void Chose(HttpServletRequest request, HttpServletResponse response) throws ServletException{
         try{
             if(request.getSession().getAttribute("user_id")!=null)
                 this.user_id = (int) request.getSession().getAttribute("user_id");

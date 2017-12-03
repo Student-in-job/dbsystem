@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.naming.NamingException;
 
 /**
  *
@@ -45,7 +46,7 @@ public class StudentConnect extends DBConnect {
 
     }
 
-    public boolean exequtQuery(String query) throws Exception {
+    public boolean exequtQuery(String query) throws NamingException, SQLException {
         boolean res = false;
 
         query = query.replaceAll(";", "").toLowerCase();

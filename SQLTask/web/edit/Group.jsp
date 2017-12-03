@@ -38,6 +38,11 @@
                     </div>
                     
                     <div class="form-item">
+                        <label>Schema:</label>
+                        <input class="width-100" type="text" id="input" required name="schema" value="${group.schema}">
+                    </div>
+                    
+                    <div class="form-item">
                         <input type="checkbox" name="publish">public
                     </div>
                     

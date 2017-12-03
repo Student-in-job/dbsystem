@@ -39,6 +39,7 @@
     </head>
     <body>
         ${error}
+        ${task.exception}
         <%@include file="/header.jsp"%>
 
         <div class="row centered registration">
