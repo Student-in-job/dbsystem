@@ -5,11 +5,11 @@
  */
 package My;
 
-import Struct.ErrorParameterException;
-import Struct.List;
-import Struct.ListFactory;
-import Struct.TaskFactory;
-import Struct.Task;
+import TasKer.Core.ErrorParameterException;
+import TasKer.Tasks.List;
+import TasKer.Tasks.ListFactory;
+import TasKer.Tasks.TaskFactory;
+import TasKer.Tasks.Task;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +43,7 @@ public class SQLTaskFactory implements TaskFactory {
         }
         String[] questionAr = request_params.get("question");
         String[] answerAr = request_params.get("answer");
-        String[] listIdAr = request_params.get("group");
+        String[] listIdAr = request_params.get("list");
 
         ErrorParameterException exp = null;
         if (questionAr != null) {

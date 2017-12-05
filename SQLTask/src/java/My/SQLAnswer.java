@@ -5,8 +5,8 @@
  */
 package My;
 
-import Impl.SimpleAnswer;
-import Struct.Task;
+import TasKer.Exam.Impl.SimpleAnswer;
+import TasKer.Tasks.Task;
 
 /**
  *
@@ -15,7 +15,6 @@ import Struct.Task;
 public class SQLAnswer extends SimpleAnswer{
     
     protected String query;
-    protected SQLTask task;
             
     public String getQuery(){
         return query;
@@ -28,6 +27,11 @@ public class SQLAnswer extends SimpleAnswer{
     
     public void setQuery(String query){
         this.query = query;
+    }   
+    
+    @Override
+    public String toString(){
+        return query; 
     }
     
 }

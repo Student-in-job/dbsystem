@@ -5,8 +5,8 @@
  */
 package My;
 
-import Struct.d.Answer;
-import Struct.d.AnswerFactory;
+import TasKer.Exam.Answer;
+import TasKer.Exam.AnswerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -18,8 +18,13 @@ public class SQLAnswerFactory implements AnswerFactory{
     @Override
     public Answer create(HttpServletRequest request) {
         SQLAnswer answer = new SQLAnswer(); 
-        answer.setQuery(request.getParameter("answer"));
+        answer.setQuery(request.getParameter("answer")==null?"":request.getParameter("answer"));
         return answer;
+    }
+
+    @Override
+    public Answer create() {
+        return new SQLAnswer(); 
     }
     
 }

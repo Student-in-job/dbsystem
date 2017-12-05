@@ -1,0 +1,46 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>${pageTitle}</title>
+        <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="shortcut icon" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
+        <!-- Kube CSS -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube.min.css">
+
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube-ext.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/master.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flipclock.css">
+
+    </head>
+    <body>
+        <div class="message">${oneTimeMessage}</div>
+        <div class="row around">
+            <div class="col col-3 space-top">
+            </div>
+            <div class="col col-3 text-center">
+                <a href="${pageContext.request.contextPath}/main"><div class="item centered logo"></div></a>
+                <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/resources/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
+            </div>                
+            <div class="col col-3">
+                
+            </div>          
+        </div>
+        <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
+        <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/kube.min.js"></script>
+        <script>
+                    function openNav() {
+                        document.getElementById("sidenav").style.width = "100%";
+                    }
+
+                    function closeNav() {
+                        document.getElementById("sidenav").style.width = "0";
+                    }
+        </script>  

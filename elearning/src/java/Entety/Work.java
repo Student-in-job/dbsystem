@@ -14,7 +14,7 @@ import java.util.UUID;
  *
  * @author ksinn
  */
-public class Work extends Parent implements API.Work {
+public class Work extends Parent {
 
     private Date CreateDate;
     private Study Study;
@@ -122,15 +122,9 @@ public class Work extends Parent implements API.Work {
     @Override
     public boolean MayChange() {
         return false;
-    }
-
-    @Override
-    public String getWorkKey() {
+    }public String getWorkKey() {
         return WORK_KEY.toString();
-    }
-
-    @Override
-    public int getUser() {
+    }public int getUser() {
         return this.Study.getUser().getId();
     }
 
@@ -152,17 +146,9 @@ public class Work extends Parent implements API.Work {
 
     public long getLiveTime() {
         return Task.getTime() * 60 * 1000;
-    }
-
-    @Override
-    public void setWorkKey(String data) {
+    }public void setWorkKey(String data) {
         this._from_db = false;
         WORK_KEY = UUID.fromString(data);
-    }
-
-    @Override
-    public void setUser(int data) {
-
     }
 
     public boolean putMark(int parseInt) throws Exception {

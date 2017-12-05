@@ -9,7 +9,7 @@ import javax.naming.NamingException;
  *
  * @author ksinn
  */
-public class User extends Parent implements API.User {
+public class User extends Parent {
 
     protected String Mail;
     protected String Name;
@@ -81,7 +81,6 @@ public class User extends Parent implements API.User {
         return this._isCorrect();
     }
 
-    @Override
     public String getMail() {
         return Mail;
     }
@@ -90,12 +89,10 @@ public class User extends Parent implements API.User {
         return this.Logined;
     }
 
-    @Override
     public String getName() {
         return this.Name;
     }
 
-    @Override
     public String getSurname() {
         return this.Surname;
     }
@@ -105,23 +102,19 @@ public class User extends Parent implements API.User {
         return this.ID;
     }
 
-    @Override
     public void setId(int data) {
     }
 
-    @Override
     public void setMail(String data) {
         this._from_db = false;
         this.Mail = data;
     }
 
-    @Override
     public void setName(String data) {
         this._from_db = false;
         this.Name = data;
     }
 
-    @Override
     public void setSurname(String data) {
         this._from_db = false;
         this.Surname = data;

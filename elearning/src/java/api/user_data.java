@@ -28,8 +28,10 @@ public class user_data extends HttpServlet {
         try {
             User user = new User();
             user.getById(Integer.parseInt(request.getParameter("id")));
-            UserJWT wt = new UserJWT();
-            String res = wt.getJson(user, AppInf.main);
+            
+            vdfvdgbgb
+                    
+                    
             PrintWriter out = response.getWriter();
             out.write(res);
         } catch (Exception ex) {

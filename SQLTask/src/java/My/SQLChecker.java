@@ -5,13 +5,13 @@
  */
 package My;
 
-import Model.TaskConnection;
-import Model.UserSQLException;
-import Struct.d.Answer;
-import Struct.d.CheckedAnswer;
-import Struct.d.Checker;
-import Struct.d.InvalidAnswer;
-import Struct.d.InvalidTask;
+import TasKer.Core.TaskConnection;
+import TasKer.Core.UserSQLException;
+import TasKer.Exam.Answer;
+import TasKer.Exam.CheckedAnswer;
+import TasKer.Exam.Checker;
+import TasKer.Core.InvalidAnswer;
+import TasKer.Core.InvalidTask;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.naming.NamingException;

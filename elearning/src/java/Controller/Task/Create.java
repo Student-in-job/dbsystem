@@ -5,15 +5,18 @@
  */
 package Controller.Task;
 
-import API.UserSWT;
 import Controller.HttpServletParent;
 import Entety.Service;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.oauth.jsontoken.JsonToken;
+import net.oauth.jsontoken.crypto.HmacSHA256Signer;
+import org.joda.time.Instant;
 
 /**
  *
@@ -36,11 +39,20 @@ public class Create extends HttpServletParent {
 
         try {
             String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
             Service service = new Service();
             service.getById(1);
-            UserSWT wt = new UserSWT(service.getMyKey());
-            wt.putData(user, myURL, service.getEnterStartPointURL(), System.currentTimeMillis() + 5 * 60 * 1000);
-            response.setHeader("Location", service.getEnterStartPointURL() + "?" + wt.getURLParam());
+
+            HmacSHA256Signer signer;
+                signer = new HmacSHA256Signer(myURL, null, service.getMyKey().getBytes());
+            JsonToken token = new JsonToken(signer);
+            token.setAudience(service.getURL());
+            token.setIssuedAt(Instant.now());
+            token.setExpiration(Instant.now().plus(60 * 1000));
+            JsonObject payload = token.getPayloadAsJsonObject();
+
+            payload.addProperty("user_id", user.getId());
+            response.setHeader("Location", service.getEnterStartPointURL() + "?t=" + token.serializeAndSign());
             response.setHeader("Cache-Control", "no-store");
             response.setStatus(301);
         } catch (Exception ex) {
@@ -72,6 +84,4 @@ public class Create extends HttpServletParent {
      *
      * @return a String containing servlet description
      */
-
-
 }

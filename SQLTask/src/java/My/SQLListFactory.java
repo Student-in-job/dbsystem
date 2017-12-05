@@ -5,9 +5,9 @@
  */
 package My;
 
-import Struct.ListFactory;
-import Struct.ErrorParameterException;
-import Struct.List;
+import TasKer.Core.ErrorParameterException;
+import TasKer.Tasks.ListFactory;
+import TasKer.Tasks.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +27,7 @@ public class SQLListFactory implements ListFactory{
         String schema = null;
         int user_id = 0;
         String name = request_params.getOrDefault("name", new String[]{"unnamed"})[0];
-        String publish = request_params.getOrDefault("publish", new String[]{"0"})[0];
+        String publish = request_params.getOrDefault("public", new String[]{"0"})[0];
         String[] schemaAr = request_params.get("schema");
         
 
@@ -80,10 +80,10 @@ public class SQLListFactory implements ListFactory{
 
         String schema = request_params.getOrDefault("schema", new String[]{list.getSchema()})[0];
         String name = request_params.getOrDefault("name", new String[]{list.getName()})[0];
-        String publish = request_params.getOrDefault("publish", new String[]{list.isPublish()?"1":"0"})[0];
+        String publish = request_params.getOrDefault("public", new String[]{list.isPublic()?"1":"0"})[0];
 
         list.setName(name);
-        list.setPublish("1".equals(publish));
+        list.setPublish("on".equals(publish));
         return list;
     }
 

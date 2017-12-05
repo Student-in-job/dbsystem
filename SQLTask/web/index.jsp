@@ -4,7 +4,7 @@
     Author     : ksinn
 --%>
 
-<%@page import="Model.Service"%>
+<%@page import="TasKer.Tasks.Impl.Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
@@ -15,6 +15,6 @@ if(request.getSession().getAttribute("user_id")==null){
     response.setHeader("Cache-Control", "no-store");
     response.setStatus(301);
 } else {
-    response.sendRedirect("main");
+    response.sendRedirect("cabinet");
 }
 %>

@@ -5,7 +5,6 @@
  */
 package Controller.Task;
 
-import API.WorkSWT;
 import Controller.HttpServletParent;
 import Entety.Service;
 import Entety.Task;
@@ -13,7 +12,6 @@ import Entety.Study;
 import Entety.Work;
 import com.google.gson.JsonObject;
 import java.security.InvalidKeyException;
-import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.oauth.jsontoken.JsonToken;
@@ -76,15 +74,15 @@ public class StartWork extends HttpServletParent {
                     response.setStatus(301);
                 } else {
                     request.setAttribute("message", "You already do this task today!");
-                    request.getRequestDispatcher("/Message.jsp").forward(request, response);
+                    request.getRequestDispatcher("/message.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("message", "Error!");
-                request.getRequestDispatcher("/Message.jsp").forward(request, response);
+                request.getRequestDispatcher("/message.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("message", "You cannot start this component!");
-            request.getRequestDispatcher("/Message.jsp").forward(request, response);
+            request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
 
     }

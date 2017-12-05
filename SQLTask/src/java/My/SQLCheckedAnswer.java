@@ -5,8 +5,8 @@
  */
 package My;
 
-import Impl.SimpleCheckedAnswer;
-import Struct.d.Answer;
+import TasKer.Exam.Impl.SimpleCheckedAnswer;
+import TasKer.Exam.Answer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

@@ -9,8 +9,10 @@
 <%@page import="Entety.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-        User user = (User) request.getSession().getAttribute("user");
-        if(user == null)
-            throw new Exception("This page only for avtorized user.");
+    User user = (User) request.getSession().getAttribute("user");
+    if (user == null) {
+        response.sendRedirect(request.getContextPath() + "/user/signIn");
+        return;
+    };
 
 %>

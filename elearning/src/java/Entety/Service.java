@@ -29,10 +29,10 @@ import net.oauth.jsontoken.discovery.VerifierProviders;
  */
 public class Service extends Parent {
 
-    private static String WorkStartPoint = "/pass/Start";
+    private static String WorkStartPoint = "/exam/start";
     private static String AuthStartPoint = "/enter";
     private static String TaskListAPI = "/api/task/list";
-    
+
     private String Name;
     private String URL;
     private String MyKey;
@@ -99,42 +99,45 @@ public class Service extends Parent {
     public void getById(int id) throws Exception {
         if (id > 0) {
             this.ID = id;
-            this._select();            
+            this._select();
         } else {
             throw new Exception("Invalid input data for teaching with id=" + id);
         }
     }
-    
-    public String getWorkStartPointURL(){
+
+    public String getWorkStartPointURL() {
         return this.URL + WorkStartPoint;
     }
-    
-    public String getEnterStartPointURL(){
+
+    public String getEnterStartPointURL() {
         return this.URL + AuthStartPoint;
     }
-    
-    public Map getTaskList(User user) throws Exception{
-                HTTPClient client = new HTTPClient(this.getTaskListURL(), "user=" + user.getId(), "POST");
 
-                client.sendRequest();
+    public Map getTaskList(User user) throws Exception {
+        HTTPClient client = new HTTPClient(this.getTaskListURL(), "user=" + user.getId(), "POST");
 
-                //WorkJWT tok = new WorkJWT();
-                JsonToken token = pars(client.getRequestText());
-                if(token.getExpiration().getMillis()>System.currentTimeMillis()){
-                    String strMap =  token.getParamAsPrimitive("list").getAsString().replaceAll("\\{|\\}", "");
-                    Map<String, String> task = Splitter.on(",").withKeyValueSeparator("=").split(strMap);
-                    return task;
-                } else {
-                    throw new Exception("Bad token");
-                }
-                    
+        client.sendRequest();
+
+        //WorkJWT tok = new WorkJWT();
+        JsonToken token = pars(client.getRequestText());
+        if (token.getExpiration().getMillis() > System.currentTimeMillis()) {
+            if (token.getParamAsPrimitive("status").getAsInt() == 200) {
+                String strMap = token.getParamAsPrimitive("list").getAsString().replaceAll("\\{|\\}", "");
+                Map<String, String> task = Splitter.on(",").withKeyValueSeparator("=").split(strMap);
+                return task;
+            } else {
+                throw new Exception("You have not avaibel task list");
+            }
+        } else {
+            throw new Exception("Bad token");
+        }
+
     }
 
     private String getTaskListURL() {
         return this.URL + TaskListAPI;
     }
-    
-    
+
     private JsonToken pars(String token) {
         try {
             final Verifier hmacVerifier = new HmacSHA256Verifier(this.ServiceKey.getBytes());

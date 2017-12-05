@@ -5,8 +5,9 @@
  */
 package My;
 
-import Impl.TaskEntety;
-import Model.StudentConnect;
+import TasKer.Core.TaskConnection;
+import TasKer.Core.UserSQLException;
+import TasKer.Tasks.TaskEntety;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,26 +87,22 @@ public class SQLTask extends TaskEntety {
     @Override
     public boolean valid() throws Exception {
         execute();
-        if (this.exception != null)
+        if (this.exception != null) {
             return false;
-        if (this.executeResult.size() == 0)
+        }
+        if (this.executeResult.size() == 0) {
             return false;
+        }
         return true;
     }
 
     public void execute() throws NamingException, SQLException {
-        StudentConnect conn = null;
+        TaskConnection conn = null;
+        conn = new TaskConnection(((SQLTaskList) this.list).getSchema());
         try {
-            conn = new StudentConnect(((SQLTaskList) this.list).getSchema());
-            if (conn.exequtQuery(this.answer)) {
-                this.executeResult = conn.getResultArray();
-            } else {
-                this.exception = conn.getException();
-            }
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
+            this.executeResult = conn.exequtQuery(this.answer);
+        } catch (UserSQLException ex) {
+            this.exception = ex;
         }
     }
 
