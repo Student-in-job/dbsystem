@@ -12,12 +12,15 @@ import TasKer.Exam.ExamTasksGenerator;
 import TasKer.Exam.Result;
 import java.util.ArrayList;
 import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
 public class StupedExamTasksGenerator implements ExamTasksGenerator {
+
+    private static final Logger log = Logger.getLogger(StupedExamTasksGenerator.class.getName());
 
     @Override
     public ArrayList generate(Work work, List list, int count) {

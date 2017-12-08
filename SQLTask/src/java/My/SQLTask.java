@@ -12,12 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.naming.NamingException;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
 public class SQLTask extends TaskEntety {
+
+    private static final Logger log = Logger.getLogger(SQLTask.class.getName());
 
     protected String answer;
     protected String question;
@@ -37,10 +40,15 @@ public class SQLTask extends TaskEntety {
 
     @Override
     protected void _setParams(HashMap<String, Object> list) throws Exception {
-        super._setParams(list);
-        this.question = (String) list.get("question");
-        this.answer = (String) list.get("answer");
-        this.img = (String) list.get("img");
+        try {
+            super._setParams(list);
+            this.question = (String) list.get("question");
+            this.answer = (String) list.get("answer");
+            this.img = (String) list.get("img");
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -86,23 +94,33 @@ public class SQLTask extends TaskEntety {
 
     @Override
     public boolean valid() throws Exception {
-        execute();
-        if (this.exception != null) {
-            return false;
+        try {
+            execute();
+            if (this.exception != null) {
+                return false;
+            }
+            if (this.executeResult.size() == 0) {
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
-        if (this.executeResult.size() == 0) {
-            return false;
-        }
-        return true;
     }
 
     public void execute() throws NamingException, SQLException {
-        TaskConnection conn = null;
-        conn = new TaskConnection(((SQLTaskList) this.list).getSchema());
         try {
-            this.executeResult = conn.exequtQuery(this.answer);
-        } catch (UserSQLException ex) {
-            this.exception = ex;
+            TaskConnection conn = null;
+            conn = new TaskConnection(((SQLTaskList) this.list).getSchema());
+            try {
+                this.executeResult = conn.exequtQuery(this.answer);
+            } catch (UserSQLException ex) {
+                this.exception = ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
     }
 

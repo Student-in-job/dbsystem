@@ -6,7 +6,8 @@
 package TasKer.Work.Impl;
 
 import TasKer.Core.DBEntety;
-import static TasKer.Core.TasKer.getListFactory;
+import static TasKer.TasKer.getListFactory;
+import TasKer.Exam.Impl.ResultEntety;
 import TasKer.Tasks.List;
 import TasKer.Exam.Result;
 import TasKer.Work.Work;
@@ -25,7 +26,6 @@ public class WorkEntety extends DBEntety implements Work {
     protected int listId;
     protected List list;
     protected int count;
-    protected ArrayList<Result> accepts;
     private int mark;
 
     @Override
@@ -57,10 +57,6 @@ public class WorkEntety extends DBEntety implements Work {
         return userId != 0
                 && listId != 0
                 && count != 0;
-    }
-        
-    {
-        this.accepts = new ArrayList<Result>();
     }
 
     public WorkEntety() {
@@ -151,6 +147,28 @@ public class WorkEntety extends DBEntety implements Work {
     @Override
     public void setMark(int mark) {
         this.mark = mark;
+    }
+    
+    public int getCountWrong() throws Exception{
+        
+        Result result = new ResultEntety();
+        ArrayList<Result> results = result.getResultsByWork(_id);
+        int count = 0;
+        for(int i=0; i<results.size(); i++)
+            if(results.get(i).getMark()<=0)
+                count++;
+        return count;
+    }
+    
+    public int getCountAccepted() throws Exception{
+        
+        Result result = new ResultEntety();
+        ArrayList<Result> results = result.getResultsByWork(_id);
+        int count = 0;
+        for(int i=0; i<results.size(); i++)
+            if(results.get(i).getMark()>0)
+                count++;
+        return count;
     }
 
 }

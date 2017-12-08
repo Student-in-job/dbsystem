@@ -6,7 +6,7 @@
 package TasKer.Web.Exam;
 
 import TasKer.Exam.Examinator;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,11 +14,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Next extends MyServlet {
+public class Next extends TasKerServlet {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Examinator exam = (Examinator) request.getSession().getAttribute("examinator");
+        if (exam == null) {
+            throw new Exception("null exam");
+        }
         if (exam.next()) {
             response.sendRedirect(request.getContextPath() + "/exam/do");
         } else {
@@ -32,7 +35,7 @@ public class Next extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.ForAll;
+        return TasKerServlet.ForAll;
     }
 
 }

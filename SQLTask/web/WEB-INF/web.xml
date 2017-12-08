@@ -32,6 +32,10 @@
     <!--
         init
     -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/log4j.properties</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
@@ -96,10 +100,6 @@
         <servlet-name>finishExam</servlet-name>
         <servlet-class>TasKer.Web.Exam.FinishExam</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>examTimer</servlet-name>
-        <servlet-class>TasKer.Web.Exam.Timer</servlet-class>
-    </servlet>
     <!--
         api
     -->
@@ -160,10 +160,6 @@
     <servlet-mapping>
         <servlet-name>finishExam</servlet-name>
         <url-pattern>/exam/finish</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>examTimer</servlet-name>
-        <url-pattern>/exam/timer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>cabinet</servlet-name>

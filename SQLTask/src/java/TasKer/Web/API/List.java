@@ -7,9 +7,9 @@ package TasKer.Web.API;
 
 import TasKer.Tasks.Impl.Service;
 import TasKer.Core.JWTHelper;
-import static TasKer.Core.TasKer.getListFactory;
+import static TasKer.TasKer.getListFactory;
 import com.google.gson.JsonObject;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import net.oauth.jsontoken.JsonToken;
  *
  * @author ksinn
  */
-public class List extends MyServlet {
+public class List extends TasKerServlet {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -63,7 +63,7 @@ public class List extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.ForAll;
+        return TasKerServlet.ForAll;
     }
 
 }

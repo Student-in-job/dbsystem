@@ -17,4 +17,9 @@ public class UserSQLException extends SQLException{
         super(ex);
     }
     
+    @Override
+    public String getMessage(){
+        return super.getMessage().replaceAll("org.postgresql.util.PSQLException: ", "");
+    }
+    
 }

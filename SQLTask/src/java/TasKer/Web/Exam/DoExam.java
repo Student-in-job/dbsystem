@@ -1,14 +1,15 @@
 package TasKer.Web.Exam;
 
-import static TasKer.Core.TasKer.getAnswerFactory;
+import TasKer.Core.EndOfExamTasks;
+import static TasKer.TasKer.getAnswerFactory;
 import TasKer.Exam.Answer;
 import TasKer.Exam.CheckedAnswer;
 import TasKer.Exam.Examinator;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DoExam extends MyServlet {
+public class DoExam extends TasKerServlet {
 
     private static final String view = "do.jsp";
 
@@ -17,11 +18,17 @@ public class DoExam extends MyServlet {
             throws Exception {
 
         Examinator exam = (Examinator) request.getSession().getAttribute("examinator");
-        if(exam==null) throw new Exception("error session");
-        Answer answer = getAnswerFactory().create();
-        answer.setTask(exam.currentTask());
-        request.setAttribute("answer", answer);
-        request.getRequestDispatcher(view).forward(request, response);
+        if (exam == null) {
+            throw new Exception("null exam");
+        }
+        try {
+            Answer answer = getAnswerFactory().create();
+            answer.setTask(exam.currentTask());
+            request.setAttribute("answer", answer);
+            request.getRequestDispatcher(view).forward(request, response);
+        } catch (EndOfExamTasks ex) {
+            response.sendRedirect(request.getContextPath() + "/exam/finish");
+        }
 
     }
 
@@ -50,7 +57,7 @@ public class DoExam extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.ForAll;// OnlyForAuthorized;
+        return TasKerServlet.ForAll;// OnlyForAuthorized;
     }
 
 }

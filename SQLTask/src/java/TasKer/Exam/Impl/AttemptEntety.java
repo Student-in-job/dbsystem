@@ -8,36 +8,44 @@ package TasKer.Exam.Impl;
 import TasKer.Core.DBEntety;
 import TasKer.Exam.Attempt;
 import java.util.HashMap;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
-public class AttemptEntety extends DBEntety implements Attempt{
-    
+public class AttemptEntety extends DBEntety implements Attempt {
+
+    private static final Logger log = Logger.getLogger(AttemptEntety.class.getName());
+
     public static int ACCEPT = 1;
 
     protected int workId;
     protected int taskId;
     protected int flag;
-    protected String answer;    
-    
+    protected String answer;
+
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
         list.put("work_id", this.workId);
-        list.put("task_id", this.taskId); 
-        list.put("answer", this.answer); 
+        list.put("task_id", this.taskId);
+        list.put("answer", this.answer);
         list.put("flag", this.flag);
         return list;
     }
 
     @Override
     protected void _setParams(HashMap<String, Object> list) throws Exception {
-        this.workId = (int) list.get("work_id");
-        this.taskId = (int) list.get("task_id");      
-        this.answer = (String) list.get("answer");
-        this.flag = (int) list.get("flag");
+        try {
+            this.workId = (int) list.get("work_id");
+            this.taskId = (int) list.get("task_id");
+            this.answer = (String) list.get("answer");
+            this.flag = (int) list.get("flag");
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -52,13 +60,23 @@ public class AttemptEntety extends DBEntety implements Attempt{
 
     @Override
     public boolean save() throws Exception {
-        return this._insert();
+        try {
+            return this._insert();
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
     public void getById(int id) throws Exception {
-        this._id = id;
-        this._select();
+        try {
+            this._id = id;
+            this._select();
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -80,7 +98,6 @@ public class AttemptEntety extends DBEntety implements Attempt{
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-    
 
     @Override
     public int getWorkId() {

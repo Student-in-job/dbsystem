@@ -8,12 +8,15 @@ package TasKer.Exam.Impl;
 
 import TasKer.Exam.Answer;
 import TasKer.Tasks.Task;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
 public abstract class SimpleAnswer implements Answer{
+
+    private static final Logger log = Logger.getLogger(SimpleAnswer.class.getName());
     
     protected Task task;
         

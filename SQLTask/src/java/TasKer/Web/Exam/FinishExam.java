@@ -4,14 +4,14 @@ import API.HTTPClient;
 import TasKer.Tasks.Impl.Service;
 import TasKer.Core.JWTHelper;
 import TasKer.Exam.Examinator;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import TasKer.Work.Work;
 import com.google.gson.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.oauth.jsontoken.JsonToken;
 
-public class FinishExam extends MyServlet {
+public class FinishExam extends TasKerServlet {
 
     private static final String view = "finish.jsp";
 
@@ -25,7 +25,7 @@ public class FinishExam extends MyServlet {
         Examinator exam = (Examinator) request.getSession().getAttribute("examinator");
         request.getSession().invalidate();
         if (exam == null) {
-            throw new Exception("error session");
+            throw new Exception("null exam");
         }
         Work work = exam.finishExam();
 
@@ -42,8 +42,8 @@ public class FinishExam extends MyServlet {
                 error = "";
             }
         }
-        request.setAttribute("oneTimeError", error);
-        request.setAttribute("work", work);
+        request.setAttribute("oneTimeError", "");
+        request.getSession().setAttribute("work", work);
         request.getRequestDispatcher(view).forward(request, response);
     }
 
@@ -54,6 +54,6 @@ public class FinishExam extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.ForAll;//OnlyForAuthorized;
+        return TasKerServlet.ForAll;//OnlyForAuthorized;
     }
 }

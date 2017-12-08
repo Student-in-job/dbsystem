@@ -5,10 +5,12 @@
  */
 package My;
 
+import TasKer.Core.UserSQLException;
 import TasKer.Exam.Impl.SimpleCheckedAnswer;
 import TasKer.Exam.Answer;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -16,8 +18,10 @@ import java.util.ArrayList;
  * @author ksinn
  */
 public class SQLCheckedAnswer extends SimpleCheckedAnswer{
+    
+    private static final Logger log = Logger.getLogger(SQLCheckedAnswer.class.getName());
 
-    private SQLException exception;
+    private UserSQLException exception;
     private ArrayList resultArray;
 
     public SQLCheckedAnswer(boolean accept, Answer answer) {
@@ -41,7 +45,7 @@ public class SQLCheckedAnswer extends SimpleCheckedAnswer{
     }
         
     
-    public void setException(SQLException ex){
+    public void setException(UserSQLException ex){
         this.exception = ex;
     }
     

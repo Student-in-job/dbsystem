@@ -5,8 +5,8 @@
  */
 package TasKer.Exam.Impl;
 
-import static TasKer.Core.TasKer.getChecker;
-import static TasKer.Core.TasKer.getExamTasksGenerator;
+import static TasKer.TasKer.getChecker;
+import static TasKer.TasKer.getExamTasksGenerator;
 import TasKer.Tasks.Task;
 import TasKer.Work.Work;
 import TasKer.Core.InvalidAnswer;
@@ -17,6 +17,9 @@ import TasKer.Exam.Examinator;
 import TasKer.Exam.Result;
 import java.util.ArrayList;
 import java.util.Iterator;
+import TasKer.Core.EndOfExamTasks;
+import TasKer.TasKer;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -24,7 +27,7 @@ import java.util.Iterator;
  */
 public class SimpleExamenator implements Examinator {
 
-    private boolean SAVE_ATTEMPT = false;
+    private static final Logger log = Logger.getLogger(SimpleExamenator.class.getName());
 
     private long startTime;
     private long endTime;
@@ -38,97 +41,183 @@ public class SimpleExamenator implements Examinator {
     private boolean takeNext;
 
     private void start() throws Exception {
-        currentTaskIndex = -1;
-        next();
-        message = "Exam has been started";
+        try {
+            currentTaskIndex = -1;
+            next();
+            message = "Exam has been started. ";
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
     public void prepareExam(Work work) throws Exception {
-        this.work = work;
-        examTasks = getExamTasksGenerator().generate(work, work.getList(), work.getCount());
-        start();
+        try {
+            this.work = work;
+            examTasks = getExamTasksGenerator().generate(work, work.getList(), work.getCount());
+            start();
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
     public void continueExam(Work work) throws Exception {
-        this.work = work;
-        Result result = new ResultEntety();
-        ArrayList<Result> results = result.getResultsByWork(work.getId());
-        examTasks = getExamTasksGenerator().regenerate(work, work.getList(), work.getCount(), results);
-        start();
+        try {
+            try {
+                this.work = work;
+                Result result = new ResultEntety();
+                ArrayList<Result> results = result.getResultsByWork(work.getId());
+                examTasks = getExamTasksGenerator().regenerate(work, work.getList(), work.getCount(), results);
+                start();
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
     public Work finishExam() throws Exception {
-        work.setMark(calculateMatk());
-        return work;
+        try {
+            try {
+                work.setMark(calculateMatk());
+                return work;
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     private int calculateMatk() throws Exception {
-        int mark = 0;
-        Result result = new ResultEntety();
-        Iterator<Result> results = result.getResultsByWork(work.getId()).iterator();
-        while (results.hasNext()) {
-            int m = results.next().getMark();
-            if(m>0)
-            mark += m;
+        try {
+            try {
+                int mark = 0;
+                Result result = new ResultEntety();
+                Iterator<Result> results = result.getResultsByWork(work.getId()).iterator();
+                while (results.hasNext()) {
+                    int m = results.next().getMark();
+                    if (m > 0) {
+                        mark += m;
+                    }
+                }
+                return mark;
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
-        return mark;
     }
 
     @Override
     public CheckedAnswer check(Answer answer) throws Exception {
-        long time = System.currentTimeMillis();
-        if (time - 3000 > endTime) {
-            message = "Time expired";
-            return new SimpleCheckedAnswer(true, answer) {
-            };
-        }
-        if (getChecker().valid(answer)) {
-            CheckedAnswer checkedAnswer = getChecker().check(answer);
-            saveResult(checkedAnswer);
-            if (checkedAnswer.isAccept()) {
-                message = "Answer has been accepted";
-                timeOfPass = System.currentTimeMillis();
-                takeNext = false;
-            } else {
-                message = "Wrong answer";
+        try {
+            try {
+                long time = System.currentTimeMillis();
+                if (time - 1000 > endTime) {
+                    message += "Time expired. ";
+                    return new SimpleCheckedAnswer(true, answer) {
+                    };
+                }
+                if (getChecker().valid(answer)) {
+                    CheckedAnswer checkedAnswer = getChecker().check(answer);
+                    saveResult(checkedAnswer);
+                    if (checkedAnswer.isAccept()) {
+                        message += "Answer has been accepted. ";
+                        timeOfPass = System.currentTimeMillis();
+                        takeNext = false;
+                    } else {
+                        message += "Wrong answer. ";
+                    }
+                    return checkedAnswer;
+                } else {
+                    throw new InvalidAnswer();
+                }
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
             }
-            return checkedAnswer;
-        } else {
-            throw new InvalidAnswer();
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
     }
 
     @Override
-    public boolean next() throws Exception{
-        message = "Next task";
-        currentTaskIndex++;
-        if (examTasks.size() > currentTaskIndex) {
-            takeNext = true;
-            startTime = System.currentTimeMillis() + 3000;
-            endTime = startTime + currentTask().getTime() * 60 * 1000 + 3000;
-            saveNullResult();
-            return true;
-        } else {
-            message = "Thet was last task";
-            return false;
+    public boolean next() throws Exception {
+        try {
+            try {
+                message += "Next task. ";
+                currentTaskIndex++;
+                if (examTasks.size() > currentTaskIndex) {
+                    takeNext = true;
+                    startTime = System.currentTimeMillis() + 1000;
+                    endTime = startTime + examTasks.get(currentTaskIndex).getTime() * 60 * 1000;
+                    saveNullResult();
+                    return true;
+                } else {
+                    message += "Thet was last task. ";
+                    return false;
+                }
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
     }
 
     private void saveNullResult() throws Exception {
-        Result result = new ResultEntety();
-        result.setTaskId(currentTask().getId());
-        result.setMark(-1);
-        result.setWorkId(work.getId());
-        result.save();
-        
+        try {
+            try {
+                Result result = new ResultEntety();
+                result.setTaskId(currentTask().getId());
+                result.setMark(-1);
+                result.setWorkId(work.getId());
+                result.save();
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
+
     }
 
     @Override
-    public Task currentTask() {
-        return examTasks.get(currentTaskIndex);
+    public Task currentTask() throws Exception {
+        try {
+            try {
+                if (leftTime() < 0) {
+                    if (!next()) {
+                        throw new EndOfExamTasks();
+                    }
+                }
+                return examTasks.get(currentTaskIndex);
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -147,20 +236,30 @@ public class SimpleExamenator implements Examinator {
     }
 
     private void saveResult(CheckedAnswer checkedAnswer) throws Exception {
-        if (this.SAVE_ATTEMPT) {
-            Attempt attempt = checkedAnswer.getAttempt();
-            attempt.setWorkId(work.getId());
-            attempt.save();
+        try {
+            try {
+                if (TasKer.attemptSaveMod()) {
+                    Attempt attempt = checkedAnswer.getAttempt();
+                    attempt.setWorkId(work.getId());
+                    attempt.save();
+                }
+                Result result = checkedAnswer.getResult();
+                result.setWorkId(work.getId());
+                result.save();
+            } catch (Exception ex) {
+                log.error(null, ex);
+                throw ex;
+            }
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
-        Result result = checkedAnswer.getResult();
-        result.setWorkId(work.getId());
-        result.save();
     }
 
     @Override
     public String popMessage() {
         String mes = this.message;
-        message = null;
+        message = "";
         return mes;
     }
 

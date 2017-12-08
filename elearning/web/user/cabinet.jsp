@@ -25,7 +25,7 @@
     <%@include file="/bar.jsp" %>
     <div class="row userbar-1">
         <div class="col col-3 text-right">
-            <img src="${pageContext.request.contextPath}/${initParam.FileDir}/user/${user.id}.jpg" onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/default_user.png';" alt="" class="img-circle">
+            <img src="${pageContext.request.contextPath}/file/user/ico/${user.id}.png" onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/cat_${user.id%8+1}.png';" alt="" class="img-circle">
         </div>
         <div class="col col-3">
             <br>

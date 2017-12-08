@@ -10,19 +10,21 @@ import TasKer.Exam.Result;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
-public class ResultEntety extends DBEntety implements Result{
+public class ResultEntety extends DBEntety implements Result {
+
+    private static final Logger log = Logger.getLogger(ResultEntety.class.getName());
 
     protected int workId;
     protected int taskId;
     protected int mark;
     protected int time;
-    
-    
+
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
@@ -36,10 +38,15 @@ public class ResultEntety extends DBEntety implements Result{
 
     @Override
     protected void _setParams(HashMap<String, Object> list) throws Exception {
-        this.workId = (int) list.get("work_id");
-        this.taskId = (int) list.get("task_id");
-        this.mark = (int) list.get("result");
-        this.time = (int) list.get("time");
+        try {
+            this.workId = (int) list.get("work_id");
+            this.taskId = (int) list.get("task_id");
+            this.mark = (int) list.get("result");
+            this.time = (int) list.get("time");
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
 
     @Override
@@ -53,28 +60,38 @@ public class ResultEntety extends DBEntety implements Result{
     }
 
     public ResultEntety() {
-        
+
     }
 
     @Override
     public boolean save() throws Exception {
-        return this._insertOrUpdate();
+        try {
+            return this._insertOrUpdate();
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
     }
-    
+
     @Override
     public ArrayList<Result> getResultsByWork(int id) throws Exception {
-        ArrayList<Result> results = new ArrayList<Result>();
-        
-        HashMap<String, Object> param = new HashMap<String, Object>();
-        param.put("work_id", id);
-        ResultEntety result = new ResultEntety();
-        ArrayList<HashMap<String, Object>> Params = result.getObjectsParam(param);
-        for(int i=0; i<Params.size(); i++){
-            result = new ResultEntety();
-            result._setParams(Params.get(i));
-            results.add(result);
+        try {
+            ArrayList<Result> results = new ArrayList<Result>();
+
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("work_id", id);
+            ResultEntety result = new ResultEntety();
+            ArrayList<HashMap<String, Object>> Params = result.getObjectsParam(param);
+            for (int i = 0; i < Params.size(); i++) {
+                result = new ResultEntety();
+                result._setParams(Params.get(i));
+                results.add(result);
+            }
+            return results;
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
         }
-        return results;
     }
 
     @Override

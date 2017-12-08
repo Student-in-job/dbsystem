@@ -3,8 +3,8 @@ package TasKer.Web.Exam;
 import API.HTTPClient;
 import TasKer.Work.Impl.WorkEntety;
 import TasKer.Core.JWTHelper;
-import TasKer.Web.MyServlet;
-import static TasKer.Core.TasKer.getListFactory;
+import TasKer.Web.TasKerServlet;
+import static TasKer.TasKer.getListFactory;
 import TasKer.Exam.Examinator;
 import TasKer.Exam.Impl.SimpleExamenator;
 import TasKer.Work.Work;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.oauth.jsontoken.JsonToken;
 
-public class StartExam extends MyServlet {
+public class StartExam extends TasKerServlet {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
@@ -64,7 +64,7 @@ public class StartExam extends MyServlet {
         protected int PrivateMod
         
             () {
-        return MyServlet.ForAll;
+        return TasKerServlet.ForAll;
         }
 
 

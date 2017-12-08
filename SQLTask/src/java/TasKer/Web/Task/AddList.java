@@ -6,8 +6,8 @@
 package TasKer.Web.Task;
 
 import TasKer.Tasks.List;
-import TasKer.Web.MyServlet;
-import static TasKer.Core.TasKer.getListFactory;
+import TasKer.Web.TasKerServlet;
+import static TasKer.TasKer.getListFactory;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class AddList extends MyServlet {
+public class AddList extends TasKerServlet {
     private static final String view = "../listForm.jsp";
     
 
@@ -47,7 +47,7 @@ public class AddList extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
 }

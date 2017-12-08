@@ -409,6 +409,10 @@ a.test-edit:hover {
     color: #83C650;
 }
 
+.font-blue {
+    color: #255bbd;
+}
+
 .box {
     position: fixed;
     text-align: center;

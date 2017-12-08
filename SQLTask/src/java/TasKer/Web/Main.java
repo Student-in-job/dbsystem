@@ -6,7 +6,7 @@
 package TasKer.Web;
 
 import TasKer.Tasks.List;
-import static TasKer.Core.TasKer.getListFactory;
+import static TasKer.TasKer.getListFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Main extends MyServlet {
+public class Main extends TasKerServlet {
     
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +39,7 @@ public class Main extends MyServlet {
    
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
 }

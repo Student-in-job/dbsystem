@@ -53,7 +53,7 @@
                 <div class="col col-8 offset-5 space-top"> 
                     <div class="${main}user_board">
 
-                        <img src="${pageContext.request.contextPath}/${initParam.FileDir}/user/${user.id}.jpg" onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/default_user.png';" class="usr-img float-left">
+                        <img src="${pageContext.request.contextPath}/file/user/ico/${user.id}.png" onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/cat_${user.id%8+1}.png';" class="usr-img float-left">
 
                         <a href="${pageContext.request.contextPath}/user/cabinet" class="button small round outline" style="text-decoration: none;">${user.name} &rarr;</a>
                         <br>

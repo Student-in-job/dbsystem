@@ -14,7 +14,7 @@ import net.oauth.jsontoken.JsonToken;
  *
  * @author ksinn
  */
-public class Enter extends MyServlet {
+public class Enter extends TasKerServlet {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,7 +38,7 @@ public class Enter extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.ForAll;
+        return TasKerServlet.ForAll;
     }
 
 }

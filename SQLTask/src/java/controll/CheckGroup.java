@@ -6,7 +6,7 @@
 package controll;
 
 import _Model.StudentConnect;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import _Model.Task;
 import _Model.TaskList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class CheckGroup extends MyServlet {
+public class CheckGroup extends TasKerServlet {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
@@ -74,7 +74,7 @@ public class CheckGroup extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
 }

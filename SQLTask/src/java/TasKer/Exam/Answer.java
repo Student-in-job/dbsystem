@@ -5,7 +5,7 @@
  */
 package TasKer.Exam;
 
-import TasKer.Core.TasKer;
+import TasKer.TasKer;
 import TasKer.Tasks.Task;
 
 /**

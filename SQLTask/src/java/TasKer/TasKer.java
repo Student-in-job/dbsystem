@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TasKer.Core;
+package TasKer;
 
 import TasKer.Exam.AnswerFactory;
 import TasKer.Tasks.ListFactory;
@@ -27,6 +27,16 @@ public interface TasKer {
         initContext = new InitialContext();
         String param = (String) initContext.lookup("java:comp/env/cntxt/"+name);
         return param;
+    }
+    
+    static Boolean getInitModValue(String name) throws NamingException {
+        InitialContext initContext;
+        initContext = new InitialContext();
+        return (Boolean) initContext.lookup("java:comp/env/cntxt/"+name);
+    }
+    
+    static boolean attemptSaveMod() throws NamingException{
+        return getInitModValue("attemptSaveMod");
     }
 
     static TaskFactory getTaskFactory() throws ClassNotFoundException, NamingException, InstantiationException, IllegalAccessException {

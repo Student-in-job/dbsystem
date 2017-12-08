@@ -5,7 +5,7 @@
  */
 package TasKer.Exam;
 
-import TasKer.Core.TasKer;
+import TasKer.TasKer;
 import TasKer.Tasks.Task;
 import TasKer.Work.Work;
 
@@ -21,13 +21,16 @@ public interface Examinator  extends TasKer {
     
     public Work finishExam() throws Exception;
     
-    //public boolean isFinish();
-    
     public CheckedAnswer check(Answer answer) throws Exception;
     
     public boolean next() throws Exception;
     
-    public Task currentTask();
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public Task currentTask() throws Exception;
     
     public long spentTime();
     

@@ -18,6 +18,7 @@ import net.oauth.jsontoken.crypto.SignatureAlgorithm;
 import net.oauth.jsontoken.crypto.Verifier;
 import net.oauth.jsontoken.discovery.VerifierProvider;
 import net.oauth.jsontoken.discovery.VerifierProviders;
+import org.apache.log4j.Logger;
 import org.joda.time.Instant;
 
 /**
@@ -25,52 +26,66 @@ import org.joda.time.Instant;
  * @author ksinn
  */
 public class JWTHelper {
-    
-    public static JsonToken newJWT(String url) throws Exception{
-        Service service = new Service();
-        service.getById(1);
-        HmacSHA256Signer signer;
-        signer = new HmacSHA256Signer(url, null, service.getMyKey().getBytes());
-        JsonToken token = new JsonToken(signer);
-        token.setAudience(service.getURL());
-        token.setIssuedAt(Instant.now());
-        token.setExpiration(Instant.now().plus(60 * 1000));
-        return token;
-        
+
+    private static final Logger log = Logger.getLogger(JWTHelper.class.getName());
+
+    public static JsonToken newJWT(String url) throws Exception {
+        try {
+            Service service = new Service();
+            service.getById(1);
+            HmacSHA256Signer signer;
+            signer = new HmacSHA256Signer(url, null, service.getMyKey().getBytes());
+            JsonToken token = new JsonToken(signer);
+            token.setAudience(service.getURL());
+            token.setIssuedAt(Instant.now());
+            token.setExpiration(Instant.now().plus(60 * 1000));
+            return token;
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
+
     }
 
     public static JsonToken parsJWT(String token) throws Exception {
-        Service service = new Service();
-        service.getById(1);
-        final Verifier hmacVerifier = new HmacSHA256Verifier(service.getServiceKey().getBytes());
+        try {
+            Service service = new Service();
+            service.getById(1);
+            final Verifier hmacVerifier = new HmacSHA256Verifier(service.getServiceKey().getBytes());
 
-        VerifierProvider hmacLocator = new VerifierProvider() {
+            VerifierProvider hmacLocator = new VerifierProvider() {
 
-            @Override
-            public java.util.List<Verifier> findVerifier(String id, String key) {
-                return Lists.newArrayList(hmacVerifier);
-            }
-        };
-        VerifierProviders locators = new VerifierProviders();
-        locators.setVerifierProvider(SignatureAlgorithm.HS256, hmacLocator);
-        net.oauth.jsontoken.Checker checker = new Checker() {
+                @Override
+                public java.util.List<Verifier> findVerifier(String id, String key) {
+                    return Lists.newArrayList(hmacVerifier);
+                }
+            };
+            VerifierProviders locators = new VerifierProviders();
+            locators.setVerifierProvider(SignatureAlgorithm.HS256, hmacLocator);
+            net.oauth.jsontoken.Checker checker = new Checker() {
 
-            @Override
-            public void check(JsonObject payload) throws SignatureException {
-                // don't throw - allow anything
-            }
+                @Override
+                public void check(JsonObject payload) throws SignatureException {
+                    // don't throw - allow anything
+                }
 
-        };
-        //Ignore Audience does not mean that the Signature is ignored
-        JsonTokenParser parser = new JsonTokenParser(locators, checker);
-        JsonToken jt = parser.verifyAndDeserialize(token);
-        return jt;
+            };
+            //Ignore Audience does not mean that the Signature is ignored
+            JsonTokenParser parser = new JsonTokenParser(locators, checker);
+            JsonToken jt = parser.verifyAndDeserialize(token);
+            return jt;
+        } catch (Exception ex) {
+            log.error(null, ex);
+            throw ex;
+        }
 
     }
-    
-    public static boolean check(JsonToken jt, String audience){
-        if(jt.getExpiration().getMillis()<System.currentTimeMillis()) return false;
-        return audience.equals(jt.getAudience());        
+
+    public static boolean check(JsonToken jt, String audience) {
+        if (jt.getExpiration().getMillis() < System.currentTimeMillis()) {
+            return false;
+        }
+        return audience.equals(jt.getAudience());
     }
 
 }

@@ -5,22 +5,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${pageTitle}</title>
+        <title>${pageTitle!=null?pageTitle:"SQLTasKer"}</title>
         <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
-        <!-- Kube CSS -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">       <!-- Kube CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube.min.css">
-
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/master.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flipclock.css">
+        <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/kube.min.js"></script>
 
     </head>
     <body>
-        <div class="message">${oneTimeMessage}</div>
+        <div class="message">
+            ${oneTimeMessage}
+        </div>
         <div class="row around">
             <div class="col col-3 space-top">
             </div>
@@ -29,18 +30,8 @@
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/resources/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
             </div>                
             <div class="col col-3">
-                
+
             </div>          
         </div>
-        <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
-        <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/kube.min.js"></script>
-        <script>
-                    function openNav() {
-                        document.getElementById("sidenav").style.width = "100%";
-                    }
-
-                    function closeNav() {
-                        document.getElementById("sidenav").style.width = "0";
-                    }
-        </script>  
+        <div class="test row space-top">
+            <div class="col col-12">

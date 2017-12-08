@@ -6,9 +6,9 @@
 package TasKer.Web.Task;
 
 import _Model.Result;
-import static TasKer.Core.TasKer.getTaskFactory;
+import static TasKer.TasKer.getTaskFactory;
 import TasKer.Tasks.Task;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import _Model.StudentConnect;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class TaskPage extends MyServlet {
+public class TaskPage extends TasKerServlet {
         private static final String view = "task.jsp";
 
 
@@ -41,7 +41,7 @@ public class TaskPage extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
     @Override

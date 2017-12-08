@@ -1,13 +1,13 @@
 package TasKer.Web.Task;
 
 
-import static TasKer.Core.TasKer.getTaskFactory;
+import static TasKer.TasKer.getTaskFactory;
 import TasKer.Tasks.Task;
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class EditTask extends MyServlet {
+public class EditTask extends TasKerServlet {
         private static final String view = "../taskForm.jsp";
 
     @Override
@@ -53,7 +53,7 @@ public class EditTask extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
 }

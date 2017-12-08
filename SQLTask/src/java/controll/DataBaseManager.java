@@ -5,7 +5,7 @@
  */
 package controll;
 
-import TasKer.Web.MyServlet;
+import TasKer.Web.TasKerServlet;
 import _Model.DBManeger;
 import _Model.TaskList;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class DataBaseManager extends MyServlet {
+public class DataBaseManager extends TasKerServlet {
 
 
     @Override
@@ -57,7 +57,7 @@ public class DataBaseManager extends MyServlet {
 
     @Override
     protected int PrivateMod() {
-        return MyServlet.OnlyForAuthorized;
+        return TasKerServlet.OnlyForAuthorized;
     }
 
 }

@@ -8,7 +8,7 @@ package TasKer.Tasks.Impl;
 import TasKer.Core.DBEntety;
 import My.SQLTaskList;
 import TasKer.Tasks.List;
-import static TasKer.Core.TasKer.getTaskFactory;
+import static TasKer.TasKer.getTaskFactory;
 import TasKer.Tasks.Task;
 import TasKer.Tasks.TaskFactory;
 import java.util.ArrayList;

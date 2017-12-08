@@ -8,12 +8,15 @@ package My;
 import TasKer.Exam.Answer;
 import TasKer.Exam.AnswerFactory;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author ksinn
  */
 public class SQLAnswerFactory implements AnswerFactory{
+    
+    private static final Logger log = Logger.getLogger(SQLAnswerFactory.class.getName());
 
     @Override
     public Answer create(HttpServletRequest request) {
