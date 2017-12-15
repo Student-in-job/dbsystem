@@ -26,7 +26,7 @@
             <div class="col col-3 space-top">
             </div>
             <div class="col col-3 text-center">
-                <a href="${pageContext.request.contextPath}/main"><div class="item centered logo"></div></a>
+                <div class="item centered logo"></div>
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/resources/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
             </div>                
             <div class="col col-3">

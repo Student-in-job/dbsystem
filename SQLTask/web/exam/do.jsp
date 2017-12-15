@@ -12,54 +12,61 @@
 <script src="${pageContext.request.contextPath}/resources/js/flipclock.js"></script>         
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flipclock.css">
 
-
-<div class="fixed text-center" style="width: 120px;">
-    <div class="clock" style=" zoom:0.37"></div>   
-    <a href="next" class="label outline">next task &rArr;</a>
-</div>
-
-
 <div class="row centered">
-    <div class="col text-center">
+    <div class="col col-8 text-center">
         <figure>
             <img src="${answer.task.img}">
             <figcaption>Relation schema of database</figcaption>
         </figure>
     </div> 
-</div>
-<hr>
-<div class="row centered" id="1">
-    <div class="col text-center" style="color: #f00"> 
-        <p><b>${examinator.popMessage()}</b></p>
-    </div>
-</div>
-<hr>
-<div class="row centered">
-    <div class="col col-3"> 
-        <b><i>Составти SQL запрос:</i></b>
-    </div>
-    <div class="col col-6 text-center"> 
-        <b>${answer.task.question}</b>
-    </div>
-    <div class="col col-3 text-right"> 
-        <i>${answer.task.ball} point</i>
-    </div>
-</div>
-<div class="row centered">
-    <div class="col col-6">        
-        <form class="form" id="checkAnswer" method="POST" action="">    
-            <div class="form-item">
-                <textarea rows="6" required  name="answer">${answer.query}</textarea>
+    <div class="col col-4 text-center">
+        <div class="row">
+            <div class="col text-right">
+                <div class="clock" style=" zoom:1"></div>   
+                <a href="next" class="label outline">next task &rArr;</a> 
             </div>
-            <div class="form-item text-center">
-                <input id="submit" type="submit" class="small button round outline primary" value="Run">
+        </div>
+        <div class="row centered">
+            <div class='col'>
+                <div class="row">
+                    <div class="col col-4"> 
+                        <i>Составти SQL запрос:</i>
+                    </div>
+                    <div class="col col-4 text-center"> 
+                        <b>${examinator.solvedProblems}/${examinator.work.count}</b>
+                    </div>
+                    <div class="col offset-1 col-3 text-right"> 
+                        <i>${answer.task.ball} point</i>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col text-center" style="color: #f00"> 
+                        <p><b>${examinator.popMessage()}</b></p>
+                    </div>
+                </div>
+                <div class="row space-top">
+                    <div class="col text-left"> 
+                        <p>${answer.task.question}</p>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>       
+        <div class="row centered">
+            <div class="col">        
+                <form class="form" id="checkAnswer" method="POST" action="">    
+                    <div class="form-item">
+                        <textarea rows="6" required  name="answer">${answer.query}</textarea>
+                    </div>
+                    <div class="form-item text-center">
+                        <input id="submit" type="submit" class="small button round outline primary" value="Run">
+                    </div>
+                </form>
+            </div>
+        </div>   
+    </div>       
 </div>
-
 <hr>
-
 <div class="row centered">
     <div class="col col-1 pull-left">
         <b><i>Result:</i></b>
@@ -94,22 +101,20 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-
-        clock = $('.clock').FlipClock(${examinator.leftTime()/1000}, {
-            clockFace: 'MinuteCounter',
-            autoStart: true,
-            language: 'us-us',
-            countdown: true,
-            callbacks: {
-                stop: function () {
+    var t = (${examinator.leftTime()}) / 1000;
+    if (t < 0)
+        t = 0;
+    clock = $('.clock').FlipClock(t, {
+        clockFace: 'MinuteCounter',
+        autoStart: true,
+        language: 'us-us',
+        countdown: true,
+        callbacks: {
+            stop: function () {
                 $.modalwindow({target: '#my-modal', width: '300px'});
-                
-            }
-            }
-            
-        });
 
+            }
+        }
 
     });
 </script> 

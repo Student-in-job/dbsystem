@@ -70,7 +70,6 @@ public class ListEntety extends DBEntety implements List{
     public void getById(int id) throws Exception{
         this._id = id;
         this._select();
-        this.ReadTasksFromBd();
         
     }
     
@@ -85,7 +84,7 @@ public class ListEntety extends DBEntety implements List{
     }
     
     protected  void ReadTasksFromBd() throws Exception{
-        
+        this.tasks.clear();
         TaskFactory taskFactory = getTaskFactory();         
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("list_id", this._id);

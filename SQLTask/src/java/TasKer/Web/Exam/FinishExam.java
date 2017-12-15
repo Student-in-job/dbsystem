@@ -29,7 +29,7 @@ public class FinishExam extends TasKerServlet {
         }
         Work work = exam.finishExam();
 
-        JsonToken token = JWTHelper.newJWT(extractURL(request));
+        JsonToken token = JWTHelper.newJWT(getServerName());
         JsonObject payload = token.getPayloadAsJsonObject();
         payload.addProperty("work_key", work.getKeyAsString());
         payload.addProperty("mark", work.getMark());

@@ -18,7 +18,7 @@ public class User extends Parent {
 
     @Override
     public String _getType() {
-        return "user";
+        return "users";
     }
 
     @Override
@@ -48,7 +48,8 @@ public class User extends Parent {
 
     @Override
     protected boolean _isCorrect() {
-
+        if(this.Name==null) return false;
+        if(this.Mail==null) return false;
         return true;
 
     }
@@ -72,11 +73,12 @@ public class User extends Parent {
         param.put("mail", mail);
 
         ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
+        if (Params.isEmpty()) {
+            return false;
+        }
         for (int i = 0; i < 1; i++) {
             this.getFromParam(Params.get(i));
         }
-
-        this._from_db = true;
 
         return this._isCorrect();
     }
@@ -103,6 +105,7 @@ public class User extends Parent {
     }
 
     public void setId(int data) {
+        ID = data;
     }
 
     public void setMail(String data) {

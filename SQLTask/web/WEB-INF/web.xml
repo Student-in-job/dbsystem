@@ -25,6 +25,11 @@
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Tasks</web-resource-name>
+            <description/>
+            <url-pattern>/task/*</url-pattern>
+        </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>

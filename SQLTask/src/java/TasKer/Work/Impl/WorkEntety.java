@@ -31,7 +31,7 @@ public class WorkEntety extends DBEntety implements Work {
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();        
-        list.put("WORK_KEY", this.WORK_KEY.toString());
+        list.put("work_key", this.WORK_KEY.toString());
         list.put("user_id", this.userId);
         list.put("list_id", this.listId);
         list.put("count", this.count);
@@ -40,7 +40,7 @@ public class WorkEntety extends DBEntety implements Work {
 
     @Override
     protected void _setParams(HashMap<String, Object> list) throws Exception {
-        this.WORK_KEY = UUID.fromString((String) list.get("WORK_KEY"));
+        this.WORK_KEY = UUID.fromString((String) list.get("work_key"));
         this.userId = (int) list.get("user_id");
         this.listId = (int) list.get("list_id");
         this.count = (int) list.get("count");
@@ -73,7 +73,7 @@ public class WorkEntety extends DBEntety implements Work {
     @Override
     public boolean getByKey(String key) throws Exception {
         HashMap<String, Object> param = new HashMap<String, Object>();
-        param.put("WORK_KEY", key);
+        param.put("work_key", key);
         ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
         if (Params.isEmpty()) {
             return false;

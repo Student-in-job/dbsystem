@@ -5,6 +5,7 @@
     Блок страницы с меню.
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="message" class="message">
     ${message}
@@ -74,10 +75,25 @@
             <span class="close"></span>
             <div class="modal-header">Sign in</div>
             <div class="modal-body text-center">
+                <c:choose>
+                    <c:when test="${Boolean.parseBoolean(initParam.oAuth)}">
+                        <a href="${auth_url}"><img class="login-favicons" src="${pageContext.request.contextPath}/resourse/img/google-favicon.svg"></a>
+                            <%--<a href="${pageContext.request.contextPath}/user/auth1"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
+                            <a href="${pageContext.request.contextPath}/user/SignUp"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"> SignUp</a>--%>
+                        </c:when>
+                        <c:otherwise>
+                        <form class="form" method="get" action="${pageContext.request.contextPath}/user/signIn">
+                            <div class="form-item">
+                                <label>Google mail</label>
+                                <input type="text" name="mail" required >
+                            </div>
 
-                <a href="${auth_url}"><img class="login-favicons" src="${pageContext.request.contextPath}/resourse/img/google-favicon.svg"></a>
-                    <%--<a href="${pageContext.request.contextPath}/user/auth1"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"></a>
-                    <a href="${pageContext.request.contextPath}/user/SignUp"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"> SignUp</a>--%>
+                            <div class="form-item">
+                                <button class="button primary width-100 big">Sign In</button>
+                            </div>
+                        </form>
+                    </c:otherwise> 
+                </c:choose>
             </div> 
         </div>
     </div>

@@ -37,16 +37,15 @@ public class DoExam extends TasKerServlet {
             throws Exception {
 
         Examinator exam = (Examinator) request.getSession().getAttribute("examinator");
+        if (exam == null) {
+            throw new Exception("null exam");
+        }
         Answer answer = getAnswerFactory().create(request);
         answer.setTask(exam.currentTask());
 
         CheckedAnswer checkedAnswer = exam.check(answer);
         if (checkedAnswer.isAccept()) {
-            if (exam.next()) {
-                response.sendRedirect(request.getContextPath() + "/exam/do");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/exam/finish");
-            }
+            response.sendRedirect(request.getContextPath() + "/exam/next");
         } else {
             request.setAttribute("answer", answer);
             request.setAttribute("checkedAnswer", checkedAnswer);

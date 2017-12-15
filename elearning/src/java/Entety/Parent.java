@@ -239,7 +239,7 @@ public abstract class Parent{
             query+=" "+param.getKey()+",";
         }
         query = query.substring(0, query.length()-1);
-        query+=" ) VALUE (";
+        query+=" ) VALUES (";
         for(Map.Entry<String, Object> param : params){
             query+=param.getValue() == null?" DEFAULT,":" ?,";
         }

@@ -10,8 +10,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
 <sql:query var="programs" dataSource="jdbc/DB">
-    select * from program where id = ? and user = ${user.id}
-    <sql:param value="${param.id}"/>
+    select * from program where id = ? and users = ${user.id}
+    <sql:param value="${Integer.parseInt(param.id)}"/>
 </sql:query>
 <c:if test="${programs.rowCount != 1}">
     <c:redirect url="/error" />

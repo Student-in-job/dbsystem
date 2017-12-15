@@ -94,7 +94,7 @@ public class Program extends Parent{
         list.put("name", this.Name);
         list.put("description", this.Decsription);
         list.put("duration", this.Duration);
-        list.put("user", this.UserId);
+        list.put("users", this.UserId);
         return list;
     }
 
@@ -103,7 +103,7 @@ public class Program extends Parent{
         this.Name = (String) Params.get("name");
         this.Decsription = (String) Params.get("description");
         this.Duration = (int) Params.get("duration");
-        this.UserId = (int) Params.get("user");
+        this.UserId = (int) Params.get("users");
         
         
     }

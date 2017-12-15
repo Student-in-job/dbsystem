@@ -18,6 +18,7 @@ import TasKer.Exam.Result;
 import java.util.ArrayList;
 import java.util.Iterator;
 import TasKer.Core.EndOfExamTasks;
+import TasKer.Core.InvalidTask;
 import TasKer.TasKer;
 import org.apache.log4j.Logger;
 
@@ -35,6 +36,8 @@ public class SimpleExamenator implements Examinator {
     private Work work;
     private ArrayList<Task> examTasks;
     private int currentTaskIndex;
+    private int solvedProblems;
+    
 
     private String message;
 
@@ -53,6 +56,7 @@ public class SimpleExamenator implements Examinator {
 
     @Override
     public void prepareExam(Work work) throws Exception {
+        this.solvedProblems=0;
         try {
             this.work = work;
             examTasks = getExamTasksGenerator().generate(work, work.getList(), work.getCount());
@@ -65,17 +69,14 @@ public class SimpleExamenator implements Examinator {
 
     @Override
     public void continueExam(Work work) throws Exception {
+        this.solvedProblems = 0;
         try {
-            try {
                 this.work = work;
                 Result result = new ResultEntety();
                 ArrayList<Result> results = result.getResultsByWork(work.getId());
+                this.solvedProblems += results.size();
                 examTasks = getExamTasksGenerator().regenerate(work, work.getList(), work.getCount(), results);
                 start();
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -85,13 +86,9 @@ public class SimpleExamenator implements Examinator {
     @Override
     public Work finishExam() throws Exception {
         try {
-            try {
                 work.setMark(calculateMatk());
                 return work;
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
+
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -100,7 +97,6 @@ public class SimpleExamenator implements Examinator {
 
     private int calculateMatk() throws Exception {
         try {
-            try {
                 int mark = 0;
                 Result result = new ResultEntety();
                 Iterator<Result> results = result.getResultsByWork(work.getId()).iterator();
@@ -111,10 +107,6 @@ public class SimpleExamenator implements Examinator {
                     }
                 }
                 return mark;
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -124,7 +116,6 @@ public class SimpleExamenator implements Examinator {
     @Override
     public CheckedAnswer check(Answer answer) throws Exception {
         try {
-            try {
                 long time = System.currentTimeMillis();
                 if (time - 1000 > endTime) {
                     message += "Time expired. ";
@@ -145,10 +136,14 @@ public class SimpleExamenator implements Examinator {
                 } else {
                     throw new InvalidAnswer();
                 }
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
+            } catch (InvalidTask ex) {
+                SimpleCheckedAnswer simpleCheckedAnswer = new SimpleCheckedAnswer(true, answer) {
+                };
+                saveResult(simpleCheckedAnswer);
+                message += "Uncorrect task. ";
+                timeOfPass = System.currentTimeMillis();
+                takeNext = false;
+                return simpleCheckedAnswer;
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -157,8 +152,8 @@ public class SimpleExamenator implements Examinator {
 
     @Override
     public boolean next() throws Exception {
+        this.solvedProblems++;
         try {
-            try {
                 message += "Next task. ";
                 currentTaskIndex++;
                 if (examTasks.size() > currentTaskIndex) {
@@ -171,10 +166,6 @@ public class SimpleExamenator implements Examinator {
                     message += "Thet was last task. ";
                     return false;
                 }
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -183,16 +174,11 @@ public class SimpleExamenator implements Examinator {
 
     private void saveNullResult() throws Exception {
         try {
-            try {
                 Result result = new ResultEntety();
                 result.setTaskId(currentTask().getId());
                 result.setMark(-1);
                 result.setWorkId(work.getId());
                 result.save();
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -203,17 +189,13 @@ public class SimpleExamenator implements Examinator {
     @Override
     public Task currentTask() throws Exception {
         try {
-            try {
                 if (leftTime() < 0) {
                     if (!next()) {
                         throw new EndOfExamTasks();
                     }
                 }
                 return examTasks.get(currentTaskIndex);
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
+            
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -223,6 +205,11 @@ public class SimpleExamenator implements Examinator {
     @Override
     public long leftTime() {
         return endTime - System.currentTimeMillis();
+    }
+    
+    @Override
+    public long endTime() {
+        return endTime;
     }
 
     @Override
@@ -237,7 +224,6 @@ public class SimpleExamenator implements Examinator {
 
     private void saveResult(CheckedAnswer checkedAnswer) throws Exception {
         try {
-            try {
                 if (TasKer.attemptSaveMod()) {
                     Attempt attempt = checkedAnswer.getAttempt();
                     attempt.setWorkId(work.getId());
@@ -246,10 +232,6 @@ public class SimpleExamenator implements Examinator {
                 Result result = checkedAnswer.getResult();
                 result.setWorkId(work.getId());
                 result.save();
-            } catch (Exception ex) {
-                log.error(null, ex);
-                throw ex;
-            }
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -261,6 +243,16 @@ public class SimpleExamenator implements Examinator {
         String mes = this.message;
         message = "";
         return mes;
+    }
+
+    @Override
+    public int getSolvedProblems() {
+        return this.solvedProblems;
+    }
+
+    @Override
+    public Work getWork() {
+        return this.work;
     }
 
 }

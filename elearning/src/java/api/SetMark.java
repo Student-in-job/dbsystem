@@ -46,21 +46,21 @@ public class SetMark extends HttpServlet {
             throws ServletException, IOException {
 
         String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
+        String myName = "elearning";
         try {
             Service service = new Service();
             service.getById(1);
 
             JsonToken token = pars(parseRequest(request));
-            if (token.getIssuer().equals(service.getURL()) && token.getExpiration().getMillis() > System.currentTimeMillis()) {
+            if (token.getIssuer().equalsIgnoreCase(service.getName()) && token.getExpiration().getMillis() > System.currentTimeMillis()) {
                 Work work = new Work();
                 work.setWorkKey(token.getParamAsPrimitive("work_key").getAsString());
                 work.getByKey();
 
                 HmacSHA256Signer signer;
-                signer = new HmacSHA256Signer(myURL, null, work.getTask().getService().getMyKey().getBytes());
+                signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
                 JsonToken res_token = new JsonToken(signer);
-                res_token.setAudience(work.getTask().getService().getURL());
+                res_token.setAudience(work.getTask().getService().getName());
                 res_token.setIssuedAt(Instant.now());
                 res_token.setExpiration(Instant.now().plus(60 * 1000));
                 JsonObject payload = token.getPayloadAsJsonObject();

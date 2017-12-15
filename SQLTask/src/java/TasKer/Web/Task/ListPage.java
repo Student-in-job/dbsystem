@@ -8,6 +8,8 @@ package TasKer.Web.Task;
 import TasKer.Tasks.List;
 import TasKer.Web.TasKerServlet;
 import static TasKer.TasKer.getListFactory;
+import TasKer.Tasks.Task;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +27,10 @@ public class ListPage extends TasKerServlet {
 
         int id = Integer.parseInt(request.getParameter("id"));
         List list = getListFactory().createById(id);
+        ArrayList<Task> tasks = list.getTasks();
         if (user_id == list.getUserId()) {
             request.setAttribute("list", list);
+            request.setAttribute("tasks", tasks);
             request.getRequestDispatcher(view).forward(request, response);
         } else {
             throw new ServletException("You are not owner this work");

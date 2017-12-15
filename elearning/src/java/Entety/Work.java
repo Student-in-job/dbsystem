@@ -52,7 +52,7 @@ public class Work extends Parent {
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
 
-        this.CreateDate = (Date) Params.get("addDate");
+        this.CreateDate = (Date) Params.get("adddate");
         this.WORK_KEY = UUID.fromString((String) Params.get("work_key"));
         this.StudyId = (int) Params.get("study");
         this.TaskId = (int) Params.get("task");

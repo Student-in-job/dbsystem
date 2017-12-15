@@ -26,14 +26,14 @@ public class user_data extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            User user = new User();
+            /*User user = new User();
             user.getById(Integer.parseInt(request.getParameter("id")));
             
-            vdfvdgbgb
+
                     
                     
             PrintWriter out = response.getWriter();
-            out.write(res);
+            out.write(res);*/
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
@@ -46,12 +46,12 @@ public class user_data extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            User user = new User();
+           /* User user = new User();
             user.getById(Integer.parseInt(request.getParameter("id")));
             UserJWT wt = new UserJWT();
             String res = wt.getJson(user, AppInf.main);
             PrintWriter out = response.getWriter();
-            out.write(res);
+            out.write(res);*/
         } catch (Exception ex) {
             throw new ServletException(ex);
         }

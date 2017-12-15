@@ -392,7 +392,7 @@ public abstract class DBEntety implements TasKer {
             query += " " + param.getKey() + ",";
         }
         query = query.substring(0, query.length() - 1);
-        query += " ) VALUE (";
+        query += " ) VALUES (";
         for (Map.Entry<String, Object> param : params) {
             query += param.getValue() == null ? " DEFAULT," : " ?,";
         }
@@ -408,14 +408,14 @@ public abstract class DBEntety implements TasKer {
             query += " " + param.getKey() + ",";
         }
         query = query.substring(0, query.length() - 1);
-        query += " ) VALUE (";
+        query += " ) VALUES (";
         for (Map.Entry<String, Object> param : params) {
             query += param.getValue() == null ? " DEFAULT," : " ?,";
         }
         query = query.substring(0, query.length() - 1);
-        query += " ) on duplicate key update ";
+        query += " ) ON CONFLICT ON CONSTRAINT pk_"+this._getTableName()+" DO UPDATE SET ";
         for (Map.Entry<String, Object> param : params) {
-            query += " " + param.getKey() + " = values(" + param.getKey() + "),";
+            query += " " + param.getKey() + " = EXCLUDED." + param.getKey() + ",";
         }
         query = query.substring(0, query.length() - 1);
         query += ";";

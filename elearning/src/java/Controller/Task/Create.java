@@ -39,14 +39,14 @@ public class Create extends HttpServletParent {
 
         try {
             String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
+            String myName = "elearning";
             Service service = new Service();
             service.getById(1);
 
             HmacSHA256Signer signer;
-                signer = new HmacSHA256Signer(myURL, null, service.getMyKey().getBytes());
+            signer = new HmacSHA256Signer(myName, null, service.getMyKey().getBytes());
             JsonToken token = new JsonToken(signer);
-            token.setAudience(service.getURL());
+            token.setAudience(service.getName());
             token.setIssuedAt(Instant.now());
             token.setExpiration(Instant.now().plus(60 * 1000));
             JsonObject payload = token.getPayloadAsJsonObject();

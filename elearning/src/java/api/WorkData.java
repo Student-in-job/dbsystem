@@ -30,19 +30,20 @@ public class WorkData extends HttpServlet {
             throws ServletException, IOException {
         try {
             String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
+            String myName = "elearning";
+            
             Work work = new Work();
             work.setWorkKey(request.getParameter("work_key"));
             work.getByKey();
 
             HmacSHA256Signer signer;
             try {
-                signer = new HmacSHA256Signer(myURL, null, work.getTask().getService().getMyKey().getBytes());
+                signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
             } catch (InvalidKeyException e) {
                 throw new RuntimeException(e);
             }
             JsonToken token = new JsonToken(signer);
-            token.setAudience(work.getTask().getService().getURL());
+            token.setAudience(work.getTask().getService().getName());
             token.setIssuedAt(Instant.now());
             token.setExpiration(Instant.now().plus(60 * 1000));
             JsonObject payload = token.getPayloadAsJsonObject();

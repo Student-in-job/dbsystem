@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 public class Join extends HttpServletParent {
 
     @Override
-    protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         int id = 0, studentId=0;
         id = Integer.parseInt(request.getParameter("id"));
@@ -46,7 +46,7 @@ public class Join extends HttpServletParent {
         
         PrintWriter out = response.getWriter();
         try{
-            if(s.Write()){
+            if(s!=null){
                 out.write("{'result':'ok'}");
             } else {
                 out.write("{'result':'no'}");

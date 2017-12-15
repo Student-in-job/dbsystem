@@ -14,7 +14,7 @@ public class SignUp extends HttpServletParent {
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user = (User) request.getSession().getAttribute("1s_user");
-        //request.getSession().removeAttribute("1s_user");
+        request.getSession().removeAttribute("1s_user");
         if (user == null) {
             response.sendRedirect(request.getServletContext().getContextPath());
             return;
@@ -34,7 +34,7 @@ public class SignUp extends HttpServletParent {
             outStream.flush();
             outStream.close();
         } else {
-            throw new Exception("Key has not created for user " + user.getId() + ";");
+            message("Key has not created for user " + user.getId(), request, response);
         }
 
     }

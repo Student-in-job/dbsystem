@@ -105,7 +105,7 @@ public class CourseService {
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("select * from (user join study on user = user.id) join course on course = course.id where course.id=? and user.id=? and completed = 0 and closed = 0");
+            PreparedStatement stmt = conn.prepareStatement("select * from (users join study on users = users.id) join course on course = course.id where course.id=? and users.id=? and completed = 0 and closed = 0");
             stmt.setInt(1, course.getId());
             stmt.setInt(2, user.getId());
             ResultSet rs = stmt.executeQuery();
@@ -159,7 +159,7 @@ public class CourseService {
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("select * from (user join study on user = user.id) join course on course = course.id where course.id=? and user.id=? and completed = 0 and closed = 0");
+            PreparedStatement stmt = conn.prepareStatement("select * from (users join study on users = users.id) join course on course = course.id where course.id=? and users.id=? and completed = 0 and closed = 0");
             stmt.setInt(1, course.getId());
             stmt.setInt(2, user.getId());
             ResultSet rs = stmt.executeQuery();

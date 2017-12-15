@@ -9,8 +9,13 @@ import Auth.GoogleAuthenticator;
 import Auth.SMSAuthenticator;
 import Auth.SecondFactor;
 import Auth.Secret;
+import DAO.DBConnect;
 import Entety.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.naming.NamingException;
 
 /**
@@ -20,13 +25,13 @@ import javax.naming.NamingException;
 public class UserService {
 
     /**
-     * 
+     *
      * @param user
      * @param code
      * @param t
      * @param print
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public boolean LogIn(User user, long code, long t, String print) throws Exception {
         Secret secret = SecondFactor.get2factor(user.getId());
@@ -48,47 +53,45 @@ public class UserService {
         user.setLogined(l);
         return l;
     }
-    
-    
+
     /**
-     * 
+     *
      * @param user
      * @throws NamingException
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void LogOut(User user) throws NamingException, SQLException {
-        
+
     }
-    
+
     /**
-     * 
+     *
      * @param user
      * @return
      * @throws SQLException
-     * @throws NamingException 
+     * @throws NamingException
      */
     public boolean hasSecondFactor(User user) throws SQLException, NamingException {
         return null != SecondFactor.get2factor(user.getId());
     }
 
-    
     /**
-     * 
+     *
      * @param user
      * @return
      * @throws SQLException
-     * @throws NamingException 
+     * @throws NamingException
      */
     public Secret getSecondFactor(User user) throws SQLException, NamingException {
         return SecondFactor.get2factor(user.getId());
     }
 
     /**
-     * 
+     *
      * @param user
      * @return
      * @throws SQLException
-     * @throws NamingException 
+     * @throws NamingException
      */
     public String setSecretKey(User user) throws SQLException, NamingException {
 
@@ -105,12 +108,12 @@ public class UserService {
             return null;
         }
     }
-    
+
     /**
-     * 
+     *
      * @param user
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public boolean Register(User user) throws Exception {
         if (user.getId() == 0) {
@@ -119,5 +122,39 @@ public class UserService {
             return false;
         }
     }
+
+    public ArrayList<User> getUsers() throws Exception {
+        Connection conn = null;
+        ArrayList<User> list = new ArrayList<User>();
+        try {
+            conn = DBConnect.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("select * from users");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setMail(rs.getString("mail"));
+                user.setName(rs.getString("name"));
+                user.setSurname(rs.getString("surname"));
+                list.add(user);
+            }
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+
+    }
+
+    public String getCurrentCode(User user) throws SQLException, NamingException {
+        GoogleAuthenticator ga = new GoogleAuthenticator();
+        Secret secondFactor = getSecondFactor(user);
+        if(secondFactor==null){
+            return "null";
+        } 
+        return String.valueOf(ga.getCurrentCode(secondFactor.Secret, System.currentTimeMillis()));
+    }
+    
 
 }

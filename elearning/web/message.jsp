@@ -14,7 +14,7 @@
     <div class="col col-3 text-center">
         <div class="p-error">
             <h3>
-                ${message}
+                ${messageService.popWebMessage()}
             </h3>
         </div>
     </div>

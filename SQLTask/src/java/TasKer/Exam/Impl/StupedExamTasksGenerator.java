@@ -50,12 +50,11 @@ public class StupedExamTasksGenerator implements ExamTasksGenerator {
     @Override
     public ArrayList<Task> regenerate(Work work, List list, int count, ArrayList<Result> results) {
         ArrayList generate = generate(work, list, count);
-        for(int i=0; i<results.size(); i++){
+        for (int i = 0; i < results.size(); i++) {
             generate.remove(0);
         }
         return generate;
-            
-        
+
     }
 
 }

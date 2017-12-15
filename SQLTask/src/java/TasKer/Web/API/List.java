@@ -47,7 +47,7 @@ public class List extends TasKerServlet {
         Service service = new Service();
         service.getById(1);
 
-        JsonToken token = JWTHelper.newJWT(extractURL(request));
+        JsonToken token = JWTHelper.newJWT(getServerName());
 
         JsonObject payload = token.getPayloadAsJsonObject();
         if (map.isEmpty()) {

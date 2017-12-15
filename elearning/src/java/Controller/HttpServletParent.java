@@ -7,6 +7,7 @@ package Controller;
  */
 import Entety.User;
 import Service.CourseService;
+import Service.MessageService;
 import Service.TaskService;
 import Service.UserService;
 import java.io.IOException;
@@ -31,14 +32,26 @@ public abstract class HttpServletParent extends HttpServlet {
     static protected UserService userService = new UserService();
     static protected CourseService courseService = new CourseService();
     static protected TaskService taskService = new TaskService();
+    protected MessageService messageService;
 
     abstract protected int PrivateMod();
 
     protected User user;
 
+    protected void message(String mes, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        messageService.putMessage(mes);
+        request.getRequestDispatcher("/message.jsp").forward(request, response);
+    }
+    
     private void Chose(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
         try {
+            
+            this.messageService = (MessageService) request.getSession().getAttribute("messageService");
+            if(messageService == null){
+                this.messageService = new MessageService();
+                request.getSession().setAttribute("messageService", messageService);
+            }
             this.user = (User) request.getSession().getAttribute("user");
             boolean canContinue = false;
             String mes = "";
@@ -78,7 +91,7 @@ public abstract class HttpServletParent extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/user/signIn");
                 return;
             } else {
-                throw new ServletException(mes);
+                message(mes, request, response);
             }
         } catch (Exception ex) {
             throw new ServletException(ex);

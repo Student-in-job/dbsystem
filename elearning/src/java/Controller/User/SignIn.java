@@ -10,7 +10,6 @@ import Auth.SMSAuthenticator;
 import Auth.Secret;
 import Controller.HttpServletParent;
 import Entety.User;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
@@ -27,31 +26,45 @@ public class SignIn extends HttpServletParent {
         String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         User user = new User();
-        if (user.getByMail("ksinnd@gmail.com"/*getGoogleData(request.getParameter("code"), myURL)*/)) {
-            request.getSession().setAttribute("1s_user", user);
-            Secret secret = userService.getSecondFactor(user);
-            if (secret != null) {
-                if ("phone".equals(secret.Type)) {
-                    SMSAuthenticator sms = new SMSAuthenticator();
-                    if (!sms.sendSMS(user.getId(), secret.Secret, myURL)) {
-                        throw new ServletException("SMS gateway is fail!");
+        String userMail = null;
+
+        if (Boolean.parseBoolean(request.getServletContext().getInitParameter("oAuth"))) {
+            userMail = getGoogleData(request.getParameter("code"), myURL);
+        } else {
+            userMail = request.getParameter("mail");
+        }
+        if (userMail != null) {
+            userMail = userMail.toLowerCase();
+            if (user.getByMail(userMail)) {
+                if (Boolean.parseBoolean(request.getServletContext().getInitParameter("secondFactor"))) {
+                    request.getSession().setAttribute("1s_user", user);
+                    Secret secret = userService.getSecondFactor(user);
+                    if (secret != null) {
+                        if ("phone".equals(secret.Type)) {
+                            SMSAuthenticator sms = new SMSAuthenticator();
+                            if (!sms.sendSMS(user.getId(), secret.Secret, myURL)) {
+                                message("SMS gateway is fail!", request, response);
+                                return;
+                            }
+                        }
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect("signUp");
                     }
+                } else {
+                    request.getSession().setAttribute("user", user);
+                    response.sendRedirect("cabinet");
                 }
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
             } else {
-                response.sendRedirect("signUp");
-                return;
+                message("This mail not registred in system", request, response);
             }
         } else {
-
-            throw new ServletException("This mail not registred in system");
+            request.getRequestDispatcher("mailLogin.jsp").forward(request, response);
         }
     }
 
     private String getGoogleData(String code, String my_url) throws JSONException {
 
-        
         String client_id = "1006393654499-p8mr2fj0fkg43ifvl68eo2k18o6u2qgm.apps.googleusercontent.com";
         String client_secret = "lU9JFY65Oy7Oas33THOn_CUN";
         String redirect_uri = my_url + "/user/signIn";

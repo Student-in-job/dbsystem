@@ -40,7 +40,7 @@
         </div>
     </div>
     <hr>
-    <c:forEach var="task" items="${list.tasks}">
+    <c:forEach var="task" items="${tasks}">
         <div class="row">
             <div class="col offset-1">
                 <p class="bold">${task.question} <i>(${task.time} min)</i></p>
@@ -52,7 +52,7 @@
                 <a class="test-edit" href="task?id=${task.id}">
                     <i class="fa fa-trash font-green"></i> Show
                 </a>
-                <a class="test-edit" href="${pageContext.request.contextPath}/edit/task?id=${task.id}">
+                <a class="test-edit" href="${pageContext.request.contextPath}/task/edit/task?id=${task.id}">
                     <i class="fa fa-cog font-green"></i> Edit
                 </a>
             </div>

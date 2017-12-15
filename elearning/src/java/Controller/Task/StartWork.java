@@ -28,6 +28,7 @@ public class StartWork extends HttpServletParent {
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
     }
 
     @Override
@@ -39,7 +40,7 @@ public class StartWork extends HttpServletParent {
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
+        String myName = "elearning";
         int idTask = Integer.parseInt(request.getParameter("t"));
         Task task = new Task();
         task.getById(idTask);
@@ -57,12 +58,12 @@ public class StartWork extends HttpServletParent {
 
                     HmacSHA256Signer signer;
                     try {
-                        signer = new HmacSHA256Signer(myURL, null, work.getTask().getService().getMyKey().getBytes());
+                        signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
                     } catch (InvalidKeyException e) {
                         throw new RuntimeException(e);
                     }
                     JsonToken token = new JsonToken(signer);
-                    token.setAudience(work.getTask().getService().getURL());
+                    token.setAudience(work.getTask().getService().getName());
                     token.setIssuedAt(Instant.now());
                     token.setExpiration(Instant.now().plus(60 * 1000));
                     JsonObject payload = token.getPayloadAsJsonObject();
@@ -73,16 +74,16 @@ public class StartWork extends HttpServletParent {
                     response.setHeader("Cache-Control", "no-store");
                     response.setStatus(301);
                 } else {
-                    request.setAttribute("message", "You already do this task today!");
-                    request.getRequestDispatcher("/message.jsp").forward(request, response);
+                    message("You already do this task today!", request, response);
+                    return;
                 }
             } else {
-                request.setAttribute("message", "Error!");
-                request.getRequestDispatcher("/message.jsp").forward(request, response);
+                message("Error!", request, response);
+                return;
             }
         } else {
-            request.setAttribute("message", "You cannot start this component!");
-            request.getRequestDispatcher("/message.jsp").forward(request, response);
+            message("You cannot start this component!", request, response);
+            return;
         }
 
     }

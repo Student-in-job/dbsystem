@@ -11,7 +11,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
 <sql:query var="courses" dataSource="jdbc/DB">
-    select course.id, name, start_date, description, program from course join program on program = program.id where closed = 1 order by start_date limit 3
+    select course.id, name, start_date, description, program from course join program on program = program.id where open = 1 order by start_date limit 3
 </sql:query>
     
 <%! String pageTitle = "Main Page";%>

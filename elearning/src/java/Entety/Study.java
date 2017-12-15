@@ -74,7 +74,7 @@ public class Study extends Parent {
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("user", this.UserId);
+        list.put("users", this.UserId);
         list.put("course", this.CourseId);
         list.put("completed", this.Completed?1:0);
         return list;
@@ -82,7 +82,7 @@ public class Study extends Parent {
 
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
-        this.UserId = (int) Params.get("user");
+        this.UserId = (int) Params.get("users");
         this.CourseId = (int) Params.get("course");
         this.Completed = (int) Params.get("completed")== 1;
     }

@@ -5,9 +5,9 @@
  */
 package TasKer.Web;
 
-import TasKer.Core.DBEntety;
 import TasKer.TasKer;
 import java.io.IOException;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +36,10 @@ public abstract class TasKerServlet extends HttpServlet implements TasKer {
 
     public String extractURL(HttpServletRequest request) {
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
+    
+    public String getServerName() throws NamingException{
+        return TasKer.getInitParam("serverName");
     }
 
     private void Chose(HttpServletRequest request, HttpServletResponse response) throws ServletException {

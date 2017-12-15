@@ -25,11 +25,8 @@ public interface Examinator  extends TasKer {
     
     public boolean next() throws Exception;
     
-    /**
-     *
-     * @return
-     * @throws Exception
-     */
+     public long endTime();
+    
     public Task currentTask() throws Exception;
     
     public long spentTime();
@@ -39,6 +36,10 @@ public interface Examinator  extends TasKer {
     public long totalTime();
     
     public String popMessage();
+    
+    public int getSolvedProblems();
+    
+    public Work getWork();
     
     
     

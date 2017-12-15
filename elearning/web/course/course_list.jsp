@@ -10,22 +10,22 @@
 <%@include file="/checkUser.jsp" %>
 
 <sql:query var="courses" dataSource="jdbc/DB">
-    select course.id as id, start_date, program, name, duration, description, user, (select concat(name, ' ', surname) from user where id=user) as user_name
+    select open, course.id as id, start_date, program, name, duration, description, users, (select concat(name, ' ', surname) from users where id=users) as user_name
     from course join program on program = program.id where course.id=?
-    <sql:param value="${param.id}"/>
+    <sql:param value="${Integer.parseInt(param.id)}"/>
 </sql:query>
-    
+
 <c:forEach items="${courses.rows}" var="course">
-    
+
     <c:if test="${courses.rowCount != 1}">
         <c:redirect url="/error" />
     </c:if>
     <c:if test="${course.user == user.id}">
         <c:set var="tuter" value="true"/>
     </c:if>
-    
+
     <sql:query var="tasks" dataSource="jdbc/DB">
-        SELECT id, name, total_count, passing_count, time, period, starttime, (select start_date from course where id=${course.id}) + interval day-1 day AS startday, (select start_date from course where id=${course.id}) + interval day-1+period-1 day AS endday  FROM task;
+        SELECT id, name, total_count, passing_count, time, period, starttime, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1) AS startday, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1+period-1) AS endday  FROM task;
     </sql:query>
     <%--
     <sql:query var="materials" dataSource="jdbc/DB">
@@ -33,10 +33,10 @@
     </sql:query>
     --%>    
     <sql:query var="students" dataSource="jdbc/DB">
-        select * from user where exists (select * from study where user = user.id and course=${course.id} and completed=0)
+        select * from users where exists (select * from study where users = users.id and course=${course.id} and completed=0)
     </sql:query>
-        
-        
+
+
     <%! String pageTitle = "Course";%>
     <%@include file="/header.jsp" %>
     <div  class="box " >
@@ -54,7 +54,7 @@
                         Duration: ${course.duration} days<br> 
                         Teacher:  ${course.user_name}<br>  
                         <c:if test="${course.open==1}">
-                            <a href="${pageContext.request.contextPath}/course/join?id=${course.id}"><button class="button small round error">JOIN</button></a>
+                            <button onclick="join()" class="button small round error">JOIN</button>
                         </c:if>
                     </p>
                 </div>
@@ -143,5 +143,27 @@
             </c:if>
         </div>
     </div>
+    <div id="my-modal" class="modal-box hide">
+        <div class="modal">
+            <span class="close"></span>
+            <div class="modal-header"></div>
+            <div id="modalBody" class="modal-body text-center">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function join() {
+
+            $.ajax("${pageContext.request.contextPath}/course/join?id=${course.id}", {
+                        method: 'get',
+                        success: function (result) {
+                            document.getElementById("modalBody").innerHTML = result;
+                            $.modalwindow({target: '#my-modal', width: '300px', header: 'Response'});
+                        }
+                    });
+
+                }
+    </script>
     <%@include file="/footer.jsp" %>
 </c:forEach>

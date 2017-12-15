@@ -7,6 +7,7 @@ import TasKer.Web.TasKerServlet;
 import static TasKer.TasKer.getListFactory;
 import TasKer.Exam.Examinator;
 import TasKer.Exam.Impl.SimpleExamenator;
+import TasKer.Tasks.Impl.Service;
 import TasKer.Work.Work;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,13 +19,15 @@ public class StartExam extends TasKerServlet {
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        Service service = new Service();
+        service.getById(1);
         JsonToken iToken = JWTHelper.parsJWT(request.getParameter("t"));
-        if (JWTHelper.check(iToken, extractURL(request))) {
+        if (JWTHelper.check(iToken, getServerName())) {
             String WORK_KEY = iToken.getParamAsPrimitive("work_key").getAsString();
-            HTTPClient client = new HTTPClient(iToken.getIssuer() + "/api/work/get", "work_key=" + WORK_KEY, "POST");
+            HTTPClient client = new HTTPClient(service.getURL() + "/api/work/get", "work_key=" + WORK_KEY, "POST");
             client.sendRequest();
             JsonToken token = JWTHelper.parsJWT(client.getRequestText());
-            if (JWTHelper.check(token, extractURL(request))) {
+            if (JWTHelper.check(token,  getServerName())) {
                 if (token.getParamAsPrimitive("status").getAsInt() == 200) {
                     Work work = new WorkEntety();
                     Examinator exam = new SimpleExamenator();

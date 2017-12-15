@@ -79,7 +79,7 @@ public class Add extends HttpServletParent {
             task.setServiceId(service);
 
             if (task.Write()) {
-                response.sendRedirect(request.getContextPath()+"/program/render?id="+task.getProgram().getId());
+                response.sendRedirect(request.getContextPath()+"/program/render?id="+pg.getId());
             } else {
                 request.setAttribute("task", task);
                 request.setAttribute("program", pg);

@@ -24,7 +24,7 @@
             </div>
 
             <div class="form-item sql-teatarea">
-                <label>Question:</label>
+                <label>SQL answer:</label>
                 <c:if test="${task.exception!=null}">
                     <b style="color: #f00">${task.exception.message}</b>
                 </c:if>  

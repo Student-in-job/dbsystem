@@ -10,12 +10,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
 <sql:query var="programs" dataSource="jdbc/DB">
-    select id, name from program where user = ${user.id};
+    select id, name from program where users = ${user.id};
 </sql:query>
 <sql:query var="studys" dataSource="jdbc/DB">
-    select course, s.id, name, completed  from (study s join course c on s.course=c.id) join program p on c.program = p.id where s.user = ${user.id}</sql:query>  
+    select course, s.id, name, completed  from (study s join course c on s.course=c.id) join program p on c.program = p.id where s.users = ${user.id}</sql:query>  
 <sql:query var="courses" dataSource="jdbc/DB">
-    select course.*, name  from program join course on program.id=program where user = ${user.id}
+    select course.*, name  from program join course on program.id=program where users = ${user.id}
 </sql:query>
 
 
@@ -65,7 +65,10 @@
                 <h3>Study</h3>
                 <c:forEach var="study" items="${studys.rows}">
                     <sql:query var="tasks" dataSource="jdbc/DB">
-                        SELECT time(now()) between  time(date(now()) + interval starttime hour) and time(date(now()) + interval starttime hour + interval time minute) as mayStart, id, name, total_count, passing_count, time, starttime, period FROM task where date(now()) between (select start_date from course where id=${study.course}) + interval day-1 day and (select start_date from course where id=${study.course}) + interval day-1+period-1 day                    
+                        SELECT current_time between  (time '00:00' + interval '1 hour' * starttime) and (time '00:00' + (interval '1 hour'*starttime) + (interval '1 minute'*time)) as mayStart, 
+                        id, name, total_count, passing_count, time, starttime, period 
+                        FROM task 
+                        where current_date between (select start_date from course where id=${study.course}) + interval '1 day'*(day-1) and (select start_date from course where id=${study.course}) + interval '1 day'*(day-1+period-1)                   
                     </sql:query>
                     <p>
                         <a href="${pageContext.request.contextPath}/course/render?id=${study.course}">${study.name}</a>  <c:if test="${study.completed == 1}">completed</c:if>
@@ -77,15 +80,15 @@
                             </c:when>
                             <c:when test="${tasks.rowCount!=0}">
                                 <c:forEach items="${tasks.rows}" var="task"> 
-                                            <h6>${task.name}</h6>
-                                            <p>
-                                                at ${task.starttime}:00 ${task.time}m for ${task.total_count} tasks (passing: ${task.passing_count})
-                                            </p>
-                                            <p>
-                                                <c:if test="${task.mayStart==1}">
-                                                    <a href="${pageContext.request.contextPath}/task/work/${System.currentTimeMillis()}?s=${study.id}&t=${task.id}"><button class="button round outline">Start</button></a>
-                                                </c:if>
-                                            </p>
+                                    <h6>${task.name}</h6>
+                                    <p>
+                                        at ${task.starttime}:00 ${task.time}m for ${task.total_count} tasks (passing: ${task.passing_count})
+                                    </p>
+                                    <p>
+                                        <c:if test="${task.mayStart}">
+                                            <a href="${pageContext.request.contextPath}/task/work/${System.currentTimeMillis()}?s=${study.id}&t=${task.id}"><button class="button round outline">Start</button></a>
+                                        </c:if>
+                                    </p>
                                 </c:forEach> 
                             </c:when>
                         </c:choose>

@@ -65,7 +65,7 @@ public class ResultEntety extends DBEntety implements Result {
 
     @Override
     public boolean save() throws Exception {
-        try {
+        try {            
             return this._insertOrUpdate();
         } catch (Exception ex) {
             log.error(null, ex);

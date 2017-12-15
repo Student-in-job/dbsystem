@@ -29,14 +29,14 @@ public class JWTHelper {
 
     private static final Logger log = Logger.getLogger(JWTHelper.class.getName());
 
-    public static JsonToken newJWT(String url) throws Exception {
+    public static JsonToken newJWT(String name) throws Exception {
         try {
             Service service = new Service();
             service.getById(1);
             HmacSHA256Signer signer;
-            signer = new HmacSHA256Signer(url, null, service.getMyKey().getBytes());
+            signer = new HmacSHA256Signer(name, null, service.getMyKey().getBytes());
             JsonToken token = new JsonToken(signer);
-            token.setAudience(service.getURL());
+            token.setAudience(service.getName());
             token.setIssuedAt(Instant.now());
             token.setExpiration(Instant.now().plus(60 * 1000));
             return token;
@@ -85,7 +85,7 @@ public class JWTHelper {
         if (jt.getExpiration().getMillis() < System.currentTimeMillis()) {
             return false;
         }
-        return audience.equals(jt.getAudience());
+        return audience.equalsIgnoreCase(jt.getAudience());
     }
 
 }

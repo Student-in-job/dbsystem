@@ -123,6 +123,7 @@ public class Service extends Parent {
         if (token.getExpiration().getMillis() > System.currentTimeMillis()) {
             if (token.getParamAsPrimitive("status").getAsInt() == 200) {
                 String strMap = token.getParamAsPrimitive("list").getAsString().replaceAll("\\{|\\}", "");
+                strMap = strMap.replaceAll(" ", "");
                 Map<String, String> task = Splitter.on(",").withKeyValueSeparator("=").split(strMap);
                 return task;
             } else {
