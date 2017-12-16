@@ -178,7 +178,7 @@ public class SimpleExamenator implements Examinator {
                 result.setTaskId(currentTask().getId());
                 result.setMark(-1);
                 result.setWorkId(work.getId());
-                //result.save();
+                result.save();
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
@@ -231,7 +231,7 @@ public class SimpleExamenator implements Examinator {
                 }
                 Result result = checkedAnswer.getResult();
                 result.setWorkId(work.getId());
-                //result.save();
+                result.save();
         } catch (Exception ex) {
             log.error(null, ex);
             throw ex;
