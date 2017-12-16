@@ -393,6 +393,17 @@ ul.pagination li a:hover:not(.active) {
     background-color: #ddd;
 }
 
+a.test-link{
+    text-decoration: none;
+    color: #333;
+    padding-right: 10px;
+}
+
+a.test-link:hover {
+    /*border-bottom: 1px solid #96b77d;*/
+    color: #83C650;
+}
+
 a.test-edit{
     text-decoration: none;
     color: #7b7b7b;

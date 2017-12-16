@@ -16,7 +16,7 @@
     <Environment name="cntxt/listFactory" override="false" type="java.lang.String" value="My.SQLListFactory"/>
     <Environment name="cntxt/taskFactory" override="false" type="java.lang.String" value="My.SQLTaskFactory"/>
     <Environment name="cntxt/checker" override="false" type="java.lang.String" value="My.SQLChecker"/>
-    <Environment name="cntxt/examTasksGenerator" override="false" type="java.lang.String" value="TasKer.Exam.Impl.StupedExamTasksGenerator"/>
+    <Environment name="cntxt/examTasksGenerator" override="false" type="java.lang.String" value="TasKer.Exam.Impl.CleverExamTasksGenerator"/>
     <Environment name="cntxt/answerFactory" override="false" type="java.lang.String" value="My.SQLAnswerFactory"/>
     <Environment name="cntxt/serverName" override="false" type="java.lang.String" value="sqlTask"/>
   

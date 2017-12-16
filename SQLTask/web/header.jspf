@@ -10,26 +10,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">       <!-- Kube CSS -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube_new.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/kube-ext.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/master.css">
         <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/kube.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/kube.js"></script>
 
     </head>
     <body>
-        <div class="message">
-            ${oneTimeMessage}
-        </div>
         <div class="row around">
-            <div class="col col-3 space-top">
+            <div class="col col-4 space-top">
             </div>
-            <div class="col col-3 text-center">
-                <div class="item centered logo"></div>
+            <div class="col col-4 text-center">
+                <div class="item logo centered"></div>
                 <h5 class="upper primary"><img width="150" src="${pageContext.request.contextPath}/resources/img/name.png"><%--=request.getServletContext().getInitParameter("SiteName")--%></h5>
             </div>                
-            <div class="col col-3">
+            <div class="col col-4">
 
             </div>          
         </div>
