@@ -55,7 +55,7 @@
                                         <span class="italic">${examinator.solvedProblems}/${examinator.work.count}</span>
                                     </div>
                                     <div class="col col-2 text-center">
-                                        <a href="next" class="label outline">Next</a> 
+                                        <button onclick="$.modalwindow({target: '#next-modal', width: '500px'});" class="label outline round small">Пропустить</button> 
                                     </div>
                                     <div class="col col-2 text-right"> 
                                         <span class="italic" title="ball"><i class="fa fa-diamond"></i> ${answer.task.ball}</span>
@@ -110,6 +110,18 @@
                         <div class="modal-body text-center">
                             <p>Time expired</p>
                             <p><a href="next" class="button outline">next task &rArr;</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="next-modal" class="modal-box hide">
+                    <div class="modal">
+                        <span class="close"></span>
+                        <div class="modal-header">Пропустить задание</div>
+                        <div class="modal-body text-center">                           
+                            <p>Если вы пропустите задание, то вы не сможете потом к нему вернуться.</p>
+                            <p>Вы уверены, что хотите пропустить это здание?</p>
+                            <p class="strong">За это задание вам будет выстввлено <span class="error">0 балов</span></p>
+                            <p><a href="next" class="button outline">Пропустить</a> <a href="#" class="button outline primary" data-action="modal-close">Нет</a></p>
                         </div>
                     </div>
                 </div>

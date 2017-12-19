@@ -16,7 +16,7 @@ import org.apache.commons.codec.binary.Base32;
  */
 public class GoogleAuthenticator extends SecondFactor {
 
-    public static final long liveTime = 30 * 2 * 60 * 4;
+    public static final long liveTime = 30 * 2 * 60 * 24;
 
     /**
      * set the windows size. This is an integer value representing the number of

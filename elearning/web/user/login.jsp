@@ -16,7 +16,7 @@
             <form class="form" action="signIn" method="post">
                 <div class="form-item">
                     <label>Code</label>
-                    <input type="number" name="code" required >
+                    <input type="text" name="code" required >
                 </div>
 
                 <div class="form-item">

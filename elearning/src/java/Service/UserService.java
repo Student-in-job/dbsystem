@@ -128,7 +128,7 @@ public class UserService {
         ArrayList<User> list = new ArrayList<User>();
         try {
             conn = DBConnect.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("select * from users");
+            PreparedStatement stmt = conn.prepareStatement("select * from users order by surname");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 User user = new User();

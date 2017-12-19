@@ -75,7 +75,9 @@
                     <li><a href="#material">MATERIAL</a></li>
                     <li class="active"><a href="#task">TASK</a></li>
                     <li><a href="#tab13">STUDENTS</a></li>
-                    <li><a href="#result">RESULT</a></li>
+                        <c:if test="${tuter}">
+                        <li><a href="#result">RESULT</a></li>
+                        </c:if>
                 </ul>
             </nav>
             <%--<div id="material"  >
@@ -126,51 +128,20 @@
                     </div>
                 </c:if>
             </div>
-            <div id="result">
-                <nav class="tabs space-top" data-component="tabs">
-                    <ul>
-                        <c:forEach items="${tasks.rows}" var="task">
-                            <li><a href="#task${task.id}">${task.name}</a></li>
-                            </c:forEach>
-                    </ul>
-                </nav>
-                <c:forEach items="${tasks.rows}" var="task">
-                    <sql:query var="res" dataSource="jdbc/DB">
-                        select users, name, surname, (select completed from work where task = ${task.id} and study = study.id) as result 
-                        from study join users on users.id = users 
-                        where course = ${course.id}  
-                        order by result                    
-                    </sql:query>
-                    <div id="task${task.id}">
-                        <table calss="bordered striped">
+            <c:if test="${tuter}">
+                <div id="result">
+                    <table>
+                        <c:forEach var="row" items="${marks}">
                             <tr>
-                                <td>Name</td>
-                                <td>Result</td>
-                            </tr>
-                            <c:forEach items="${res.rows}" var="res">
-                                <tr>
-                                    <td>${res.surname} ${res.name}</td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${res.result == -1}">
-                                                not completed
-                                            </c:when>
-                                            <c:when test="${res.result == null}">
-                                                no attempt
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${res.result}
-                                            </c:otherwise>
-                                        </c:choose>                                        
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </div>
-                </c:forEach>
-            </div>
+                                <c:forEach var="cell" items="${row}">
+                                    <td>${cell}</td>
+                                </c:forEach>
+                            </tr> 
+                        </c:forEach>
+                    </table>                
+                </div>
+            </c:if>
         </div>
-
     </div>
     <div id="my-modal" class="modal-box hide">
         <div class="modal">

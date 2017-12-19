@@ -54,11 +54,13 @@
                             <b class="error">${task.exception.message}</b>
                         </c:when>                
                         <c:when test="${task.executeResult!=null}">
-                            <table class="">
+                            <table class="bordered striped">                                
                                 <c:forEach var="row" items="${task.executeResult}">
-                                    <c:forEach var="cell" items="${row}">
-                                        <td>${cell}</td>
-                                    </c:forEach>
+                                    <tr>
+                                        <c:forEach var="cell" items="${row}">
+                                            <td>${cell}</td>
+                                        </c:forEach>
+                                    </tr>
                                 </c:forEach>
                             </table> 
                         </c:when>
