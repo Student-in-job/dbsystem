@@ -46,5 +46,5 @@
         <script src="${pageContext.request.contextPath}/resourse/js/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/resourse/js/kube.min.js"></script>
     </head>
-    <body>
+
 

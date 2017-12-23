@@ -13,11 +13,11 @@
     <div class="col offset-2 col-8">
         <nav class="breadcrumbs">
             <ul>
-                <li><a class="test-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
-                <li><a class="test-link" href="${pageContext.request.contextPath}/task/list?id=${task.list.id}">${task.list.name}</a></li>
+                <li><a class="green-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
+                <li><a class="green-link" href="${pageContext.request.contextPath}/task/list?id=${task.list.id}">${task.list.name}</a></li>
                     <c:choose>
                         <c:when test="${not empty param.id}">
-                        <li><a class="test-link" href="${pageContext.request.contextPath}/task/task?id=${task.id}">Task</a></li>
+                        <li><a class="green-link" href="${pageContext.request.contextPath}/task/task?id=${task.id}">Task</a></li>
                         <li><span>Edit</span></li>
                         </c:when>
                         <c:otherwise>
@@ -39,7 +39,7 @@
             </div>
             <div class="col col-5 text-right">
                 <p>
-                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="test-edit">
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="green-edit">
                         <i class="fa fa-code font-green" aria-hidden="true"></i>
                         DBM 
                     </a>

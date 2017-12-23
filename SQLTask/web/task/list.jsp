@@ -13,7 +13,7 @@
     <div class="col offset-2 col-8">
         <nav class="breadcrumbs">
             <ul>
-                <li><a class="test-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
+                <li><a class="green-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
                 <li><span>${list.name}</span></li>
             </ul>
         </nav>
@@ -32,19 +32,19 @@
             </div>
             <div class="col col-5 text-right">
                 <p>
-                    <a class="test-edit" href="edit/list?id=${list.id}">
+                    <a class="green-edit" href="edit/list?id=${list.id}">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
-                    <a href="add/task?list=${list.id}" class="test-edit">
+                    <a href="add/task?list=${list.id}" class="green-edit">
                         <i class="fa fa-plus font-green" aria-hidden="true"></i>
                         Add task 
                     </a>
-                    <a class="test-edit" href="?id=${list.id}&check=1">
+                    <a class="green-edit" href="?id=${list.id}&check=1">
                         <i class="fa fa-check-circle font-green" aria-hidden="true"></i>
                         Check
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="test-edit">
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="green-edit">
                         <i class="fa fa-code font-green" aria-hidden="true"></i>
                         DBM 
                     </a>
@@ -84,13 +84,13 @@
                     </c:otherwise>
                 </c:choose>
                 <div class="col col-9">
-                    <p class="bold"><a class="test-link" href="task?id=${task.id}">${task.question}</a></p>
-                    <div class="form-item checkboxes">
+                    <p class="bold"><a class="green-link" href="task?id=${task.id}">${task.question}</a></p>
+                    <p>
                         <p>${task.answer}</p>
-                    </div>
+                    </p>
                 </div>
                 <div class="col col-2 text-right">
-                    <a class="test-edit" href="${pageContext.request.contextPath}/task/edit/task?id=${task.id}">
+                    <a class="green-edit" href="${pageContext.request.contextPath}/task/edit/task?id=${task.id}">
                         <i class="fa fa-cog"></i> Edit
                     </a>
                 </div>

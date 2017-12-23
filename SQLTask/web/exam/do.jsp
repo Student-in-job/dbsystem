@@ -29,7 +29,7 @@
                 ${examinator.popMessage()}
             </div>
         </div>
-        <div class="test row space-top">
+        <div class="green row space-top">
             <div class="col col-12 centered">
                 <script src="${pageContext.request.contextPath}/resources/js/flipclock.js"></script>         
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flipclock.css">

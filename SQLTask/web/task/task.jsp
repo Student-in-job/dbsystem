@@ -14,8 +14,8 @@
     <div class="col offset-2 col-8 centered">
         <nav class="breadcrumbs">
             <ul>
-                <li><a class="test-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
-                <li><a class="test-link" href="${pageContext.request.contextPath}/task/list?id=${task.list.id}">${task.list.name}</a></li>
+                <li><a class="green-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
+                <li><a class="green-link" href="${pageContext.request.contextPath}/task/list?id=${task.list.id}">${task.list.name}</a></li>
                 <li><span>Task</span></li>
             </ul>
         </nav>
@@ -26,11 +26,11 @@
             </div>
             <div class="col col-5 text-right">
                 <p>
-                    <a class="test-edit" href="edit/task?id=${task.id}">
+                    <a class="green-edit" href="edit/task?id=${task.id}">
                         <i class="fa fa-cog font-green" aria-hidden="true"></i>
                         Edit
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="test-edit">
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="green-edit">
                         <i class="fa fa-code font-green" aria-hidden="true"></i>
                         DBM 
                     </a>
