@@ -21,7 +21,7 @@
         </nav>
         <div class="row space-top">
             <div class="col col-7">
-                <h4><a class="test-link" href="list?id=${task.list.id}">${task.list.name}</a></h4>
+                <h3>${task.list.name}</h3>
                 <p><i class="fa fa-clock-o font-green" aria-hidden="true"></i> ${task.time} min  <i title="Ball" class="fa fa-diamond font-green" aria-hidden="true"></i> ${task.ball} </p>
             </div>
             <div class="col col-5 text-right">

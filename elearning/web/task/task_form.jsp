@@ -32,7 +32,7 @@
                 <label>Group ID:</label>
                 <select required name="group" >
                     <c:forEach items="${tasks}" var="list">
-                        <option <c:if test="${list.key.equals(task.groupId)}">selected</c:if> value="${list.key}">${list.value}</option>
+                        <option <c:if test="${list.key eq task.groupId}">selected</c:if> value="${list.key}">${list.value}</option>
                     </c:forEach>
                 </select>
             </div>

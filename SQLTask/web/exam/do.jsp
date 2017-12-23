@@ -69,10 +69,11 @@
                                 <form class="form" id="checkAnswer" method="POST" action="">    
                                     <div class="form-item">
                                         <label class="strong">${answer.task.question}</label>
-                                        <textarea rows="8" required  name="answer">${answer.query}</textarea>
+                                        <textarea id="sql_input" rows="8" required  name="answer">${answer.query}</textarea>
                                     </div>
                                     <div class="form-item text-center">
-                                        <button class="warning small button round"><i class="fa fa-play"></i></button>
+                                        <button id="run" class="warning small button round"><i class="fa fa-play"></i></button>
+                                        <div class="desc">or press Shift+Enter</div>
                                     </div>
                                 </form>
                             </div>
@@ -109,7 +110,7 @@
                         <div class="modal-header">Woops</div>
                         <div class="modal-body text-center">
                             <p>Time expired</p>
-                            <p><a href="next" class="button outline">next task &rArr;</a></p>
+                            <p><a id="time_out" href="next" class="button outline">next task &rArr;</a></p>
                         </div>
                     </div>
                 </div>
@@ -126,6 +127,9 @@
                     </div>
                 </div>
                 <script>
+
+
+
                     var t = (${examinator.leftTime()}) / 1000;
                     if (t < 0)
                         t = 0;
@@ -136,11 +140,24 @@
                         countdown: true,
                         callbacks: {
                             stop: function () {
+                                $('#my-modal').on('open.modal', function ()
+                                {
+                                    setTimeout(window.location="${pageContext.request.contextPath}/exam/next", 10000);
+                                });
                                 $.modalwindow({target: '#my-modal', width: '300px'});
+
+
 
                             }
                         }
 
+                    });
+                    $('#sql_input').focus();
+                    $('#sql_input').keydown(function (e) {
+                        if (e.shiftKey && e.keyCode === 13) {
+                            $('#run').click();
+                            return false;
+                        }
                     });
                 </script> 
 

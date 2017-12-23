@@ -16,7 +16,7 @@
             <form class="form" action="signIn" method="get">
                 <div class="form-item">
                     <label>Google mail</label>
-                    <input type="text" name="mail" required >
+                    <input type="email" name="mail" required >
                 </div>
 
                 <div class="form-item">

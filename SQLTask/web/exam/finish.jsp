@@ -15,8 +15,8 @@
     <div class="col col-8 space-top">
         <!--<canvas id="chart"style="zoom: 1"></canvas>-->
         <img src="${pageContext.request.contextPath}/resources/img/salut.png" alt="salut">
-        <h3>You complete exam</h3>    
-        <h4>${work.countAccepted}/${work.count} task was accepted</h4>
+        <h4>You complete exam</h4>    
+        <h1 class="error">${work.countAccepted}/${work.count} task was accepted</h1>
         <p class="space-top"><a href="/elearning" class="button warning round">&larr; Go back</a></p>           
     </div>
 </div>

@@ -25,7 +25,7 @@
     </c:if>
 
     <sql:query var="tasks" dataSource="jdbc/DB">
-        SELECT id, name, total_count, passing_count, time, period, starttime, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1) AS startday, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1+period-1) AS endday  FROM task;
+        SELECT id, name, total_count, passing_count, time, period, starttime, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1) AS startday, (select start_date from course where id=${course.id}) + interval '1 day' * (day-1+period-1) AS endday  FROM task where program = ${course.program};
     </sql:query>
     <%--
     <sql:query var="materials" dataSource="jdbc/DB">
@@ -136,7 +136,7 @@
                 </nav>
                 <c:forEach items="${tasks.rows}" var="task">
                     <sql:query var="res" dataSource="jdbc/DB">
-                        select users, name, surname, (select completed from work where task = ${task.id} and study = study.id) as result 
+                        select mail ,users, name, surname, (select max(completed) from work where task = ${task.id} and study = study.id) as result 
                         from study join users on users.id = users 
                         where course = ${course.id}  
                         order by result                    
@@ -144,11 +144,13 @@
                     <div id="task${task.id}">
                         <table calss="bordered striped">
                             <tr>
+                                <td>mail</td>
                                 <td>Name</td>
                                 <td>Result</td>
                             </tr>
                             <c:forEach items="${res.rows}" var="res">
                                 <tr>
+                                    <td>${res.mail}</td>
                                     <td>${res.surname} ${res.name}</td>
                                     <td>
                                         <c:choose>

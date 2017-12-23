@@ -462,7 +462,7 @@ public abstract class DBEntety implements TasKer {
             }
             query = query.substring(0, query.length() - 3);
         }
-        query += ";";
+        query += " order by id;";
 
         return query;
     }

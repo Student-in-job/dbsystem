@@ -9,51 +9,96 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@include file="/header.jspf"%>
-
-<div class="row centered registration">
-    <div class="col col-4">
-
-        <form id="form" class="form" action="" method="POST">
-            <h3 class="text-centered">Task</h3>
-            <input type="hidden" name="list" value="${task.list.id}"> 
-            <input type="hidden" name="id" value="${task.id}"> 
-
-            <div class="form-item sql-teatarea">
-                <label>Question:</label>
-                <textarea id="input" required name="question">${task.question}</textarea>
+<div class="row">
+    <div class="col offset-2 col-8">
+        <nav class="breadcrumbs">
+            <ul>
+                <li><a class="test-link" href="${pageContext.request.contextPath}/cabinet">Home</a></li>
+                <li><a class="test-link" href="${pageContext.request.contextPath}/task/list?id=${task.list.id}">${task.list.name}</a></li>
+                    <c:choose>
+                        <c:when test="${not empty param.id}">
+                        <li><a class="test-link" href="${pageContext.request.contextPath}/task/task?id=${task.id}">Task</a></li>
+                        <li><span>Edit</span></li>
+                        </c:when>
+                        <c:otherwise>
+                        <li><span>Add</span></li>
+                        </c:otherwise>
+                    </c:choose>
+            </ul>
+        </nav>
+        <div class="row space-top">
+            <div class="col col-7">
+                <c:choose>
+                    <c:when test="${not empty param.id}">
+                        <h3>Edit task in ${task.list.name}</h3>
+                    </c:when>
+                    <c:otherwise>
+                        <h3>Add task in ${task.list.name}</h3>
+                    </c:otherwise>
+                </c:choose>
             </div>
-
-            <div class="form-item sql-teatarea">
-                <label>SQL answer:</label>
-                <c:if test="${task.exception!=null}">
-                    <b style="color: #f00">${task.exception.message}</b>
-                </c:if>  
-                <textarea required name="answer">${task.answer}</textarea>
+            <div class="col col-5 text-right">
+                <p>
+                    <a href="${pageContext.request.contextPath}/admin/DataBaseManager?group=${list.id}" class="test-edit">
+                        <i class="fa fa-code font-green" aria-hidden="true"></i>
+                        DBM 
+                    </a>
+                </p>
             </div>
+        </div>
 
-            <div class="form-item">
-                <label>Image:</label> 
-                <input class="width-100" type="text" name="img" value="${task.img}">
+        <hr class="space-both">
+
+        <div class="row centered">
+            <div class="col">
+                <form id="form" class="form" action="" method="POST">
+                    <input type="hidden" name="list" value="${task.list.id}"> 
+                    <input type="hidden" name="id" value="${task.id}"> 
+
+                    <div class="form-item sql-teatarea">
+                        <label>Question:</label>
+                        <textarea class="w20" required name="question" rows="6">${task.question}</textarea>
+                    </div>
+
+                    <div class="form-item sql-teatarea">
+                        <label>SQL answer:</label>                
+                        <textarea class="w50 <c:if test="${task.exception!=null}">error</c:if> " rows="6"  required name="answer">${task.answer}</textarea>
+                            <label>
+                            <c:if test="${task.exception!=null}">
+                                <b class="error">${task.exception.message}</b>
+                            </c:if>
+                        </label>
+                    </div>
+                    <div class="row gutters">
+                        <div class="col col-3">
+                            <div class="form-item">
+                                <label>Time(in minuts):</label>
+                                <input class="w20" min="1" type="number" name="time" value="${task.time}">
+                            </div>
+                        </div>
+                        <div class="col col-3">
+                            <div class="form-item">
+                                <label>Ball:</label>
+                                <input class="w20" min="1" type="number" name="ball" value="${task.ball}">
+                            </div>
+                        </div> 
+                        <div class="col col-3">
+                            <div class="form-item">
+                                <label>Image:</label> 
+                                <input class="w20" type="text" name="img" value="${task.img}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item text-centered">
+                        <button class="button primary w20 big">Complete</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-item">
-                <label>Time(in minuts):</label>
-                <input class="width-100" min="1" type="number" name="time" value="${task.time}">
-            </div>
-
-
-            <div class="form-item">
-                <label>Ball:</label>
-                <input class="width-100" min="1" type="number" name="ball" value="${task.ball}">
-            </div>
-
-            <div class="form-item">
-                <button class="button primary width-100 big">Complete</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script> 
+</div> 
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script> 
 <script>
     $(document).ready(function () {
 

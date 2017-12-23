@@ -68,10 +68,10 @@
                         SELECT current_time between  (time '00:00' + interval '1 hour' * starttime) and (time '00:00' + (interval '1 hour'*starttime) + (interval '1 minute'*time)) as mayStart, 
                         id, name, total_count, passing_count, time, starttime, period 
                         FROM task 
-                        where current_date between (select start_date from course where id=${study.course}) + interval '1 day'*(day-1) and (select start_date from course where id=${study.course}) + interval '1 day'*(day-1+period-1)                   
+                        where program=(select program from course where id=${study.course}) and current_date between (select start_date from course where id=${study.course}) + interval '1 day'*(day-1) and (select start_date from course where id=${study.course}) + interval '1 day'*(day-1+period-1)                   
                     </sql:query>
                     <p>
-                        <a href="${pageContext.request.contextPath}/course/render?id=${study.course}">${study.name}</a>  <c:if test="${study.completed == 1}">completed</c:if>
+                    <h3><a href="${pageContext.request.contextPath}/course/render?id=${study.course}">${study.name}</a>  <c:if test="${study.completed == 1}">completed</c:if></h3>
                         </p>
                         <div>
                         <c:choose>

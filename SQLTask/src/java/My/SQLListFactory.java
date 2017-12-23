@@ -89,11 +89,13 @@ public class SQLListFactory implements ListFactory {
 
             Map<String, String[]> request_params = request.getParameterMap();
 
+;
             String schema = request_params.getOrDefault("schema", new String[]{list.getSchema()})[0];
             String name = request_params.getOrDefault("name", new String[]{list.getName()})[0];
             String publish = request_params.getOrDefault("public", new String[]{list.isPublic() ? "1" : "0"})[0];
 
             list.setName(name);
+            list.setSchema(schema);
             list.setPublish("on".equals(publish));
             return list;
         } catch (Exception ex) {

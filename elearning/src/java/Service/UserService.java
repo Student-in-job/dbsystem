@@ -147,13 +147,13 @@ public class UserService {
 
     }
 
-    public String getCurrentCode(User user) throws SQLException, NamingException {
+    public long getCurrentCode(User user) throws SQLException, NamingException {
         GoogleAuthenticator ga = new GoogleAuthenticator();
         Secret secondFactor = getSecondFactor(user);
         if(secondFactor==null){
-            return "null";
+            return -1;
         } 
-        return String.valueOf(ga.getCurrentCode(secondFactor.Secret, System.currentTimeMillis()));
+        return ga.getCurrentCode(secondFactor.Secret, System.currentTimeMillis());
     }
     
 

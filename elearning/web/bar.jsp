@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <a class="h3" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>
+        <!--<a class="h3" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>-->
     </div>
     <div class="col col-3 text-center">
         <a href="${pageContext.request.contextPath}"><div class="item centered logo"></div></a>
@@ -85,7 +85,7 @@
                         <form class="form" method="get" action="${pageContext.request.contextPath}/user/signIn">
                             <div class="form-item">
                                 <label>Google mail</label>
-                                <input type="text" name="mail" required >
+                                <input type="email" name="mail" required >
                             </div>
 
                             <div class="form-item">
