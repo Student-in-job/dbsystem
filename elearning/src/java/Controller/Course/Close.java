@@ -30,7 +30,7 @@ public class Close extends HttpServletParent {
             int id = Integer.parseInt(request.getParameter("id"));
             Course course = new Course();
             course.getById(id);
-            course.setClosed(true);
+            course.setStatus(0);
             if (course.Update()) {
                 out.write("{'result':'ok'}");
             } else {

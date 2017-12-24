@@ -102,7 +102,7 @@ public class Task extends Component {
         list.put("group_id", this.GroupId);
         list.put("name", this.Name);
         list.put("day", this.Day);
-        list.put("program", this.ProgramId);
+        list.put("course", this.CourseId);
         list.put("total_count", this.TitalCount);
         //list.put("passing_count", this.PassingCount);
         list.put("time", this.Time);
@@ -118,13 +118,15 @@ public class Task extends Component {
         this.Name = (String) Params.get("name");
         this.GroupId = (int) Params.get("group_id");
         this.Day = (int) Params.get("day");
-        this.ProgramId = (int) Params.get("program");
+        this.CourseId = (int) Params.get("course");
         this.TitalCount = (int) Params.get("total_count");
         //this.PassingCount = (int) Params.get("passing_count");
         this.Time = (int) Params.get("time");
         this.StartTime = (int) Params.get("starttime");
         //this.Period = (int) Params.get("period");
         this.ServiceId = (int) Params.get("service");
+        this.ReadCourseFromDB();
+        this.readServiceFromDB();
     }
 
     @Override

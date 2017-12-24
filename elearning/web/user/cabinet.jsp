@@ -9,15 +9,15 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
-<sql:query var="programs" dataSource="jdbc/DB">
-    select id, name from program where users = ${user.id};
-</sql:query>
-
 <sql:query var="studys" dataSource="jdbc/DB">
-    select course, s.id, name, completed, (now()::date - start_date)+1 as day  from (study s join course c on s.course=c.id) join program p on c.program = p.id where s.users = ${user.id}</sql:query>  
+    select course, s.id, name, completed, (now()::date - start_date)+1 as day  
+    from (study s join course c on s.course=c.id) 
+    where s.users = ${user.id}</sql:query>  
 
 <sql:query var="courses" dataSource="jdbc/DB">
-    select course.*, name, duration, (start_date + interval '1 day'*duration)::date as end_date  from program join course on program.id=program where users = ${user.id}
+    select course.*, (start_date + interval '1 day'*duration)::date as end_date  
+    from course 
+    where users = ${user.id}
 </sql:query>
 
 
@@ -75,7 +75,7 @@
                     SELECT current_time between  (time '00:00' + interval '1 hour' * starttime) and (time '00:00' + (interval '1 hour'*starttime) + (interval '1 minute'*time)) as mayStart, 
                     id, name, total_count, time, starttime 
                     FROM task 
-                    where program=(select program from course where id=${study.course}) and current_date = (select start_date from course where id=${study.course}) + interval '1 day'*(day-1)     
+                    where course=(select id from course where id=${study.course}) and current_date = (select start_date from course where id=${study.course}) + interval '1 day'*(day-1)     
                     order by starttime
                 </sql:query>
                 <c:forEach var="task" items="${tasks.rows}">

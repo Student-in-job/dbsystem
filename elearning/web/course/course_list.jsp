@@ -10,8 +10,11 @@
 <%@include file="/checkUser.jsp" %>
 
 <sql:query var="courses" dataSource="jdbc/DB">
-    select open, course.id as id, start_date, program, name, duration, description, users, (select concat(name, ' ', surname) from users where id=users) as user_name
-    from course join program on program = program.id where course.id=?
+    select open, id, start_date, name, duration, description, users, 
+    (select concat(name, ' ', surname) from users where id=users) as user_name,
+    open=1 and not users=${user.id} and not exists(select * from study where users=${user.id} and course = course.id) as canJoin
+    from course
+    where course.id=?
     <sql:param value="${Integer.parseInt(param.id)}"/>
 </sql:query>
 
@@ -27,14 +30,10 @@
     <sql:query var="tasks" dataSource="jdbc/DB">
         SELECT id, name, total_count, time, day, starttime, to_char((select start_date from course where id=${course.id}) + interval '1 day' * (day-1), 'DD/MM') AS startday
         FROM task 
-        where program = ${course.program}
+        where course = ${course.id}
         order by day, starttime
     </sql:query>
-    <%--
-    <sql:query var="materials" dataSource="jdbc/DB">
-        select * from material where program = ${course.program};
-    </sql:query>
-    --%>    
+        
     <sql:query var="students" dataSource="jdbc/DB">
         select * from users where exists (select * from study where users = users.id and course=${course.id} and completed=0) order by surname
     </sql:query>
@@ -57,8 +56,26 @@
     <div class="row course-2">
         <div class="col offset-2 col-8">
             <div class="row">
-                <div class="col">
+                <div class="col col-8">
                     <h3>${course.name}</h3>
+                </div>
+                <div class="col col-4 text-right">
+                    <c:if test="${tuter}">
+                        <a class="red-edit">
+                            <i class="fa fa-play font-con" aria-hidden="true"> Start</i>
+                        </a>
+                        <a class="red-edit">
+                            <i class="fa fa-pause font-con" aria-hidden="true"> Stop</i>
+                        </a>
+                        <a class="red-edit"  href="${pageContext.request.contextPath}/task/add/list">
+                            <i class="fa fa-plus font-con" aria-hidden="true"> Edit</i>
+                        </a>
+                    </c:if>
+                    <c:if test="${course.canJoin}">
+                        <a onclick="join()" class="red-edit">
+                            <i class="fa fa-plus font-con" aria-hidden="true"> Join</i>
+                        </a>
+                    </c:if>
                 </div>
             </div>
             <div class="row green-bg">
@@ -66,28 +83,12 @@
                     <img src="${pageContext.request.contextPath}/${initParam.FileDir}/program/${course.program}.jpg" 
                          onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/default_program.png';">
                 </div>
-                <div class="col col-6 text-left">
+                <div class="col col-8 text-left">
                     <p class="space-top">
                         Start date: ${course.start_date} <br> 
                         Duration: ${course.duration} days<br> 
-                        Teacher:  ${course.user_name}<br>  
-                        <c:if test="${course.open==1}">
-                            <button onclick="join()" class="button small round error">JOIN</button>
-                        </c:if>
+                        Teacher:  ${course.user_name}<br>
                     </p>
-                </div>
-                <div class="col col-2 text-right">
-                    <c:if test="${tuter}">
-                        <a class="white-edit">
-                            <i class="fa fa-play font-con" aria-hidden="true"> Start</i>
-                        </a>
-                        <a class="white-edit">
-                            <i class="fa fa-pause font-con" aria-hidden="true"> Stop</i>
-                        </a>
-                        <a class="white-edit"  href="${pageContext.request.contextPath}/task/add/list">
-                            <i class="fa fa-plus font-con" aria-hidden="true"> Edit</i>
-                        </a>
-                    </c:if>
                 </div>
             </div>
             <div class="row">
@@ -111,7 +112,7 @@
                             <div class="col offset-10 col-2 text-right">
                                 <p>
                                     <c:if test="${tuter}"> 
-                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add?id=${course.program}">
+                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add?id=${course.id}">
                                             <i class="fa fa-plus font-green" aria-hidden="true"> Add task</i>
                                         </a>
                                     </c:if>

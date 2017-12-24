@@ -80,7 +80,7 @@
                         </div>   
                     </div>       
                 </div>
-                <hr>
+                <hr class="space-top">
                 <div class="row centered">
                     <div class="col col-1 pull-left">
                         <b><i>Result:</i></b>
@@ -142,7 +142,7 @@
                             stop: function () {
                                 $('#my-modal').on('open.modal', function ()
                                 {
-                                    setTimeout(window.location="${pageContext.request.contextPath}/exam/next", 10000);
+                                    setTimeout(window.location = "${pageContext.request.contextPath}/exam/next", 10000);
                                 });
                                 $.modalwindow({target: '#my-modal', width: '300px'});
 

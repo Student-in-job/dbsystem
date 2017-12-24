@@ -34,7 +34,7 @@ public class Edit extends HttpServletParent {
         serv.add(service);
         Map tasks = service.getTaskList(user);
         
-        if (user.getId() == task.getProgram().getUser().getId()) {
+        if (user.getId() == task.getCourse().getUser().getId()) {
             request.setAttribute("tasks", tasks);
             request.setAttribute("services", serv);
             request.setAttribute("task", task);
@@ -52,7 +52,7 @@ public class Edit extends HttpServletParent {
         int id = Integer.parseInt(request.getParameter("id"));
         Task task = new Task();
         task.getById(id);
-        if (user.getId() == task.getProgram().getUser().getId()) {
+        if (user.getId() == task.getCourse().getUser().getId()) {
 
             String name = request.getParameter("name");
             int service = Integer.parseInt(request.getParameter("service"));
@@ -75,7 +75,7 @@ public class Edit extends HttpServletParent {
             task.setServiceId(service);
 
             if (task.Update()) {
-                response.sendRedirect(request.getContextPath()+"/program/render?id="+task.getProgram().getId());
+                response.sendRedirect(request.getContextPath()+"/course/render?id="+task.getCourse().getId());
             } else {
                 request.setAttribute("task", task);
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);

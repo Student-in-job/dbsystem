@@ -6,7 +6,7 @@
 package Controller.Task;
 
 import Controller.HttpServletParent;
-import Entety.Program;
+import Entety.Course;
 import Entety.Service;
 import Entety.Task;
 import java.util.ArrayList;
@@ -24,19 +24,19 @@ public class Add extends HttpServletParent {
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int program = Integer.parseInt(request.getParameter("id"));
-        Program pg = new Program();
-        pg.getById(program);
-        
-        Service service = new Service();  
+        int course = Integer.parseInt(request.getParameter("id"));
+        Course cr = new Course();
+        cr.getById(course);
+
+        Service service = new Service();
         service.getById(1);
-        
+
         List serv = new ArrayList();
         serv.add(service);
         Map tasks = service.getTaskList(user);
-        
-        if (user.getId() == pg.getUser().getId()) {
-            request.setAttribute("program", pg);
+
+        if (user.getId() == cr.getUser().getId()) {
+            request.setAttribute("course", cr);
             request.setAttribute("tasks", tasks);
             request.setAttribute("services", serv);
             request.getRequestDispatcher("task_form.jsp").forward(request, response);
@@ -50,11 +50,11 @@ public class Add extends HttpServletParent {
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int program = Integer.parseInt(request.getParameter("id"));
-        Program pg = new Program();
-        pg.getById(program);
-        if (user.getId() == pg.getUser().getId()) {
-
+        int course = Integer.parseInt(request.getParameter("id"));
+        Course cr = new Course();
+        cr.getById(course);
+        if (user.getId() == cr.getUser().getId()) {            
+            
             String name = request.getParameter("name");
             int service = Integer.parseInt(request.getParameter("service"));
             int day = Integer.parseInt(request.getParameter("day"));
@@ -69,7 +69,7 @@ public class Add extends HttpServletParent {
 
             task.setDay(day);
             task.setName(name);
-            task.setProgram(pg.getId());
+            task.setCourseId(cr.getId());
             task.setTime(time);
             task.setGroupId(group);
             //task.setPassingCount(passing_count);
@@ -79,10 +79,10 @@ public class Add extends HttpServletParent {
             task.setServiceId(service);
 
             if (task.Write()) {
-                response.sendRedirect(request.getContextPath()+"/program/render?id="+pg.getId());
+                response.sendRedirect(request.getContextPath() + "/course/render?id=" + cr.getId());
             } else {
                 request.setAttribute("task", task);
-                request.setAttribute("program", pg);
+                request.setAttribute("program", cr);
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);
             }
         } else {

@@ -14,11 +14,11 @@ public abstract class Component extends Parent{
     
     protected String Name;
     protected int Day;
-    protected Program Program;
-    protected int ProgramId;
+    protected Course Course;
+    protected int CourseId;
     
     {
-        this.Program = new Program();
+        this.Course = new Course();
     }
     
     @Override
@@ -31,7 +31,6 @@ public abstract class Component extends Parent{
     }
     
     public boolean Update() throws Exception{
-        this.ReadProgramFromDB();
             return this._update();
     }
     
@@ -40,13 +39,12 @@ public abstract class Component extends Parent{
        if(id>0){
             this.ID = id;
             this._select();
-            this.ReadProgramFromDB();
         } else 
             throw new Exception("Invalid input data for component");
     }
     
-    public Program getProgram(){
-        return this.Program;
+    public Course getCourse(){
+        return this.Course;
     } 
     
     public String getName(){
@@ -57,9 +55,9 @@ public abstract class Component extends Parent{
         return this.Day;
     }
     
-    public void setProgram(int data){
+    public void setCourseId(int data){
         this._from_db=false;
-        this.ProgramId = data;
+        this.CourseId = data;
     }
     
     public void setDay(int data){
@@ -72,7 +70,7 @@ public abstract class Component extends Parent{
         this.Name = data;
     }
     
-    public void ReadProgramFromDB() throws Exception{
-        this.Program.getById(this.ProgramId);
+    public void ReadCourseFromDB() throws Exception{
+        this.Course.getById(this.CourseId);
     }
 }

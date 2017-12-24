@@ -286,6 +286,14 @@ a.blue-edit:hover {
     color: red;
 }
 
+.red-edit {
+    text-decoration: none;
+    color: red;
+}
+.red-edit :hover {
+    color: blue;
+}
+
 
 .logo-round {
     border-radius: 50%;

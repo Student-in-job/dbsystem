@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller.Program;
+package Controller.Course;
 
 import Controller.HttpServletParent;
-import Entety.Program;
+import Entety.Course;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -26,7 +26,7 @@ public class Edit extends HttpServletParent {
         int duration = Integer.parseInt(request.getParameter("duration"));
         Part img = request.getPart("picture");
 
-        Program program = new Program();
+        Course program = new Course();
         program.getById(id);
 
         if (program.MayChange() && program.getUser().getId() == user.getId()) {
@@ -59,7 +59,7 @@ public class Edit extends HttpServletParent {
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        Program program = new Program();
+        Course program = new Course();
         program.getById(id);
         if (program.MayChange() && program.getUser().getId() == user.getId()) {
             request.setAttribute("program", program);

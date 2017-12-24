@@ -7,13 +7,11 @@ package Service;
 
 import DAO.DBConnect;
 import Entety.Course;
-import Entety.Program;
 import Entety.Study;
 import Entety.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -26,24 +24,12 @@ public class CourseService {
 
     }
 
-    /**
-     * 
-     * @param program
-     * @param start
-     * @param open
-     * @param user
-     * @return
-     * @throws Exception 
-     */
-    public Course createCourse(Program program, Date start, boolean open, User user) throws Exception {
+    public Course startCourse(Course course, User user) throws Exception {
 
-        if (program.getUser().getId() == user.getId()) {
-            Course c = new Course();
-            c.setProgram(program.getId());
-            c.setOpen(open);
-            c.setStartDate(start);
-            if (c.Create()) {
-                return c;
+        if (course.getUser().getId() == user.getId()) {
+            course.setStatus(1);
+            if (course.Update()) {
+                return course;
             } else {
                 return null;
             }

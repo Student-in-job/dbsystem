@@ -7,10 +7,10 @@ package Controller.Course;
 
 import Controller.HttpServletParent;
 import Entety.Course;
-import Entety.Program;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -20,7 +20,31 @@ public class Add extends HttpServletParent {
 
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String name = request.getParameter("name");
+        String discription = request.getParameter("discription");
+        int duration = Integer.parseInt(request.getParameter("duration"));
+        Part img = request.getPart("picture");
+
+        Course program = new Course();
+
+        program.setName(name);
+        program.setDiscription(discription);
+        program.setDuration(duration);
+        program.setUser(user);
+
+        program.setOpen(false);
+        program.setStartDate(new Date());
+        program.setStatus(0);
+
+        if (program.Write()) {
+            //program.SaveIco(img);
+            response.sendRedirect("render?id=" + program.getId());
+            return;
+        } else {
+            request.setAttribute("program", program);
+            request.getRequestDispatcher("program_form.jsp").forward(request, response);
+            return;
+        }
     }
 
     @Override
@@ -30,18 +54,6 @@ public class Add extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Program program = new Program();
-        program.getById(id);
-
-        Course c = courseService.createCourse(program, new Date(), false, user);
-
-        if (c != null) {
-            response.sendRedirect("render?id=" + c.getId());
-        } else {
-            request.setAttribute("message", "You cannot create this cours!");
-            request.getRequestDispatcher("/message.jsp").forward(request, response);
-        }
     }
 
 }

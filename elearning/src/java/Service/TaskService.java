@@ -54,7 +54,7 @@ public class TaskService {
     
     private boolean userCanStart(Study study, Task task){
                 
-        if(study.getCourse().getProgram().getId() != task.getProgram().getId())
+        if(study.getCourse().getId() != task.getCourse().getId())
           return false;  
         
             return true;
