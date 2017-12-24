@@ -61,17 +61,17 @@ public class Edit extends HttpServletParent {
             int starttime = Integer.parseInt(request.getParameter("starttime"));
             int group = Integer.parseInt(request.getParameter("group"));
             int total_count = Integer.parseInt(request.getParameter("total_count"));
-            int passing_count = Integer.parseInt(request.getParameter("passing_count"));
-            int period = Integer.parseInt(request.getParameter("period"));
+            //int passing_count = Integer.parseInt(request.getParameter("passing_count"));
+            //int period = Integer.parseInt(request.getParameter("period"));
 
             task.setDay(day);
             task.setName(name);
             task.setTime(time);
             task.setGroupId(group);
-            task.setPassingCount(passing_count);
+            //task.setPassingCount(passing_count);
             task.setTotalCount(total_count);
             task.setStartTime(starttime);
-            task.setPeriod(period);
+            //task.setPeriod(period);
             task.setServiceId(service);
 
             if (task.Update()) {

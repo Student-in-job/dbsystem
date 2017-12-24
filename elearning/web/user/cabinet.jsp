@@ -73,9 +73,9 @@
                 <hr class="space-both">
                 <sql:query var="tasks" dataSource="jdbc/DB">
                     SELECT current_time between  (time '00:00' + interval '1 hour' * starttime) and (time '00:00' + (interval '1 hour'*starttime) + (interval '1 minute'*time)) as mayStart, 
-                    id, name, total_count, passing_count, time, starttime, period 
+                    id, name, total_count, time, starttime 
                     FROM task 
-                    where program=(select program from course where id=${study.course}) and current_date between (select start_date from course where id=${study.course}) + interval '1 day'*(day-1) and (select start_date from course where id=${study.course}) + interval '1 day'*(day-1+period-1)    
+                    where program=(select program from course where id=${study.course}) and current_date = (select start_date from course where id=${study.course}) + interval '1 day'*(day-1)     
                     order by starttime
                 </sql:query>
                 <c:forEach var="task" items="${tasks.rows}">
@@ -93,7 +93,7 @@
                                     <c:when test="${tasks.rowCount!=0}">
                                         <p class="bold">${task.name}</p>
                                         <p>
-                                            at ${task.starttime}:00 ${task.time}m for ${task.total_count} tasks (passing: ${task.passing_count})
+                                            ${task.total_count} tasks at ${task.starttime}:00 till ${task.starttime + Integer.valueOf(task.time/60)}:${Integer.valueOf(task.time)%60==0?"00":Integer.valueOf(task.time)%60}
                                         </p>
                                     </c:when>
                                 </c:choose>

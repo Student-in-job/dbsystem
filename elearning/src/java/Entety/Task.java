@@ -16,10 +16,10 @@ public class Task extends Component {
     private int ServiceId;
     private int GroupId;
     private int TitalCount;
-    private int PassingCount;
+    //private int PassingCount;
     private int Time;
     private int StartTime;
-    private int Period;
+    //private int Period;
     private Service Service;
 
     public Task() {
@@ -44,18 +44,18 @@ public class Task extends Component {
         return this.ServiceId;
     }
 
-    public int getPeriod() {
+    /*public int getPeriod() {
 
         return Period;
-    }
+    }*/
 
     public int getTotalCount() {
         return this.TitalCount;
     }
 
-    public int getPassingCount() {
+    /*public int getPassingCount() {
         return this.PassingCount;
-    }
+    }*/
 
     public int getGroupId() {
         return GroupId;
@@ -71,10 +71,10 @@ public class Task extends Component {
         StartTime = starttime;
     }
 
-    public void setPeriod(int period) {
+    /*public void setPeriod(int period) {
         this._from_db = false;
         Period = period;
-    }
+    }*/
 
     public void setServiceId(int period) {
         this._from_db = false;
@@ -86,10 +86,10 @@ public class Task extends Component {
         this.TitalCount = count;
     }
 
-    public void setPassingCount(int count) {
+    /*public void setPassingCount(int count) {
         this._from_db = false;
         this.PassingCount = count;
-    }
+    }*/
 
     public void setGroupId(int groupId) {
         this._from_db = false;
@@ -104,10 +104,10 @@ public class Task extends Component {
         list.put("day", this.Day);
         list.put("program", this.ProgramId);
         list.put("total_count", this.TitalCount);
-        list.put("passing_count", this.PassingCount);
+        //list.put("passing_count", this.PassingCount);
         list.put("time", this.Time);
         list.put("starttime", this.StartTime);
-        list.put("period", this.Period);
+        //list.put("period", this.Period);
         list.put("service", this.ServiceId);
 
         return list;
@@ -120,10 +120,10 @@ public class Task extends Component {
         this.Day = (int) Params.get("day");
         this.ProgramId = (int) Params.get("program");
         this.TitalCount = (int) Params.get("total_count");
-        this.PassingCount = (int) Params.get("passing_count");
+        //this.PassingCount = (int) Params.get("passing_count");
         this.Time = (int) Params.get("time");
         this.StartTime = (int) Params.get("starttime");
-        this.Period = (int) Params.get("period");
+        //this.Period = (int) Params.get("period");
         this.ServiceId = (int) Params.get("service");
     }
 

@@ -51,7 +51,7 @@
                 <label>Total Count:</label>
                 <input class="width-100" required  type="number" name="total_count" value="${task.totalCount}">
             </div>
-
+<%--
             <div class="form-item">
                 <label>Passing Count:</label>
                 <input class="width-100" required  type="number" name="passing_count" value="${task.passingCount}">
@@ -61,7 +61,7 @@
                 <label>Period:</label>
                 <input class="width-100" required type="number" name="period" value="${task.period}">
             </div>
-
+--%>
             <div class="form-item">
                 <label>Start Time(hour):</label>
                 <input class="width-100" required type="number" name="starttime" value="${task.startTime}">

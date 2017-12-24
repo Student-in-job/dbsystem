@@ -38,7 +38,7 @@ public class TaskService {
         
         int now_day = now.get(Calendar.DAY_OF_YEAR);
         int time_day = time.get(Calendar.DAY_OF_YEAR);
-        if(now_day<time_day||now_day>time_day+task.getPeriod()-1)
+        if(now_day!=time_day)
             return false;
         
         int now_hour = now.get(Calendar.HOUR_OF_DAY);

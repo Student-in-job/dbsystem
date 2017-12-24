@@ -25,7 +25,7 @@
     </c:if>
 
     <sql:query var="tasks" dataSource="jdbc/DB">
-        SELECT id, name, total_count, passing_count, time, day, period, starttime, to_char((select start_date from course where id=${course.id}) + interval '1 day' * (day-1), 'DD/MM') AS startday
+        SELECT id, name, total_count, time, day, starttime, to_char((select start_date from course where id=${course.id}) + interval '1 day' * (day-1), 'DD/MM') AS startday
         FROM task 
         where program = ${course.program}
         order by day, starttime
@@ -111,7 +111,7 @@
                             <div class="col offset-10 col-2 text-right">
                                 <p>
                                     <c:if test="${tuter}"> 
-                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add/list">
+                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add?id=${course.program}">
                                             <i class="fa fa-plus font-green" aria-hidden="true"> Add task</i>
                                         </a>
                                     </c:if>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="col col-2 text-right">
                                     <c:if test="${tuter}"> 
-                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add/list">
+                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/edit?id=${task.id}">
                                             <i class="fa fa-cog green-edit" aria-hidden="true"> Edit</i>
                                         </a>
                                     </c:if>
