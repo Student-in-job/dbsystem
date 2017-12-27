@@ -7,9 +7,9 @@ package Controller.Course;
 
 import Controller.HttpServletParent;
 import Entety.Course;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -21,27 +21,30 @@ public class Edit extends HttpServletParent {
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String discription = request.getParameter("discription");
-        int duration = Integer.parseInt(request.getParameter("duration"));
-        Part img = request.getPart("picture");
+        Course course = new Course();
+        course.getById(id);
 
-        Course program = new Course();
-        program.getById(id);
+        if (course.getUser().getId() == user.getId()) {
+            String name = request.getParameter("name");
+            String discription = request.getParameter("discription");
+            int duration = Integer.parseInt(request.getParameter("duration"));
+            long startdate = Long.parseLong(request.getParameter("start_date"));
+            boolean opened = request.getParameter("opened")!=null;
 
-        if (program.MayChange() && program.getUser().getId() == user.getId()) {
+            //Part img = request.getPart("picture");
+            course.setName(name);
+            course.setOpen(opened);
+            course.setDiscription(discription);
+            course.setDuration(duration);
+            //course.setStartDate(new Date(startdate));
 
-            program.setName(name);
-            program.setDiscription(discription);
-            program.setDuration(duration);
-
-            if (program.Update()) {
+            if (course.Update()) {
                 //program.SaveIco(img);
-                response.sendRedirect("render?id=" + program.getId());
+                response.sendRedirect("render?id=" + course.getId());
                 return;
             } else {
-                request.setAttribute("program", program);
-                request.getRequestDispatcher("program_form.jsp").forward(request, response);
+                request.setAttribute("course", course);
+                request.getRequestDispatcher("course_form.jsp").forward(request, response);
                 return;
             }
         } else {
@@ -59,11 +62,11 @@ public class Edit extends HttpServletParent {
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
-        Course program = new Course();
-        program.getById(id);
-        if (program.MayChange() && program.getUser().getId() == user.getId()) {
-            request.setAttribute("program", program);
-            request.getRequestDispatcher("program_form.jsp").forward(request, response);
+        Course course = new Course();
+        course.getById(id);
+        if (course.getUser().getId() == user.getId()) {
+            request.setAttribute("course", course);
+            request.getRequestDispatcher("course_form.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "You cannot edit this component!");
             request.getRequestDispatcher("/message.jsp").forward(request, response);

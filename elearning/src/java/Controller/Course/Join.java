@@ -5,7 +5,6 @@ package Controller.Course;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import Controller.HttpServletParent;
 import Entety.Course;
 import Entety.Study;
@@ -27,37 +26,38 @@ public class Join extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        int id = 0, studentId=0;
-        id = Integer.parseInt(request.getParameter("id"));
-        if(request.getParameter("studentId")!=null)
-            studentId = Integer.parseInt(request.getParameter("studentId"));
-        
-        Course course = new Course();
-        course.getById(id);
-        Study s = null;
-        if(studentId!=0){
-            User student = new User();
-            student.getById(studentId);
-            s = courseService.joinToCourse(user, course, student);
-        } else {
-            s = courseService.joinToCourse(course, user);
-        }
-        
         PrintWriter out = response.getWriter();
-        try{
-            if(s!=null){
+        try {
+            int id = 0, studentId = 0;
+            id = Integer.parseInt(request.getParameter("id"));
+            if (request.getParameter("studentId") != null) {
+                studentId = Integer.parseInt(request.getParameter("studentId"));
+            }
+
+            Course course = new Course();
+            course.getById(id);
+            Study s = null;
+            if (studentId != 0) {
+                if (user.getId() == course.getUser().getId()) {
+                    User student = new User();
+                    student.getById(studentId);
+                    s = courseService.joinToCourse(course, student);
+                }
+            } else {
+                s = courseService.joinToCourse(course, user);
+            }
+
+            if (s != null) {
                 out.write("{'result':'ok'}");
             } else {
                 out.write("{'result':'no'}");
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             out.write("{'result':'error'}");
         }
         out.flush();
         out.close();
-        
-    
+
     }
 
     @Override
@@ -65,5 +65,4 @@ public class Join extends HttpServletParent {
         return HttpServletParent.OnlyForAuthorized;
     }
 
-    
 }

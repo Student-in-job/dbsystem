@@ -12,13 +12,12 @@ package Entety;
  */
 public abstract class Component extends Parent{
     
-    protected String Name;
-    protected int Day;
-    protected Course Course;
-    protected int CourseId;
+    protected String name;
+    protected Course course;
+    protected int courseId;
     
     {
-        this.Course = new Course();
+        this.course = new Course();
     }
     
     @Override
@@ -44,33 +43,24 @@ public abstract class Component extends Parent{
     }
     
     public Course getCourse(){
-        return this.Course;
+        return this.course;
     } 
     
     public String getName(){
-        return this.Name;
-    }
-    
-    public int getDay(){
-        return this.Day;
+        return this.name;
     }
     
     public void setCourseId(int data){
         this._from_db=false;
-        this.CourseId = data;
-    }
-    
-    public void setDay(int data){
-        this._from_db=false;
-        this.Day = data;
+        this.courseId = data;
     }
     
     public void setName(String data){
         this._from_db=false;
-        this.Name = data;
+        this.name = data;
     }
     
     public void ReadCourseFromDB() throws Exception{
-        this.Course.getById(this.CourseId);
+        this.course.getById(this.courseId);
     }
 }

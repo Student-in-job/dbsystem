@@ -169,6 +169,11 @@ public abstract class Parent{
                         i++;
                         continue;
                     }
+                    if(param.getValue() instanceof Long){
+                        stmt.setLong(i, (Long) param.getValue());
+                        i++;
+                        continue;
+                    }
                     if(param.getValue() instanceof Date){
                         stmt.setTimestamp(i, new java.sql.Timestamp(((Date) param.getValue()).getTime()));
                         i++;

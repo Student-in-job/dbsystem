@@ -5,6 +5,7 @@
  */
 package Entety;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,53 +17,18 @@ import java.util.UUID;
  */
 public class Work extends Parent {
 
-    private Date CreateDate;
-    private Study Study;
-    private int StudyId;
+    private Date createDate;
+    private Study study;
+    private int studyId;
     private UUID WORK_KEY;
-    private Task Task;
-    private int TaskId;
-    private int Mark;
+    private Task task;
+    private int taskId;
+    private int mark;
 
     public Work() {
-        this.Study = new Study();
-        this.Task = new Task();
+        this.study = new Study();
+        this.task = new Task();
 
-    }
-
-    public void ReadTaskFromDB() throws Exception {
-        this.Task.getById(this.TaskId);
-    }
-
-    public void ReadTeachingFromDB() throws Exception {
-        this.Study.getById(this.StudyId);
-    }
-
-    @Override
-    protected HashMap<String, Object> _getParams() {
-
-        HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("completed", this.Mark);
-        list.put("task", this.Task.getId());
-        list.put("study", this.Study.getId());
-        list.put("work_key", this.WORK_KEY.toString());
-        return list;
-    }
-
-    @Override
-    protected void _setParams(HashMap<String, Object> Params) throws Exception {
-
-        this.CreateDate = (Date) Params.get("adddate");
-        this.WORK_KEY = UUID.fromString((String) Params.get("work_key"));
-        this.StudyId = (int) Params.get("study");
-        this.TaskId = (int) Params.get("task");
-        this.Mark = (int) Params.get("completed");
-
-    }
-
-    @Override
-    protected boolean _isCorrect() {
-        return true;
     }
 
     @Override
@@ -74,103 +40,135 @@ public class Work extends Parent {
         if (id > 0) {
             this.ID = id;
             this._select();
-            this.ReadTaskFromDB();
-            this.ReadTeachingFromDB();
         } else {
             throw new Exception("Invalid input data for AcceptTask whith id=" + id);
         }
     }
 
-    public void getByKey() throws Exception {
+    public boolean getByKey() throws Exception {
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("work_key", this.WORK_KEY.toString());
 
         ArrayList<HashMap<String, Object>> Params = this.getObjectsParam(param);
+        if(Params.isEmpty())
+            return false;
         for (int i = 0; i < 1; i++) {
             this.getFromParam(Params.get(i));
         }
-        this.ReadTaskFromDB();
-        this.ReadTeachingFromDB();
-        this._from_db = true;
+        return true;
 
     }
 
     public boolean Write() throws Exception {
         this.WORK_KEY = UUID.randomUUID();
-        this.Mark = -1;
+        this.mark = -1;
         this.ReadTaskFromDB();
         this.ReadTeachingFromDB();
         return this._insert();
     }
 
     public Study getStudy() {
-        return this.Study;
+        return this.study;
     }
-    
-    public boolean isCompleated(){
-        return Mark!=-1;
+
+    public boolean isCompleated() {
+        return mark != -1;
     }
 
     public int getMark() {
-        return this.Mark;
+        return this.mark;
     }
 
     public Task getTask() {
-        return this.Task;
+        return this.task;
+    }
+
+    public String getWorkKey() {
+        return WORK_KEY.toString();
+    }
+
+    public int getUser() {
+        return this.study.getUser().getId();
+    }
+
+    public long getCreateTime() {
+        return createDate.getTime();
+    }
+
+    public Date getTime() {
+        return createDate;
+    }
+
+    public int getListId() {
+        return task.getListId();
+    }
+
+    public int getCount() {
+        return task.getCount();
+    }
+
+    public void setWorkKey(String key) {
+        this._from_db = false;
+        WORK_KEY = UUID.fromString(key);
+    }
+
+    public boolean putMark(int mark) throws Exception {
+        this.mark = mark;
+        return this._update();
+    }
+
+    public void setStudyId(int data) {
+        this.studyId = data;
+    }
+
+    public void setTaskId(int data) {
+        this.taskId = data;
+    }
+
+    @Override
+    protected HashMap<String, Object> _getParams() {
+
+        HashMap<String, Object> list = new HashMap<String, Object>();
+        list.put("completed", this.mark);
+        list.put("task", this.task.getId());
+        list.put("study", this.study.getId());
+        list.put("work_key", this.WORK_KEY.toString());
+        return list;
+    }
+
+    @Override
+    protected void _setParams(HashMap<String, Object> Params) throws Exception {
+
+        this.createDate = (Date) Params.get("adddate");
+        this.WORK_KEY = UUID.fromString((String) Params.get("work_key"));
+        this.studyId = (int) Params.get("study");
+        this.taskId = (int) Params.get("task");
+        this.mark = (int) Params.get("completed");
+        this.ReadTaskFromDB();
+        this.ReadTeachingFromDB();
+
+    }
+
+    public void ReadTaskFromDB() throws Exception {
+        this.task.getById(this.taskId);
+    }
+
+    public void ReadTeachingFromDB() throws Exception {
+        this.study.getById(this.studyId);
+    }
+
+    @Override
+    protected boolean _isCorrect() {
+        return true;
     }
 
     @Override
     public boolean MayChange() {
         return false;
-    }public String getWorkKey() {
-        return WORK_KEY.toString();
-    }public int getUser() {
-        return this.Study.getUser().getId();
-    }
-
-    public long getCreateTime() {
-        return CreateDate.getTime();
-    }
-
-    public Date getTime() {
-        return CreateDate;
-    }
-
-    public int getListId() {
-        return Task.getGroupId();
-    }
-
-    public int getCount() {
-        return Task.getTotalCount();
-    }
-
-    public long getLiveTime() {
-        return Task.getTime() * 60 * 1000;
-    }public void setWorkKey(String data) {
-        this._from_db = false;
-        WORK_KEY = UUID.fromString(data);
-    }
-
-    public boolean putMark(int parseInt) throws Exception {
-        this.Mark = parseInt;
-        return this._update();
-    }    
-
-    public void setStudy(int data) {
-        this.StudyId = data;
-    }
-
-    public void setTask(int data) {
-        this.TaskId = data;
     }
 
     public boolean isAlive() {
-        if (this.CreateDate != null) {
-            if (System.currentTimeMillis() < this.CreateDate.getTime() + this.Task.getTime() * 60 * 1000) {
-                return true;
-            }
-        }
-        return false;
+        return (new Timestamp(System.currentTimeMillis())).before(task.getEnd());
     }
 
 }

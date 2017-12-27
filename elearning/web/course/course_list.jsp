@@ -10,7 +10,7 @@
 <%@include file="/checkUser.jsp" %>
 
 <sql:query var="courses" dataSource="jdbc/DB">
-    select open, id, start_date, name, duration, description, users, 
+    select *, 
     (select concat(name, ' ', surname) from users where id=users) as user_name,
     open=1 and not users=${user.id} and not exists(select * from study where users=${user.id} and course = course.id) as canJoin
     from course
@@ -28,12 +28,14 @@
     </c:if>
 
     <sql:query var="tasks" dataSource="jdbc/DB">
-        SELECT id, name, total_count, time, day, starttime, to_char((select start_date from course where id=${course.id}) + interval '1 day' * (day-1), 'DD/MM') AS startday
+        SELECT *, 
+        to_char(start_time, 'DD/MM HH24:MI') as start_date,
+        to_char(start_time + interval '1 second'*time/1000, 'DD/MM HH24:MI') as end_date
         FROM task 
         where course = ${course.id}
-        order by day, starttime
+        order by start_time, time
     </sql:query>
-        
+
     <sql:query var="students" dataSource="jdbc/DB">
         select * from users where exists (select * from study where users = users.id and course=${course.id} and completed=0) order by surname
     </sql:query>
@@ -61,19 +63,25 @@
                 </div>
                 <div class="col col-4 text-right">
                     <c:if test="${tuter}">
-                        <a class="red-edit">
-                            <i class="fa fa-play font-con" aria-hidden="true"> Start</i>
-                        </a>
-                        <a class="red-edit">
-                            <i class="fa fa-pause font-con" aria-hidden="true"> Stop</i>
-                        </a>
-                        <a class="red-edit"  href="${pageContext.request.contextPath}/task/add/list">
-                            <i class="fa fa-plus font-con" aria-hidden="true"> Edit</i>
+                        <c:choose>
+                            <c:when test="${course.status==0}">
+                                <a class="red-edit" onclick="start()">
+                                    <i class="fa fa-play font-con" aria-hidden="true"> Start</i>
+                                </a>
+                            </c:when>
+                            <c:when test="${course.status==1}">
+                                <a class="red-edit" onclick="stop()">
+                                    <i class="fa fa-pause font-con" aria-hidden="true"> Stop</i>
+                                </a>
+                            </c:when>
+                        </c:choose>
+                        <a class="red-edit"  href="${pageContext.request.contextPath}/course/edit?id=${course.id}">
+                            <i class="fa fa-cog" aria-hidden="true"> Edit</i>
                         </a>
                     </c:if>
                     <c:if test="${course.canJoin}">
                         <a onclick="join()" class="red-edit">
-                            <i class="fa fa-plus font-con" aria-hidden="true"> Join</i>
+                            <i class="fa fa-plus" aria-hidden="true"> Join</i>
                         </a>
                     </c:if>
                 </div>
@@ -112,18 +120,30 @@
                             <div class="col offset-10 col-2 text-right">
                                 <p>
                                     <c:if test="${tuter}"> 
-                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add?id=${course.id}">
+                                        <a class="green-edit" href="${pageContext.request.contextPath}/task/add?course=${course.id}">
                                             <i class="fa fa-plus font-green" aria-hidden="true"> Add task</i>
                                         </a>
                                     </c:if>
                                 </p>
                             </div>
                         </div>
+                        <c:if test="${tasks.rowCount eq 0}">
+                            <div class="row">
+                                <div class="offset-1 col col-9">
+                                    <div>
+                                        <p class="bold">
+                                            No tasks
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
                         <c:forEach items="${tasks.rows}" var="task">  
+                            <hr>
                             <div class="row">  
                                 <div class="col col-1 text-center align-middle">
-                                    <span>${task.startday}</span><br>
-                                    <span>${task.day} day</span><br>
+                                    <span></span><br>
+                                    <span></span><br>
                                 </div>
                                 <div class="col col-9">
                                     <div>
@@ -131,7 +151,8 @@
                                             ${task.name}
                                         </p>
                                         <p>
-                                            ${task.total_count} tasks at ${task.starttime}:00 till ${task.starttime + Integer.valueOf(task.time/60)}:${Integer.valueOf(task.time)%60==0?"00":Integer.valueOf(task.time)%60}
+                                            ${task.total_count} tasks from ${task.start_date}
+                                            till ${task.end_date}
                                         </p>
                                     </div>
                                 </div>
@@ -143,7 +164,6 @@
                                     </c:if>
                                 </div>
                             </div>
-                            <hr>
                         </c:forEach>                  
                     </div>
                     <div id="students">
@@ -158,7 +178,19 @@
                                 </p>
                             </div>
                         </div>
-                        <c:forEach items="${students.rows}" var="student"> 
+                        <c:if test="${students.rowCount eq 0}">
+                            <div class="row">
+                                <div class="offset-1 col col-9">
+                                    <div>
+                                        <p class="bold">
+                                            No students
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:forEach items="${students.rows}" var="student">
+                            <hr> 
                             <div class="row">  
                                 <div class="col col-1 text-center align-middle">
                                     <br><br>
@@ -171,7 +203,6 @@
                                 <div class="col col-2 text-right">
                                 </div>
                             </div>
-                            <hr>
                         </c:forEach>                        
                     </div>
                     <div id="marks">
@@ -247,6 +278,47 @@
                     });
 
                 }
+
+
+
+                function start() {
+
+                    $.ajax("${pageContext.request.contextPath}/course/start?id=${course.id}", {
+                                method: 'post',
+                                success: function (result) {
+                                    document.getElementById("modalBody").innerHTML = result;
+                                    $.modalwindow({target: '#my-modal', width: '300px', header: 'Response'});
+                                }
+                            });
+
+                        }
+                        ;
+
+                        function stop() {
+
+                            $.ajax("${pageContext.request.contextPath}/course/stop?id=${course.id}", {
+                                        method: 'post',
+                                        success: function (result) {
+                                            document.getElementById("modalBody").innerHTML = result;
+                                            $.modalwindow({target: '#my-modal', width: '300px', header: 'Response'});
+                                        }
+                                    });
+
+                                }
+                                ;
+
+                                function pause() {
+
+                                    $.ajax("${pageContext.request.contextPath}/course/pause?id=${course.id}", {
+                                                method: 'post',
+                                                success: function (result) {
+                                                    document.getElementById("modalBody").innerHTML = result;
+                                                    $.modalwindow({target: '#my-modal', width: '300px', header: 'Response'});
+                                                }
+                                            });
+
+                                        }
+                                        ;
     </script>
     <%@include file="/footer.jsp" %>
 </c:forEach>

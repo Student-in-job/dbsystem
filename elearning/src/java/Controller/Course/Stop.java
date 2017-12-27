@@ -15,26 +15,24 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Close extends HttpServletParent {
+public class Stop extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         PrintWriter out = response.getWriter();
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             Course course = new Course();
             course.getById(id);
-            course.setStatus(0);
-            if (course.Update()) {
-                out.write("{'result':'ok'}");
+            if (course.getUser().getId() == user.getId()) {
+                course.setStatus(Course.STOPED);
+                if (course.Update()) {
+                    out.write("{'result':'ok'}");
+                } else {
+                    out.write("{'result':'no'}");
+                }
             } else {
-                out.write("{'result':'no'}");
+                out.write("{'result':'error'}");
             }
         } catch (Exception ex) {
             out.write("{'result':'error'}");
@@ -44,8 +42,13 @@ public class Close extends HttpServletParent {
     }
 
     @Override
-    protected int PrivateMod() {
+    protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected int PrivateMod() {
+        return HttpServletParent.OnlyForAuthorized;
     }
 
 }

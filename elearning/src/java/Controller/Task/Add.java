@@ -9,6 +9,8 @@ import Controller.HttpServletParent;
 import Entety.Course;
 import Entety.Service;
 import Entety.Task;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,19 +26,18 @@ public class Add extends HttpServletParent {
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int course = Integer.parseInt(request.getParameter("id"));
-        Course cr = new Course();
-        cr.getById(course);
+        int course_id = Integer.parseInt(request.getParameter("course"));
+        Course course = new Course();
+        course.getById(course_id);
 
         Service service = new Service();
         service.getById(1);
-
         List serv = new ArrayList();
         serv.add(service);
         Map tasks = service.getTaskList(user);
 
-        if (user.getId() == cr.getUser().getId()) {
-            request.setAttribute("course", cr);
+        if (user.getId() == course.getUser().getId()) {
+            request.setAttribute("course", course);
             request.setAttribute("tasks", tasks);
             request.setAttribute("services", serv);
             request.getRequestDispatcher("task_form.jsp").forward(request, response);
@@ -50,39 +51,47 @@ public class Add extends HttpServletParent {
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int course = Integer.parseInt(request.getParameter("id"));
-        Course cr = new Course();
-        cr.getById(course);
-        if (user.getId() == cr.getUser().getId()) {            
-            
+        int course_id = Integer.parseInt(request.getParameter("course"));
+        Course course = new Course();
+        course.getById(course_id);
+        if (user.getId() == course.getUser().getId()) {
+
             String name = request.getParameter("name");
             int service = Integer.parseInt(request.getParameter("service"));
-            int day = Integer.parseInt(request.getParameter("day"));
-            int time = Integer.parseInt(request.getParameter("time"));
-            int starttime = Integer.parseInt(request.getParameter("starttime"));
             int group = Integer.parseInt(request.getParameter("group"));
-            int total_count = Integer.parseInt(request.getParameter("total_count"));
-            //int passing_count = Integer.parseInt(request.getParameter("passing_count"));
-            //int period = Integer.parseInt(request.getParameter("period"));
-
+            int count = Integer.parseInt(request.getParameter("total_count"));
+            String endTime = request.getParameter("end_time");
+            String startTime = request.getParameter("start_time");
+            String endDate = request.getParameter("end_date");
+            String startDate = request.getParameter("start_date");
+            String startStr = startDate + " " + startTime;
+            String endStr = endDate + " " + endTime;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Timestamp start = new Timestamp(dateFormat.parse(startStr).getTime());
+            Timestamp end = new Timestamp(dateFormat.parse(endStr).getTime());
+            
             Task task = new Task();
-
-            task.setDay(day);
             task.setName(name);
-            task.setCourseId(cr.getId());
-            task.setTime(time);
-            task.setGroupId(group);
-            //task.setPassingCount(passing_count);
-            task.setTotalCount(total_count);
-            task.setStartTime(starttime);
-            //task.setPeriod(period);
+            task.setCourseId(course.getId());
+            task.setListId(group);
+            task.setCount(count);
             task.setServiceId(service);
+            task.setTimeRange(start, end);
 
             if (task.Write()) {
-                response.sendRedirect(request.getContextPath() + "/course/render?id=" + cr.getId());
+                response.sendRedirect(request.getContextPath() + "/course/render?id=" + course.getId());
             } else {
+                Service services = new Service();
+                services.getById(1);
+
+                List serv = new ArrayList();
+                serv.add(service);
+                Map tasks = services.getTaskList(user);
+
+                request.setAttribute("tasks", tasks);
+                request.setAttribute("services", serv);
                 request.setAttribute("task", task);
-                request.setAttribute("program", cr);
+                request.setAttribute("program", course);
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);
             }
         } else {

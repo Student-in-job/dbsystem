@@ -10,7 +10,6 @@ import Entety.Course;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -20,29 +19,32 @@ public class Add extends HttpServletParent {
 
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Course course = new Course();
+
         String name = request.getParameter("name");
         String discription = request.getParameter("discription");
         int duration = Integer.parseInt(request.getParameter("duration"));
-        Part img = request.getPart("picture");
+        boolean opened = request.getParameter("opened") != null;
+        long startdate = Long.parseLong(request.getParameter("start_date"));
+        //Part img = request.getPart("picture");
 
-        Course program = new Course();
+        course.setName(name);
+        course.setDiscription(discription);
+        course.setDuration(duration);
+        course.setUser(user);
 
-        program.setName(name);
-        program.setDiscription(discription);
-        program.setDuration(duration);
-        program.setUser(user);
+        course.setOpen(opened);
+        course.setStartDate(new Date(startdate));
+        course.setStatus(0);
 
-        program.setOpen(false);
-        program.setStartDate(new Date());
-        program.setStatus(0);
-
-        if (program.Write()) {
+        if (course.Write()) {
             //program.SaveIco(img);
-            response.sendRedirect("render?id=" + program.getId());
+            response.sendRedirect("render?id=" + course.getId());
             return;
         } else {
-            request.setAttribute("program", program);
-            request.getRequestDispatcher("program_form.jsp").forward(request, response);
+            request.setAttribute("course", course);
+            request.getRequestDispatcher("course_form.jsp").forward(request, response);
             return;
         }
     }
@@ -54,6 +56,7 @@ public class Add extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.getRequestDispatcher("course_form.jsp").forward(request, response);
     }
 
 }

@@ -53,29 +53,32 @@ public class SetMark extends HttpServlet {
 
             JsonToken token = pars(parseRequest(request));
             if (token.getIssuer().equalsIgnoreCase(service.getName()) && token.getExpiration().getMillis() > System.currentTimeMillis()) {
-                Work work = new Work();
-                work.setWorkKey(token.getParamAsPrimitive("work_key").getAsString());
-                work.getByKey();
 
                 HmacSHA256Signer signer;
-                signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
+                signer = new HmacSHA256Signer(myName, null, service.getMyKey().getBytes());
                 JsonToken res_token = new JsonToken(signer);
-                res_token.setAudience(work.getTask().getService().getName());
+                res_token.setAudience(service.getName());
                 res_token.setIssuedAt(Instant.now());
                 res_token.setExpiration(Instant.now().plus(60 * 1000));
                 JsonObject payload = token.getPayloadAsJsonObject();
 
-                if (work.putMark(token.getParamAsPrimitive("mark").getAsInt())) {
-                    payload.addProperty("status", "200");
-                    PrintWriter out = response.getWriter();
-                    out.write(token.serializeAndSign());
-                    return;
+                Work work = new Work();
+                work.setWorkKey(token.getParamAsPrimitive("work_key").getAsString());
+                if (work.getByKey()) {
+                    if (work.putMark(token.getParamAsPrimitive("mark").getAsInt())) {
+                        payload.addProperty("status", "200");
+                    }
+
+                    payload.addProperty("status", "401");
+                    payload.addProperty("errorMessage", "Work time is ended");
                 }
                 payload.addProperty("status", "401");
-                payload.addProperty("errorMessage", "Work time is ended");
-
+                payload.addProperty("errorMessage", "Work with this kay not find");
             }
 
+            PrintWriter out = response.getWriter();
+            out.write(token.serializeAndSign());
+            
         } catch (Exception ex) {
             response.sendError(500);
         }

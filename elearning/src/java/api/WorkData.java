@@ -5,6 +5,7 @@
  */
 package api;
 
+import Entety.Service;
 import Entety.Work;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -31,32 +32,38 @@ public class WorkData extends HttpServlet {
         try {
             String myURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             String myName = "elearning";
-            
-            Work work = new Work();
-            work.setWorkKey(request.getParameter("work_key"));
-            work.getByKey();
+            Service serv = new Service();
+            serv.getById(1);
 
             HmacSHA256Signer signer;
             try {
-                signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
+                signer = new HmacSHA256Signer(myName, null, serv.getMyKey().getBytes());
             } catch (InvalidKeyException e) {
                 throw new RuntimeException(e);
             }
             JsonToken token = new JsonToken(signer);
-            token.setAudience(work.getTask().getService().getName());
+            token.setAudience(serv.getName());
             token.setIssuedAt(Instant.now());
             token.setExpiration(Instant.now().plus(60 * 1000));
             JsonObject payload = token.getPayloadAsJsonObject();
 
-            if (work.isAlive()) {
-                payload.addProperty("status", "200");
-                payload.addProperty("count", work.getCount());
-                payload.addProperty("list", work.getListId());
-                payload.addProperty("work_key", work.getWorkKey());
-                payload.addProperty("user_id", work.getUser());
+            Work work = new Work();
+            work.setWorkKey(request.getParameter("work_key"));
+            if (work.getByKey()) {
+
+                if (work.isAlive()) {
+                    payload.addProperty("status", "200");
+                    payload.addProperty("count", work.getCount());
+                    payload.addProperty("list", work.getListId());
+                    payload.addProperty("work_key", work.getWorkKey());
+                    payload.addProperty("user_id", work.getUser());
+                } else {
+                    payload.addProperty("status", "401");
+                    payload.addProperty("errorMessage", "Work time is ended");
+                }
             } else {
                 payload.addProperty("status", "401");
-                payload.addProperty("errorMessage", "Work time is ended");
+                payload.addProperty("errorMessage", "Work with this kay not find");
             }
             try {
                 PrintWriter out = response.getWriter();

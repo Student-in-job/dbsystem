@@ -50,26 +50,26 @@
         <hr class="space-both">
 
         <div class="row centered">
-            <div class="col">
+            <div class="col col-9">
                 <form id="form" class="form" action="" method="POST">
                     <input type="hidden" name="list" value="${task.list.id}"> 
                     <input type="hidden" name="id" value="${task.id}"> 
 
                     <div class="form-item sql-teatarea">
                         <label>Question:</label>
-                        <textarea class="w20" required name="question" rows="6">${task.question}</textarea>
+                        <textarea id="input" required name="question" rows="6">${task.question}</textarea>
                     </div>
 
                     <div class="form-item sql-teatarea">
                         <label>SQL answer:</label>                
-                        <textarea class="w50 <c:if test="${task.exception!=null}">error</c:if> " rows="6"  required name="answer">${task.answer}</textarea>
+                        <textarea class="<c:if test="${task.exception!=null}">error</c:if> " rows="6"  required name="answer">${task.answer}</textarea>
                             <label>
                             <c:if test="${task.exception!=null}">
                                 <b class="error">${task.exception.message}</b>
                             </c:if>
                         </label>
                     </div>
-                    <div class="row gutters">
+                    <div class="row gutters centered">
                         <div class="col col-3">
                             <div class="form-item">
                                 <label>Time(in minuts):</label>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="form-item text-centered">
-                        <button class="button primary w20 big">Complete</button>
+                        <button class="button primary big">Complete</button>
                     </div>
                 </form>
             </div>
@@ -132,7 +132,23 @@
 
     }); //end of ready
 </script> 
+<script src="<%=request.getServletContext().getContextPath()%>/resources/js/tinymce/tinymce.min.js"></script>
+<script>
 
+                    tinymce.init({
+                        selector: '#input',
+                        theme: 'modern',
+                        plugins: [
+                            'advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker',
+                            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                            'save table contextmenu directionality emoticons template paste textcolor'
+                        ],
+                        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+
+                    });
+
+
+</script>
 
 <%@include file="/footer.jspf"%>
 

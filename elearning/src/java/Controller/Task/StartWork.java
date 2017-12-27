@@ -28,7 +28,7 @@ public class StartWork extends HttpServletParent {
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    
+
     }
 
     @Override
@@ -49,40 +49,30 @@ public class StartWork extends HttpServletParent {
         Study study = new Study();
         study.getById(studyId);
 
-        if (taskService.canStart(study, task)) {
-            Work work = taskService.createWork(study, task);
-            if (work != null) {
-                if (!work.isCompleated()) {
-                    Service service = new Service();
-                    service.getById(task.getServiceId());
+        Work work = taskService.start(study, task);
+        if (work != null) {
+            Service service = new Service();
+            service.getById(task.getServiceId());
 
-                    HmacSHA256Signer signer;
-                    try {
-                        signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
-                    } catch (InvalidKeyException e) {
-                        throw new RuntimeException(e);
-                    }
-                    JsonToken token = new JsonToken(signer);
-                    token.setAudience(work.getTask().getService().getName());
-                    token.setIssuedAt(Instant.now());
-                    token.setExpiration(Instant.now().plus(60 * 1000));
-                    JsonObject payload = token.getPayloadAsJsonObject();
-
-                    payload.addProperty("work_key", work.getWorkKey());
-
-                    response.setHeader("Location", task.getService().getWorkStartPointURL() + "?t=" + token.serializeAndSign());
-                    response.setHeader("Cache-Control", "no-store");
-                    response.setStatus(301);
-                } else {
-                    message("You already do this task today!", request, response);
-                    return;
-                }
-            } else {
-                message("Error!", request, response);
-                return;
+            HmacSHA256Signer signer;
+            try {
+                signer = new HmacSHA256Signer(myName, null, work.getTask().getService().getMyKey().getBytes());
+            } catch (InvalidKeyException e) {
+                throw new RuntimeException(e);
             }
+            JsonToken token = new JsonToken(signer);
+            token.setAudience(work.getTask().getService().getName());
+            token.setIssuedAt(Instant.now());
+            token.setExpiration(Instant.now().plus(60 * 1000));
+            JsonObject payload = token.getPayloadAsJsonObject();
+
+            payload.addProperty("work_key", work.getWorkKey());
+
+            response.setHeader("Location", task.getService().getWorkStartPointURL() + "?t=" + token.serializeAndSign());
+            response.setHeader("Cache-Control", "no-store");
+            response.setStatus(301);
         } else {
-            message("You cannot start this component!", request, response);
+            message("Error!", request, response);
             return;
         }
 

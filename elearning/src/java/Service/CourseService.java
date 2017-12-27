@@ -5,13 +5,10 @@
  */
 package Service;
 
-import DAO.DBConnect;
 import Entety.Course;
 import Entety.Study;
 import Entety.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,51 +21,17 @@ public class CourseService {
 
     }
 
-    public Course startCourse(Course course, User user) throws Exception {
-
-        if (course.getUser().getId() == user.getId()) {
-            course.setStatus(1);
-            if (course.Update()) {
-                return course;
-            } else {
-                return null;
-            }
-        }
-        return null;
+    public boolean canStart(User user, Course course) throws Exception {
+        return course.isOpened()
+                && course.isActive()
+                && course.getUser().getId() != user.getId() //&&!user.haveCourse(this)
+                ;
     }
 
-    /**
-     * 
-     * @param tuter
-     * @param course
-     * @param user
-     * @return
-     * @throws Exception 
-     */
-    public Study joinToCourse(User tuter, Course course, User user) throws Exception {
-        Study s = null;
-        if (course.canAddToCourse(tuter, user)) {
-            s = new Study();
-            s.setCourse(course.getId());
-            s.setUser(user.getId());
-            if (!s.Write()) {
-                s = null;
-            }
-        }
-        return s;
-    }
-
-    /**
-     * 
-     * @param course
-     * @param user
-     * @return
-     * @throws Exception 
-     */
     public Study joinToCourse(Course course, User user) throws Exception {
 
         Study s = null;
-        if (course.canStart(user)) {
+        if (canStart(user, course)) {
             s = new Study();
             s.setCourse(course.getId());
             s.setUser(user.getId());
@@ -79,15 +42,8 @@ public class CourseService {
         return s;
     }
 
-    /**
-     * 
-     * @param course
-     * @param user
-     * @return
-     * @throws Exception 
-     */
     public Study getStudy(Course course, User user) throws Exception {
-        Study s = null;
+        /*Study s = null;
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -109,52 +65,20 @@ public class CourseService {
             }
         }
         return s;
-
-        /*Study s = new Study();        
+         */
+        Study s = new Study();
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("course", course.getId());
         param.put("user", user.getId());
-        param.put("completed", 0);
         ArrayList<HashMap<String, Object>> Params;
-        try {
-            Params = s.getObjectsParam(param);
-            for(int i=0; i<Params.size(); i++){
-                task = new Task();
-                try{
-                    task.getFromParam(Params.get(i));
-                    list.add(task);
-                } catch (Exception ex) {
-                    
-                }
-            }
-        } catch (Exception ex) {
-            
+        Params = s.getObjectsParam(param);
+        if (Params.isEmpty()) {
+            return null;
         }
-        
-        return s;*/
+        for (int i = 0; i < 1; i++) {
+            s.getFromParam(Params.get(i));
+        }
+        return s;
     }
 
-    /**
-     * 
-     * @param course
-     * @param user
-     * @return
-     * @throws Exception 
-     */
-    public boolean isLearnCourse(Course course, User user) throws Exception {
-        Connection conn = null;
-        try {
-            conn = DBConnect.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("select * from (users join study on users = users.id) join course on course = course.id where course.id=? and users.id=? and completed = 0 and closed = 0");
-            stmt.setInt(1, course.getId());
-            stmt.setInt(2, user.getId());
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-
-    }
 }

@@ -16,13 +16,17 @@ import javax.naming.NamingException;
  */
 public class Course extends Parent {
 
+    public static int PAUSED = 2;
+    public static int STOPED = 0;
+    public static int PLAYED = 1;
+
     //дата начала курса
-    private Date StartDate;
-    private String Name;
-    private String Decsription;
-    private int Duration;
-    private User User;
-    private int UserId;
+    private Date startDate;
+    private String name;
+    private String decsription;
+    private int duration;
+    private User user;
+    private int userId;
     //флаг открытого курса, если истина, то на курс студенты могут записываться самостоятельно
     private boolean open;
     //флаг оконченности курса, если истина, то курс не ведеться
@@ -34,7 +38,8 @@ public class Course extends Parent {
     }
 
     public Course() {
-        this.User = new User();
+        this.user = new User();
+        this.status = STOPED;
     }
 
     public void getById(int id) throws Exception {
@@ -46,54 +51,6 @@ public class Course extends Parent {
         }
     }
 
-    public User getUser() {
-        return this.User;
-    }
-
-    public int getDuration() {
-        return this.Duration;
-    }
-
-    public String getName() {
-        return this.Name;
-    }
-
-    public String getDescription() {
-        return this.Decsription;
-    }
-
-    public String getShortDescription() {
-        if (this.Decsription.length() < 50) {
-            return this.Decsription;
-        } else {
-            return this.Decsription.substring(0, 50);
-        }
-    }
-
-    @Override
-    protected boolean _isCorrect() {
-        return true;
-    }
-
-    public void ReadUserFromDB() throws Exception {
-        this.User.getById(this.UserId);
-    }
-
-    public void setName(String name) {
-        this._from_db = false;
-        this.Name = name;
-    }
-
-    public void setDiscription(String description) {
-        this._from_db = false;
-        this.Decsription = description;
-    }
-
-    public void setDuration(int duration) {
-        this._from_db = false;
-        this.Duration = duration;
-    }
-
     public boolean Write() throws Exception {
         return this._insert();
     }
@@ -102,30 +59,94 @@ public class Course extends Parent {
         return this._update();
     }
 
-    public Date getStartDate() {
-        return StartDate;
+    public boolean Create() throws NamingException, SQLException {
+        return this._insert();
     }
 
-    public boolean isClosed() {
-        return status == 0;
+    public User getUser() {
+        return this.user;
     }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return this.decsription;
+    }
+
+    public String getShortDescription() {
+        if (this.decsription.length() < 50) {
+            return this.decsription;
+        } else {
+            return this.decsription.substring(0, 50);
+        }
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    /*public boolean isClosed() {
+        return status == 0;
+    }*/
 
     public boolean isOpened() {
         return this.open;
     }
 
+    @Override
+    protected boolean _isCorrect() {
+        return true;
+    }
+
+    public void ReadUserFromDB() throws Exception {
+        this.user.getById(this.userId);
+    }
+
+    public void setName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
+    }
+
+    public void setDiscription(String description) {
+        if (description != null && !description.isEmpty()) {
+            this.decsription = description;
+        }
+    }
+
+    public void setDuration(int duration) {
+        if (duration > 0 && duration < 367) {
+            this.duration = duration;
+        }
+    }
+
     public void setOpen(boolean data) {
-        this._from_db = false;
         this.open = data;
     }
 
-    public void setStatus(int data) {
-        this.status = data;
+    public void setStatus(int status) {
+        if (status < 3) {
+            this.status = status;
+        }
     }
 
-    public void setStartDate(Date data) {
-        this._from_db = false;
-        this.StartDate = data;
+    public void setStartDate(Date start_date) {
+        if (start_date != null) {
+            this.startDate = start_date;
+        }
+    }
+
+    public void setUser(User user) {
+        if (user != null) {
+            this.user = user;
+            userId = user.ID;
+        }
     }
 
     @Override
@@ -136,48 +157,30 @@ public class Course extends Parent {
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("start_date", this.StartDate);
+        list.put("start_date", this.startDate);
         list.put("status", this.status);
         list.put("open", this.open ? 1 : 0);
-        list.put("name", this.Name);
-        list.put("description", this.Decsription);
-        list.put("duration", this.Duration);
-        list.put("users", this.UserId);
+        list.put("name", this.name);
+        list.put("description", this.decsription);
+        list.put("duration", this.duration);
+        list.put("users", this.userId);
         return list;
     }
 
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
-        this.StartDate = (Date) Params.get("start_date");
+        this.startDate = (Date) Params.get("start_date");
         this.status = (int) Params.get("status");
         this.open = (int) Params.get("open") == 1;
-        this.Name = (String) Params.get("name");
-        this.Decsription = (String) Params.get("description");
-        this.Duration = (int) Params.get("duration");
-        this.UserId = (int) Params.get("users");
+        this.name = (String) Params.get("name");
+        this.decsription = (String) Params.get("description");
+        this.duration = (int) Params.get("duration");
+        this.userId = (int) Params.get("users");
         ReadUserFromDB();
 
     }
 
-    public boolean Create() throws NamingException, SQLException {
-        return this._insert();
-    }
-
-    public boolean canStart(User user) throws Exception {
-        return this.open
-                && this.status == 1
-                && this.getUser().getId() != user.getId() //&&!user.haveCourse(this)
-                ;
-    }
-
-    public boolean canAddToCourse(User tuter, User stud) throws Exception {
-        return this.status == 1
-                && this.getUser().getId() == tuter.getId()
-                && stud.getId() != tuter.getId();
-    }
-
-    public void setUser(User user) {
-        User = user;
-        UserId = user.ID;
+    public boolean isActive() {
+        return this.status == PLAYED;
     }
 }

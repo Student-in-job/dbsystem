@@ -9,24 +9,19 @@
 <%@include file="/header.jsp" %>
 <%@include file="/bar.jsp" %>
 <div class="row centered bg-blue">
-    <div class="col col-3 text-center">
-        <img src="${pageContext.request.contextPath}/resourse/img/ghost.png" alt="error">
-        <div class="p-error">
-            <h3>${err}</h3>
-            <form class="form" action="signIn" method="get">
+    <div class="col col-3 push-middle">
+        <form class="form" action="signIn" method="get">
                 <div class="form-item">
                     <label>Google mail</label>
                     <input type="email" name="mail" required >
                 </div>
 
-                <div class="form-item">
+                <div class="form-item text-center">
                     <button class="button primary width-100 big">Sign In</button>
                 </div>
-
             </form>
         </div>
     </div>
-</div>
 <%@include file="/footer.jsp" %>
 
 <script>

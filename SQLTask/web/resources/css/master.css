@@ -53,8 +53,9 @@
 }
 
 .green {
+    
     background: url(../img/test_bg.png) repeat-x bottom;
-    min-height: 500px;
+    min-height: 60vh;
     padding-bottom: 130px;
 }
 

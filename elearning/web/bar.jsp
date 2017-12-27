@@ -8,9 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <body>
-    <div id="message" class="message">
-        ${message}
-    </div>
     <div class="row around">
         <div class="col col-3 space-top">            
             <!--<a class="h3" style="cursor: pointer;" onclick="openNav()"><i class="fa fa-bars"></i> <b>MENU</b></a>-->
@@ -53,10 +50,20 @@
                                 <a href="${pageContext.request.contextPath}/user/SignUp"><img class="login-favicons" src="${pageContext.request.contextPath}/img/google-favicon.svg"> SignUp</a>--%>
                             </c:when>
                             <c:otherwise>
-                            <form class="form" method="get" action="${pageContext.request.contextPath}/user/signIn">
+                            <form  id="login_form" class="form" method="get" action="${pageContext.request.contextPath}/user/signIn">
                                 <div class="form-item">
                                     <label>Google mail</label>
-                                    <input type="email" name="mail" required >
+                                    <input id="login_mail" type="email" name="mail" required >
+                                    <script>
+                                        $('#login_mail').keydown(function a(e) {
+                                            console.log(e);
+                                            if (e.keyCode === 13){
+                                                $('#login_form').submit();
+                                                return false;
+                                            }
+                                        });
+                                    </script>
+
                                 </div>
 
                                 <div class="form-item">
@@ -69,6 +76,5 @@
             </div>
         </div>
     </div>
-    <!-- Kube JS + jQuery are used for some functionality, but are not required for the basic setup -->
     <script src="${pageContext.request.contextPath}/resourse/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resourse/js/kube.min.js"></script> 

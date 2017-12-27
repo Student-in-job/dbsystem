@@ -34,6 +34,11 @@
     min-height: 500px;
     padding-bottom: 140px;
 }
+.blue-blok {
+    background: url(../img/blue_bg.png) repeat-x bottom;
+    min-height: 500px;
+    padding-bottom: 130px;
+}
 /*---end blocks*/
 
 /*footer*/
@@ -219,6 +224,7 @@
 }
 
 .bg-blue {
+    min-height: 60vh;
     background: url(../img/blue_bg.png) repeat-x bottom ;
     padding-bottom: 130px;
 }

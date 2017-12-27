@@ -71,18 +71,31 @@
                     </div>
                 </div>
                 <hr class="space-both">
+
                 <sql:query var="tasks" dataSource="jdbc/DB">
-                    SELECT current_time between  (time '00:00' + interval '1 hour' * starttime) and (time '00:00' + (interval '1 hour'*starttime) + (interval '1 minute'*time)) as mayStart, 
-                    id, name, total_count, time, starttime 
+                    SELECT now() between start_time and (start_time + interval '1 second'*time/1000) and not exists(select * from work where study=${study.id} and task = task.id and not completed=-1) as mayStart, 
+                    *,
+                    to_char(start_time, 'DD/MM HH24:MI') as start_date,
+                    to_char(start_time + interval '1 second'*time/1000, 'DD/MM HH24:MI') as end_date
                     FROM task 
-                    where course=(select id from course where id=${study.course}) and current_date = (select start_date from course where id=${study.course}) + interval '1 day'*(day-1)     
-                    order by starttime
+                    where course=(select id from course where id=${study.course}) and current_date between start_time::date and (start_time + interval '1 second'*time/1000)::date     
+                    order by start_time
                 </sql:query>
+                <c:if test="${tasks.rowCount==0}">
+                    <div class="row">
+                        <div class="offset-1 col col-9">
+                            <div>
+                                <p>
+                                    No today tasks!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </c:if>
                 <c:forEach var="task" items="${tasks.rows}">
                     <div class="row">  
                         <div class="col col-1 text-center align-middle">
-                            <span>at</span><br>
-                            <span>${task.starttime}:00</span>
                         </div>
                         <div class="col col-9">
                             <div>
@@ -93,7 +106,8 @@
                                     <c:when test="${tasks.rowCount!=0}">
                                         <p class="bold">${task.name}</p>
                                         <p>
-                                            ${task.total_count} tasks at ${task.starttime}:00 till ${task.starttime + Integer.valueOf(task.time/60)}:${Integer.valueOf(task.time)%60==0?"00":Integer.valueOf(task.time)%60}
+                                            ${task.total_count} tasks from ${task.start_date}
+                                            till ${task.end_date}
                                         </p>
                                     </c:when>
                                 </c:choose>
@@ -126,8 +140,8 @@
                         <p class="bold">
                             <a class="blue-link" href="${pageContext.request.contextPath}/course/render?id=${course.id}">${course.name}</a>
                             <c:choose>
-                                <c:when test="${course.opened==0}">
-                                    <i title="All user can salf join to course " class="fa fa-eye font-green" aria-hidden="true" ></i>
+                                <c:when test="${course.open==1}">
+                                    <i title="All user can salf join to course " class="fa fa-eye font-blue" aria-hidden="true" ></i>
                                 </c:when>
                                 <c:otherwise>
                                     <i title="Only you can join student to course" class="fa fa-eye" aria-hidden="true"></i>
@@ -141,7 +155,7 @@
                         </p>
                     </div>
                     <div class="col col-2 text-right">
-                        <a class="blue-edit" href="${pageContext.request.contextPath}/task/edit/task?id=${course.id}">
+                        <a class="blue-edit" href="${pageContext.request.contextPath}/course/edit?id=${course.id}">
                             <i class="fa fa-cog"></i> Edit
                         </a>
                     </div>
@@ -158,7 +172,7 @@
                 <li>Create  test and Exem;</li>
                 <li>Publish;</li>
             </ul>
-            <a href="${pageContext.request.contextPath}/program/add"><button class="button round outline">Create new program</button></a>
+            <a href="${pageContext.request.contextPath}/course/add"><button class="button round outline">Create new course</button></a>
             <a href="${pageContext.request.contextPath}/task/create/${System.currentTimeMillis()}"><button class="button round outline">Create task</button></a>
         </div>
     </div>

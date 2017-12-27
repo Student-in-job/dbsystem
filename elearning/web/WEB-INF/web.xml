@@ -29,6 +29,18 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.jsp</location>
     </error-page>
+    <servlet>
+        <servlet-name>Pause</servlet-name>
+        <servlet-class>Controller.Course.Pause</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Start</servlet-name>
+        <servlet-class>Controller.Course.Start</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Stop</servlet-name>
+        <servlet-class>Controller.Course.Stop</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Create</servlet-name>
         <url-pattern>/task/create/*</url-pattern>
@@ -36,6 +48,18 @@
     <servlet-mapping>
         <servlet-name>join_course</servlet-name>
         <url-pattern>/course/join</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pause</servlet-name>
+        <url-pattern>/course/pause</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Start</servlet-name>
+        <url-pattern>/course/start</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Stop</servlet-name>
+        <url-pattern>/course/stop</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -103,30 +127,6 @@
         <url-pattern>/user/cabinet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>program</servlet-name>
-        <jsp-file>/program/program_list.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>program</servlet-name>
-        <url-pattern>/program/render</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>add_program</servlet-name>
-        <servlet-class>Controller.Program.Add</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>add_program</servlet-name>
-        <url-pattern>/program/add</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>edit_program</servlet-name>
-        <servlet-class>Controller.Program.Edit</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>edit_program</servlet-name>
-        <url-pattern>/program/edit</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>add_task</servlet-name>
         <servlet-class>Controller.Task.Add</servlet-class>
     </servlet>
@@ -165,6 +165,14 @@
     <servlet-mapping>
         <servlet-name>add_course</servlet-name>
         <url-pattern>/course/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>edit_course</servlet-name>
+        <servlet-class>Controller.Course.Edit</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>edit_course</servlet-name>
+        <url-pattern>/course/edit</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>join_course</servlet-name>

@@ -7,7 +7,10 @@ package Controller.Course;
 
 import Controller.HttpServletParent;
 import Entety.Course;
+import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ksinn
  */
-public class Open extends HttpServletParent {
+public class Start extends HttpServletParent {
 
     @Override
     protected void doMyGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -24,17 +27,20 @@ public class Open extends HttpServletParent {
 
     @Override
     protected void doMyPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         PrintWriter out = response.getWriter();
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             Course course = new Course();
             course.getById(id);
-            course.setStatus(1);
-            if (course.Update()) {
-                out.write("{'result':'ok'}");
+            if (course.getUser().getId() == user.getId()) {
+                course.setStatus(Course.PLAYED);
+                if (course.Update()) {
+                    out.write("{'result':'ok'}");
+                } else {
+                    out.write("{'result':'no'}");
+                }
             } else {
-                out.write("{'result':'no'}");
+                out.write("{'result':'error'}");
             }
         } catch (Exception ex) {
             out.write("{'result':'error'}");
@@ -45,7 +51,7 @@ public class Open extends HttpServletParent {
 
     @Override
     protected int PrivateMod() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return HttpServletParent.OnlyForAuthorized;
     }
 
 }

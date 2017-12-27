@@ -13,7 +13,7 @@
 <sql:query var="courses" dataSource="jdbc/DB">
     select * 
     from course  
-    where open = 1 
+    where open = 1 and status = 1
     order by start_date 
     limit 3
 </sql:query>

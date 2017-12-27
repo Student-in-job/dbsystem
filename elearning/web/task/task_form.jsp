@@ -11,76 +11,129 @@
 <%! String pageTitle = "Task";%>
 <%@include file="/header.jsp" %>
 <%@include file="/bar.jsp"%>
-<div class="row centered registration">
-    <div class="col col-4">
+<div class="row blue-blok">
+    <div class="col offset-2 col-8">
+        <nav class="breadcrumbs">
+            <ul>
+                <li><a class="blue-edit" href="${pageContext.request.contextPath}/">Home</a></li>
+                <li><a class="blue-edit" href="${pageContext.request.contextPath}/user/cabinet">Cabinet</a></li>
+                <li><a class="blue-link" href="${pageContext.request.contextPath}/course/render?id=${course.id}">${course.name}</a></li>
 
-        <form id="form" class="form" action="" method="POST">
-            <h3 class="text-centered">Task</h3>
-            <input type="hidden" name="program" value="${program.id}"> 
-            <input type="hidden" name="task" value="${task.id}"> 
+                <c:choose>
+                    <c:when test="${not empty param.id}">
+                        <li><span>Edit task ${task.name}</span></li>
+                        </c:when>
+                        <c:otherwise>
+                        <li><span>Add new task</span></li>
+                        </c:otherwise>
+                    </c:choose>
+            </ul>
+        </nav>
+        <div class="row space-top">
+            <div class="col col-7">
+                <c:choose>
+                    <c:when test="${not empty param.id}">
+                        <h3>Edit task <span class="italic">${task.name}</span> in <span class="italic"> ${course.name}</span></h3>
+                    </c:when>
+                    <c:otherwise>
+                        <h3>Add task in <span class="italic">${course.name}</span></h3>
+                        </c:otherwise>
+                    </c:choose>
+            </div>
+            <div class="col col-5 text-right">
 
-            <div class="form-item">
-                <label>Task service:</label>
-                <select required name="service" >
-                    <c:forEach items="${services}" var="service">
-                        <option <c:if test="${service.id == task.serviceId}">selected</c:if> value="${service.id}">${service.name}</option>
-                    </c:forEach>
-                </select>
             </div>
+        </div>
 
-            <div class="form-item">
-                <label>Group ID:</label>
-                <select required name="group" >
-                    <c:forEach items="${tasks}" var="list">
-                        <option <c:if test="${list.key eq task.groupId}">selected</c:if> value="${list.key}">${list.value}</option>
-                    </c:forEach>
-                </select>
-            </div>
+        <hr class="space-both">
 
-            <div class="form-item">
-                <label>Name:</label>
-                <input class="width-100" required type="text" name="name" value="${task.name}">
-            </div>
+        <div class="row centered">
+            <div class="col">
+                <form id="form" class="form" action="" method="POST">
+                    <input type="hidden" name="course" value="${course.id}"> 
+                    <input type="hidden" name="id" value="${task.id}"> 
+                    <div class="form-item">
+                        <label>Name:</label>
+                        <input required type="text" name="name" value="${task.name}">
+                    </div>
+                    <div class="row gutters">
+                        <div class="col col-5">
+                            <div class="form-item">
+                                <label>Task service:</label>
+                                <select required name="service" >
+                                    <c:forEach items="${services}" var="service">
+                                        <option <c:if test="${service.id == task.serviceId}">selected</c:if> value="${service.id}">${service.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col col-5">
+                            <div class="form-item">
+                                <label>List name:</label>
+                                <select required name="group" >
+                                    <c:forEach items="${tasks}" var="list">
+                                        <option <c:if test="${list.key eq task.listId}">selected</c:if> value="${list.key}">${list.value}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label>Count:</label>
+                        <input required  type="number" name="total_count" value="${task.count}">
+                    </div>
 
-            <div class="form-item">
-                <label>Day:</label>
-                <input class="width-100" required type="number" name="day" value="${task.day}">
-            </div>
 
-            <div class="form-item">
-                <label>Total Count:</label>
-                <input class="width-100" required  type="number" name="total_count" value="${task.totalCount}">
-            </div>
-<%--
-            <div class="form-item">
-                <label>Passing Count:</label>
-                <input class="width-100" required  type="number" name="passing_count" value="${task.passingCount}">
-            </div>
+                    <div class="form-item">
+                        <label>Start:</label>
+                        <div class="row gutters">
+                            <div class="col col-5">
+                                <div class="form-item">
+                                    <input id="start_date"  name="start_date" required type="date" value="${task.startDate}">
+                                    <input required type="hidden" id="start_day_input" name="start_date" value="${task.startDate.time}">
+                                </div>
+                                <div class="desc">Date</div>
+                            </div>
+                            <div class="col col-5">
+                                <div class="form-item">
+                                    <input required type="time" name="start_time" value="${task.startTime}">
+                                    <div class="desc">Time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label>End:</label>
+                        <div class="row gutters">
+                            <div class="col col-5">
+                                <div class="form-item">
+                                    <input id="end_date" name="end_date" required type="date" value="${task.endDate}">
+                                </div>
+                                <div class="desc">Date</div>
+                            </div>
+                            <div class="col col-5">
+                                <div class="form-item">
+                                    <input required type="time" name="end_time" value="${task.endTime}">
+                                    <div class="desc">Time</div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
 
-            <div class="form-item">
-                <label>Period:</label>
-                <input class="width-100" required type="number" name="period" value="${task.period}">
+                    <div class="form-item text-center">
+                        <button class="button primary w25 big">Complete</button>
+                    </div>
+                </form>
             </div>
---%>
-            <div class="form-item">
-                <label>Start Time(hour):</label>
-                <input class="width-100" required type="number" name="starttime" value="${task.startTime}">
-            </div>
-
-            <div class="form-item">
-                <label>Time(in minuts):</label>
-                <input class="width-100" required type="number" name="time" value="${task.time}">
-            </div>
-
-            <div class="form-item">
-                <button class="button primary width-100 big">Complete</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.validate.min.js"></script> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resourse/js/jquery.validate.min.js"></script> 
 <script>
     $(document).ready(function () {
+        a = new Date();
+        a.setTime(${task.startDate.time})
+        $("start_date").val(a);
 
         $("#form").validate({
             rules: {
@@ -88,37 +141,12 @@
                     required: true,
                     maxlength: 64
                 },
-                day: {
-                    required: true,
-                    number: true,
-                    min: 1
-                },
                 period: {
                     required: true,
                     number: true,
                     min: 1
                 },
-                starttime: {
-                    required: true,
-                    number: true,
-                    min: 0
-                },
-                time: {
-                    required: true,
-                    number: true,
-                    min: 1
-                },
-                group: {
-                    required: true,
-                    number: true,
-                    min: 1
-                },
-                total_count: {
-                    required: true,
-                    number: true,
-                    min: 1
-                },
-                passing_count: {
+                count: {
                     required: true,
                     number: true,
                     min: 1
@@ -127,8 +155,6 @@
             }
 
         });
-
-
     }); //end of ready
 </script> 
 <%@include file="/footer.jsp" %>

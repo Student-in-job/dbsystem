@@ -5,16 +5,12 @@
  */
 package Service;
 
-import DAO.DBConnect;
-import Entety.Course;
 import Entety.Study;
 import Entety.Task;
 import Entety.Work;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.naming.NamingException;
 
@@ -23,46 +19,36 @@ import javax.naming.NamingException;
  * @author ksinn
  */
 public class TaskService {
-    
-    
-    private boolean canStart(Course course, Task task){
-        Calendar now = Calendar.getInstance();
-        Calendar time = Calendar.getInstance();
-        time.setTime(course.getStartDate());
-        time.set(Calendar.HOUR_OF_DAY, task.getStartTime());
-        time.add(Calendar.DAY_OF_YEAR, task.getDay()-1);
-        time.set(Calendar.MINUTE, 0);
-        time.set(Calendar.SECOND, 0);
-        time.set(Calendar.MILLISECOND, 0);
-        time.add(Calendar.MINUTE, task.getTime());
-        
-        int now_day = now.get(Calendar.DAY_OF_YEAR);
-        int time_day = time.get(Calendar.DAY_OF_YEAR);
-        if(now_day!=time_day)
-            return false;
-        
-        int now_hour = now.get(Calendar.HOUR_OF_DAY);
-        if(now_hour<task.getStartTime())
-            return false;
-        
-        time.set(Calendar.DAY_OF_YEAR, now_day);
-        if(now.after(time))
-            return false;           
-           
-        return true;
+
+    private boolean timeIsCome(Task task) {
+
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        return now.after(task.getStart()) && now.before(task.getEnd());
     }
-    
-    private boolean userCanStart(Study study, Task task){
-                
-        if(study.getCourse().getId() != task.getCourse().getId())
-          return false;  
-        
-            return true;
+
+    private boolean rightCourse(Study study, Task task) {
+
+        return study.getCourse().getId() == task.getCourse().getId()
+                && task.getCourse().isActive();
     }
-    
-    private Work getWork(Study study, Task task) throws NamingException, SQLException, Exception{
-        
-        Work w = null;
+
+    private Work getWork(Study study, Task task) throws NamingException, SQLException, Exception {
+
+        Work work = new Work();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("study", study.getId());
+        param.put("task", task.getId());
+
+        ArrayList<HashMap<String, Object>> Params = work.getObjectsParam(param);
+        if (Params.isEmpty()) {
+            return null;
+        }
+        for (int i = 0; i < 1; i++) {
+            work.getFromParam(Params.get(i));
+        }
+        return work;
+
+        /*Work w = null;
         Connection conn = null;
         try {
             conn = DBConnect.getConnection();
@@ -85,34 +71,34 @@ public class TaskService {
                 conn.close();
             }
         }
-        return w;
-        
+        return w;*/
     }
 
-    public boolean canStart(Study study, Task task) throws SQLException, Exception {
-        if(userCanStart(study, task) && canStart(study.getCourse(), task)){
-            Work work = getWork(study, task);
-            if(work == null)
-                return true;
-            else return !work.isCompleated();
-        } else return false;
-
-    }
-
-    public Work createWork(Study study, Task task) throws Exception {
-        if(canStart(study, task)){
-            Work work = getWork(study, task);
-            if(work==null){
-                work = new Work();
-                work.setStudy(study.getId());
-                work.setTask(task.getId());
-                if(!work.Write())
-                    return null;
+    public Work start(Study study, Task task) throws SQLException, Exception {
+        if (rightCourse(study, task) && timeIsCome(task)) {
+            Work work = createWork(study, task);
+            if (work.isCompleated()) {
+                return null;
+            } else {
+                return work;
             }
-            return work;
+        } else {
+            return null;
         }
-        return null;
+
     }
-    
-    
+
+    private Work createWork(Study study, Task task) throws Exception {
+        Work work = getWork(study, task);
+        if (work == null) {
+            work = new Work();
+            work.setStudyId(study.getId());
+            work.setTaskId(task.getId());
+            if (!work.Write()) {
+                return null;
+            }
+        }
+        return work;
+    }
+
 }

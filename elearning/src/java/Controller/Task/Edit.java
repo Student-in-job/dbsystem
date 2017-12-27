@@ -8,6 +8,8 @@ package Controller.Task;
 import Controller.HttpServletParent;
 import Entety.Service;
 import Entety.Task;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,18 +28,18 @@ public class Edit extends HttpServletParent {
         int id = Integer.parseInt(request.getParameter("id"));
         Task task = new Task();
         task.getById(id);
-        
-        Service service = new Service();  
-        service.getById(1);
-        
-        List serv = new ArrayList();
-        serv.add(service);
-        Map tasks = service.getTaskList(user);
-        
         if (user.getId() == task.getCourse().getUser().getId()) {
+            Service service = new Service();
+            service.getById(1);
+
+            List serv = new ArrayList();
+            serv.add(service);
+            Map tasks = service.getTaskList(user);
+
             request.setAttribute("tasks", tasks);
             request.setAttribute("services", serv);
             request.setAttribute("task", task);
+            request.setAttribute("course", task.getCourse());
             request.getRequestDispatcher("task_form.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "You cannot edit this component!");
@@ -56,28 +58,38 @@ public class Edit extends HttpServletParent {
 
             String name = request.getParameter("name");
             int service = Integer.parseInt(request.getParameter("service"));
-            int day = Integer.parseInt(request.getParameter("day"));
-            int time = Integer.parseInt(request.getParameter("time"));
-            int starttime = Integer.parseInt(request.getParameter("starttime"));
             int group = Integer.parseInt(request.getParameter("group"));
-            int total_count = Integer.parseInt(request.getParameter("total_count"));
-            //int passing_count = Integer.parseInt(request.getParameter("passing_count"));
-            //int period = Integer.parseInt(request.getParameter("period"));
+            int count = Integer.parseInt(request.getParameter("total_count"));
+            String endTime = request.getParameter("end_time");
+            String startTime = request.getParameter("start_time");
+            String endDate = request.getParameter("end_date");
+            String startDate = request.getParameter("start_date");
+            String startStr = startDate + " " + startTime;
+            String endStr = endDate + " " + endTime;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Timestamp start = new Timestamp(dateFormat.parse(startStr).getTime());
+            Timestamp end = new Timestamp(dateFormat.parse(endStr).getTime());
 
-            task.setDay(day);
             task.setName(name);
-            task.setTime(time);
-            task.setGroupId(group);
-            //task.setPassingCount(passing_count);
-            task.setTotalCount(total_count);
-            task.setStartTime(starttime);
-            //task.setPeriod(period);
+            task.setListId(group);
+            task.setCount(count);
             task.setServiceId(service);
+            task.setTimeRange(start, end);
 
             if (task.Update()) {
-                response.sendRedirect(request.getContextPath()+"/course/render?id="+task.getCourse().getId());
+                response.sendRedirect(request.getContextPath() + "/course/render?id=" + task.getCourse().getId());
             } else {
+                Service services = new Service();
+                services.getById(1);
+
+                List serv = new ArrayList();
+                serv.add(service);
+                Map tasks = services.getTaskList(user);
+
+                request.setAttribute("tasks", tasks);
+                request.setAttribute("services", serv);
                 request.setAttribute("task", task);
+                request.setAttribute("course", task.getCourse());
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);
             }
         } else {

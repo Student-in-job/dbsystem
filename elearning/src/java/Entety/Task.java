@@ -5,6 +5,9 @@
  */
 package Entety;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
@@ -13,17 +16,15 @@ import java.util.HashMap;
  */
 public class Task extends Component {
 
-    private int ServiceId;
-    private int GroupId;
-    private int TitalCount;
-    //private int PassingCount;
-    private int Time;
-    private int StartTime;
-    //private int Period;
-    private Service Service;
+    private int serviceId;
+    private int groupId;
+    private int count;
+    private Service service;
+    private Timestamp startDate;
+    private Timestamp endDate;
 
     public Task() {
-        Service = new Service();
+        service = new Service();
     }
 
     @Override
@@ -31,100 +32,103 @@ public class Task extends Component {
         return "task";
     }
 
-    public int getTime() {
-        return Time;
-    }
-
-    public int getStartTime() {
-        return StartTime;
+    @Override
+    public void getById(int id) throws Exception {
+        super.getById(id);
     }
 
     public int getServiceId() {
-
-        return this.ServiceId;
+        return this.serviceId;
     }
 
-    /*public int getPeriod() {
-
-        return Period;
-    }*/
-
-    public int getTotalCount() {
-        return this.TitalCount;
+    public int getCount() {
+        return this.count;
     }
 
-    /*public int getPassingCount() {
-        return this.PassingCount;
-    }*/
-
-    public int getGroupId() {
-        return GroupId;
+    public int getListId() {
+        return groupId;
     }
 
-    public void setTime(int data) {
-        this._from_db = false;
-        Time = data;
+    public Service getService() {
+        return service;
     }
 
-    public void setStartTime(int starttime) {
-        this._from_db = false;
-        StartTime = starttime;
+    public Timestamp getStart() {
+        return this.startDate;
     }
 
-    /*public void setPeriod(int period) {
-        this._from_db = false;
-        Period = period;
-    }*/
+    public Timestamp getEnd() {
+        return this.endDate;
+    }
 
+    public Date getStartDate() {
+        return (new Date(this.startDate.getTime()));
+    }
+
+    public Time getStartTime() {
+        return (new Time(this.startDate.getTime()));
+    }
+
+    public Date getEndDate() {
+        return (new Date(this.endDate.getTime()));
+    }
+
+    public Time getEndTime() {
+        return (new Time(this.endDate.getTime()));
+    }
+
+    public void setTimeRange(Timestamp start, Timestamp end) {
+        if (start != null && start.after(course.getStartDate())
+                && end != null && end.after(start)) {
+            this.startDate = start;
+            this.endDate = end;
+        }
+    }
+
+    public void setService(Service serv) {
+        if (serv != null) {
+            this.service = serv;
+            this.serviceId = serv.getId();
+        }
+    }
+    
     public void setServiceId(int period) {
-        this._from_db = false;
-        this.ServiceId = period;
+        this.serviceId = period;
     }
 
-    public void setTotalCount(int count) {
-        this._from_db = false;
-        this.TitalCount = count;
+    public void setCount(int count) {
+        if (count >= 0) {
+            this.count = count;
+        }
     }
 
-    /*public void setPassingCount(int count) {
-        this._from_db = false;
-        this.PassingCount = count;
-    }*/
-
-    public void setGroupId(int groupId) {
-        this._from_db = false;
-        this.GroupId = groupId;
+    public void setListId(int groupId) {
+        this.groupId = groupId;
     }
 
     @Override
     protected HashMap<String, Object> _getParams() {
         HashMap<String, Object> list = new HashMap<String, Object>();
-        list.put("group_id", this.GroupId);
-        list.put("name", this.Name);
-        list.put("day", this.Day);
-        list.put("course", this.CourseId);
-        list.put("total_count", this.TitalCount);
-        //list.put("passing_count", this.PassingCount);
-        list.put("time", this.Time);
-        list.put("starttime", this.StartTime);
-        //list.put("period", this.Period);
-        list.put("service", this.ServiceId);
+        list.put("group_id", this.groupId);
+        list.put("name", this.name);
+        list.put("course", this.courseId);
+        list.put("total_count", this.count);
+        list.put("time", endDate.getTime() - startDate.getTime());
+        list.put("start_time", this.startDate);
+        list.put("service", this.serviceId);
 
         return list;
     }
 
     @Override
     protected void _setParams(HashMap<String, Object> Params) throws Exception {
-        this.Name = (String) Params.get("name");
-        this.GroupId = (int) Params.get("group_id");
-        this.Day = (int) Params.get("day");
-        this.CourseId = (int) Params.get("course");
-        this.TitalCount = (int) Params.get("total_count");
-        //this.PassingCount = (int) Params.get("passing_count");
-        this.Time = (int) Params.get("time");
-        this.StartTime = (int) Params.get("starttime");
-        //this.Period = (int) Params.get("period");
-        this.ServiceId = (int) Params.get("service");
+        this.name = (String) Params.get("name");
+        this.groupId = (int) Params.get("group_id");
+        this.courseId = (int) Params.get("course");
+        this.count = (int) Params.get("total_count");
+        this.startDate = (Timestamp) Params.get("start_time");
+        this.endDate = new Timestamp((long) Params.get("time") + startDate.getTime());
+        this.serviceId = (int) Params.get("service");
         this.ReadCourseFromDB();
         this.readServiceFromDB();
     }
@@ -134,25 +138,8 @@ public class Task extends Component {
         return true;
     }
 
-    public Service getService() {
-        return Service;
-    }
-
-    public void setService(Service serv) {
-        if (serv != null) {
-            this.Service = serv;
-            this.ServiceId = serv.getId();
-        }
-    }
-    
-    private void readServiceFromDB() throws Exception{
-        this.Service.getById(this.ServiceId);
-    }
-    
-    @Override
-    public void getById(int id) throws Exception{
-        super.getById(id);
-        readServiceFromDB();
+    private void readServiceFromDB() throws Exception {
+        this.service.getById(this.serviceId);
     }
 
 }
