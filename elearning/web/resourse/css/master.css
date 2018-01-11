@@ -8,6 +8,14 @@
     51% { color: rgba(34, 34, 34, 0); }
     100% { color: rgba(34, 34, 34, 0); }
 }
+.contaner {    
+    margin: 10px;
+}
+.borded-block {    
+    border: solid 1px #d4d4d4;
+    padding: 20px;
+    margin: 20px;
+}
 /*Blocks whith diagonal colored background*/
 .fst-block{
     background: url('../img/main-bg.png') no-repeat right bottom;
@@ -39,6 +47,12 @@
     min-height: 500px;
     padding-bottom: 130px;
 }
+.green-blok {
+    
+    background: url(../img/test_bg.png) repeat-x bottom;
+    min-height: 60vh;
+    padding-bottom: 130px;
+}
 /*---end blocks*/
 
 /*footer*/
@@ -48,15 +62,13 @@
 .footer a {
     text-decoration: none;
 }
-.footer .copyright {
-
-}
 /*---end footer*/
 
 /*logo*/
 .main-login {
     color: #fff;
     text-decoration: none;
+    margin: 10px;
 }
 
 .main-login:hover {
@@ -68,6 +80,7 @@
 .login {
     color: #00BCD3;
     text-decoration: none;
+    margin: 10px;
 }
 
 .login:hover {
@@ -90,9 +103,8 @@
     filter: grayscale(0%);
 }
 
-.logo {
+/*.logo {
     height: 75px;
-    width: 100px;
     background: url(../img/logo-sm.png) no-repeat;
     background-position: bottom;
 }
@@ -103,22 +115,6 @@
 /*---end*/
 
 /*user bar*/
-.main-user_board button {
-    border-radius: 20px;
-    border: 1px solid #fff;
-    height: 25px;
-    padding: 0px 10px 0px 10px;
-    line-height: 25px;
-    margin-top: 10px;
-    background: #00BCD3;
-    font-size: 16px;
-    color: #fff;
-}
-
-.main-user_board button:hover {
-    background: #00BCD3;
-    color: #fff;
-}
 
 .main-user_board a {
     margin-left: 15px;
@@ -132,16 +128,9 @@
     color: #f34248;
 }
 
-.user_board button {
-    border-radius: 20px;
-    border: 1px solid #00BCD3;
-    height: 25px;
-    padding: 0px 10px 0px 10px;
-    line-height: 25px;
-    margin-top: 10px;
-    background: #fff;
-    font-size: 16px;
-    color: #00BCD3;
+.user_board {
+    margin: auto;
+    
 }
 
 .user_board button:hover {
@@ -177,7 +166,7 @@
 }
 .course-info, .area-info {
     background-color: #fff;
-    margin-top: -6px;
+    margin: -6px auto auto auto;
     padding: 10px 7px;
     width: 266px; /* todo: change px to percent for use true adaptive */
     border: 1px solid #f0f0f0;
@@ -227,6 +216,10 @@
     min-height: 60vh;
     background: url(../img/blue_bg.png) repeat-x bottom ;
     padding-bottom: 130px;
+}
+
+a.link{
+    text-decoration: none;
 }
 
 a.green-link{

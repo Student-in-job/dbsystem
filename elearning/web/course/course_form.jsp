@@ -9,16 +9,15 @@
 <%@include file="/checkUser.jsp" %>
 <%! String pageTitle = "Program";%>
 <%@include file="/header.jsp"%>
-<%@include file="/bar.jsp"%>
 <div class="row blue-blok">
     <div class="col offset-2 col-8">
         <nav class="breadcrumbs">
             <ul>
-                <li><a class="blue-edit" href="${pageContext.request.contextPath}/">Home</a></li>
-                <li><a class="blue-edit" href="${pageContext.request.contextPath}/user/cabinet">Cabinet</a></li>
+                <li><a class="link" href="${pageContext.request.contextPath}/">Home</a></li>
+                <li><a class="link" href="${pageContext.request.contextPath}/user/cabinet">Cabinet</a></li>
                     <c:choose>
                         <c:when test="${not empty param.id}">
-                        <li><a class="blue-link" href="${pageContext.request.contextPath}/course/render?id=${course.id}">${course.name}</a></li>
+                        <li><a class="link" href="${pageContext.request.contextPath}/course/render?id=${course.id}">${course.name}</a></li>
                         <li><span>Edit</span></li>
                         </c:when>
                         <c:otherwise>
@@ -32,21 +31,21 @@
                 <c:choose>
                     <c:when test="${not empty param.id}">
                         <h3>Edit course <span class="italic">${course.name}</span></h3>
-                    </c:when>
-                    <c:otherwise>
+                        </c:when>
+                        <c:otherwise>
                         <h3>Add course</h3>
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="col col-5 text-right">
-                
+
             </div>
         </div>
 
         <hr class="space-both">
 
-        <div class="row centered">
-            <div class="col">
+        <div class="row around">
+            <div class="col col-8">
                 <form id="form" class="form" action="" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="${course.id}">
                     <div class="form-item">
@@ -59,36 +58,30 @@
                         <textarea  id="input" rows="6" required  name="discription">${course.description}</textarea>
                     </div> 
 
-                    <div class="row gutters">
-                        <div class="col col-3">
-                            <div class="form-item">
-                                <label title="сколько дне будет длиться курс">Duration(in days):</label>                        
-                                <input class="width-100" required type="number" name="duration" min="1" value="${course.duration}">
-                            </div>
-                        </div>
-                        <div class="col col-3">
-                            <div class="form-item">
-                                <label title="дата начала курса">Start date:</label>                        
-                                <input class="width-100" onchange='{
+                    <div class="form-item">
+                        <label title="сколько дне будет длиться курс">Duration(in days):</label>                        
+                        <input class="width-100" required type="number" name="duration" min="1" value="${course.duration}">
+                    </div>
+
+                    <div class="form-item">
+                        <label title="дата начала курса">Start date:</label>                        
+                        <input class="width-100" onchange='{
                                             $("#date").val((new Date(this.value)).getTime());
                                         }' required type="date" value="${course.startDate}">
-                                <input type="hidden" id="date" name="start_date" value="${course.startDate.getTime()}">
-                            </div>
-                        </div>
-                        <div class="col col-3">
-                            <div class="form-item">
-                                <label title="Курс доступин для самостоятельной записи">
-                                    <input type="checkbox" name="opened" <c:if test="${course.isOpened()}"> checked="true" </c:if>> Public
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="hidden" id="date" name="start_date" value="${course.startDate.getTime()}">
+                    </div>
+
+                    <div class="form-item">
+                        <label title="Курс доступин для самостоятельной записи">
+                            <input type="checkbox" name="opened" <c:if test="${course.isOpened()}"> checked="true" </c:if>> Public
+                            </label>
+                    </div>
                     <%--                <div class="form-item">
                                             <label>Picture:</label>
                                             <input class="width-100" type="file" name="picture" >
                                         </div>  
                     --%>                    
-                    <div class="form-item text-centered">        
+                    <div class="form-item text-center">        
                         <button class="button primary w25 big">Complete</button>
                     </div>  
                 </form>

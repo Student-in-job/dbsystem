@@ -7,13 +7,9 @@ package Controller.Task;
 
 import Controller.HttpServletParent;
 import Entety.Course;
-import Entety.Service;
 import Entety.Task;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,17 +25,8 @@ public class Add extends HttpServletParent {
         int course_id = Integer.parseInt(request.getParameter("course"));
         Course course = new Course();
         course.getById(course_id);
-
-        Service service = new Service();
-        service.getById(1);
-        List serv = new ArrayList();
-        serv.add(service);
-        Map tasks = service.getTaskList(user);
-
         if (user.getId() == course.getUser().getId()) {
             request.setAttribute("course", course);
-            request.setAttribute("tasks", tasks);
-            request.setAttribute("services", serv);
             request.getRequestDispatcher("task_form.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "You cannot create this componentt!");
@@ -69,7 +56,7 @@ public class Add extends HttpServletParent {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Timestamp start = new Timestamp(dateFormat.parse(startStr).getTime());
             Timestamp end = new Timestamp(dateFormat.parse(endStr).getTime());
-            
+
             Task task = new Task();
             task.setName(name);
             task.setCourseId(course.getId());
@@ -81,15 +68,6 @@ public class Add extends HttpServletParent {
             if (task.Write()) {
                 response.sendRedirect(request.getContextPath() + "/course/render?id=" + course.getId());
             } else {
-                Service services = new Service();
-                services.getById(1);
-
-                List serv = new ArrayList();
-                serv.add(service);
-                Map tasks = services.getTaskList(user);
-
-                request.setAttribute("tasks", tasks);
-                request.setAttribute("services", serv);
                 request.setAttribute("task", task);
                 request.setAttribute("program", course);
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);

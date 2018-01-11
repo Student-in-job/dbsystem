@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import java.security.InvalidKeyException;
 import java.security.SignatureException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,26 @@ public class Service extends Parent {
     private String URL;
     private String MyKey;
     private String ServiceKey;
+
+    public static ArrayList<Service> getAll() {
+        ArrayList<Service> list = new ArrayList<Service>();
+        Service serv = new Service();
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("1", 1);
+        try {
+            ArrayList<HashMap<String, Object>> Params = serv.getObjectsParam(param);
+            for (int i = 0; i < Params.size(); i++) {
+                serv = new Service();
+                try {
+                    serv.getFromParam(Params.get(i));
+                    list.add(serv);
+                } catch (Exception ex) {
+                }
+            }
+        } catch (Exception ex) {
+        }
+        return list;
+    }
 
     public Service() {
 
@@ -113,25 +134,21 @@ public class Service extends Parent {
         return this.URL + AuthStartPoint;
     }
 
-    public Map getTaskList(User user) throws Exception {
+    public Map getTaskList(User user) {
+        Map<String, String> task = new HashMap();
         HTTPClient client = new HTTPClient(this.getTaskListURL(), "user=" + user.getId(), "POST");
-
         client.sendRequest();
-
         //WorkJWT tok = new WorkJWT();
         JsonToken token = pars(client.getRequestText());
         if (token.getExpiration().getMillis() > System.currentTimeMillis()) {
             if (token.getParamAsPrimitive("status").getAsInt() == 200) {
                 String strMap = token.getParamAsPrimitive("list").getAsString().replaceAll("\\{|\\}", "");
-                strMap = strMap.replaceAll(" ", "");
-                Map<String, String> task = Splitter.on(",").withKeyValueSeparator("=").split(strMap);
+                strMap = strMap.replaceAll(", ", ",");
+                task = Splitter.on(",").withKeyValueSeparator("=").split(strMap);
                 return task;
-            } else {
-                throw new Exception("You have not avaibel task list");
             }
-        } else {
-            throw new Exception("Bad token");
         }
+        return task;
 
     }
 

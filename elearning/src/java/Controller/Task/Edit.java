@@ -6,13 +6,9 @@
 package Controller.Task;
 
 import Controller.HttpServletParent;
-import Entety.Service;
 import Entety.Task;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,15 +25,6 @@ public class Edit extends HttpServletParent {
         Task task = new Task();
         task.getById(id);
         if (user.getId() == task.getCourse().getUser().getId()) {
-            Service service = new Service();
-            service.getById(1);
-
-            List serv = new ArrayList();
-            serv.add(service);
-            Map tasks = service.getTaskList(user);
-
-            request.setAttribute("tasks", tasks);
-            request.setAttribute("services", serv);
             request.setAttribute("task", task);
             request.setAttribute("course", task.getCourse());
             request.getRequestDispatcher("task_form.jsp").forward(request, response);
@@ -79,15 +66,6 @@ public class Edit extends HttpServletParent {
             if (task.Update()) {
                 response.sendRedirect(request.getContextPath() + "/course/render?id=" + task.getCourse().getId());
             } else {
-                Service services = new Service();
-                services.getById(1);
-
-                List serv = new ArrayList();
-                serv.add(service);
-                Map tasks = services.getTaskList(user);
-
-                request.setAttribute("tasks", tasks);
-                request.setAttribute("services", serv);
                 request.setAttribute("task", task);
                 request.setAttribute("course", task.getCourse());
                 request.getRequestDispatcher("task_form.jsp").forward(request, response);

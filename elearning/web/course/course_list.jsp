@@ -45,23 +45,22 @@
     <%@include file="/header.jsp" %>
     <%@include file="/bar.jsp" %>
     <div class="row">
-        <div class="col offset-2 col-8">
+        <div class="col offset-1 col-8">
             <nav class="breadcrumbs">
                 <ul>
-                    <li><a class="blue-link" href="${pageContext.request.contextPath}">Home</a></li>
-                    <li><a class="blue-link" href="${pageContext.request.contextPath}/courses">Courses</a></li>
+                    <li><a class="link" href="${pageContext.request.contextPath}">Home</a></li>
+                    <li><a class="link" href="${pageContext.request.contextPath}/courses">Courses</a></li>
                     <li><span>${course.name}</span></li>
                 </ul>
             </nav>
         </div>
     </div>
-    <div class="row course-2">
-        <div class="col offset-2 col-8">
+    <div class="green-blok">
             <div class="row">
-                <div class="col col-8">
+                <div class="col col-9 contaner">
                     <h3>${course.name}</h3>
                 </div>
-                <div class="col col-4 text-right">
+                <div class="col col-2 contaner text-right push-middle">
                     <c:if test="${tuter}">
                         <c:choose>
                             <c:when test="${course.status==0}">
@@ -87,7 +86,7 @@
                 </div>
             </div>
             <div class="row green-bg">
-                <div class="col col-4">
+                <div class="col col-3">
                     <img src="${pageContext.request.contextPath}/${initParam.FileDir}/program/${course.program}.jpg" 
                          onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/default_program.png';">
                 </div>
@@ -100,14 +99,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col space-top">
+                <div class="col space-top contaner">
                     <p>
                         ${course.description}
                     </p>
                 </div>
             </div>
-            <div class="row centered">
-                <div class="col">
+            <div class="row">
+                <div class="col col-12 borded-block">
                     <nav class="tabs" data-component="tabs" data-equals="true">
                         <ul>
                             <li class="active"><a href="#tasks">TASK</a></li>
@@ -254,7 +253,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>                   
 
     <div id="my-modal" class="modal-box hide">

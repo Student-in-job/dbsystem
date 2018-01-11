@@ -8,7 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" isErrorPage="true"%>
 <%! String pageTitle = "Error";%>
 <%@include file="/header.jsp" %>
-<%@include file="/bar.jsp" %>
 <div class="row centered bg-blue">
     <div class="col col-3 text-center">
         <img src="${pageContext.request.contextPath}/resourse/img/ghost.png" alt="error">

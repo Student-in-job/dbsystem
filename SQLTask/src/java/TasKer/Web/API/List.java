@@ -41,7 +41,7 @@ public class List extends TasKerServlet {
         Iterator<TasKer.Tasks.List> iterator = list.iterator();
         while (iterator.hasNext()) {
             TasKer.Tasks.List next = iterator.next();
-            map.put(next.getId(), next.getName());
+            map.put(next.getId(), next.getName().replace(",", ""));
         }
 
         Service service = new Service();

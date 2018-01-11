@@ -19,25 +19,22 @@
     from course 
     where users = ${user.id}
 </sql:query>
-
-
 <%! String pageTitle = "Cabinet";%>
 <%@include file="/header.jsp" %>
-<%@include file="/bar.jsp" %>
 <div class="row">
-    <div class="col offset-2 col-8">
+    <div class="col offset-1 col-8">
         <nav class="breadcrumbs">
             <ul>
-                <li><a class="blue-link" href="${pageContext.request.contextPath}">Home</a></li>
+                <li><a class="link" href="${pageContext.request.contextPath}">Home</a></li>
                 <li><span>Cabinet</span></li>
             </ul>
         </nav>
     </div>
 </div>
 <div class="row">
-    <div class="col offset-2 col-8">
+    <div class="col col-12">
         <div class="row userbar-1">
-            <div class="col col-3 text-right">
+            <div class="col col-3 text-center">
                 <img src="${pageContext.request.contextPath}/file/user/ico/${user.id}.png" onerror="if (this.src != 'error.jpg') this.src = '${pageContext.request.contextPath}/resourse/img/cat_${user.id%8+1}.png';" alt="" class="img-circle">
             </div>
             <div class="col col-3">
@@ -51,8 +48,8 @@
         </div> 
     </div>
 </div>
-<div class="row userbar-2">
-    <div class="col offset-2 col-8">
+<div class="row bg-blue">
+    <div class="col col-12 borded-block">
         <nav class="tabs space-top" data-component="tabs">
             <ul>
                 <li class="active"><a href="#studys">Study</a></li>
@@ -61,17 +58,21 @@
             </ul>
         </nav>
         <div id="studys">
-            <c:forEach var="study" items="${studys.rows}">
+            <c:if test="${studys.rowCount==0}">
                 <div class="row">
-                    <div class="col col-7">
-                        <h3><a href="${pageContext.request.contextPath}/course/render?id=${study.course}">${study.name}</a>  <c:if test="${study.completed == 1}">completed</c:if></h3>
-                        <span class="italic small muted">${study.day} day</span>
+                    <div class="col col-7 contaner">
+                        <p class="strong">No studed course yet</p>
                     </div>
                     <div class="col col-5 text-right">
                     </div>
                 </div>
-                <hr class="space-both">
-
+            </c:if>
+            <c:forEach var="study" items="${studys.rows}">
+                <div class="row space-top">
+                    <div class="col col-7">
+                        <p class="strong"><a href="${pageContext.request.contextPath}/course/render?id=${study.course}">${study.name}</a>  <c:if test="${study.completed == 1}">completed</c:if></p>
+                    </div>
+                </div>
                 <sql:query var="tasks" dataSource="jdbc/DB">
                     SELECT now() between start_time and (start_time + interval '1 second'*time/1000) and not exists(select * from work where study=${study.id} and task = task.id and not completed=-1) as mayStart, 
                     *,
@@ -82,10 +83,10 @@
                     order by start_time
                 </sql:query>
                 <c:if test="${tasks.rowCount==0}">
-                    <div class="row">
-                        <div class="offset-1 col col-9">
+                    <div class="row align-left">
+                        <div class="col">
                             <div>
-                                <p>
+                                <p class="strong">
                                     No today tasks!
                                 </p>
                             </div>
@@ -94,30 +95,22 @@
                     <hr>
                 </c:if>
                 <c:forEach var="task" items="${tasks.rows}">
-                    <div class="row">  
-                        <div class="col col-1 text-center align-middle">
-                        </div>
-                        <div class="col col-9">
+
+                    <div class="row borded-block">  
+                        <div class="col col-4">
                             <div>
-                                <c:choose>
-                                    <c:when test="${tasks.rowCount==0}">
-                                        No today tasks!
-                                    </c:when>
-                                    <c:when test="${tasks.rowCount!=0}">
-                                        <p class="bold">${task.name}</p>
-                                        <p>
-                                            ${task.total_count} tasks from ${task.start_date}
-                                            till ${task.end_date}
-                                        </p>
-                                    </c:when>
-                                </c:choose>
+                                <p class="strong">${task.name}</p>
+                                <p class="italic small muted">
+                                    ${task.total_count} tasks from ${task.start_date}
+                                    till ${task.end_date}
+                                </p>
                             </div>
                         </div>
-                        <div class="col col-2 text-right">
+                        <div class="col col-1 push-middle">
                             <c:choose>
                                 <c:when test="${task.mayStart}">
-                                    <a href="${pageContext.request.contextPath}/task/work/${System.currentTimeMillis()}?s=${study.id}&t=${task.id}">
-                                        <i title="Start task" class="fa fa-3x fa-play error" aria-hidden="true"></i>
+                                    <a class="button outline primary round" href="${pageContext.request.contextPath}/task/work/${System.currentTimeMillis()}?s=${study.id}&t=${task.id}">
+                                        Start
                                     </a>
                                 </c:when>
                                 <c:otherwise>                                    
@@ -125,19 +118,15 @@
                             </c:choose>
                         </div>
                     </div>
-                    <hr>
                 </c:forEach>
+                <hr class="space-both">
             </c:forEach> 
         </div>
         <div id="courses">
             <c:forEach var="course" items="${courses.rows}">
                 <div class="row">
-                    <div class="col col-1 text-center align-middle">
-                        <span>${course.duration}</span><br>
-                        <span>day</span>
-                    </div> 
                     <div class="col col-9">
-                        <p class="bold">
+                        <p class="strong">
                             <a class="blue-link" href="${pageContext.request.contextPath}/course/render?id=${course.id}">${course.name}</a>
                             <c:choose>
                                 <c:when test="${course.open==1}">
